@@ -6,6 +6,7 @@ import itertools
 # WORD CREATION
 # ****************
 
+
 def read_word_file(word_path):
     try:
         with open(word_path, "r") as file:
@@ -17,8 +18,10 @@ def read_word_file(word_path):
         print(f"Error reading file {word_path}: {e}")
         return []
 
+
 def filter_exact_length_words(words, exact_length):
     return [word for word in words if len(word) == exact_length]
+
 
 def filter_words_up_to_max_length(words, max_length):
     return {word for word in words if len(word) <= max_length}
@@ -41,14 +44,18 @@ def find_valid_word_with_subwords(exact_max_length_words, valid_subword_set):
     min_subwords_needed = settings["words_on_board"]["minimum"] - 1
 
     for chosen_word in exact_max_length_words:
-        subwords = get_valid_word_subwords(chosen_word, valid_subword_set, min_length=settings["min_subword_length"])
+        subwords = get_valid_word_subwords(
+            chosen_word, valid_subword_set, min_length=settings["min_subword_length"]
+        )
 
         if len(subwords) >= min_subwords_needed:
             random.shuffle(subwords)
             # Return the chosen middle word and the list of other words to place
             return chosen_word, subwords
         else:
-            print(f"Could not find enough subwords for {chosen_word}. Subwords: {len(subwords)}")
+            print(
+                f"Could not find enough subwords for {chosen_word}. Subwords: {len(subwords)}"
+            )
 
     print("Cannot create word list with given settings")
     return None
@@ -86,7 +93,7 @@ def generate_word_list():
         return None
 
     # (middle_word, list_of_words_to_place)
-    return result  
+    return result
 
 
 # ****************
@@ -100,6 +107,7 @@ def print_grid(grid):
 # ****************
 # GRID CREATION
 # ****************
+
 
 def create_empty_grid(height, width):
     return [[None] * width for _ in range(height)]
@@ -120,7 +128,9 @@ def place_middle_word(grid, word, letter_coords):
         or start_row + diag_space > height
         or start_col + diag_space > width
     ):
-        print(f"Error: Grid ({height}x{width}) too small for placing '{word}' (LENGTH {word_len}) diagonally with spacing.")
+        print(
+            f"Error: Grid ({height}x{width}) too small for placing '{word}' (LENGTH {word_len}) diagonally with spacing."
+        )
         return None
 
     letter_coords.clear()
@@ -151,10 +161,11 @@ settings = {
     "min_subword_length": 3,
 }
 
+
 def main():
     # CREATE WORD LIST
     word_setup_result = generate_word_list()
-    
+
     if word_setup_result is None:
         raise ValueError("Failed to set up word list!")
 
@@ -163,17 +174,17 @@ def main():
     # CREATE GRID
     grid = create_empty_grid(settings["grid"]["height"], settings["grid"]["width"])
     print_grid(grid)
-    
+
     # TODO: separate functioanlities for setting letter coords dictionary
     print()
     letter_coords = {}
     middle_word_coords = place_middle_word(grid, middle_word, letter_coords)
     print_grid(grid)
     print(middle_word_coords)
-    
 
     # GAMEPLAY
     ...
+
 
 if __name__ == "__main__":
     main()
