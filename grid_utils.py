@@ -102,6 +102,26 @@ def place_word_on_grid(grid, word, start_row, start_col, orientation):
 # ************************************
 
 
+def _check_parallel_cells(grid, r, c, dr, dc):
+    height = len(grid)
+    width = len(grid[0])
+    perp_dr, perp_dc = dc, dr
+
+    check_r1, check_c1 = r - perp_dr, c - perp_dc
+    neighbor1_occupied = (
+        _is_within_bounds(check_r1, check_c1, height, width)
+        and grid[check_r1][check_c1] is not None
+    )
+
+    check_r2, check_c2 = r + perp_dr, c + perp_dc
+    neighbor2_occupied = (
+        _is_within_bounds(check_r2, check_c2, height, width)
+        and grid[check_r2][check_c2] is not None
+    )
+
+    return not (neighbor1_occupied or neighbor2_occupied)
+
+
 def _check_adjacent_before_start(grid, start_row, start_col, dr, dc):
     height = len(grid)
     width = len(grid[0])
@@ -124,6 +144,26 @@ def _check_adjacent_after_end(grid, end_row, end_col, dr, dc):
         and grid[after_r][after_c] is not None
     )
     return not cell_occupied
+
+
+def _check_for_all_letters(word, grid, word_len, start_row, start_col, dr, dc):
+    placed_new_letter = False
+    for i in range(word_len):
+        current_row = start_row + i * dr
+        current_col = start_col + i * dc
+        existing_char = grid[current_row][current_col]
+
+        if existing_char:
+            if existing_char.lower() != word[i].lower():
+                return False
+        else:
+            placed_new_letter = True
+
+            if not _check_parallel_cells(grid, current_row, current_col, dr, dc):
+                return False
+
+    # Check if we placed new letter  
+    return placed_new_letter
 
 
 def is_valid_placement(
@@ -151,14 +191,15 @@ def is_valid_placement(
     ):
         return False
 
-    # TODO: add code for checking if there are no OCCUPIED CELLS
-    #       PARALLEL to the word we're trying to place
-
     # Check if no words adjacent at the start and at the end
     if not (
         _check_adjacent_before_start(grid, start_row, start_col, dr, dc)
         and _check_adjacent_after_end(grid, end_row, end_col, dr, dc)
     ):
+        return False
+    
+    # Check if no words parallel for all letters
+    if not _check_for_all_letters(word, grid, word_len, start_row, start_col, dr, dc):
         return False
 
     return True
