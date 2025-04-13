@@ -57,7 +57,7 @@ def find_valid_word_with_subwords(exact_max_length_words, valid_subword_set):
             )
 
     print("Cannot create word list with given settings")
-    return None
+    return None, None
 
 
 def generate_word_list():
@@ -69,27 +69,26 @@ def generate_word_list():
         print("ERROR: Lexicon file reading failed or file is empty")
         return None
 
-    # Create a set of valid words <= max_len
+    # Create a set:
+    # Valid words <= max_len
     valid_subword_set = filter_words_up_to_max_length(all_words, max_len)
     if not valid_subword_set:
         print(f"ERROR: No words found with length up to {max_len}")
         return None
 
-    # Create a list of valid words == max_len
+    # Create a list:
+    # Valid words == max_len
     exact_length_words = filter_exact_length_words(valid_subword_set, max_len)
 
     if not exact_length_words:
         print(f"ERROR: No words found with exact length {max_len}")
         return None
 
-    # Shuffle to try different middle words each playthrough
+    # SHUFFLE to try different middle words each playthrough
     random.shuffle(exact_length_words)
 
     # Find a middle word and its subwords
-    result = find_valid_word_with_subwords(exact_length_words, valid_subword_set)
-
-    if result is None:
-        return None
-
-    # (middle_word, list_of_words_to_place)
-    return result
+    middle_word, list_of_words_to_place = find_valid_word_with_subwords(
+        exact_length_words, valid_subword_set
+    )
+    return middle_word, list_of_words_to_place

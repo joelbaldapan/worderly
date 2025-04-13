@@ -2,31 +2,26 @@
 # MAIN LOGIC
 # ****************
 
-from config import settings
 from word_utils import generate_word_list
 from display_utils import print_grid
-from grid_utils import create_empty_grid, place_middle_word
+from grid_utils import generate_board
 
 
 def main():
     # CREATE WORD LIST
-    word_setup_result = generate_word_list()
+    middle_word, words_to_place = generate_word_list()
 
-    if word_setup_result is None:
+    if middle_word is None:
         raise ValueError("Failed to set up word list!")
 
-    middle_word, words_to_place = word_setup_result
-
     # CREATE GRID
-    grid = create_empty_grid(settings["grid"]["height"], settings["grid"]["width"])
-    print_grid(grid)
+    final_grid, words_to_find = generate_board(middle_word, words_to_place)
 
-    # TODO: separate functioanlities for setting letter coords dictionary
-    print()
-    letter_coords = {}
-    middle_word_coords = place_middle_word(grid, middle_word, letter_coords)
-    print_grid(grid)
-    print(middle_word_coords)
+    if final_grid is None:
+        raise ValueError("failed to set up grid!")
+
+    print_grid(final_grid)
+    print(words_to_find)
 
     # GAMEPLAY
     ...
