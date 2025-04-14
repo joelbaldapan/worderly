@@ -8,7 +8,14 @@ from display_utils import print_grid
 from grid_generation_utils import generate_board
 from grid_gameplay_utils import create_hidden_grid, reveal_coords_in_hidden_grid
 
-from display_utils import shuffle_letters_statistic, clear_screen, print_message, print_statistics, get_input
+from display_utils import (
+    shuffle_letters_statistic,
+    clear_screen,
+    print_message,
+    print_statistics,
+    get_input,
+)
+
 
 def run_game(final_grid, words_to_find, middle_word):
     hidden_grid = create_hidden_grid(final_grid)
@@ -79,7 +86,7 @@ def run_game(final_grid, words_to_find, middle_word):
 
     print_message(message)
     print_statistics(statistics)
-    
+
 
 def main():
     # CREATE WORD LIST
@@ -96,7 +103,7 @@ def main():
         if final_grid is None:
             print("Failed to set up grid!")
             continue
-        
+
         break
 
     # print_grid(final_grid)

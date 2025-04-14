@@ -18,6 +18,7 @@ def clear_screen():
         clear_cmd = "cls" if os.name == "nt" else "clear"
         subprocess.run([clear_cmd])
 
+
 def shuffle_letters_statistic(middle_word):
     letters_list = list(str(middle_word).upper())
     random.shuffle(letters_list)
@@ -39,4 +40,3 @@ def print_message(message):
 def get_input(prompt_message="Enter Guess: "):
     # This function will be used for formatting user input
     return input(prompt_message)
-

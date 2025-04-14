@@ -2,6 +2,7 @@
 # GRID GAMEPLAY
 # ****************
 
+
 def create_hidden_grid(final_grid):
     return [["#" if col else None for col in row] for row in final_grid]
 

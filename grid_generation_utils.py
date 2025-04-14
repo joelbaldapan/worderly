@@ -162,7 +162,7 @@ def _check_for_all_letters(word, grid, word_len, start_row, start_col, dr, dc):
             if not _check_parallel_cells(grid, current_row, current_col, dr, dc):
                 return False
 
-    # Check if we placed new letter  
+    # Check if we placed new letter
     return placed_new_letter
 
 
@@ -197,7 +197,7 @@ def is_valid_placement(
         and _check_adjacent_after_end(grid, end_row, end_col, dr, dc)
     ):
         return False
-    
+
     # Check if no words parallel for all letters
     if not _check_for_all_letters(word, grid, word_len, start_row, start_col, dr, dc):
         return False
