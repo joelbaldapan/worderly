@@ -3,12 +3,12 @@
 # ****************
 
 from config import settings
-from word_utils import generate_word_list
-from display_utils import print_grid
-from grid_generation_utils import generate_board
-from grid_gameplay_utils import create_hidden_grid, reveal_coords_in_hidden_grid
+from word_selector import generate_word_list
+from grid_generator import generate_board
+from grid_gameplay import create_hidden_grid, reveal_coords_in_hidden_grid
 
-from display_utils import (
+from display import (
+    print_grid,
     shuffle_letters_statistic,
     clear_screen,
     print_message,
