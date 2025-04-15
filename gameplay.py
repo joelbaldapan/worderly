@@ -19,11 +19,12 @@ def run_game(final_grid, words_to_find, middle_word):
 
     statistics = {
         "letters": shuffle_letters_statistic(middle_word),
-        "lives_left": settings["lives"],
+        "lives_left": settings["starting_lives"],
         "points": 0,
         "last_guess": None,
     }
 
+    guess_coords = []
     correct_guesses = set()
     correct_guesses_coords = set()
     message = "Welcome to Wizards of Worderly Place!"
@@ -31,24 +32,29 @@ def run_game(final_grid, words_to_find, middle_word):
 
     while True:
         clear_screen()
-        print_message("WIZARDS OF WORDERLY PLACE")
-        print_grid(hidden_grid)
+        print()
+        print_grid(
+            hidden_grid,
+            highlighted_coords=guess_coords,
+            highlight="green",
+            letters_color="cyan",
+        )
         print_message(message)
-        print()
         print_statistics(statistics)
-        print()
         inp = get_input()
 
         # Check if input is in the words_to_find
         guess = inp.lower().strip()
         if guess in correct_guesses:
             # Duplicate
-            # statistics["lives"] -= 1
+            # statistics["lives_left"] -= 1
             message = "Already guessed!"
+            guess_coords = []
         elif guess not in words_to_find:
             # Wrong
             statistics["lives_left"] -= 1
             message = "Wrong guess!"
+            guess_coords = []
         else:
             # Correct
             message = "Correct guess!"
@@ -58,6 +64,7 @@ def run_game(final_grid, words_to_find, middle_word):
 
             correct_guesses.add(guess)
             correct_guesses_coords.update(word_coords)
+            guess_coords = word_coords
 
             reveal_coords_in_hidden_grid(final_grid, hidden_grid, word_coords)
 
@@ -76,10 +83,15 @@ def run_game(final_grid, words_to_find, middle_word):
 
     if has_won:
         message = "YOU WIN!!"
-        print_grid(final_grid)
+        print_grid(final_grid, letters_color="green")
     else:
         message = "WOMP WOMP. You lose!"
-        print_grid(final_grid)
+        print_grid(
+            final_grid,
+            highlighted_coords=correct_guesses_coords,
+            highlight="cyan",
+            letters_color="red",
+        )
 
     print_message(message)
     print_statistics(statistics)
