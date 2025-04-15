@@ -5,4 +5,5 @@ settings = {
     "max_word_length": 6,
     "min_subword_length": 3,
     "lives": 5,
+    "design": True,
 }
