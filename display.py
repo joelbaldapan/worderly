@@ -12,7 +12,6 @@ import sys
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
-from rich.prompt import Prompt
 from rich.text import Text
 
 
@@ -37,7 +36,7 @@ def shuffle_letters_statistic(middle_word):
 # ****************
 
 
-BORDER_STYLE = "bright_cyan"
+DEFAULT_BORDER_STYLE = "bright_cyan"
 
 
 def print_grid(
@@ -50,7 +49,12 @@ def print_grid(
 ):
     if settings["design"]:
         rich_print_grid(
-            grid, highlighted_coords, highlight_color, letters_color, hidden_color, title
+            grid,
+            highlighted_coords,
+            highlight_color,
+            letters_color,
+            hidden_color,
+            title,
         )
     else:
         basic_print_grid(grid)
@@ -64,7 +68,7 @@ def print_statistics(statistics):
 
 
 def print_message(
-    message, style="", border_style=BORDER_STYLE, title=None, expand=False
+    message, style="", border_style=DEFAULT_BORDER_STYLE, title=None, expand=False
 ):
     if settings["design"]:
         rich_print_message(message, style, border_style, title, expand)
@@ -77,6 +81,13 @@ def get_input(prompt_message="Enter Guess"):
         return rich_get_input(prompt_message)
     else:
         return basic_get_input(prompt_message)
+
+
+def print_leaderboard(leaderboard):
+    if settings["design"]:
+        return rich_print_leaderboard(leaderboard)
+    else:
+        return basic_print_leaderboard(leaderboard)
 
 
 # ****************
@@ -100,8 +111,11 @@ def basic_print_message(message):
     print(message)
 
 
-def basic_get_input(prompt_message="Enter Guess: "):
+def basic_get_input(prompt_message=""):
     return input(prompt_message)
+
+
+def basic_print_leaderboard(leaderboard): ...
 
 
 # ****************
@@ -179,7 +193,7 @@ def rich_print_grid(
     grid_panel = Panel(
         table,
         title=title,
-        border_style=BORDER_STYLE,
+        border_style=DEFAULT_BORDER_STYLE,
         expand=False,
     )
 
@@ -200,7 +214,7 @@ def rich_print_statistics(statistics):
     )
     # Create panel
     panel = Panel(
-        stats_text, title="Game Stats", border_style=BORDER_STYLE, expand=False
+        stats_text, title="Game Stats", border_style=DEFAULT_BORDER_STYLE, expand=False
     )
     console.print(panel)
 
@@ -216,4 +230,30 @@ def rich_print_message(message, style, border_style, title, expand):
 
 
 def rich_get_input(prompt_message):
-    return Prompt.ask(prompt_message)
+    return input(prompt_message)
+
+
+def rich_print_leaderboard(leaderboard_data, max_entries=10):
+    if not leaderboard_data:
+        print_message(
+            "The leaderboard is empty!", title="Leaderboard", border_style="dim"
+        )
+        return
+
+    table = Table(
+        title="🏆 Leaderboard 🏆",
+        border_style=DEFAULT_BORDER_STYLE,
+        show_header=True,
+        header_style="bold yellow",
+    )
+    table.add_column("Rank", width=6, justify="center")
+    table.add_column("Name", min_width=15)
+    table.add_column("Score", justify="right", min_width=8)
+
+    for index, entry in enumerate(leaderboard_data[:max_entries]):
+        rank = str(index + 1)
+        name = entry.get("name", "N/A")
+        score = str(entry.get("score", "N/A"))
+        table.add_row(rank, name, score)
+
+    console.print(table)

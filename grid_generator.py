@@ -136,9 +136,7 @@ def _check_for_all_letters(
         if current_cell:
             # If the cell is occupied
             checked_letters += current_cell
-            if not placed_new_letter and checked_letters in words_to_place:
-                return False  # Overwriting an already placed word
-            elif current_cell.lower() != word[i].lower():
+            if current_cell.lower() != word[i].lower():
                 return False  # Conflict with another word
         else:
             # If the cell is empty
@@ -147,6 +145,10 @@ def _check_for_all_letters(
             # Check cells that are parallel to current cell
             if not _check_parallel_cells(grid, current_row, current_col, dr, dc):
                 return False
+
+        if checked_letters in words_to_place:
+            print(word)
+            return False  # Overwriting an already placed word
 
     # Check if we placed new letter
     return placed_new_letter

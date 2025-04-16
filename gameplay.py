@@ -9,7 +9,13 @@ from display import (
     clear_screen,
     print_message,
     print_statistics,
+    print_leaderboard,
     get_input,
+)
+from leaderboard import (
+    load_leaderboard,
+    save_score,
+    get_player_name,
 )
 
 
@@ -27,7 +33,8 @@ def initialize_game_state(settings, final_grid, middle_word):
         "last_guess_coords": [],
         "correct_guesses": set(),
         "correct_guesses_coords": set(),
-        "message": "Welcome to Wizards of Worderly Place!",
+        "message": "Welcome to Wizards of Worderly Place!",  # default message
+        "message_border_style": "bold cyan",
     }
     return game_state
 
@@ -38,13 +45,32 @@ def update_display(game_state):
         game_state["hidden_grid"],
         highlighted_coords=game_state["last_guess_coords"],
         highlight_color="green",
-        letters_color="cyan",
+        letters_color="bold cyan",
     )
-    print_message(game_state["message"])
+    print_message(
+        game_state["message"], border_style=game_state["message_border_style"]
+    )
     print_statistics(game_state["statistics"])
 
 
-def handle_guess(guess, game_state, words_to_find, final_grid):
+def get_guess(game_state):
+    while True:
+        inp = get_input("  > Enter guess: ")
+        guess = inp.lower().strip()
+        if not guess:
+            game_state["message"] = "Invalid guess! Guess must not be empty!"
+            game_state["message_border_style"] = "red"
+            update_display(game_state)
+        elif not guess.isalpha():
+            game_state["message"] = "Invalid guess! Guess must not be empty!"
+            game_state["message_border_style"] = "red"
+            update_display(game_state)
+        else:
+            game_state["message_border_style"] = "bold cyan"
+            return guess
+
+
+def update_state(guess, game_state, words_to_find, final_grid):
     statistics = game_state["statistics"]
     correct_guesses = game_state["correct_guesses"]
 
@@ -82,11 +108,8 @@ def check_game_over(game_state, words_to_find):
         return "continue"
 
 
-def display_game_over(game_over_status, game_state, final_grid, words_to_find):
+def display_game_over(game_over_status, game_state, final_grid):
     clear_screen()
-
-    print("\n--- Game Over ---")
-    print(f"Total Words ({len(words_to_find)}): {', '.join(words_to_find.keys())}")
 
     if game_over_status == "win":
         final_message = "YOU WIN!!"
@@ -96,7 +119,7 @@ def display_game_over(game_over_status, game_state, final_grid, words_to_find):
         print_grid(
             final_grid,
             highlighted_coords=game_state["correct_guesses_coords"],
-            highlight_color="cyan",
+            highlight_color="bold cyan",
             letters_color="red",
         )
 
@@ -105,22 +128,37 @@ def display_game_over(game_over_status, game_state, final_grid, words_to_find):
 
 
 def run_game(settings, final_grid, words_to_find, middle_word):
-    # INITIALIZE STATE
-    game_state = initialize_game_state(settings, final_grid, middle_word)
+    # GET PLAYER NAME
+    clear_screen()
+    player_name = get_player_name()
+    clear_screen()
+    print_message(f"Okay {player_name}, let's play!")
+    get_input("  > Press Enter to start... ")
 
-    # GAME LOOP
+    # INITIALIZE GAME, THEN RUN GAME LOOP
+    game_state = initialize_game_state(settings, final_grid, middle_word)
+    game_over_status = "continue"
     while True:
-        # Update display and get input
+        # Update display and get guess
         update_display(game_state)
-        guess = get_input()
+        guess = get_guess(game_state)
 
         # Handle guess
-        handle_guess(guess, game_state, words_to_find, final_grid)
-        
+        update_state(guess, game_state, words_to_find, final_grid)
+
         # Check for game over
         game_over_status = check_game_over(game_state, words_to_find)
         if game_over_status != "continue":
-            break  # Exit game loop
+            break
 
     # DISPLAY GAME OVER
-    display_game_over(game_over_status, game_state, final_grid, words_to_find)
+    display_game_over(game_over_status, game_state, final_grid)
+    final_score = game_state["statistics"]["points"]
+    get_input("  > Press Enter to continue... ")
+
+    # SAVE SCORE AND DISPLAY LEADERBOARDS
+    clear_screen()
+    save_score(player_name, final_score)
+    leaderboard = load_leaderboard()
+    print_leaderboard(leaderboard)
+    print_message(f"Thanks for playing, {player_name}!\nFinal score: {final_score}")
