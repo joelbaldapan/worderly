@@ -43,14 +43,14 @@ BORDER_STYLE = "bright_cyan"
 def print_grid(
     grid,
     highlighted_coords={},
-    highlight=None,
+    highlight_color=None,
     letters_color="cyan",
     hidden_color="bright_blue",
     title="THE WIZARDS OF WORDERLY PLACE",
 ):
     if settings["design"]:
         rich_print_grid(
-            grid, highlighted_coords, highlight, letters_color, hidden_color, title
+            grid, highlighted_coords, highlight_color, letters_color, hidden_color, title
         )
     else:
         basic_print_grid(grid)
@@ -113,7 +113,7 @@ console = Console()
 
 
 def rich_print_grid(
-    grid, highlighted_coords, highlight, letters_color, hidden_color, title
+    grid, highlighted_coords, highlight_color, letters_color, hidden_color, title
 ):
     if grid is None:
         grid = []
@@ -161,7 +161,7 @@ def rich_print_grid(
                 content = cell
 
                 if (row_idx, col_idx) in highlighted_coords:
-                    style = f"bold {highlight}"
+                    style = f"bold {highlight_color}"
                 elif cell == "#":
                     style = f"dim {hidden_color}"
                 else:
