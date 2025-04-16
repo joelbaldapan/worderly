@@ -122,19 +122,27 @@ def _check_adjacent_after_end(grid, end_row, end_col, dr, dc):
     return not cell_occupied
 
 
-def _check_for_all_letters(word, grid, word_len, start_row, start_col, dr, dc):
+def _check_for_all_letters(grid, word, words_to_place, word_len, start_row, start_col, dr, dc):
     placed_new_letter = False
+    checked_letters = ""
     for i in range(word_len):
         current_row = start_row + i * dr
         current_col = start_col + i * dc
-        existing_char = grid[current_row][current_col]
 
-        if existing_char:
-            if existing_char.lower() != word[i].lower():
-                return False
+        current_cell = grid[current_row][current_col]
+        
+        if current_cell:
+            # If the cell is occupied
+            checked_letters += current_cell
+            if not placed_new_letter and checked_letters in words_to_place:
+                return False # Overwriting an already placed word
+            elif current_cell.lower() != word[i].lower():
+                return False # Conflict with another word
         else:
+            # If the cell is empty
             placed_new_letter = True
 
+            # Check cells that are parallel to current cell
             if not _check_parallel_cells(grid, current_row, current_col, dr, dc):
                 return False
 
@@ -145,6 +153,7 @@ def _check_for_all_letters(word, grid, word_len, start_row, start_col, dr, dc):
 def is_valid_placement(
     grid,
     word,
+    words_to_place,
     intersect_row,
     intersect_col,
     intersect_idx,
@@ -175,7 +184,7 @@ def is_valid_placement(
         return False
 
     # Check if no words parallel for all letters
-    if not _check_for_all_letters(word, grid, word_len, start_row, start_col, dr, dc):
+    if not _check_for_all_letters(grid, word, words_to_place, word_len, start_row, start_col, dr, dc):
         return False
 
     return True
@@ -186,7 +195,7 @@ def is_valid_placement(
 # ******************************************************
 
 
-def find_possible_placements(grid, word, placed_letter_coords):
+def find_possible_placements(grid, word, words_to_place, placed_letter_coords):
     possible_placements = []
 
     # For every word, and for every letter,
@@ -199,7 +208,7 @@ def find_possible_placements(grid, word, placed_letter_coords):
             intersect_row, intersect_col = coord
 
             # VERTICAL
-            if is_valid_placement(grid, word, intersect_row, intersect_col, idx, "V"):
+            if is_valid_placement(grid, word, words_to_place, intersect_row, intersect_col, idx, "V"):
                 possible_placements.append(
                     {
                         "word": word,
@@ -210,7 +219,7 @@ def find_possible_placements(grid, word, placed_letter_coords):
                 )
 
             # HORIZONTAL
-            if is_valid_placement(grid, word, intersect_row, intersect_col, idx, "H"):
+            if is_valid_placement(grid, word, words_to_place, intersect_row, intersect_col, idx, "H"):
                 possible_placements.append(
                     {
                         "word": word,
@@ -397,7 +406,7 @@ def _place_other_words(state, words_to_place, max_total_words):
         if len(placed_words_coords) >= max_total_words:
             break
 
-        possible_placements = find_possible_placements(grid, word, placed_letter_coords)
+        possible_placements = find_possible_placements(grid, word, words_to_place, placed_letter_coords)
         priority_placements, other_placements = categorize_placement(
             possible_placements, middle_word_coords, used_middle_word_coords
         )
@@ -446,7 +455,6 @@ def _capitalize_middle_word_appearance(state, middle_word):
 
 
 def generate_board(settings, middle_word, words_to_place):
-    print(settings)
     min_total_words = settings["words_on_board_needed"]["minimum"]
     max_total_words = settings["words_on_board_needed"]["maximum"]
     height = settings["grid"]["height"]
