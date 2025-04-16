@@ -2,7 +2,6 @@
 # GAMEPLAY
 # ****************
 
-from config import settings
 from grid_gameplay import create_hidden_grid, reveal_coords_in_hidden_grid
 from display import (
     print_grid,
@@ -14,7 +13,7 @@ from display import (
 )
 
 
-def run_game(final_grid, words_to_find, middle_word):
+def run_game(settings, final_grid, words_to_find, middle_word):
     hidden_grid = create_hidden_grid(final_grid)
 
     statistics = {

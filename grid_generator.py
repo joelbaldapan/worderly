@@ -22,7 +22,6 @@ IDEA for grid creation:
 """
 
 import random
-from config import settings
 
 # ************************************
 # Changing Grid (IMPERATIVE)
@@ -151,8 +150,8 @@ def is_valid_placement(
     intersect_idx,
     orientation,
 ):
-    height = settings["grid"]["height"]
-    width = settings["grid"]["width"]
+    height = len(grid)
+    width = len(grid[0])
     word_len = len(word)
 
     dr, dc = (1, 0) if orientation == "V" else (0, 1)
@@ -356,8 +355,9 @@ def _initialize_board_state(height, width):
 
 
 def _place_middle_word(state, middle_word):
-    height = settings["grid"]["height"]
-    width = settings["grid"]["width"]
+    grid = state["grid"]
+    height = len(grid)
+    width = len(grid[0])
 
     middle_word_placement_coords = calculate_middle_word_placement(
         height, width, middle_word
@@ -445,9 +445,10 @@ def _capitalize_middle_word_appearance(state, middle_word):
 # ************************************
 
 
-def generate_board(middle_word, words_to_place):
-    min_total_words = settings["words_on_board"]["minimum"]
-    max_total_words = settings["words_on_board"]["maximum"]
+def generate_board(settings, middle_word, words_to_place):
+    print(settings)
+    min_total_words = settings["words_on_board_needed"]["minimum"]
+    max_total_words = settings["words_on_board_needed"]["maximum"]
     height = settings["grid"]["height"]
     width = settings["grid"]["width"]
 

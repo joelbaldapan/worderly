@@ -1,7 +1,6 @@
 # ****************
 # WORD CREATION
 # ****************
-from config import settings
 import itertools
 import random
 
@@ -37,14 +36,16 @@ def get_valid_word_subwords(word, valid_words_set, min_length):
     return list(valid_subwords)
 
 
-def find_valid_word_with_subwords(exact_max_length_words, valid_subword_set):
+def find_valid_word_with_subwords(
+    exact_max_length_words, min_subword_length, min_subwords_needed, valid_subword_set
+):
     # middle word counts as 1 word already
     # so we need min_words - 1 additional words
-    min_subwords_needed = settings["words_on_board"]["minimum"] - 1
+    min_subwords_needed -= 1
 
     for chosen_word in exact_max_length_words:
         subwords = get_valid_word_subwords(
-            chosen_word, valid_subword_set, min_length=settings["min_subword_length"]
+            chosen_word, valid_subword_set, min_subword_length
         )
 
         if len(subwords) >= min_subwords_needed:
@@ -60,9 +61,11 @@ def find_valid_word_with_subwords(exact_max_length_words, valid_subword_set):
     return None, None
 
 
-def generate_word_list():
+def generate_word_list(settings):
     lexicon_path = settings["lexicon_path"]
     max_len = settings["max_word_length"]
+    min_subword_length = settings["min_subword_length"]
+    min_subwords_needed = settings["words_on_board_needed"]["minimum"]
 
     all_words = read_word_file(lexicon_path)
     if not all_words:
@@ -89,6 +92,6 @@ def generate_word_list():
 
     # Find a middle word and its subwords
     middle_word, list_of_words_to_place = find_valid_word_with_subwords(
-        exact_length_words, valid_subword_set
+        exact_length_words, min_subword_length, min_subwords_needed, valid_subword_set
     )
     return middle_word, list_of_words_to_place
