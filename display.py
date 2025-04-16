@@ -8,7 +8,7 @@ import os
 import subprocess
 import sys
 
-# Import necessary components from rich
+# For rich
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
@@ -72,7 +72,7 @@ def print_message(
         basic_print_message(message)
 
 
-def get_input(prompt_message="Enter Guess: "):
+def get_input(prompt_message="Enter Guess"):
     if settings["design"]:
         return rich_get_input(prompt_message)
     else:

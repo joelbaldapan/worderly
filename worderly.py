@@ -8,8 +8,8 @@ from gameplay import run_game
 
 
 def main():
-    # CREATE WORD LIST
     while True:
+        # CREATE WORD LIST
         middle_word, words_to_place = generate_word_list()
 
         if middle_word is None:
@@ -24,9 +24,6 @@ def main():
             continue
 
         break
-
-    # print_grid(final_grid)
-    # print(words_to_find)
 
     # GAMEPLAY
     run_game(final_grid, words_to_find, middle_word)

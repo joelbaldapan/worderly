@@ -4,7 +4,7 @@
 """
 IDEA for grid creation:
 - We store:
-    > letter_coords (dict | key: letter, value: all coords (list))
+    > placed_letter_coords (dict | key: letter, value: all coords (list))
     > possible_placements (list with dicts (keys: word, coord, idx, orientation))
     > placed_word_data (dict | key: word, value: its letter's coords (list))
     > used_middle_word_coords (set)
@@ -33,73 +33,50 @@ def create_empty_grid(height, width):
     return [[None] * width for _ in range(height)]
 
 
-def calculate_middle_word_start(height, width, word_len):
-    diag_space = word_len * 2 - 1
-    start_row = (height - diag_space) // 2
-    start_col = (width - diag_space) // 2
-
-    if (
-        start_row < 0
-        or start_col < 0
-        or start_row + diag_space > height
-        or start_col + diag_space > width
-    ):
-        return None, None
-
-    else:
-        return start_row, start_col
+def place_letters_on_grid(grid, word, coords_to_place):
+    for idx, coord in enumerate(coords_to_place):
+        row, col = coord
+        grid[row][col] = word[idx]
 
 
-def _is_within_bounds(r, c, height, width):
-    return 0 <= r < height and 0 <= c < width
+# ***********************************************
+# Updating Coordinates Data Logic (IMPERATIVE)
+# ***********************************************
+def update_placed_word_coords(
+    chosen_placement,
+    coords_to_place,
+    placed_words_coords,
+    middle_word_coords,
+    used_middle_word_coords,
+):
+    word = chosen_placement["word"]
+    intersection_coord = chosen_placement["coord"]
+
+    # Update placed words data
+    placed_words_coords[word] = coords_to_place
+
+    # Mark middle word coordinate as used if was intersected
+    if intersection_coord in middle_word_coords:
+        used_middle_word_coords.add(chosen_placement["coord"])
 
 
-def place_middle_word(grid, middle_word):
-    height = len(grid)
-    width = len(grid[0])
-    word_len = len(middle_word)
-
-    result = calculate_middle_word_start(height, width, word_len)
-    if not result:
-        print(f"ERROR: Grid too small for placing '{middle_word}'")
-        return None
-
-    start_row, start_col = result
-    middle_word_coords_set = set()
-    initial_letter_coords = {}
-
-    row, col = start_row, start_col
-    for letter in middle_word:
-        if _is_within_bounds(row, col, height, width):
-            grid[row][col] = letter.upper()
-            coord = (row, col)
-            middle_word_coords_set.add(coord)
-            initial_letter_coords.setdefault(letter, []).append(coord)
-            row += 2
-            col += 2
+def update_placed_letter_coords(placed_letter_coords, word, placed_coords):
+    for i, coord in enumerate(placed_coords):
+        letter = word[i]
+        if letter in placed_letter_coords:
+            if coord not in placed_letter_coords[letter]:
+                placed_letter_coords[letter].append(coord)
         else:
-            print(
-                f"ERROR: Calculated position ({row},{col}) for middle word is out of bounds"
-            )
-            return None, None
-
-    return middle_word_coords_set, initial_letter_coords
-
-
-def place_word_on_grid(grid, word, start_row, start_col, orientation):
-    dr, dc = (1, 0) if orientation == "V" else (0, 1)
-    placed_coords = []
-    for i, letter in enumerate(word):
-        current_row = start_row + i * dr
-        current_col = start_col + i * dc
-        grid[current_row][current_col] = letter
-        placed_coords.append((current_row, current_col))
-    return placed_coords
+            placed_letter_coords[letter] = [coord]
 
 
 # ************************************
 # Placement Validation Logic
 # ************************************
+
+
+def _is_within_bounds(r, c, height, width):
+    return 0 <= r < height and 0 <= c < width
 
 
 def _check_parallel_cells(grid, r, c, dr, dc):
@@ -205,20 +182,21 @@ def is_valid_placement(
     return True
 
 
-# ***************************************
-# Placement Finding, Selecting, Applying
-# ***************************************
+# ******************************************************
+# Placement Finding, Categorizing, Selecting, Applying
+# ******************************************************
 
 
-def find_possible_placements(grid, word, letter_coords):
+def find_possible_placements(grid, word, placed_letter_coords):
     possible_placements = []
 
-    # For every word, and for every letter, find ALL valid placements for HORIZONTAL and VERTICAL
+    # For every word, and for every letter,
+    # find ALL valid placements for HORIZONTAL and VERTICAL
     for idx, letter in enumerate(word):
-        if letter not in letter_coords:
+        if letter not in placed_letter_coords:
             continue
 
-        for coord in letter_coords[letter]:
+        for coord in placed_letter_coords[letter]:
             intersect_row, intersect_col = coord
 
             # VERTICAL
@@ -246,8 +224,8 @@ def find_possible_placements(grid, word, letter_coords):
     return possible_placements
 
 
-def categorize_and_select_placement(
-    possible_placements, middle_word_coords_set, used_middle_word_coords_set
+def categorize_placement(
+    possible_placements, middle_word_coords, used_middle_word_coords_set
 ):
     priority_placements = []
     other_placements = []
@@ -256,13 +234,16 @@ def categorize_and_select_placement(
     # so we'll split coords based on whether they're in middle_words_set
     for placement in possible_placements:
         if (
-            placement["coord"] in middle_word_coords_set
+            placement["coord"] in middle_word_coords
             and placement["coord"] not in used_middle_word_coords_set
         ):
             priority_placements.append(placement)
         else:
             other_placements.append(placement)
+    return priority_placements, other_placements
 
+
+def select_random_placement(priority_placements, other_placements):
     if priority_placements:
         return random.choice(priority_placements)
     elif other_placements:
@@ -274,68 +255,194 @@ def categorize_and_select_placement(
 def apply_placement(
     grid,
     chosen_placement,
-    letter_coords,
-    placed_words_data,
+    placed_letter_coords,
+    placed_words_coords,
     middle_word_coords,
     used_middle_word_coords,
 ):
+    # Calculate PLACEMENT COORDS
+    word = chosen_placement["word"]
+    coords_to_place = calculate_straight_word_placement_coords(chosen_placement)
+
+    # Update letter coords and
+    # Update word coords
+    update_placed_letter_coords(placed_letter_coords, word, coords_to_place)
+    update_placed_word_coords(
+        chosen_placement,
+        coords_to_place,
+        placed_words_coords,
+        middle_word_coords,
+        used_middle_word_coords,
+    )
+
+    # Place letters on the grid
+    place_letters_on_grid(grid, word, coords_to_place)
+
+
+# ************************************
+# Calculating Coordinates Logic
+# ************************************
+def _calculate_middle_word_start(height, width, word_len):
+    diag_space = word_len * 2 - 1
+    start_row = (height - diag_space) // 2
+    start_col = (width - diag_space) // 2
+
+    if (
+        start_row < 0
+        or start_col < 0
+        or start_row + diag_space > height
+        or start_col + diag_space > width
+    ):
+        return None, None
+    else:
+        return start_row, start_col
+
+
+def calculate_middle_word_placement(height, width, middle_word):
+    result = _calculate_middle_word_start(height, width, len(middle_word))
+    if not result:
+        print(
+            f"ERROR: Grid too small for calculating middle word '{middle_word}' placement"
+        )
+        return None
+
+    start_row, start_col = result
+    coords_to_place = []
+    row, col = start_row, start_col
+
+    for _ in middle_word:
+        coord = (row, col)
+        coords_to_place.append(coord)
+        row += 2
+        col += 2
+
+    return coords_to_place
+
+
+def calculate_straight_word_placement_coords(chosen_placement):
     word = chosen_placement["word"]
     intersect_row, intersect_col = chosen_placement["coord"]
     intersect_idx = chosen_placement["idx"]
     orientation = chosen_placement["orientation"]
+    word_len = len(word)
 
+    # Calculate start position
     dr, dc = (1, 0) if orientation == "V" else (0, 1)
     start_row = intersect_row - intersect_idx * dr
     start_col = intersect_col - intersect_idx * dc
 
-    placed_coords = place_word_on_grid(grid, word, start_row, start_col, orientation)
+    coords_to_place = []
+    for i in range(word_len):
+        current_row = start_row + i * dr
+        current_col = start_col + i * dc
+        coords_to_place.append((current_row, current_col))
 
-    # Update dictionaries and set
-    placed_words_data[word] = placed_coords
-    update_letter_coords(letter_coords, word, placed_coords)
-
-    # Mark middle word coordinate as used if was intersected
-    if chosen_placement["coord"] in middle_word_coords:
-        used_middle_word_coords.add(chosen_placement["coord"])
+    return coords_to_place
 
 
 # ************************************
-# Grid Validation
+# MAIN BOARD GENERATION HELPERS
 # ************************************
 
 
-def validate_final_grid(
-    placed_words_data,
-    min_total_words,
-    middle_word_coords_set,
-    used_middle_word_coords_set,
-):
-    total_placed_count = len(placed_words_data)
+def _initialize_board_state(height, width):
+    return {
+        "grid": create_empty_grid(height, width),
+        "placed_words_coords": {},
+        "placed_letter_coords": {},
+        "used_middle_word_coords": set(),
+        "middle_word_coords": set(),
+    }
 
-    # Placed words must be above minimum
+
+def _place_middle_word(state, middle_word):
+    height = settings["grid"]["height"]
+    width = settings["grid"]["width"]
+
+    middle_word_placement_coords = calculate_middle_word_placement(
+        height, width, middle_word
+    )
+    if middle_word_placement_coords is None:
+        print(f"ERROR: Grid too small for middle word '{middle_word}'")
+        return False  # FAIL
+
+    grid = state["grid"]
+    placed_letter_coords = state["placed_letter_coords"]
+    placed_words_coords = state["placed_words_coords"]
+
+    place_letters_on_grid(grid, middle_word, middle_word_placement_coords)
+    update_placed_letter_coords(
+        placed_letter_coords, middle_word, middle_word_placement_coords
+    )
+    placed_words_coords[middle_word] = middle_word_placement_coords
+    state["middle_word_coords"] = set(middle_word_placement_coords)
+
+    return True  # ALL GOOD
+
+
+def _place_other_words(state, words_to_place, max_total_words):
+    grid = state["grid"]
+    placed_letter_coords = state["placed_letter_coords"]
+    placed_words_coords = state["placed_words_coords"]
+    middle_word_coords = state["middle_word_coords"]
+    used_middle_word_coords = state["used_middle_word_coords"]
+
+    shuffled_words = list(words_to_place)
+    random.shuffle(shuffled_words)
+
+    for word in shuffled_words:
+        if word in placed_words_coords:
+            continue
+
+        if len(placed_words_coords) >= max_total_words:
+            break
+
+        possible_placements = find_possible_placements(grid, word, placed_letter_coords)
+        priority_placements, other_placements = categorize_placement(
+            possible_placements, middle_word_coords, used_middle_word_coords
+        )
+        chosen_placement = select_random_placement(
+            priority_placements, other_placements
+        )
+
+        if chosen_placement:
+            apply_placement(
+                grid,
+                chosen_placement,
+                placed_letter_coords,
+                placed_words_coords,
+                middle_word_coords,
+                used_middle_word_coords,
+            )
+
+
+def _validate_final_grid(state, min_total_words):
+    placed_words_coords = state["placed_words_coords"]
+    middle_word_coords = state["middle_word_coords"]
+    used_middle_word_coords_set = state["used_middle_word_coords"]
+
+    total_placed_count = len(placed_words_coords)
+
+    # Placed words must be ABOVE MINIMUM
     if total_placed_count < min_total_words:
         return False
 
     # ALL middle word letters must be used
-    if middle_word_coords_set != used_middle_word_coords_set:
+    if middle_word_coords != used_middle_word_coords_set:
         return False
 
     return True
 
 
-# ************************************
-# Board Generation
-# ************************************
+def _capitalize_middle_word_appearance(state, middle_word):
+    middle_word_coords = state["placed_words_coords"][middle_word]
+    middle_word_upper = middle_word.upper()
+    place_letters_on_grid(state["grid"], middle_word_upper, middle_word_coords)
 
 
-def update_letter_coords(letter_coords, word, placed_coords):
-    for i, coord in enumerate(placed_coords):
-        letter = word[i]
-        if letter in letter_coords:
-            if coord not in letter_coords[letter]:
-                letter_coords[letter].append(coord)
-        else:
-            letter_coords[letter] = [coord]
+# ************************************
+# MAIN BOARD GENERATION FUNCTION
+# ************************************
 
 
 def generate_board(middle_word, words_to_place):
@@ -344,56 +451,26 @@ def generate_board(middle_word, words_to_place):
     height = settings["grid"]["height"]
     width = settings["grid"]["width"]
 
-    grid = create_empty_grid(height, width)
-    placed_words_data = {}
-    letter_coords = {}
-    used_middle_word_coords = set()
+    # INITIALIZE GRID
+    state = _initialize_board_state(height, width)
 
     # PLACE MIDDLE WORD
-    middle_word_coords, letter_coords = place_middle_word(grid, middle_word)
-    if middle_word_coords is None:
-        print(f"Failed to place the initial middle word: {middle_word}")
+    if not _place_middle_word(state, middle_word):
+        return None, None  # Failed!
+
+    # PLACE OTHER WORDS
+    _place_other_words(state, words_to_place, max_total_words)
+
+    # VALIDATE FINAL GRID
+    is_valid = _validate_final_grid(state, min_total_words)
+
+    if not is_valid:
+        print("\nFAILED to generate a valid grid satisfying all conditions")
         return None, None
-    else:
-        placed_words_data[middle_word] = list(middle_word_coords)
 
-    # Shuffle for randomness
-    random.shuffle(words_to_place)
+    # CAPITALIZE MIDDLE WORD
+    _capitalize_middle_word_appearance(state, middle_word)
 
-    # TRY TO PLACE ALL WORDS
-    for word in words_to_place:
-        if word in placed_words_data:
-            continue
-
-        if len(placed_words_data) >= max_total_words:
-            break
-
-        possible_placements = find_possible_placements(grid, word, letter_coords)
-        chosen_placement = categorize_and_select_placement(
-            possible_placements, middle_word_coords, used_middle_word_coords
-        )
-
-        if chosen_placement:
-            apply_placement(
-                grid,
-                chosen_placement,
-                letter_coords,
-                placed_words_data,
-                middle_word_coords,
-                used_middle_word_coords,
-            )
-
-    # CHECK IF GRID IS VALID
-    is_valid_grid = validate_final_grid(
-        placed_words_data,
-        min_total_words,
-        middle_word_coords,
-        used_middle_word_coords,
-    )
-
-    if is_valid_grid:
-        print(f"\nGENERATED GRID: {len(placed_words_data)} words.")
-        place_middle_word(grid, middle_word)  # capitalize middle word
-        return grid, placed_words_data
-    else:
-        return None, None
+    # RETURN RESULT
+    print(f"\nGENERATED GRID: {len(state['placed_words_coords'])} words")
+    return state["grid"], state["placed_words_coords"]
