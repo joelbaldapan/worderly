@@ -15,11 +15,10 @@ from display import (
 from leaderboard import (
     load_leaderboard,
     save_score,
-    get_player_name,
 )
 
 
-def initialize_game_state(settings, final_grid, middle_word):
+def initialize_game_state(settings, final_grid, middle_word, wizard_color):
     hidden_grid = create_hidden_grid(final_grid)
     statistics = {
         "letters": shuffle_letters_statistic(middle_word),
@@ -34,7 +33,7 @@ def initialize_game_state(settings, final_grid, middle_word):
         "correct_guesses": set(),
         "correct_guesses_coords": set(),
         "message": "Welcome to Wizards of Worderly Place!",  # default message
-        "message_border_style": "bold cyan",
+        "wizard_color": wizard_color,
     }
     return game_state
 
@@ -46,27 +45,26 @@ def update_display(game_state):
         highlighted_coords=game_state["last_guess_coords"],
         highlight_color="green",
         letters_color="bold cyan",
+        border_style=game_state["wizard_color"],
     )
-    print_message(
-        game_state["message"], border_style=game_state["message_border_style"]
-    )
-    print_statistics(game_state["statistics"])
+    print_message(game_state["message"], border_style=game_state["wizard_color"])
+    print_statistics(game_state["statistics"], border_style=game_state["wizard_color"])
 
 
-def get_guess(game_state):
+def get_guess(game_state, wizard_color):
     while True:
         inp = get_input("  > Enter guess: ")
         guess = inp.lower().strip()
         if not guess:
             game_state["message"] = "Invalid guess! Guess must not be empty!"
-            game_state["message_border_style"] = "red"
+            game_state["wizard_color"] = "red"
             update_display(game_state)
         elif not guess.isalpha():
             game_state["message"] = "Invalid guess! Guess must not be empty!"
-            game_state["message_border_style"] = "red"
+            game_state["wizard_color"] = "red"
             update_display(game_state)
         else:
-            game_state["message_border_style"] = "bold cyan"
+            game_state["wizard_color"] = wizard_color
             return guess
 
 
@@ -113,35 +111,35 @@ def display_game_over(game_over_status, game_state, final_grid):
 
     if game_over_status == "win":
         final_message = "YOU WIN!!"
-        print_grid(final_grid, letters_color="green")
+        print_grid(
+            final_grid, letters_color="green", border_style=game_state["wizard_color"]
+        )
     else:
         final_message = "WOMP WOMP. You lose!"
         print_grid(
             final_grid,
             highlighted_coords=game_state["correct_guesses_coords"],
-            highlight_color="bold cyan",
+            highlight_color=game_state["wizard_color"],
             letters_color="red",
         )
 
-    print_message(final_message)
-    print_statistics(game_state["statistics"])
+    print_message(final_message, border_style=game_state["wizard_color"])
+    print_statistics(game_state["statistics"], border_style=game_state["wizard_color"])
 
 
-def run_game(settings, final_grid, words_to_find, middle_word):
-    # GET PLAYER NAME
-    clear_screen()
-    player_name = get_player_name()
-    clear_screen()
-    print_message(f"Okay {player_name}, let's play!")
-    get_input("  > Press Enter to start... ")
-
-    # INITIALIZE GAME, THEN RUN GAME LOOP
-    game_state = initialize_game_state(settings, final_grid, middle_word)
+def run_game(
+    settings, final_grid, words_to_find, middle_word, player_name, selected_wizard
+):
+    # INITIALIZE GAME
+    wizard_color = selected_wizard["color"]
+    game_state = initialize_game_state(settings, final_grid, middle_word, wizard_color)
     game_over_status = "continue"
+
+    # RUN GAME LOOP
     while True:
         # Update display and get guess
         update_display(game_state)
-        guess = get_guess(game_state)
+        guess = get_guess(game_state, wizard_color)
 
         # Handle guess
         update_state(guess, game_state, words_to_find, final_grid)
@@ -161,4 +159,7 @@ def run_game(settings, final_grid, words_to_find, middle_word):
     save_score(player_name, final_score)
     leaderboard = load_leaderboard()
     print_leaderboard(leaderboard)
-    print_message(f"Thanks for playing, {player_name}!\nFinal score: {final_score}")
+    print_message(
+        f"Thanks for playing, {player_name}!\nFinal score: {final_score}",
+        border_style=wizard_color,
+    )

@@ -13,6 +13,10 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 from rich.text import Text
+from rich.columns import Columns
+
+# For Wizards data
+from wizards_details import WIZARDS_DATA
 
 
 # ****************
@@ -37,6 +41,7 @@ def shuffle_letters_statistic(middle_word):
 
 
 DEFAULT_BORDER_STYLE = "bright_cyan"
+DETAILS_PANEL_WIDTH = 40  # For wizard details panel
 
 
 def print_grid(
@@ -46,6 +51,7 @@ def print_grid(
     letters_color="cyan",
     hidden_color="bright_blue",
     title="THE WIZARDS OF WORDERLY PLACE",
+    border_style=DEFAULT_BORDER_STYLE,
 ):
     if settings["design"]:
         rich_print_grid(
@@ -55,23 +61,29 @@ def print_grid(
             letters_color,
             hidden_color,
             title,
+            border_style,
         )
     else:
         basic_print_grid(grid)
 
 
-def print_statistics(statistics):
+def print_statistics(statistics, border_style):
     if settings["design"]:
-        rich_print_statistics(statistics)
+        rich_print_statistics(statistics, border_style)
     else:
         basic_print_statistics(statistics)
 
 
 def print_message(
-    message, style="", border_style=DEFAULT_BORDER_STYLE, title=None, expand=False
+    message,
+    style="",
+    border_style=DEFAULT_BORDER_STYLE,
+    title=None,
+    title_align="left",
+    expand=False,
 ):
     if settings["design"]:
-        rich_print_message(message, style, border_style, title, expand)
+        rich_print_message(message, style, border_style, title, title_align, expand)
     else:
         basic_print_message(message)
 
@@ -88,6 +100,20 @@ def print_leaderboard(leaderboard):
         return rich_print_leaderboard(leaderboard)
     else:
         return basic_print_leaderboard(leaderboard)
+
+
+def display_selection(wizard_index):
+    if settings["design"]:
+        return rich_display_selection(wizard_index)
+    else:
+        return basic_display_selection(wizard_index)
+
+
+def display_wizard_art(wizard):
+    if settings["design"]:
+        rich_display_wizard_art(wizard)
+    else:
+        basic_display_wizard_art(wizard)
 
 
 # ****************
@@ -118,6 +144,12 @@ def basic_get_input(prompt_message=""):
 def basic_print_leaderboard(leaderboard): ...
 
 
+def basic_display_selection(wizard_index): ...
+
+
+def basic_display_wizard_art(wizard): ...
+
+
 # ****************
 # RICH DISPLAY
 # ****************
@@ -127,7 +159,13 @@ console = Console()
 
 
 def rich_print_grid(
-    grid, highlighted_coords, highlight_color, letters_color, hidden_color, title
+    grid,
+    highlighted_coords,
+    highlight_color,
+    letters_color,
+    hidden_color,
+    title,
+    border_style,
 ):
     if grid is None:
         grid = []
@@ -193,14 +231,14 @@ def rich_print_grid(
     grid_panel = Panel(
         table,
         title=title,
-        border_style=DEFAULT_BORDER_STYLE,
+        border_style=border_style,
         expand=False,
     )
 
     console.print(grid_panel)
 
 
-def rich_print_statistics(statistics):
+def rich_print_statistics(statistics, border_style):
     # Assemble text
     stats_text = Text.assemble(
         ("Letters:    ", "bold cyan"),
@@ -214,16 +252,17 @@ def rich_print_statistics(statistics):
     )
     # Create panel
     panel = Panel(
-        stats_text, title="Game Stats", border_style=DEFAULT_BORDER_STYLE, expand=False
+        stats_text, title="Game Stats", border_style=border_style, expand=False
     )
     console.print(panel)
 
 
-def rich_print_message(message, style, border_style, title, expand):
+def rich_print_message(message, style, border_style, title, title_align, expand):
     panel = Panel(
         Text(message, style=style),
         border_style=border_style,
         title=title,
+        title_align=title_align,
         expand=expand,
     )
     console.print(panel)
@@ -242,7 +281,7 @@ def rich_print_leaderboard(leaderboard_data, max_entries=10):
 
     table = Table(
         title="🏆 Leaderboard 🏆",
-        border_style=DEFAULT_BORDER_STYLE,
+        border_style="bold yellow",
         show_header=True,
         header_style="bold yellow",
     )
@@ -257,3 +296,81 @@ def rich_print_leaderboard(leaderboard_data, max_entries=10):
         table.add_row(rank, name, score)
 
     console.print(table)
+
+
+def rich_display_selection(wizard_index):
+    clear_screen()
+    wizard = WIZARDS_DATA[wizard_index]
+
+    # CALCULATE ART PANEL HEIGHT
+    art_content_str = wizard["art"].strip("\n")
+    num_art_lines = len(art_content_str.split("\n"))
+    # KEEP IN MIND THAT:
+    #   Panel height = content lines + top pad + bottom pad + top border + bottom border
+    #   With padding=(1, 2), top/bottom padding is 1 each. Borders are 1 each.
+    #   That means that the total added height = 1 + 1 + 1 + 1 = 4
+    target_panel_height = num_art_lines + 4
+
+    # CREATE PANELS
+    # A. Wizard Art Panel
+    art_text = Text(art_content_str, style=f"bold {wizard['color']}")
+    art_panel = Panel(
+        art_text,
+        border_style=wizard["color"],
+        title="Wizard",
+        title_align="left",
+        padding=(1, 2),
+        height=target_panel_height,
+    )
+
+    # B. Wizard Info Panel
+    info_text = Text.assemble(
+        (f"{wizard['name']}\n", f"bold {wizard['color']} underline"),
+        ("Starting Lives: ", "bold cyan"),
+        (f"{wizard['stats']['starting_lives']}\n\n"),
+        (f"Powerup: {wizard['powerup_name']}\n", "bold yellow"),
+        (f"{wizard['powerup_desc']}\n\n", "yellow"),
+        ("Description:\n", "bold white"),
+        (f"{wizard['description']}\n"),
+        no_wrap=False,  # there should be wrapping
+    )
+    info_panel = Panel(
+        info_text,
+        border_style=wizard["color"],
+        title="Details",
+        title_align="left",
+        padding=(1, 2),
+        width=DETAILS_PANEL_WIDTH,
+        height=target_panel_height,  # SET HEIGHT TO MATCH ART PANEL !
+    )
+
+    # CREATE COLUMNS SO THAT THEY'LL BE SIDE BY SIDE
+    wizard_row = Columns(
+        [art_panel, info_panel],
+        expand=False,  # Do not expand vertically
+        equal=False,  # Let panels have the width we set earlier
+    )
+
+    # PRINT COMPONENTS
+    console.print(wizard_row)
+    # Print instructions below
+    print_message(
+        "Use (◀) Left / Right (▶) arrow keys to select. Press Enter to confirm.",
+        title="Input",
+        border_style=wizard["color"],
+    )
+
+
+def rich_display_wizard_art(wizard):
+    art_content_str = wizard["art"].strip("\n")
+
+    art_text = Text(art_content_str, style=f"bold {wizard['color']}")
+    art_panel = Panel(
+        art_text,
+        border_style=wizard["color"],
+        title="Wizard",
+        title_align="left",
+        padding=(1, 2),
+        expand=False,
+    )
+    console.print(art_panel)

@@ -4,6 +4,7 @@
 
 from word_selector import generate_word_list
 from grid_generator import generate_board
+from player_info_initializer import initialize_player_info
 from gameplay import run_game
 from config import settings
 
@@ -28,8 +29,13 @@ def main():
 
         break
 
+    # INITALIZE GAME
+    player_name, selected_wizard = initialize_player_info()
+
     # GAMEPLAY
-    run_game(settings, final_grid, words_to_find, middle_word)
+    run_game(
+        settings, final_grid, words_to_find, middle_word, player_name, selected_wizard
+    )
 
 
 if __name__ == "__main__":

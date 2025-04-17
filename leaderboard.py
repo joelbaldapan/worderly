@@ -3,36 +3,13 @@
 # ************************************
 import os
 from display import print_message
-from display import clear_screen, get_input
 
 
 # Define constants for the leaderboards
 # Pipe '|' is used as delimiter for the leaderboards
 # Like this: "name|score"
-MAX_NAME_LENGTH = 10
 LEADERBOARD_FILE = "leaderboards.txt"
 DELIMITER = "|"
-
-
-def get_player_name():
-    while True:
-        print_message("Mighty wizard, please enter your name!")
-        name = get_input("  > Name: ").strip()
-        clear_screen()
-        if not name:
-            print_message("Name cannot be empty. Please try again.", border_style="red")
-        elif DELIMITER in name:
-            print_message(
-                f"Name cannot contain the character '{DELIMITER}'. Please try again.",
-                border_style="red",
-            )
-        elif len(name) > MAX_NAME_LENGTH:
-            print_message(
-                f"Name cannot be longer than {MAX_NAME_LENGTH} characters. Please try again.",
-                border_style="red",
-            )
-        else:
-            return name
 
 
 def load_leaderboard(filename=LEADERBOARD_FILE):
