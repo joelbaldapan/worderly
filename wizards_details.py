@@ -4,8 +4,8 @@
 #   - Alvin, choosing the sprites!
 # ************************************
 
-WIZARDS = [
-"""
+WIZARDS_ART = [
+    """
                 █▓▓▓▓▓█            
               ▓▓▓▓▓▓▒░░░▒▒▓        
                 ▓▓▓▒░    ▒▒        
@@ -30,7 +30,7 @@ WIZARDS = [
          ██▓▓▒▓██▓▓▓▒ ░▒▓█▓▒▓██    
          ██████████████████████   
 """,
-"""
+    """
                         ░▒░        
                  ████▓▒▒░░▒▒▒      
           ▓ ▒████░░          ██▒░▓ 
@@ -51,12 +51,11 @@ WIZARDS = [
   ▓█▒        ░▒██   ░░░    ██░░▒██ 
   ███   ░░▓▓▓▓▓▓▓░░      ░▓██▓▓▒▒▒ 
   ████████▒▒▒▒▒░░░░░▒▒██▒░▓██      
-   ███████▒▒░░   ▒▒   ██   ██      
        ███░░   ▒░     ██   ██░     
     ████▒▒░░▒▒      ██████   ███   
      ██████████████████████████▓   
 """,
-"""
+    """
       █████   ██████▓████          
      ███████  ██████████▓▓█        
      ███░░▒▓███▓         █▓▓█      
@@ -81,7 +80,7 @@ WIZARDS = [
        █████████▓▓▒▒░ ▓█▓ ▒██      
          ████████████████████      
 """,
-"""
+    """
      ▓▓▓▒▒▓▓█     ▓▓▒▒▒▓▓          
      ▒▓▓░ ░▒▒███  █████████        
      ▓▓▓░   ░▒▒▓▓█▓▒▒▒▒▒▒▒▒██      
@@ -106,7 +105,7 @@ WIZARDS = [
        █▓▓▒▒▒▒░░░░       █▓  ██    
           █████████████████████    
 """,
-"""
+    """
       ▒▒▒                  ▓▓      
      ▒░▒▒▒░     ██      ▓  ▓▓▓░    
     ▒▒░  ▒▒  █▓▓▓██  ░░▒▒░▓░▒▒▓▓   
@@ -127,24 +126,15 @@ WIZARDS = [
    ▓▒▒▒▒▒░░ ░▒▒▓▓░░██▓▓████▓▒▓▓▓   
         ▒▒▒▒▒▒▒░░██▓▓  ▒▓███▓▓     
           ██▓  ░░██░░  ░░███       
-        ██▓░   ██░░█████████       
         ██▓▒▒████░░░░██▓▓███       
           ███▓▓▓▒░░░░  ██  ▓██     
           ████████████████████     
-                                   
-"""
+""",
 ]
 
-from display import print_message
 
-colors = ["bright_white", "magenta", "blue", "red", "green"]
-for idx, wizard in enumerate(WIZARDS):
-    print_message(wizard.strip('\n'), style=colors[idx])
-
-
-
-WIZARDS_SMALL = [
-"""
+WIZARDS_ART_SMALL = [
+    """
         ▓▓▓▒  ░▒    
          ███▓░  █   
       ▓▓█▓░  ░▒░ ██ 
@@ -156,7 +146,7 @@ WIZARDS_SMALL = [
   ██▓░▒█▒░▒ █▓▓██░▒█ 
      ██████████████  
 """,
-"""
+    """
        ▓▓███▒▒▒▒░░█  
      ██▓▓▓▒░     ▒▓█▓
     ██▓▒▒▒░      ░▓██
@@ -168,7 +158,7 @@ WIZARDS_SMALL = [
  █▓ ░▓███▓▓   ░████▓ 
    ████████████████  
 """,
-"""
+    """
    ███████▓▓▓▒▒▓█    
     █▒ █         ██  
      ███        ░██  
@@ -180,7 +170,7 @@ WIZARDS_SMALL = [
     ██▓▒▓█▓░██▒██▓██ 
       ████████████   
 """,
-"""
+    """
    ▓▓▒▒▒████▓▓▓▓█    
    █▓▒   ░▒▓░░  ███  
      ▒██░░    ░░ ░██ 
@@ -192,7 +182,7 @@ WIZARDS_SMALL = [
    ▓▓▓▒   ▒▓▓▒ ░█▓░█ 
       █████████████  
 """,
-"""
+    """
     ▒▒          █▓   
   ▒▒  ▒▓█▓▓██░░░▒▒▓▓ 
  ▒▒░░░ ▒░░█▓▒░  ░█▒▓█
@@ -201,12 +191,75 @@ WIZARDS_SMALL = [
  ░   ░░▒▓▓▓▓  ▓ ██░ ░
  █▓▒▒░▒▓██▒▒    ██░▓█
   ▓█▒▒▒ ░▒▓▒░░ ░▓███ 
- ▒▒▒▒   ░░▓▓    ▒░▓▓ 
    ▒▒▒▒░▒░░▓▓▒ ▓█▓▓  
        ███████████   
-"""
+""",
 ]
 
-colors = ["bright_white", "magenta", "blue", "red", "green"]
-for idx, wizard in enumerate(WIZARDS_SMALL):
-    print_message(wizard.strip('\n'), style=colors[idx])
+
+WIZARDS_DATA = [
+    {
+        "name": "White Wizard",
+        "art": WIZARDS_ART[0],
+        "color": "bright_white",
+        "stats": {
+            "starting_lives": 5,
+        },
+        "powerup_name": "POWERUP",
+        "powerup_desc": "P-UP Description.",
+        "description": "Wizard Description",
+    },
+    {
+        "name": "Magenta Wizard",
+        "art": WIZARDS_ART[1],
+        "color": "magenta",
+        "stats": {
+            "starting_lives": 5,
+        },
+        "powerup_name": "POWERUP",
+        "powerup_desc": "P-UP Description.",
+        "description": "Wizard Description",
+    },
+    {
+        "name": "Blue Wizard",
+        "art": WIZARDS_ART[2],
+        "color": "blue",
+        "stats": {
+            "starting_lives": 5,
+        },
+        "powerup_name": "POWERUP",
+        "powerup_desc": "P-UP Description.",
+        "description": "Wizard Description",
+    },
+    {
+        "name": "Red Wizard",
+        "art": WIZARDS_ART[3],
+        "color": "red",
+        "stats": {
+            "starting_lives": 5,
+        },
+        "powerup_name": "POWERUP",
+        "powerup_desc": "P-UP Description.",
+        "description": "Wizard Description",
+    },
+    {
+        "name": "Green Wizard",
+        "art": WIZARDS_ART[4],
+        "color": "green",
+        "stats": {
+            "starting_lives": 5,
+        },
+        "powerup_name": "POWERUP",
+        "powerup_desc": "P-UP Description.",
+        "description": "Wizard Description",
+    },
+]
+
+
+# colors = ["bright_white", "magenta", "blue", "red", "green"]
+# for idx, wizard in enumerate(WIZARDS_ART):
+#     print_message(wizard.strip("\n"), style=colors[idx])
+
+# colors = ["bright_white", "magenta", "blue", "red", "green"]
+# for idx, wizard in enumerate(WIZARDS_ART_SMALL):
+#     print_message(wizard.strip("\n"), style=colors[idx])
