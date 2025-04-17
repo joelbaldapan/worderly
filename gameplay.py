@@ -44,8 +44,9 @@ def update_display(game_state):
         game_state["hidden_grid"],
         highlighted_coords=game_state["last_guess_coords"],
         highlight_color="green",
-        letters_color="bold cyan",
+        letters_color="bright_white",
         border_style=game_state["wizard_color"],
+        hidden_color=game_state["wizard_color"],
     )
     print_message(game_state["message"], border_style=game_state["wizard_color"])
     print_statistics(game_state["statistics"], border_style=game_state["wizard_color"])
@@ -119,8 +120,9 @@ def display_game_over(game_over_status, game_state, final_grid):
         print_grid(
             final_grid,
             highlighted_coords=game_state["correct_guesses_coords"],
-            highlight_color=game_state["wizard_color"],
+            highlight_color="green",
             letters_color="red",
+            border_style=game_state["wizard_color"]
         )
 
     print_message(final_message, border_style=game_state["wizard_color"])
@@ -161,5 +163,5 @@ def run_game(
     print_leaderboard(leaderboard)
     print_message(
         f"Thanks for playing, {player_name}!\nFinal score: {final_score}",
-        border_style=wizard_color,
+        border_style="bold yellow",
     )

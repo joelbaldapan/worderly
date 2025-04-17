@@ -48,8 +48,8 @@ def print_grid(
     grid,
     highlighted_coords={},
     highlight_color=None,
-    letters_color="cyan",
-    hidden_color="bright_blue",
+    letters_color="black", # black to debug if it's not working
+    hidden_color="black",
     title="THE WIZARDS OF WORDERLY PLACE",
     border_style=DEFAULT_BORDER_STYLE,
 ):
