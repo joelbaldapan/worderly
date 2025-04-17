@@ -122,7 +122,7 @@ def display_game_over(game_over_status, game_state, final_grid):
             highlighted_coords=game_state["correct_guesses_coords"],
             highlight_color="green",
             letters_color="red",
-            border_style=game_state["wizard_color"]
+            border_style=game_state["wizard_color"],
         )
 
     print_message(final_message, border_style=game_state["wizard_color"])

@@ -22,24 +22,31 @@ def get_player_name(selected_wizard):
     display_wizard_art(selected_wizard)
     print_message(
         "Mighty wizard, please enter your name!",
-        border_style=selected_wizard["color"], title="Input"
+        border_style=selected_wizard["color"],
+        title="Input",
     )
-    
+
     while True:
         name = get_input("  > Name: ").strip()
         clear_screen()
         display_wizard_art(selected_wizard)
         if not name:
-            print_message("Name cannot be empty. Please try again.", border_style="red", title="Input")
+            print_message(
+                "Name cannot be empty. Please try again.",
+                border_style="red",
+                title="Input",
+            )
         elif DELIMITER in name:
             print_message(
                 f"Name cannot contain the character '{DELIMITER}'. Please try again.",
-                border_style="red", title="Input"
+                border_style="red",
+                title="Input",
             )
         elif len(name) > MAX_NAME_LENGTH:
             print_message(
                 f"Name cannot be longer than {MAX_NAME_LENGTH} characters. Please try again.",
-                border_style="red", title="Input"
+                border_style="red",
+                title="Input",
             )
         else:
             return name

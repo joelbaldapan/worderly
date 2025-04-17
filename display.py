@@ -48,7 +48,7 @@ def print_grid(
     grid,
     highlighted_coords={},
     highlight_color=None,
-    letters_color="black", # black to debug if it's not working
+    letters_color="black",  # black to debug if it's not working
     hidden_color="black",
     title="THE WIZARDS OF WORDERLY PLACE",
     border_style=DEFAULT_BORDER_STYLE,
@@ -141,13 +141,46 @@ def basic_get_input(prompt_message=""):
     return input(prompt_message)
 
 
-def basic_print_leaderboard(leaderboard): ...
+def basic_print_leaderboard(leaderboard):
+    print("\n----------- Leaderboard -----------")
+    if not leaderboard:
+        print("Leaderboard is empty.")
+        return
+
+    # Calculate the width needed for the rank number
+    num_entries = len(leaderboard)
+    # Width is the number of digits in the largest rank number
+    max_rank_width = len(str(num_entries))
+
+    for idx, entry in enumerate(leaderboard):
+        rank = idx + 1
+        # Format the rank number with right-alignment and padding
+        formatted_rank = f"{rank:>{max_rank_width}}"
+        print(f"{formatted_rank} | Name: {entry['name']}, {entry['score']} points")
+    print("-----------------------------------\n")
 
 
-def basic_display_selection(wizard_index): ...
+def basic_display_selection(wizard_index):
+    clear_screen()
+
+    wizard = WIZARDS_DATA[wizard_index]
+
+    basic_display_wizard_art(wizard)
+    print("-----------------------------------------")
+    print(f"Name: {wizard['name']}")
+    print(f"Starting Lives: {wizard['starting_lives']}")
+    print()
+    print(f"Powerup: {wizard['powerup_name']}")
+    print(f"Powerup Description: {wizard['powerup_desc']}")
+    print()
+    print(f"Wizard Description: {wizard['description']}")
+    print("-----------------------------------------")
+    print()
+    print("Use (◀) Left / Right (▶) arrow keys to select. Press Enter to confirm.")
 
 
-def basic_display_wizard_art(wizard): ...
+def basic_display_wizard_art(wizard):
+    print(wizard["art"])
 
 
 # ****************
@@ -327,7 +360,7 @@ def rich_display_selection(wizard_index):
     info_text = Text.assemble(
         (f"{wizard['name']}\n", f"bold {wizard['color']} underline"),
         ("Starting Lives: ", "bold cyan"),
-        (f"{wizard['stats']['starting_lives']}\n\n"),
+        (f"{wizard['starting_lives']}\n\n"),
         (f"Powerup: {wizard['powerup_name']}\n", "bold yellow"),
         (f"{wizard['powerup_desc']}\n\n", "yellow"),
         ("Description:\n", "bold white"),
