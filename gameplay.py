@@ -61,7 +61,7 @@ def get_guess(game_state, wizard_color):
             game_state["wizard_color"] = "red"
             update_display(game_state)
         elif not guess.isalpha():
-            game_state["message"] = "Invalid guess! Guess must not be empty!"
+            game_state["message"] = "Invalid guess! Guess must contain letters only!"
             game_state["wizard_color"] = "red"
             update_display(game_state)
         else:
@@ -111,12 +111,12 @@ def display_game_over(game_over_status, game_state, final_grid):
     clear_screen()
 
     if game_over_status == "win":
-        final_message = "YOU WIN!!"
+        final_message = "YOU WIN!!" # TODO: CHANGE
         print_grid(
             final_grid, letters_color="green", border_style=game_state["wizard_color"]
         )
     else:
-        final_message = "WOMP WOMP. You lose!"
+        final_message = "WOMP WOMP. You lose!" # TODO: CHANGE
         print_grid(
             final_grid,
             highlighted_coords=game_state["correct_guesses_coords"],
