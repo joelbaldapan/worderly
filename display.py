@@ -131,6 +131,7 @@ def basic_print_statistics(statistics):
     print(f"Lives left:  {statistics['lives_left']}")
     print(f"Points:      {statistics['points']}")
     print(f"Last Guess:  {statistics['last_guess']}")
+    print(f"Combo:       {statistics['combo']}")
 
 
 def basic_print_message(message):
@@ -281,7 +282,9 @@ def rich_print_statistics(statistics, border_style):
         ("Points:     ", "bold yellow"),
         (f"{statistics.get('points', 'N/A')}\n"),
         ("Last Guess: ", "bold magenta"),
-        (f"{statistics.get('last_guess', 'None')}"),
+        (f"{statistics.get('last_guess', 'None')}\n"),
+        ("Combo:      ", "bold orange"),
+        (f"{statistics.get('combo', 'None')}"),
     )
     # Create panel
     panel = Panel(

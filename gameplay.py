@@ -2,7 +2,13 @@
 # GAMEPLAY
 # ****************
 
-from grid_gameplay import create_hidden_grid, reveal_coords_in_hidden_grid
+from grid_gameplay import (
+    create_hidden_grid,
+    reveal_coords_in_hidden_grid,
+    get_all_letter_coords,
+    get_coords_for_random_reveal,
+    get_coords_for_word_reveal,
+)
 from display import (
     print_grid,
     shuffle_letters_statistic,
@@ -18,6 +24,7 @@ from leaderboard import (
 )
 
 
+# TODO: MAKE CORRECT GUESSES COORDS MORE DESCRIPTIVE NAME!
 def initialize_game_state(settings, final_grid, middle_word, wizard_color):
     hidden_grid = create_hidden_grid(final_grid)
     statistics = {
@@ -25,6 +32,7 @@ def initialize_game_state(settings, final_grid, middle_word, wizard_color):
         "lives_left": settings["starting_lives"],
         "points": 0,
         "last_guess": None,
+        "combo": 0,
     }
     game_state = {
         "hidden_grid": hidden_grid,
@@ -34,6 +42,7 @@ def initialize_game_state(settings, final_grid, middle_word, wizard_color):
         "correct_guesses_coords": set(),
         "message": "Welcome to Wizards of Worderly Place!",  # default message
         "wizard_color": wizard_color,
+        "hidden_letter_coords": get_all_letter_coords(final_grid),
     }
     return game_state
 
@@ -52,7 +61,24 @@ def update_display(game_state):
     print_statistics(game_state["statistics"], border_style=game_state["wizard_color"])
 
 
-def get_guess(game_state, wizard_color):
+def check_valid_powerup(game_state, selected_wizard):
+    wizard_color = selected_wizard["color"]
+    statistics = game_state["statistics"]
+
+    if wizard_color == "magenta":
+        return statistics["lives_left"] > 0
+    elif wizard_color == "blue":
+        return statistics["combo"] >= 3
+    elif wizard_color == "red":
+        return statistics["combo"] >= 4
+    elif wizard_color == "green":
+        return statistics["combo"] >= 3
+    else:
+        raise Exception("Wizard color not found!")
+
+
+def get_guess(game_state, selected_wizard):
+    wizard_color = selected_wizard["color"]
     while True:
         inp = get_input("  > Enter guess: ")
         guess = inp.lower().strip()
@@ -60,6 +86,18 @@ def get_guess(game_state, wizard_color):
             game_state["message"] = "Invalid guess! Guess must not be empty!"
             game_state["wizard_color"] = "red"
             update_display(game_state)
+        elif guess == "!p":
+            # Used powerup
+            if wizard_color == "bright_white":
+                game_state["message"] = "White wizards do not have any powers!"
+                game_state["wizard_color"] = "red"
+                update_display(game_state)
+            elif not check_valid_powerup(game_state, selected_wizard):
+                game_state["message"] = "Cannot use powerup! Insufficient conditions!"
+                game_state["wizard_color"] = "red"
+                update_display(game_state)
+            else:
+                return guess
         elif not guess.isalpha():
             game_state["message"] = "Invalid guess! Guess must contain letters only!"
             game_state["wizard_color"] = "red"
@@ -67,6 +105,46 @@ def get_guess(game_state, wizard_color):
         else:
             game_state["wizard_color"] = wizard_color
             return guess
+
+
+def use_powerup(game_state, selected_wizard, words_to_find, final_grid):
+    # Wizard color determines what the powerup is
+    wizard_color = selected_wizard["color"]
+    hidden_letter_coords = game_state["hidden_letter_coords"]
+    correct_guesses = game_state["correct_guesses"]
+
+    PERCENTAGE = 0.2
+    # Get coords to reveal
+    if wizard_color == "magenta":
+        coords_to_reveal = get_coords_for_word_reveal(words_to_find, correct_guesses)
+    elif wizard_color == "blue":
+        coords_to_reveal = get_coords_for_word_reveal(words_to_find, correct_guesses)
+    elif wizard_color == "red":
+        coords_to_reveal = get_coords_for_random_reveal(
+            hidden_letter_coords, PERCENTAGE
+        )
+    elif wizard_color == "green":
+        coords_to_reveal = get_coords_for_word_reveal(words_to_find, correct_guesses)
+
+    # Update hidden grid and currently hidden letter coordinates
+    game_state["wizard_color"] = wizard_color
+    game_state["message"] = "POWERUP USEDDD!"  # TODO: Improve flavor text
+    if coords_to_reveal:
+        apply_coordinate_reveal(game_state, final_grid, coords_to_reveal)
+
+
+def apply_coordinate_reveal(game_state, final_grid, coords_to_reveal):
+    # Update the visual hidden grid
+    reveal_coords_in_hidden_grid(
+        final_grid, game_state["hidden_grid"], coords_to_reveal
+    )
+
+    # Update the set tracking currently hidden letters
+    # make sure to remove each revealed coordinate from the set
+    game_state["correct_guesses_coords"].update(coords_to_reveal)
+    game_state["last_guess_coords"] = coords_to_reveal
+    for coord in coords_to_reveal:
+        game_state["hidden_letter_coords"].discard(coord)
 
 
 def update_state(guess, game_state, words_to_find, final_grid):
@@ -79,23 +157,24 @@ def update_state(guess, game_state, words_to_find, final_grid):
     if guess in correct_guesses:
         # DUPLICATE GUESS
         statistics["lives_left"] -= 1
+        statistics["combo"] = 0
         game_state["message"] = f"You already found '{guess}'!"
     elif guess not in words_to_find:
         # WRONG GUESS
         statistics["lives_left"] -= 1
+        statistics["combo"] = 0
         game_state["message"] = f"'{guess}' is not one of the words!"
     else:
         # CORRECT GUESS
         game_state["message"] = f"Correct! You found '{guess}'!"
+        statistics["combo"] += 1
         statistics["points"] += len(guess)
+
         word_coords = words_to_find[guess]
-
         correct_guesses.add(guess)
-        game_state["correct_guesses_coords"].update(word_coords)
-        game_state["last_guess_coords"] = word_coords
 
-        # Update hidden grid
-        reveal_coords_in_hidden_grid(final_grid, game_state["hidden_grid"], word_coords)
+        # Update hidden grid and currently hidden letter coordinates
+        apply_coordinate_reveal(game_state, final_grid, word_coords)
 
 
 def check_game_over(game_state, words_to_find):
@@ -111,12 +190,12 @@ def display_game_over(game_over_status, game_state, final_grid):
     clear_screen()
 
     if game_over_status == "win":
-        final_message = "YOU WIN!!" # TODO: CHANGE
+        final_message = "YOU WIN!!"  # TODO: CHANGE
         print_grid(
             final_grid, letters_color="green", border_style=game_state["wizard_color"]
         )
     else:
-        final_message = "WOMP WOMP. You lose!" # TODO: CHANGE
+        final_message = "WOMP WOMP. You lose!"  # TODO: CHANGE
         print_grid(
             final_grid,
             highlighted_coords=game_state["correct_guesses_coords"],
@@ -141,10 +220,15 @@ def run_game(
     while True:
         # Update display and get guess
         update_display(game_state)
-        guess = get_guess(game_state, wizard_color)
+        guess = get_guess(game_state, selected_wizard)
 
         # Handle guess
-        update_state(guess, game_state, words_to_find, final_grid)
+        if guess == "!p":
+            # Powerup used
+            use_powerup(game_state, selected_wizard, words_to_find, final_grid)
+        else:
+            # standard guess
+            update_state(guess, game_state, words_to_find, final_grid)
 
         # Check for game over
         game_over_status = check_game_over(game_state, words_to_find)
