@@ -11,7 +11,6 @@ from display import (
 )
 
 from wizards_details import WIZARDS_DATA
-from leaderboard import DELIMITER
 
 MAX_NAME_LENGTH = 10
 

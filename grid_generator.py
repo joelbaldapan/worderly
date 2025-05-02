@@ -147,7 +147,6 @@ def _check_for_all_letters(
                 return False
 
         if checked_letters in words_to_place:
-            print(word)
             return False  # Overwriting an already placed word
 
     # Check if we placed new letter

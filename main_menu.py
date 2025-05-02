@@ -1,5 +1,5 @@
 from getkey import getkey, keys
-from display import clear_screen, print_message
+from display import clear_screen
 
 MENU_OPTIONS = ["Start Game", "Check Leaderboards", "Tutorial", "Exit Game"]
 

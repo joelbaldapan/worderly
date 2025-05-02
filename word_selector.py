@@ -32,7 +32,7 @@ def get_valid_word_subwords(word, valid_words_set, min_length):
             subword = "".join(p)
             if subword in valid_words_set and subword != word:
                 valid_subwords.add(subword)
-        print("DONE", length)
+        # print("DONE", length)
     return list(valid_subwords)
 
 
@@ -53,9 +53,10 @@ def find_valid_word_with_subwords(
             # Return the chosen middle word and the list of other words to place
             return chosen_word, subwords
         else:
-            print(
-                f"Could not find enough subwords for {chosen_word}. Subwords: {len(subwords)}"
-            )
+            # print(
+            #     f"Could not find enough subwords for {chosen_word}. Subwords: {len(subwords)}"
+            # )
+            ...
 
     print("Cannot create word list with given settings")
     return None, None
