@@ -36,9 +36,9 @@ def get_player_name(selected_wizard):
                 border_style="red",
                 title="Input",
             )
-        elif DELIMITER in name:
+        elif not name.isalpha():
             print_message(
-                f"Name cannot contain the character '{DELIMITER}'. Please try again.",
+                "Name must only contain letters! Please try again.",
                 border_style="red",
                 title="Input",
             )
