@@ -14,6 +14,8 @@ from rich.table import Table
 from rich.panel import Panel
 from rich.text import Text
 from rich.columns import Columns
+from rich.align import Align
+from rich.console import Group
 
 # For Wizards data
 from wizards_details import WIZARDS_DATA
@@ -67,9 +69,11 @@ def print_grid(
         basic_print_grid(grid)
 
 
-def print_statistics(statistics, border_style):
+def print_statistics(statistics, border_style, grid, selected_wizard, game_state):
     if settings["design"]:
-        rich_print_statistics(statistics, border_style)
+        rich_print_statistics(
+            statistics, border_style, grid, selected_wizard, game_state
+        )
     else:
         basic_print_statistics(statistics)
 
@@ -272,9 +276,10 @@ def rich_print_grid(
     console.print(grid_panel)
 
 
-def rich_print_statistics(statistics, border_style):
+def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_state):
+    wizard_color = selected_wizard["color"]
     # Assemble text
-    stats_text = Text.assemble(
+    player_stats_text = Text.assemble(
         ("Letters:      ", "bold cyan"),
         (f"{statistics.get('letters', 'N/A')}\n"),
         ("Lives left:   ", "bold green"),
@@ -283,19 +288,90 @@ def rich_print_statistics(statistics, border_style):
         (f"{statistics.get('points', 'N/A')}\n"),
         ("Last Guess:   ", "bold magenta"),
         (f"{statistics.get('last_guess', 'None')}\n"),
-        ("Combo:        ", "bold blue"),
+    )
+
+    powerup_stats_text = Text.assemble(
+        ("Combo:        ", "bold cyan"),
         (f"{statistics.get('combo', 'None')}\n"),
-        ("Power Points: ", "bold blue"),
+        ("Power Points: ", "bold cyan"),
         (f"{statistics.get('power_points', 'None')}\n"),
         ("Shield Turns: ", "bold blue"),
         (f"{statistics.get('shield_turns', 'None')}"),
     )
-    # Create panel
-    panel = Panel(
-        stats_text, title="Game Stats", border_style=border_style, expand=False
-    )
-    console.print(panel)
 
+
+    # TEXT
+    PANELS_HEIGHT = 14
+    STATS_HEIGHT = 6
+    WIZARD_PANEL_WIDTH = 23 # 19 + 4: Art + Padding
+
+    small_wizard_art = selected_wizard["small_art"].strip("\n")
+    player_name = game_state["player_name"]
+
+    # Create Text
+    art_line = f"\n{small_wizard_art}"
+    art_text = Text(art_line, style=wizard_color, justify="left")
+    name_line = f"--- {player_name} ---"
+    name_text = Text(name_line, style=wizard_color, justify="center")
+
+    # Group
+    wizard_panel_content = Group(
+        art_text,
+        name_text
+    )
+
+
+    # Calculate width, if grid is provided
+    if grid:
+        grid_row = grid[0]
+        grid_width = len(grid_row) * 2 + 3
+    else:
+        # Default
+        grid_width = None
+
+    # PANELS
+    wizard_panel_width = WIZARD_PANEL_WIDTH
+    wizard_panel = Panel(
+        wizard_panel_content,
+        title="Your Wizard",
+        border_style=border_style,
+        style=wizard_color,
+        padding=(0, 1),
+        expand=False,
+        width=wizard_panel_width,
+        height=PANELS_HEIGHT
+    )
+
+    stats_panel_width = grid_width - wizard_panel_width - 1 
+    player_stats_panel = Panel(
+        player_stats_text,
+        title="Game Stats",
+        border_style=border_style,
+        expand=True,
+        width=stats_panel_width,
+        height=STATS_HEIGHT
+    )
+    
+    powerup_stats_height = PANELS_HEIGHT - STATS_HEIGHT
+    powerup_stats_panel = Panel(
+        powerup_stats_text,
+        title="Powerup Stats",
+        border_style=border_style,
+        expand=True,
+        width=stats_panel_width,
+        height=powerup_stats_height
+    )
+
+    stats_group = Group(player_stats_panel, powerup_stats_panel)
+
+    full_panel = Columns(
+        [wizard_panel, stats_group],
+        expand=False,
+        equal=False,
+    )
+
+    # Create panel
+    console.print(full_panel)
 
 def rich_print_message(message, style, border_style, title, title_align, expand):
     panel = Panel(

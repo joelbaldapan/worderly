@@ -135,64 +135,64 @@ WIZARDS_ART = [
 
 WIZARDS_ART_SMALL = [
     """
-        ▓▓▓▒  ░▒    
-         ███▓░  █   
-      ▓▓█▓░  ░▒░ ██ 
-  ▓▓▓▒░░▒░ ▒▓▒  ░██▓▓
-  ▓▓░░ ░█▓░      █▒▒▓
-  █▓▓███▓▒▒▓▓▓██▓██░ 
-▓▒  ▒▓▓ ▒█▒▓░  ▒▓█▓░▒
- ██▓█▓░  ██▓░░░▒████░
-  ██▓░▒█▒░▒ █▓▓██░▒█ 
-     ██████████████  
+      ▓▓▓  ░▒      
+       ██▓░  █    
+     ▓▓█▓  ░▒░██  
+  ▓▓▒░░▒ ▒▓▒  ░█▓  
+  ▓░░ ░▓░      █▒  
+  █▓███▓▒▓▓▓██▓██░ 
+▓▒  ▓ ▒█▒▓░  ▒▓█▓░▒
+ █▓█▓░ ██▓░░░▒████░
+  █▓░▒█░▒ █▓▓██░▒█ 
+     ███████████   
 """,
     """
-       ▓▓███▒▒▒▒░░█  
-     ██▓▓▓▒░     ▒▓█▓
-    ██▓▒▒▒░      ░▓██
-  ███▓▒  ▓▓▓█████▓██▓
-   ███▓  ██░░▒█▒░██  
-█▓   ░▒██▒▒▒█████  ██
- ▒▓█  ░██████████▓▓▓ 
-  ░▓░    █▓▒▒▒▒██ ░██
- █▓ ░▓███▓▓   ░████▓ 
-   ████████████████  
+      ▓███▒▒▒▒░░█  
+    ██▓▓▒░     ▒▓█▓
+    █▓▒▒░      ░▓██
+  ██▓▒ ▓▓▓█████▓██▓
+   ██▓ ██░░▒█▒░██  
+█▓  ░▒█▒▒▒█████  ██
+ ▒▓█ ░█████████▓▓▓ 
+  ░░   █▓▒▒▒▒██ ░██
+ █▓░▓██▓▓   ░████▓ 
+   ██████████████  
 """,
     """
-   ███████▓▓▓▒▒▓█    
-    █▒ █         ██  
-     ███        ░██  
- ██████▓▓▓░      ████
- █▓▓░▒▓█▓░ █▓ ░█▒ ███
-  ███░░▓████▒  █████ 
-  ███████▓▓█   ▒██▓▓ 
-  ██▒░░▒██▓   ▒██▒▓▓ 
-    ██▓▒▓█▓░██▒██▓██ 
-      ████████████   
+  ██████▓▓▓▒▒▓█    
+   █▒ █        ██  
+    ███       ░██  
+ █████▓▓░      ████
+ █▓░▒▓█▓ █▓ ░█▒ ███
+  ██░░▓███▒  █████ 
+  ██████▓█   ▒██▓▓ 
+  █▒░░▒█▓   ▒██▒▓▓ 
+   ██▓▒█▓░██▒██▓██ 
+     ███████████   
 """,
     """
-   ▓▓▒▒▒████▓▓▓▓█    
-   █▓▒   ░▒▓░░  ███  
-     ▒██░░    ░░ ░██ 
-▒░░▒▒░ ▒█▒  ░▒▒▓░▓██▒
-▒░     ░▓▓▓▒   ▓  █░▒
-▒░ ░░░ ░ ░▒▒▒▓▓▓▒▓█▒▓
- ▒▓▓░░▓███▓░  ░  ░█ ░
-  ▓▓▓▒▒░   █▒▒ ▒█▓░██
-   ▓▓▓▒   ▒▓▓▒ ░█▓░█ 
-      █████████████  
+  ▓▓▒▒████▓▓▓▓█    
+  █▓   ░▒▓░░  ███  
+    ██░░    ░░ ░██ 
+▒░▒▒ ▒█▒  ░▒▒▓░▓██▒
+▒░   ░▓▓▓▒   ▓  █░▒
+▒░░░ ░ ░▒▒▒▓▓▓▒▓█▒▓
+ ▒▓░▓███▓░  ░  ░█ ░
+  ▓▓▒░   █▒▒ ▒█▓░██
+  ▓▓▒   ▒▓▓▒ ░█▓░█ 
+   █████████████  
 """,
     """
-    ▒▒          █▓   
-  ▒▒  ▒▓█▓▓██░░░▒▒▓▓ 
- ▒▒░░░ ▒░░█▓▒░  ░█▒▓█
-     ███▓▒▒███▓░█████
-    ▒▒██▒  ░▒▓██████ 
- ░   ░░▒▓▓▓▓  ▓ ██░ ░
- █▓▒▒░▒▓██▒▒    ██░▓█
-  ▓█▒▒▒ ░▒▓▒░░ ░▓███ 
-   ▒▒▒▒░▒░░▓▓▒ ▓█▓▓  
-       ███████████   
+   ▒▒         █▓   
+ ▒▒  ▓█▓▓██░░░▒▒▓▓ 
+▒▒░░░▒░░█▓▒░  ░█▒▓█
+    ██▓▒▒███▓░█████
+   ▒▒█▒  ░▒▓██████ 
+░   ░▒▓▓▓▓  ▓ ██░ ░
+█▓▒▒░▓██▒▒    ██░▓█
+ ▓█▒▒ ░▒▓▒░░ ░▓███ 
+  ▒▒▒░▒░░▓▓▒ ▓█▓▓  
+     ███████████   
 """,
 ]
 
@@ -201,6 +201,7 @@ WIZARDS_DATA = [
     {
         "name": "Oldspella",
         "art": WIZARDS_ART[0],
+        "small_art": WIZARDS_ART_SMALL[0],
         "color": "bright_white",
         "starting_lives": 5,
         "powerup_name": "I Am Enough",
@@ -208,8 +209,9 @@ WIZARDS_DATA = [
         "description": "I am an old soul with the bravado of a new journeyman. Although I may have no power-ups, I am someone familiar with the words of this world, and I prefer to rely solely on my knowledge of the texts to save this world. (This wizard contains no power-ups for players who prefer the classic Worderly Place gameplay",
     },
     {
-        "name": "Dictionary Turned Human (his name is Wizard Dict)",
+        "name": "Wizard Dict",
         "art": WIZARDS_ART[1],
+        "small_art": WIZARDS_ART_SMALL[1],
         "color": "magenta",
         "starting_lives": 7,
         "powerup_name": "Rip A Page",
@@ -219,6 +221,7 @@ WIZARDS_DATA = [
     {
         "name": "Streakbinder",
         "art": WIZARDS_ART[2],
+        "small_art": WIZARDS_ART_SMALL[2],
         "color": "blue",
         "starting_lives": 3,
         "powerup_name": "Water of Life",
@@ -228,6 +231,7 @@ WIZARDS_DATA = [
     {
         "name": "Fyaspella",
         "art": WIZARDS_ART[3],
+        "small_art": WIZARDS_ART_SMALL[3],
         "color": "red",
         "starting_lives": 4,
         "powerup_name": "Fire Starter",
@@ -237,6 +241,7 @@ WIZARDS_DATA = [
     {
         "name": "Lettraseeker",
         "art": WIZARDS_ART[4],
+        "small_art": WIZARDS_ART_SMALL[4],
         "color": "green",
         "starting_lives": 3,
         "powerup_name": "Letter Seeds",
