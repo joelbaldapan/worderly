@@ -14,7 +14,6 @@ from rich.table import Table
 from rich.panel import Panel
 from rich.text import Text
 from rich.columns import Columns
-from rich.align import Align
 from rich.console import Group
 
 # For Wizards data
@@ -299,11 +298,10 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
         (f"{statistics.get('shield_turns', 'None')}"),
     )
 
-
     # TEXT
     PANELS_HEIGHT = 14
     STATS_HEIGHT = 6
-    WIZARD_PANEL_WIDTH = 23 # 19 + 4: Art + Padding
+    WIZARD_PANEL_WIDTH = 23  # 19 + 4: Art + Padding
 
     small_wizard_art = selected_wizard["small_art"].strip("\n")
     player_name = game_state["player_name"]
@@ -315,11 +313,7 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
     name_text = Text(name_line, style=wizard_color, justify="center")
 
     # Group
-    wizard_panel_content = Group(
-        art_text,
-        name_text
-    )
-
+    wizard_panel_content = Group(art_text, name_text)
 
     # Calculate width, if grid is provided
     if grid:
@@ -339,19 +333,19 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
         padding=(0, 1),
         expand=False,
         width=wizard_panel_width,
-        height=PANELS_HEIGHT
+        height=PANELS_HEIGHT,
     )
 
-    stats_panel_width = grid_width - wizard_panel_width - 1 
+    stats_panel_width = grid_width - wizard_panel_width - 1
     player_stats_panel = Panel(
         player_stats_text,
         title="Game Stats",
         border_style=border_style,
         expand=True,
         width=stats_panel_width,
-        height=STATS_HEIGHT
+        height=STATS_HEIGHT,
     )
-    
+
     powerup_stats_height = PANELS_HEIGHT - STATS_HEIGHT
     powerup_stats_panel = Panel(
         powerup_stats_text,
@@ -359,7 +353,7 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
         border_style=border_style,
         expand=True,
         width=stats_panel_width,
-        height=powerup_stats_height
+        height=powerup_stats_height,
     )
 
     stats_group = Group(player_stats_panel, powerup_stats_panel)
@@ -372,6 +366,7 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
 
     # Create panel
     console.print(full_panel)
+
 
 def rich_print_message(message, style, border_style, title, title_align, expand):
     panel = Panel(
@@ -446,6 +441,8 @@ def rich_display_selection(wizard_index):
         (f"{wizard['starting_lives']}\n\n"),
         (f"Powerup: {wizard['powerup_name']}\n", "bold yellow"),
         (f"{wizard['powerup_desc']}\n\n", "yellow"),
+        ("Powerup Combo Requirement: ", "bold yellow"),
+        (f"{wizard['combo_requirement']}\n\n", "bold yellow"),
         ("Description:\n", "bold white"),
         (f"{wizard['description']}\n"),
         no_wrap=False,  # there should be wrapping
