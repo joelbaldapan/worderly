@@ -58,11 +58,11 @@ WIZARDS_ART = [
     """
       █████   ██████▓████          
      ███████  ██████████▓▓█        
-     ███░░▒▓███▓         █▓▓█      
-     ████▒░▓██             ███     
-       ███▓▓██             ██▓     
-       ███████            ░██▓     
-  ██     ███████           ██████  
+     ███░░▒▓███▓  ░░░░░░░█▓▓█      
+     ████▒░▓██         ░░░░███     
+       ███▓▓██            ░██▓     
+       ███████            ░░██▓     
+  ██     ███████            ░████  
 ████████████▓▓▓███        ░███████ 
  ██░░█████████░░████░   ▒█▓▒▓█████ 
    ██░░░░▓▓███▓▓  ███▓▓▓███  ██    
@@ -113,7 +113,7 @@ WIZARDS_ART = [
   ▒▒░░░░░  ▓▒ ░██▓▓▒▒░░  ░░▓█▒▒▒▓▓ 
     ▒▒▒░░░▒▒▒░░▓▓▒▒▒▒░░  ░░██▓▒▓██ 
         ████▓▒▒▒▒██████░░▓████████ 
-        ████▓  ░▒██░░▒▒▓▓▒▒▓██████ 
+        ████▓  ░▒██  ▒▒▓▓░ ▓██████ 
       ▒▒▒ ██▓░   ▒▒░░▒▒██▓▒████    
   ▒▒▒▒░ ░▒▓███▒░░░░░░██░░████▓▒▓▓▓ 
  ▒   ░░░░░░▓▓▓▓▓▓▓▓░░▓▓  ▓▓██▒░░░░▓
@@ -204,7 +204,7 @@ WIZARDS_DATA = [
         "color": "bright_white",
         "starting_lives": 5,
         "powerup_name": "I Am Enough",
-        "powerup_desc": "<No powerup",
+        "powerup_desc": "<No powerup>",
         "description": "I am an old soul with the bravado of a new journeyman. Although I may have no power-ups, I am someone familiar with the words of this world, and I prefer to rely solely on my knowledge of the texts to save this world. (This wizard contains no power-ups for players who prefer the classic Worderly Place gameplay",
     },
     {

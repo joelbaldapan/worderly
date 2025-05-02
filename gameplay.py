@@ -68,9 +68,9 @@ def check_valid_powerup(game_state, selected_wizard):
     if wizard_color == "magenta":
         return statistics["lives_left"] > 0
     elif wizard_color == "blue":
-        return statistics["combo"] >= 3
+        return statistics["combo"] >= 2
     elif wizard_color == "red":
-        return statistics["combo"] >= 4
+        return statistics["combo"] >= 2
     elif wizard_color == "green":
         return statistics["combo"] >= 3
     else:
@@ -113,24 +113,54 @@ def use_powerup(game_state, selected_wizard, words_to_find, final_grid):
     hidden_letter_coords = game_state["hidden_letter_coords"]
     correct_guesses = game_state["correct_guesses"]
 
-    PERCENTAGE = 0.2
-    # Get coords to reveal
-    if wizard_color == "magenta":
-        coords_to_reveal = get_coords_for_word_reveal(words_to_find, correct_guesses)
-    elif wizard_color == "blue":
-        coords_to_reveal = get_coords_for_word_reveal(words_to_find, correct_guesses)
-    elif wizard_color == "red":
-        coords_to_reveal = get_coords_for_random_reveal(
-            hidden_letter_coords, PERCENTAGE
-        )
-    elif wizard_color == "green":
-        coords_to_reveal = get_coords_for_word_reveal(words_to_find, correct_guesses)
+    MIN_REVEAL = 5
+    MAX_REVEAL = 10
+    coords_to_reveal = []
 
-    # Update hidden grid and currently hidden letter coordinates
+    if wizard_color in ["magenta", "blue", "red"]:
+        coords_to_reveal = get_coords_for_word_reveal(words_to_find, correct_guesses)
+    elif wizard_color == "green":
+        coords_to_reveal = get_coords_for_random_reveal(
+            hidden_letter_coords, MIN_REVEAL, MAX_REVEAL
+        )
+
     game_state["wizard_color"] = wizard_color
-    game_state["message"] = "POWERUP USEDDD!"  # TODO: Improve flavor text
+
     if coords_to_reveal:
         apply_coordinate_reveal(game_state, final_grid, coords_to_reveal)
+        completed_words = check_for_completed_words(game_state, words_to_find)
+
+        if completed_words:
+            powerup_message = f"Revealed from powerup! {', '.join(completed_words)}!"
+        else:
+            powerup_message = "Revealed new letters on the board!"
+    else:
+        powerup_message = "No more letters left to reveal!"
+
+    game_state["message"] = powerup_message
+
+
+def check_for_completed_words(game_state, words_to_find):
+    newly_found_words = []
+    correct_guesses = game_state["correct_guesses"]
+    hidden_letter_coords_set = game_state["hidden_letter_coords"]
+
+    # Iterate through all words that haven't been guessed yet
+    for word, coords in words_to_find.items():
+        # Only check words that are not already in correct_guesses
+        if word not in correct_guesses:
+            # Check if ALL coordinates for this word are NOT in the hidden_letter_coords set
+            # If a coordinate is NOT in hidden_letter_coords_set, it means it HAS been revealed
+            all_letters_revealed = all(
+                coord not in hidden_letter_coords_set for coord in coords
+            )
+
+            if all_letters_revealed:
+                # The word has been fully revealed!
+                correct_guesses.add(word)
+                newly_found_words.append(word)
+
+    return newly_found_words  # Return list of words found implicitly
 
 
 def apply_coordinate_reveal(game_state, final_grid, coords_to_reveal):
@@ -139,10 +169,14 @@ def apply_coordinate_reveal(game_state, final_grid, coords_to_reveal):
         final_grid, game_state["hidden_grid"], coords_to_reveal
     )
 
-    # Update the set tracking currently hidden letters
-    # make sure to remove each revealed coordinate from the set
+    # Update points
+    game_state["statistics"]["points"] += len(
+        set(coords_to_reveal) - game_state["correct_guesses_coords"]
+    )
+
+    # Update coord tracking
     game_state["correct_guesses_coords"].update(coords_to_reveal)
-    game_state["last_guess_coords"] = coords_to_reveal
+    game_state["last_guess_coords"] = list(coords_to_reveal)
     for coord in coords_to_reveal:
         game_state["hidden_letter_coords"].discard(coord)
 
@@ -168,13 +202,12 @@ def update_state(guess, game_state, words_to_find, final_grid):
         # CORRECT GUESS
         game_state["message"] = f"Correct! You found '{guess}'!"
         statistics["combo"] += 1
-        statistics["points"] += len(guess)
 
         word_coords = words_to_find[guess]
-        correct_guesses.add(guess)
 
         # Update hidden grid and currently hidden letter coordinates
         apply_coordinate_reveal(game_state, final_grid, word_coords)
+        check_for_completed_words(game_state, words_to_find)
 
 
 def check_game_over(game_state, words_to_find):

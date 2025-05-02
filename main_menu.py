@@ -3,6 +3,7 @@ from display import clear_screen, print_message
 
 MENU_OPTIONS = ["Start Game", "Check Leaderboards", "Tutorial", "Exit Game"]
 
+
 def display_main_menu(current_index):
     clear_screen()
     print("=== Main Menu ===\n")
@@ -10,8 +11,10 @@ def display_main_menu(current_index):
         prefix = "-> " if i == current_index else "   "
         print(f"{prefix}{option}")
 
+
 def option1():
     print("Game has started")
+
 
 def main_menu_loop():
     current_index = 0
@@ -36,5 +39,6 @@ def main_menu_loop():
                 print("Excellent wandwork wizard!")
                 break
             input("\n> Press Enter to return to menu...")
+
 
 main_menu_loop()
