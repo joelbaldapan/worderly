@@ -33,6 +33,8 @@ def initialize_game_state(settings, final_grid, middle_word, wizard_color):
         "points": 0,
         "last_guess": None,
         "combo": 0,
+        "power_points": 0,
+        "shield_turns": 0
     }
     game_state = {
         "hidden_grid": hidden_grid,
@@ -60,25 +62,30 @@ def update_display(game_state):
     print_message(game_state["message"], border_style=game_state["wizard_color"])
     print_statistics(game_state["statistics"], border_style=game_state["wizard_color"])
 
+def check_power_point_increment(wizard_color, statistics):
+    if wizard_color == "red":
+        return statistics["combo"] % 3 == 0
+    elif wizard_color == "green":
+        return statistics["combo"] % 4 == 0
+    elif wizard_color == "blue":
+        return statistics["combo"] % 3 == 0
+    elif wizard_color == "magenta":
+        return statistics["combo"] % 3 == 0
 
-def check_valid_powerup(game_state, selected_wizard):
+def update_power_point_increment(game_state, selected_wizard):
     wizard_color = selected_wizard["color"]
     statistics = game_state["statistics"]
 
-    if wizard_color == "magenta":
-        return statistics["lives_left"] > 0
-    elif wizard_color == "blue":
-        return statistics["combo"] >= 2
-    elif wizard_color == "red":
-        return statistics["combo"] >= 2
-    elif wizard_color == "green":
-        return statistics["combo"] >= 3
-    else:
-        raise Exception("Wizard color not found!")
+    if statistics["combo"] == 0:
+        return False
+    
+    if check_power_point_increment(wizard_color, statistics):
+        statistics["power_points"] += 1
 
 
 def get_guess(game_state, selected_wizard):
     wizard_color = selected_wizard["color"]
+    power_points = game_state["statistics"]["power_points"]
     while True:
         inp = get_input("  > Enter guess: ")
         guess = inp.lower().strip()
@@ -92,8 +99,8 @@ def get_guess(game_state, selected_wizard):
                 game_state["message"] = "White wizards do not have any powers!"
                 game_state["wizard_color"] = "red"
                 update_display(game_state)
-            elif not check_valid_powerup(game_state, selected_wizard):
-                game_state["message"] = "Cannot use powerup! Insufficient conditions!"
+            elif not power_points:
+                game_state["message"] = "Cannot use powerup! Insufficient conditions for activation!"
                 game_state["wizard_color"] = "red"
                 update_display(game_state)
             else:
@@ -112,17 +119,28 @@ def use_powerup(game_state, selected_wizard, words_to_find, final_grid):
     wizard_color = selected_wizard["color"]
     hidden_letter_coords = game_state["hidden_letter_coords"]
     correct_guesses = game_state["correct_guesses"]
+    statistics = game_state["statistics"]
 
     MIN_REVEAL = 5
     MAX_REVEAL = 10
     coords_to_reveal = []
 
-    if wizard_color in ["magenta", "blue", "red"]:
+    statistics["power_points"] -= 1
+
+    if wizard_color == "red":
         coords_to_reveal = get_coords_for_word_reveal(words_to_find, correct_guesses)
     elif wizard_color == "green":
         coords_to_reveal = get_coords_for_random_reveal(
             hidden_letter_coords, MIN_REVEAL, MAX_REVEAL
         )
+    elif wizard_color == "magenta":
+        statistics["shield_turns"] += 1
+        game_state["message"] = "Shields up! You shall not take any damage for the next turn."
+        return
+    elif wizard_color == "blue":
+        statistics["lives_left"] += 1
+        game_state["message"] = "Life flows again. You gained one more life."
+        return
 
     game_state["wizard_color"] = wizard_color
 
@@ -187,15 +205,16 @@ def update_state(guess, game_state, words_to_find, final_grid):
 
     statistics["last_guess"] = guess
     game_state["last_guess_coords"] = []
+    is_incorrect_guess = False
 
     if guess in correct_guesses:
         # DUPLICATE GUESS
-        statistics["lives_left"] -= 1
+        is_incorrect_guess = True
         statistics["combo"] = 0
         game_state["message"] = f"You already found '{guess}'!"
     elif guess not in words_to_find:
         # WRONG GUESS
-        statistics["lives_left"] -= 1
+        is_incorrect_guess = True
         statistics["combo"] = 0
         game_state["message"] = f"'{guess}' is not one of the words!"
     else:
@@ -208,6 +227,12 @@ def update_state(guess, game_state, words_to_find, final_grid):
         # Update hidden grid and currently hidden letter coordinates
         apply_coordinate_reveal(game_state, final_grid, word_coords)
         check_for_completed_words(game_state, words_to_find)
+    
+    if is_incorrect_guess and not statistics["shield_turns"]:
+        statistics["lives_left"] -= 1
+    
+    if statistics["shield_turns"] > 0:
+        statistics["shield_turns"] -= 1
 
 
 def check_game_over(game_state, words_to_find):
@@ -262,6 +287,9 @@ def run_game(
         else:
             # standard guess
             update_state(guess, game_state, words_to_find, final_grid)
+
+            # Increment power points after guess
+            update_power_point_increment(game_state, selected_wizard)
 
         # Check for game over
         game_over_status = check_game_over(game_state, words_to_find)

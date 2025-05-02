@@ -61,7 +61,7 @@ WIZARDS_ART = [
      ███░░▒▓███▓  ░░░░░░░█▓▓█      
      ████▒░▓██         ░░░░███     
        ███▓▓██            ░██▓     
-       ███████            ░░██▓     
+       ███████            ░░██▓    
   ██     ███████            ░████  
 ████████████▓▓▓███        ░███████ 
  ██░░█████████░░████░   ▒█▓▒▓█████ 
@@ -213,7 +213,7 @@ WIZARDS_DATA = [
         "color": "magenta",
         "starting_lives": 7,
         "powerup_name": "Rip A Page",
-        "powerup_desc": "Reveal 1 Word at the cost of 1 Life",
+        "powerup_desc": "Invalid guesses do not penalize lives next turn when you get a 2 word combo.",
         "description": "Yes.. the rumors are true I used to be a dictionary but a wizard used turned me into a human. My words are written in blood and I prefer to use mine lest all dictionaries cease to be useful! (This wizard can use 1 life in order to reveal one word. Being a dictionary in your former life gives you a lot of pages to start a new..y’know, so you start with more life.) ",
     },
     {

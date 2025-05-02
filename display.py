@@ -275,16 +275,20 @@ def rich_print_grid(
 def rich_print_statistics(statistics, border_style):
     # Assemble text
     stats_text = Text.assemble(
-        ("Letters:    ", "bold cyan"),
+        ("Letters:      ", "bold cyan"),
         (f"{statistics.get('letters', 'N/A')}\n"),
-        ("Lives left: ", "bold green"),
+        ("Lives left:   ", "bold green"),
         (f"{statistics.get('lives_left', 'N/A')}\n"),
-        ("Points:     ", "bold yellow"),
+        ("Points:       ", "bold yellow"),
         (f"{statistics.get('points', 'N/A')}\n"),
-        ("Last Guess: ", "bold magenta"),
+        ("Last Guess:   ", "bold magenta"),
         (f"{statistics.get('last_guess', 'None')}\n"),
-        ("Combo:      ", "bold orange"),
-        (f"{statistics.get('combo', 'None')}"),
+        ("Combo:        ", "bold blue"),
+        (f"{statistics.get('combo', 'None')}\n"),
+        ("Power Points: ", "bold blue"),
+        (f"{statistics.get('power_points', 'None')}\n"),
+        ("Shield Turns: ", "bold blue"),
+        (f"{statistics.get('shield_turns', 'None')}"),
     )
     # Create panel
     panel = Panel(
