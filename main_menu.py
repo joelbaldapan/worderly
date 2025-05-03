@@ -1,44 +1,137 @@
 from getkey import getkey, keys
 from display import clear_screen
 
-MENU_OPTIONS = ["Start Game", "Check Leaderboards", "Tutorial", "Exit Game"]
+MAIN_TITLE = """
+ .+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+. 
+(                                                                                     )
+ )                                                                                   ( 
+(     ██╗    ██╗██╗███████╗ █████╗ ██████╗ ██████╗ ███████╗     ██████╗ ███████╗      )
+ )    ██║    ██║██║╚══███╔╝██╔══██╗██╔══██╗██╔══██╗██╔════╝    ██╔═══██╗██╔════╝     ( 
+(     ██║ █╗ ██║██║  ███╔╝ ███████║██████╔╝██║  ██║███████╗    ██║   ██║█████╗        )
+ )    ██║███╗██║██║ ███╔╝  ██╔══██║██╔══██╗██║  ██║╚════██║    ██║   ██║██╔══╝       ( 
+(     ╚███╔███╔╝██║███████╗██║  ██║██║  ██║██████╔╝███████║    ╚██████╔╝██║           )
+ )     ╚══╝╚══╝ ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝     ╚═════╝ ╚═╝          ( 
+(                                                                                     )
+ )        ██╗    ██╗ ██████╗ ██████╗ ██████╗ ███████╗██████╗ ██╗  ██╗   ██╗          ( 
+(         ██║    ██║██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██║  ╚██╗ ██╔╝           )
+ )        ██║ █╗ ██║██║   ██║██████╔╝██║  ██║█████╗  ██████╔╝██║   ╚████╔╝           ( 
+(         ██║███╗██║██║   ██║██╔══██╗██║  ██║██╔══╝  ██╔══██╗██║    ╚██╔╝             )
+ )        ╚███╔███╔╝╚██████╔╝██║  ██║██████╔╝███████╗██║  ██║███████╗██║             ( 
+(          ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝              )
+ )                                                                                   ( 
+(                   ██████╗ ██╗      █████╗  ██████╗███████╗██╗                       )
+ )                  ██╔══██╗██║     ██╔══██╗██╔════╝██╔════╝██║                      ( 
+(                   ██████╔╝██║     ███████║██║     █████╗  ██║                       )
+ )                  ██╔═══╝ ██║     ██╔══██║██║     ██╔══╝  ╚═╝                      ( 
+(                   ██║     ███████╗██║  ██║╚██████╗███████╗██╗                       )
+ )                  ╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝                      ( 
+(                                                                                     )
+ "+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+" 
+"""
 
 
-def display_main_menu(current_index):
-    clear_screen()
-    print("=== Main Menu ===\n")
-    for i, option in enumerate(MENU_OPTIONS):
-        prefix = "-> " if i == current_index else "   "
-        print(f"{prefix}{option}")
+def select_from_menu(options, title="+.+.+.+ Menu +.+.+.+"):
+    if not options:
+        # Handle empty options list gracefully
+        print("Warning: No options provided for the menu.")
+        return None
 
-
-def option1():
-    print("Game has started")
-
-
-def main_menu_loop():
     current_index = 0
     while True:
-        display_main_menu(current_index)
+        # DISPLAY
+        clear_screen()
+        print(f"{title}\n")
+        for i, option in enumerate(options):
+            prefix = "-> " if i == current_index else "   "
+            print(f"{prefix}{option}")
+
+        # GET INPUT
         key = getkey()
 
         if key == keys.UP:
-            current_index = (current_index - 1) % len(MENU_OPTIONS)
+            current_index = (current_index - 1) % len(options)
         elif key == keys.DOWN:
-            current_index = (current_index + 1) % len(MENU_OPTIONS)
+            current_index = (current_index + 1) % len(options)
         elif key == keys.ENTER or key == "\r" or key == "\n":
-            selected = MENU_OPTIONS[current_index]
-            clear_screen()
-            if selected == "Start Game":
-                option1()
-            elif selected == "Check Leaderboards":
-                print("These are the Leaderboards")
-            elif selected == "Tutorial":
-                print("Starting Tutorial Now")
-            elif selected == "Exit Game":
-                print("Excellent wandwork wizard!")
-                break
-            input("\n> Press Enter to return to menu...")
+            selected_option = options[current_index]
+            return selected_option  # Return the chosen option string
 
 
-main_menu_loop()
+# ************************************
+# MENUS
+# ************************************
+
+
+menu1_options = [  # Heart Points Mode
+    "No Heart Points",
+    "Heart Points",
+]
+
+menu2_options = [  # Main Menu
+    "Start Game",
+    "Check Leaderboards",
+    "Exit Game",
+]
+
+menu3_options = [  # Difficulty / Book Selection
+    "Simple Scroll",
+    "Spellbook",
+    "Grand Tome",
+    "Arcane Codex",
+    "The Great Bibliotheca",
+    "Custom",
+]
+
+
+def run_heart_points_menu():
+    selected_option = select_from_menu(
+        menu1_options, title="+.+.+.+ Select Heart Points Mode +.+.+.+"
+    )
+    if selected_option is not None:
+        if selected_option == "No Heart Points":
+            print("Chosen: 0")
+        elif selected_option == "Heart Points":
+            print("Chosen: 1")
+    else:
+        print("No option selected from Heart Points menu.")
+
+
+def run_main_menu():
+    title = MAIN_TITLE + "\n+.+.+.+ Main Menu +.+.+.+"
+    selected_option = select_from_menu(menu2_options, title=title)
+    if selected_option is not None:
+        if selected_option == "Start Game":
+            print("Chosen: 0")
+        elif selected_option == "Check Leaderboards":
+            print("Chosen: 1")
+        elif selected_option == "Exit Game":
+            print("Chosen: 2")
+    else:
+        print("No option selected from Main menu.")
+
+
+def run_difficulty_menu():
+    title = MAIN_TITLE + "\n+.+.+.+ Select Difficulty / Book +.+.+.+"
+    selected_option = select_from_menu(
+        menu3_options, title=title
+    )
+    if selected_option is not None:
+        if selected_option == "Simple Scroll":
+            print("Chosen: 0")
+        elif selected_option == "Spellbook":
+            print("Chosen: 1")
+        elif selected_option == "Grand Tome":
+            print("Chosen: 2")
+        elif selected_option == "Arcane Codex":
+            print("Chosen: 3")
+        elif selected_option == "The Great Bibliotheca":
+            print("Chosen: 4")
+        elif selected_option == "Custom":
+            print("Chosen: 5")
+    else:
+        print("No option selected from Difficulty menu.")
+
+
+run_heart_points_menu()
+run_main_menu()
+run_difficulty_menu()
