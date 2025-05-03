@@ -22,14 +22,6 @@ from display.display_rich import (
     rich_display_menu_options,
 )
 
-import random
-
-
-def shuffle_letters_statistic(middle_word):
-    letters_list = list(str(middle_word).upper())
-    random.shuffle(letters_list)
-    return " ".join(letters_list)
-
 
 # ************************************************
 # DISPLAY HANDLERS
