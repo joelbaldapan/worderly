@@ -1,7 +1,7 @@
 # ****************
 # IMPORTS
 # ****************
-from gameplay.game_constants import *
+import gameplay.game_constants as game_constants
 from gameplay.game_state_handler import (
     initialize_game_state,
     process_guess,
@@ -33,8 +33,8 @@ def update_display(settings, game_state, selected_wizard):
         settings,
         game_state["hidden_grid"],
         highlighted_coords=game_state["last_guess_coords"],
-        highlight_color=DEFAULT_HIGHLIGHT_COLOR,
-        letters_color=DEFAULT_LETTERS_COLOR,
+        highlight_color=game_constants.DEFAULT_HIGHLIGHT_COLOR,
+        letters_color=game_constants.DEFAULT_LETTERS_COLOR,
         border_style=game_state["next_message_color"],
         hidden_color=game_state["next_message_color"],
     )
@@ -62,27 +62,27 @@ def get_guess(settings, game_state, selected_wizard):
         guess = user_input.lower().strip()
 
         if not guess:
-            game_state["next_message"] = INVALID_GUESS_EMPTY_MSG
-            game_state["next_message_color"] = ERROR_COLOR
+            game_state["next_message"] = game_constants.INVALID_GUESS_EMPTY_MSG
+            game_state["next_message_color"] = game_constants.ERROR_COLOR
             update_display(settings, game_state, selected_wizard)
         elif (
-            settings["heart_point_mode"] and guess == POWERUP_COMMAND
+            settings["heart_point_mode"] and guess == game_constants.POWERUP_COMMAND
         ):  # Only have powerups when heart point mode
             # Check if powerup can be used
             if wizard_color == "bright_white":
-                game_state["next_message"] = NO_POWERUP_MSG
-                game_state["next_message_color"] = ERROR_COLOR
+                game_state["next_message"] = game_constants.NO_POWERUP_MSG
+                game_state["next_message_color"] = game_constants.ERROR_COLOR
                 update_display(settings, game_state, selected_wizard)
             elif not power_points:
-                game_state["next_message"] = INSUFFICIENT_POWER_MSG
-                game_state["next_message_color"] = ERROR_COLOR
+                game_state["next_message"] = game_constants.INSUFFICIENT_POWER_MSG
+                game_state["next_message_color"] = game_constants.ERROR_COLOR
                 update_display(settings, game_state, selected_wizard)
             else:
                 # Valid powerup attempt
                 return guess  # Return the command itself
         elif not guess.isalpha():
-            game_state["next_message"] = INVALID_GUESS_ALPHA_MSG
-            game_state["next_message_color"] = ERROR_COLOR
+            game_state["next_message"] = game_constants.INVALID_GUESS_ALPHA_MSG
+            game_state["next_message_color"] = game_constants.ERROR_COLOR
             update_display(settings, game_state, selected_wizard)
         else:
             # Valid word guess
@@ -98,18 +98,18 @@ def update_game_over_display(
     wizard_color = selected_wizard["color"]
 
     if game_over_status == "win":
-        final_message = WIN_MSG
+        final_message = game_constants.WIN_MSG
         print_grid(
-            settings, final_grid, letters_color=WIN_COLOR, border_style=wizard_color
+            settings, final_grid, letters_color=game_constants.WIN_COLOR, border_style=wizard_color
         )
     else:  # "loss"
-        final_message = LOSE_MSG
+        final_message = game_constants.LOSE_MSG
         print_grid(
             settings,
             final_grid,
             highlighted_coords=game_state["found_letter_coords"],
-            highlight_color=DEFAULT_HIGHLIGHT_COLOR,  # Highlight found letters
-            letters_color=LOSE_COLOR,  # Show all letters, but in red
+            highlight_color=game_constants.DEFAULT_HIGHLIGHT_COLOR,  # Highlight found letters
+            letters_color=game_constants.LOSE_COLOR,  # Show all letters, but in red
             border_style=wizard_color,
             hidden_color=wizard_color,  # Keep hidden letters consistent color
         )
@@ -130,8 +130,8 @@ def update_end_game_display(settings, player_name, final_score):
     print_leaderboard(settings, leaderboard)
     print_message(
         settings,
-        THANKS_MSG.format(player_name, final_score),
-        border_style=FINAL_SCORE_BORDER,
+        game_constants.THANKS_MSG.format(player_name, final_score),
+        border_style=game_constants.FINAL_SCORE_BORDER,
     )
     get_input(settings, "  > Press Enter to continue... ")
 
@@ -158,7 +158,7 @@ def run_game(
         guess = get_guess(settings, game_state, selected_wizard)
 
         # Handle guess
-        if guess == POWERUP_COMMAND:
+        if guess == game_constants.POWERUP_COMMAND:
             use_powerup(game_state, selected_wizard, words_to_find, final_grid)
         else:
             process_guess(guess, game_state, words_to_find, final_grid, wizard_color)

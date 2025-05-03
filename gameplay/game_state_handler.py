@@ -1,4 +1,4 @@
-from gameplay.game_constants import *
+import gameplay.game_constants as game_constants
 import random
 
 
@@ -77,7 +77,7 @@ def initialize_game_state(final_grid, middle_word, selected_wizard, player_name)
         "correctly_guessed_words": set(),
         "hidden_letter_coords": get_all_letter_coords(final_grid),
         "found_letter_coords": set(),
-        "next_message": WELCOME_MSG,
+        "next_message": game_constants.WELCOME_MSG,
         "next_message_color": selected_wizard["color"],
     }
     return game_state
@@ -94,20 +94,20 @@ def process_guess(guess, game_state, words_to_find, final_grid, wizard_color):
     if guess in correctly_guessed_words:
         # DUPLICATE GUESS
         stats["combo"] = 0
-        game_state["next_message"] = ALREADY_FOUND_MSG.format(guess)
-        game_state["next_message_color"] = ERROR_COLOR
+        game_state["next_message"] = game_constants.ALREADY_FOUND_MSG.format(guess)
+        game_state["next_message_color"] = game_constants.ERROR_COLOR
         took_damage = True
 
     elif guess not in words_to_find:
         # WRONG GUESS
         stats["combo"] = 0
-        game_state["next_message"] = NOT_A_WORD_MSG.format(guess)
-        game_state["next_message_color"] = ERROR_COLOR
+        game_state["next_message"] = game_constants.NOT_A_WORD_MSG.format(guess)
+        game_state["next_message_color"] = game_constants.ERROR_COLOR
         took_damage = True
 
     else:
         # CORRECT GUESS
-        game_state["next_message"] = CORRECT_GUESS_MSG.format(guess)
+        game_state["next_message"] = game_constants.CORRECT_GUESS_MSG.format(guess)
         game_state["next_message_color"] = wizard_color  # Use wizard color for success
         stats["combo"] += 1
         correctly_guessed_words.add(guess)  # Add the correctly guessed word

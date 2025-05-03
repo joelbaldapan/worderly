@@ -1,8 +1,9 @@
-from gameplay.game_constants import *
+import gameplay.game_constants as game_constants
 from gameplay.game_state_handler import (
     apply_coordinate_reveal,
     check_for_completed_words,
 )
+import random
 
 
 # **********************
@@ -30,7 +31,6 @@ def update_power_points(game_state, selected_wizard):
 # ****************
 # POWER-UP LOGIC
 # ****************
-import random
 
 
 def get_coords_for_random_reveal(hidden_letter_coords_set, min_reveal, max_reveal):
@@ -88,14 +88,14 @@ def use_powerup(game_state, selected_wizard, words_to_find, final_grid):
         )
     elif wizard_color == "green":
         coords_to_reveal = get_coords_for_random_reveal(
-            hidden_letter_coords, MIN_RANDOM_REVEAL, MAX_RANDOM_REVEAL
+            hidden_letter_coords, game_constants.MIN_RANDOM_REVEAL, game_constants.MAX_RANDOM_REVEAL
         )
     elif wizard_color == "magenta":
-        stats["shield_turns"] += SHIELD_INCREMENT
-        powerup_message = SHIELD_ACTIVATED_MSG
+        stats["shield_turns"] += game_constants.SHIELD_INCREMENT
+        powerup_message = game_constants.SHIELD_ACTIVATED_MSG
     elif wizard_color == "blue":
         stats["lives_left"] += 1
-        powerup_message = LIFE_GAINED_MSG
+        powerup_message = game_constants.LIFE_GAINED_MSG
 
     game_state["next_message_color"] = wizard_color
 
@@ -110,10 +110,10 @@ def use_powerup(game_state, selected_wizard, words_to_find, final_grid):
             # Update the set of correctly guessed words explicitly here
             # because apply_coordinate_reveal doesn't know about words
             correctly_guessed_words.update(completed_words)
-            powerup_message = POWERUP_REVEAL_WORDS_MSG.format(
+            powerup_message = game_constants.POWERUP_REVEAL_WORDS_MSG.format(
                 ", ".join(completed_words)
             )
         else:
-            powerup_message = POWERUP_REVEAL_LETTERS_MSG
+            powerup_message = game_constants.POWERUP_REVEAL_LETTERS_MSG
 
     game_state["next_message"] = powerup_message
