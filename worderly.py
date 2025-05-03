@@ -6,7 +6,7 @@ from word_selector import generate_word_list
 from grid_generator import generate_board
 from gameplay import run_game
 
-from main_menu import run_heart_points_menu, initialize_player_info
+from menus import run_heart_points_menu, initialize_player_info
 
 
 def main():

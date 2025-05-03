@@ -38,5 +38,5 @@ NO_HEART_POINTS_SETTINGS = {
     "lexicon_path": "corncob-lowercase.txt",
     "max_word_length": 6,
     "min_subword_length": 3,
-    "design": False,
+    "heart_point_mode": False,
 }

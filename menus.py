@@ -139,7 +139,7 @@ def get_player_name(settings, selected_wizard):
 
 
 def initialize_player_info(settings):
-    if settings["design"]:
+    if settings["heart_point_mode"]:
         # GET PLAYER NAME
         selected_wizard = select_character_menu(settings)
         player_name = get_player_name(settings, selected_wizard)
@@ -215,7 +215,7 @@ def run_difficulty_menu():
 
         # Create copy of settings, and have design=True
         settings = base_settings.copy()
-        settings["design"] = True
+        settings["heart_point_mode"] = True
 
         print(f"Selected difficulty: {selected_option}")
         return settings

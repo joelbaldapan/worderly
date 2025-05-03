@@ -147,7 +147,7 @@ def get_guess(settings, game_state, selected_wizard):
             game_state["next_message"] = INVALID_GUESS_EMPTY_MSG
             game_state["next_message_color"] = ERROR_COLOR
             update_display(settings, game_state, selected_wizard)
-        elif guess == POWERUP_COMMAND:
+        elif settings["heart_point_mode"] and guess == POWERUP_COMMAND:  # Only have powerups when heart point mode
             # Check if powerup can be used
             if wizard_color == "bright_white":
                 game_state["next_message"] = NO_POWERUP_MSG
@@ -372,7 +372,7 @@ def run_game(settings, final_grid, words_to_find, middle_word, player_name, sele
     final_score = game_state["statistics"]["points"]
 
     # IF HEART POINTS ENABLED, SAVE SCORE AND DISPLAY LEADERBOARDS
-    if settings["design"]:
+    if settings["heart_point_mode"]:
         get_input(settings, "  > Press Enter to continue... ")
 
         clear_screen()

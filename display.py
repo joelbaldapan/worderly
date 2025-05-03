@@ -52,7 +52,7 @@ def print_grid(
     title="THE WIZARDS OF WORDERLY PLACE",
     border_style=DEFAULT_BORDER_STYLE,
 ):
-    if settings["design"]:
+    if settings["heart_point_mode"]:
         rich_print_grid(
             grid,
             highlighted_coords,
@@ -67,7 +67,7 @@ def print_grid(
 
 
 def print_statistics(settings, statistics, border_style, grid, selected_wizard, game_state):
-    if settings["design"]:
+    if settings["heart_point_mode"]:
         rich_print_statistics(
             statistics, border_style, grid, selected_wizard, game_state
         )
@@ -83,35 +83,35 @@ def print_message(
     title_align="left",
     expand=False,
 ):
-    if settings["design"]:
+    if settings["heart_point_mode"]:
         rich_print_message(message, style, border_style, title, title_align, expand)
     else:
         basic_print_message(message)
 
 
 def get_input(settings, prompt_message="Enter Guess"):
-    if settings["design"]:
+    if settings["heart_point_mode"]:
         return rich_get_input(prompt_message)
     else:
         return basic_get_input(prompt_message)
 
 
 def print_leaderboard(settings, leaderboard):
-    if settings["design"]:
+    if settings["heart_point_mode"]:
         return rich_print_leaderboard(leaderboard)
     else:
         return basic_print_leaderboard(leaderboard)
 
 
 def display_selection(settings, wizard_index):
-    if settings["design"]:
+    if settings["heart_point_mode"]:
         return rich_display_selection(settings, wizard_index)
     else:
         return basic_display_selection(wizard_index)
 
 
 def display_wizard_art(settings, wizard):
-    if settings["design"]:
+    if settings["heart_point_mode"]:
         rich_display_wizard_art(wizard)
     else:
         basic_display_wizard_art(wizard)
