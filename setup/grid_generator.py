@@ -310,12 +310,12 @@ def _calculate_middle_word_start(height, width, word_len):
         or start_row + diag_space > height
         or start_col + diag_space > width
     ):
-        return None, None
+        return None
     else:
         return start_row, start_col
 
 
-def calculate_middle_word_placement(height, width, middle_word):
+def calculate_middle_word_placement_coords(height, width, middle_word):
     result = _calculate_middle_word_start(height, width, len(middle_word))
     if not result:
         # print(
@@ -362,7 +362,7 @@ def calculate_straight_word_placement_coords(chosen_placement):
 # ************************************
 
 
-def _initialize_board_state(height, width):
+def initialize_board_state(height, width):
     return {
         "grid": create_empty_grid(height, width),
         "placed_words_coords": {},
@@ -372,12 +372,12 @@ def _initialize_board_state(height, width):
     }
 
 
-def _place_middle_word(state, middle_word):
+def place_middle_word(state, middle_word):
     grid = state["grid"]
     height = len(grid)
     width = len(grid[0])
 
-    middle_word_placement_coords = calculate_middle_word_placement(
+    middle_word_placement_coords = calculate_middle_word_placement_coords(
         height, width, middle_word
     )
     if middle_word_placement_coords is None:
@@ -398,7 +398,7 @@ def _place_middle_word(state, middle_word):
     return True  # ALL GOOD
 
 
-def _place_other_words(state, words_to_place, max_total_words):
+def place_other_words(state, words_to_place, max_total_words):
     grid = state["grid"]
     placed_letter_coords = state["placed_letter_coords"]
     placed_words_coords = state["placed_words_coords"]
@@ -436,7 +436,7 @@ def _place_other_words(state, words_to_place, max_total_words):
             )
 
 
-def _validate_final_grid(state, min_total_words):
+def validate_final_grid(state, min_total_words):
     placed_words_coords = state["placed_words_coords"]
     middle_word_coords = state["middle_word_coords"]
     used_middle_word_coords_set = state["used_middle_word_coords"]
@@ -454,7 +454,7 @@ def _validate_final_grid(state, min_total_words):
     return True
 
 
-def _capitalize_middle_word_appearance(state, middle_word):
+def capitalize_middle_word_appearance(state, middle_word):
     middle_word_coords = state["placed_words_coords"][middle_word]
     middle_word_upper = middle_word.upper()
     place_letters_on_grid(state["grid"], middle_word_upper, middle_word_coords)
@@ -472,24 +472,24 @@ def generate_board(settings, middle_word, words_to_place):
     width = settings["grid"]["width"]
 
     # INITIALIZE GRID
-    state = _initialize_board_state(height, width)
+    state = initialize_board_state(height, width)
 
     # PLACE MIDDLE WORD
-    if not _place_middle_word(state, middle_word):
+    if not place_middle_word(state, middle_word):
         return None, None  # Failed!
 
     # PLACE OTHER WORDS
-    _place_other_words(state, words_to_place, max_total_words)
+    place_other_words(state, words_to_place, max_total_words)
 
     # VALIDATE FINAL GRID
-    is_valid = _validate_final_grid(state, min_total_words)
+    is_valid = validate_final_grid(state, min_total_words)
 
     if not is_valid:
         # print("\nFAILED to generate a valid grid satisfying all conditions")
         return None, None
 
     # CAPITALIZE MIDDLE WORD
-    _capitalize_middle_word_appearance(state, middle_word)
+    capitalize_middle_word_appearance(state, middle_word)
 
     # RETURN RESULT
     return state["grid"], state["placed_words_coords"]

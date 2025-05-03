@@ -51,12 +51,14 @@ def load_leaderboard(filename=LEADERBOARD_FILE):
 
     except IOError as e:
         print_message(
-            f"ERROR: Could not read leaderboard file {filename}: {e}",
+            settings=None,
+            message=f"ERROR: Could not read leaderboard file {filename}: {e}",
             border_style="red",
         )
     except Exception as e:
         print_message(
-            f"ERROR: An unexpected error occurred loading leaderboard: {e}",
+            settings=None,
+            message=f"ERROR: An unexpected error occurred loading leaderboard: {e}",
             border_style="red",
         )
 
@@ -66,22 +68,19 @@ def load_leaderboard(filename=LEADERBOARD_FILE):
 
 
 def save_score(player_name, player_score, filename=LEADERBOARD_FILE):
-    if DELIMITER in player_name:
-        print_message(
-            f"WARNING: Player name '{player_name}' contains the delimiter '{DELIMITER}'. Replacing it with '_'.",
-            border_style="red",
-        )
-        player_name = player_name.replace(DELIMITER, "_")
-
     try:
         # Use append mode 'a' because we'll add onto the leaderboards
         with open(filename, "a", encoding="utf-8") as f:
             f.write(f"{player_name}{DELIMITER}{player_score}\n")
     except IOError as e:
         print_message(
-            f"ERROR: Could not save score to {filename}: {e}", border_style="red"
+            settings=None,
+            message=f"ERROR: Could not save score to {filename}: {e}",
+            border_style="red",
         )
     except Exception as e:
         print_message(
-            f"ERROR: An unexpected error occurred saving score: {e}", border_style="red"
+            settings=None,
+            messsage=f"ERROR: An unexpected error occurred saving score: {e}",
+            border_style="red",
         )
