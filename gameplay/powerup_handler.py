@@ -1,5 +1,8 @@
 from gameplay.game_constants import *
-from gameplay.game_state_handler import apply_coordinate_reveal, check_for_completed_words
+from gameplay.game_state_handler import (
+    apply_coordinate_reveal,
+    check_for_completed_words,
+)
 
 
 # **********************

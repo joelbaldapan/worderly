@@ -2,7 +2,11 @@
 # IMPORTS
 # ****************
 from gameplay.game_constants import *
-from gameplay.game_state_handler import initialize_game_state, process_guess, check_game_over
+from gameplay.game_state_handler import (
+    initialize_game_state,
+    process_guess,
+    check_game_over,
+)
 from gameplay.powerup_handler import update_power_points, use_powerup
 from display.display import (
     print_grid,

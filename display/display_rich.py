@@ -102,22 +102,24 @@ def rich_print_grid(
 
 def _append_combo_stats(statistics, selected_wizard, powerup_parts):
     wizard_color = selected_wizard["color"]
-    combo = statistics.get('combo', 0)
+    combo = statistics.get("combo", 0)
     combo_req = selected_wizard.get("combo_requirement")
 
     # CURRENT COMBO PROGRESS BAR
     # Reset bar everytime you gain a power point (take modulo)
-    curr_combo = combo % combo_req 
+    curr_combo = combo % combo_req
     if combo > 0 and curr_combo == 0:
         # But don't reset if currently on a max combo
         curr_combo = combo_req
 
     if combo_req is not None and combo_req > 0:
         # Add the text label for Combo
-        powerup_parts.append(Text.assemble(
-            ("Combo Meter:  ", "bold cyan"),
-            (f"{curr_combo} / {combo_req}\n") # Show current / required
-        ))
+        powerup_parts.append(
+            Text.assemble(
+                ("Combo Meter:  ", "bold cyan"),
+                (f"{curr_combo} / {combo_req}\n"),  # Show current / required
+            )
+        )
 
         # Create and configure the progress bar with fixed width
         combo_progress = Progress(
@@ -125,15 +127,17 @@ def _append_combo_stats(statistics, selected_wizard, powerup_parts):
                 bar_width=27,
                 style="dim white",
                 complete_style="bright_white",
-                finished_style=f"bold {wizard_color}"
-                ),
+                finished_style=f"bold {wizard_color}",
+            ),
         )
         # Add the task, making sure completed does not overflow
-        combo_progress.add_task("combo", total=combo_req, completed=min(curr_combo, combo_req))
+        combo_progress.add_task(
+            "combo", total=combo_req, completed=min(curr_combo, combo_req)
+        )
         powerup_parts.append(combo_progress)
         powerup_parts.append(Text("\n"))
 
-    
+
 def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_state):
     wizard_color = selected_wizard["color"]
     # PLAYER STATS CONTENT
@@ -149,31 +153,38 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
     )
 
     # POWERUP STATS CONTENT
-    powerup_parts = [] # Use a list to build the content
+    powerup_parts = []  # Use a list to build the content
 
     # Add Combo line
-    powerup_parts.append(Text.assemble(
-        ("Combo:        ", "bold cyan"),
-        (f"{statistics.get('combo', 0)}")
-    ))
+    powerup_parts.append(
+        Text.assemble(
+            ("Combo:        ", "bold cyan"), (f"{statistics.get('combo', 0)}")
+        )
+    )
 
     # If NOT WHITE, add Power Points and Combo Progress Bar
     if wizard_color != "bright_white":
-        powerup_parts.append(Text.assemble(
-            ("Power Points: ", "bold cyan"),
-            (f"{statistics.get('power_points', 0)}"),
-        ))
+        powerup_parts.append(
+            Text.assemble(
+                ("Power Points: ", "bold cyan"),
+                (f"{statistics.get('power_points', 0)}"),
+            )
+        )
         _append_combo_stats(statistics, selected_wizard, powerup_parts)
     else:
-        powerup_parts.append(Text("Note: White wizards have no powerups!", style="bright_white"))
+        powerup_parts.append(
+            Text("Note: White wizards have no powerups!", style="bright_white")
+        )
 
     # Add Shield Turns, if currently active
-    shield_turns = statistics.get('shield_turns', 0)
+    shield_turns = statistics.get("shield_turns", 0)
     if shield_turns > 0:
-        powerup_parts.append(Text.assemble(
-            ("Shield Turns: ", "bold blue"),
-            (f"{shield_turns}"), # Display the actual number
-        ))
+        powerup_parts.append(
+            Text.assemble(
+                ("Shield Turns: ", "bold blue"),
+                (f"{shield_turns}"),  # Display the actual number
+            )
+        )
 
     powerup_stats_content = Group(*powerup_parts)
 
