@@ -1,8 +1,6 @@
 # ****************
 # DISPLAY
 # ****************
-from config import settings
-
 import random
 import os
 import subprocess
@@ -46,7 +44,7 @@ DETAILS_PANEL_WIDTH = 40  # For wizard details panel
 
 
 def print_grid(
-    grid,
+    settings, grid,
     highlighted_coords={},
     highlight_color=None,
     letters_color="black",  # black to debug if it's not working
@@ -68,7 +66,7 @@ def print_grid(
         basic_print_grid(grid)
 
 
-def print_statistics(statistics, border_style, grid, selected_wizard, game_state):
+def print_statistics(settings, statistics, border_style, grid, selected_wizard, game_state):
     if settings["design"]:
         rich_print_statistics(
             statistics, border_style, grid, selected_wizard, game_state
@@ -78,7 +76,7 @@ def print_statistics(statistics, border_style, grid, selected_wizard, game_state
 
 
 def print_message(
-    message,
+    settings, message,
     style="",
     border_style=DEFAULT_BORDER_STYLE,
     title=None,
@@ -91,28 +89,28 @@ def print_message(
         basic_print_message(message)
 
 
-def get_input(prompt_message="Enter Guess"):
+def get_input(settings, prompt_message="Enter Guess"):
     if settings["design"]:
         return rich_get_input(prompt_message)
     else:
         return basic_get_input(prompt_message)
 
 
-def print_leaderboard(leaderboard):
+def print_leaderboard(settings, leaderboard):
     if settings["design"]:
         return rich_print_leaderboard(leaderboard)
     else:
         return basic_print_leaderboard(leaderboard)
 
 
-def display_selection(wizard_index):
+def display_selection(settings, wizard_index):
     if settings["design"]:
-        return rich_display_selection(wizard_index)
+        return rich_display_selection(settings, wizard_index)
     else:
         return basic_display_selection(wizard_index)
 
 
-def display_wizard_art(wizard):
+def display_wizard_art(settings, wizard):
     if settings["design"]:
         rich_display_wizard_art(wizard)
     else:
@@ -134,7 +132,6 @@ def basic_print_statistics(statistics):
     print(f"Lives left:  {statistics['lives_left']}")
     print(f"Points:      {statistics['points']}")
     print(f"Last Guess:  {statistics['last_guess']}")
-    print(f"Combo:       {statistics['combo']}")
 
 
 def basic_print_message(message):
@@ -409,7 +406,7 @@ def rich_print_leaderboard(leaderboard_data, max_entries=10):
     console.print(table)
 
 
-def rich_display_selection(wizard_index):
+def rich_display_selection(settings, wizard_index):
     clear_screen()
     wizard = WIZARDS_DATA[wizard_index]
 
@@ -468,6 +465,7 @@ def rich_display_selection(wizard_index):
     console.print(wizard_row)
     # Print instructions below
     print_message(
+        settings,
         "Use (◀) Left / Right (▶) arrow keys to select. Press Enter to confirm.",
         title="Input",
         border_style=wizard["color"],

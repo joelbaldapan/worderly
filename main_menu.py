@@ -67,13 +67,13 @@ def select_from_menu(options, title="+.+.+.+ Menu +.+.+.+"):
             return selected_option  # Return the chosen option string
 
 
-def select_character_menu():
+def select_character_menu(settings):
     current_index = 0
     num_wizards = len(WIZARDS_DATA)
 
     while True:
         try:
-            display_selection(current_index)
+            display_selection(settings, current_index)
 
             key = getkey()
 
@@ -88,42 +88,47 @@ def select_character_menu():
         except Exception as e:
             clear_screen()
             print_message(
+                settings,
                 f"An error occurred during character selection. Normal class will be chosen:\n{e}",
                 border_style="red",
             )
-            get_input("  > Press Enter to continue... ")
+            get_input(settings, "  > Press Enter to continue... ")
             return WIZARDS_DATA[0]
         
 
 
-def get_player_name(selected_wizard):
+def get_player_name(settings, selected_wizard):
     clear_screen()
 
-    display_wizard_art(selected_wizard)
+    display_wizard_art(settings, selected_wizard)
     print_message(
+        settings,
         "Mighty wizard, please enter your name!",
         border_style=selected_wizard["color"],
         title="Input",
     )
 
     while True:
-        name = get_input("  > Name: ").strip()
+        name = get_input(settings, "  > Name: ").strip()
         clear_screen()
-        display_wizard_art(selected_wizard)
+        display_wizard_art(settings, selected_wizard)
         if not name:
             print_message(
+                settings,
                 "Name cannot be empty. Please try again.",
                 border_style="red",
                 title="Input",
             )
         elif not name.isalpha():
             print_message(
+                settings,
                 "Name must only contain letters! Please try again.",
                 border_style="red",
                 title="Input",
             )
         elif len(name) > MAX_NAME_LENGTH:
             print_message(
+                settings,
                 f"Name cannot be longer than {MAX_NAME_LENGTH} characters. Please try again.",
                 border_style="red",
                 title="Input",
@@ -133,12 +138,15 @@ def get_player_name(selected_wizard):
 
 
 
-def initialize_player_info():
-    # GET PLAYER NAME
-    selected_wizard = select_character_menu()
-
-    player_name = get_player_name(selected_wizard)
-    return player_name, selected_wizard
+def initialize_player_info(settings):
+    if settings["design"]:
+        # GET PLAYER NAME
+        selected_wizard = select_character_menu(settings)
+        player_name = get_player_name(settings, selected_wizard)
+        return player_name, selected_wizard
+    else:
+        # NO HEART POINTS. Don't ask for details.
+        return None, WIZARDS_DATA[0]  # Send white wizard as default (no powerups)
 
 
 # ************************************
