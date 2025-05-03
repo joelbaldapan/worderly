@@ -178,7 +178,7 @@ MENU3_OPTIONS = [
     "Grand Tome",
     "Arcane Codex",
     "The Great Bibliotheca",
-    "Custom Board"
+    "Custom Board",
 ]
 
 

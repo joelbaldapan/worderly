@@ -318,9 +318,9 @@ def _calculate_middle_word_start(height, width, word_len):
 def calculate_middle_word_placement(height, width, middle_word):
     result = _calculate_middle_word_start(height, width, len(middle_word))
     if not result:
-        print(
-            f"ERROR: Grid too small for calculating middle word '{middle_word}' placement"
-        )
+        # print(
+        #     f"ERROR: Grid too small for calculating middle word '{middle_word}' placement"
+        # )
         return None
 
     start_row, start_col = result
@@ -381,7 +381,7 @@ def _place_middle_word(state, middle_word):
         height, width, middle_word
     )
     if middle_word_placement_coords is None:
-        print(f"ERROR: Grid too small for middle word '{middle_word}'")
+        # print(f"ERROR: Grid too small for middle word '{middle_word}'")
         return False  # FAIL
 
     grid = state["grid"]
@@ -485,12 +485,11 @@ def generate_board(settings, middle_word, words_to_place):
     is_valid = _validate_final_grid(state, min_total_words)
 
     if not is_valid:
-        print("\nFAILED to generate a valid grid satisfying all conditions")
+        # print("\nFAILED to generate a valid grid satisfying all conditions")
         return None, None
 
     # CAPITALIZE MIDDLE WORD
     _capitalize_middle_word_appearance(state, middle_word)
 
     # RETURN RESULT
-    print(f"\nGENERATED GRID: {len(state['placed_words_coords'])} words")
     return state["grid"], state["placed_words_coords"]

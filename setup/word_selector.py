@@ -81,23 +81,23 @@ def generate_word_list(settings):
     )
     all_words = read_word_file(lexicon_path)
     if not all_words:
-        print("ERROR: Lexicon file reading failed or file is empty")
-        return None
+        # print("ERROR: Lexicon file reading failed or file is empty")
+        return None, None
 
     # Create a set:
     # Where Valid words <= max_len
     valid_subword_set = filter_words_up_to_max_length(all_words, max_len)
     if not valid_subword_set:
-        print(f"ERROR: No words found with length up to {max_len}")
-        return None
+        # print(f"ERROR: No words found with length up to {max_len}")
+        return None, None
 
     # Create a list:
     # Where Valid words == max_len
     exact_length_words = filter_exact_length_words(valid_subword_set, max_len)
 
     if not exact_length_words:
-        print(f"ERROR: No words found with exact length {max_len}")
-        return None
+        # print(f"ERROR: No words found with exact length {max_len}")
+        return None, None
 
     # SHUFFLE to try different middle words each playthrough
     random.shuffle(exact_length_words)
