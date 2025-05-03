@@ -1,9 +1,10 @@
+# ************************************************
+# Tests for: Grid Validation
+# ************************************************
 import pytest
 from setup import grid_generator
 
 
-# Tests for: Coordinate Calculations
-# For: _is_within_bounds
 def test_is_within_bounds():
     """Test the boundary checking function."""
     height, width = 10, 20
@@ -52,7 +53,6 @@ def validation_grid():
     return grid
 
 
-# For: _check_parallel_cells
 def test_check_parallel_cells(validation_grid):
     """Test _check_parallel_cells: checks parallel neighbors."""
     # PARAMETERS: grid, start_row, start_col, dr, dc
@@ -101,7 +101,6 @@ def test_check_parallel_cells(validation_grid):
     # . . . . . .
 
 
-# For: _check_adjacent_before_start
 def test_check_adjacent_before_start(validation_grid):
     """Test _check_adjacent_before_start: checks cell before word start."""
     # PARAMETERS: grid, start_row, start_col, dr, dc
@@ -134,7 +133,6 @@ def test_check_adjacent_before_start(validation_grid):
     assert grid_generator._check_adjacent_before_start(grid, 2, 3, 1, 0) is False
 
 
-# For: _check_adjacent_after_end
 def test_check_adjacent_after_end(validation_grid):
     """Test _check_adjacent_after_end: checks cell after word end."""
     # PARAMETERS: grid, start_row, start_col, dr, dc
@@ -157,7 +155,6 @@ def test_check_adjacent_after_end(validation_grid):
     assert grid_generator._check_adjacent_after_end(grid, 4, 4, 1, 0) is True
 
 
-# For: _check_for_all_letters
 def test_check_for_all_letters(validation_grid):
     """
     Test _check_for_all_letters: checks letter conflicts, parallel conflicts
@@ -223,7 +220,6 @@ def test_check_for_all_letters(validation_grid):
     )
 
 
-# For: is_valid_placement (Takes care of everything)
 def test_is_valid_placement_scenarios(validation_grid):
     """
     Test is_valid_placement: Handles all of the previous checks. Does the following: bounds, adjacent, and letter checks.

@@ -191,7 +191,7 @@ def run_heart_points_menu():
             return NO_HEART_POINTS_SETTINGS
         elif selected_option == "♥♥♥ Heart Points":
             # Run Main Menu
-            return run_main_menu()
+            return None
     else:
         print("No option selected from Heart Points menu.")
 

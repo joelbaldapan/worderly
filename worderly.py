@@ -3,7 +3,7 @@
 # ****************
 import sys
 from display.display_utils import clear_screen
-from display.menus import run_heart_points_menu, initialize_player_info
+from display.menus import run_heart_points_menu, run_main_menu, initialize_player_info
 from setup.word_selector import generate_word_list, read_word_file
 from setup.grid_generator import generate_board
 from gameplay.gameplay import run_game
@@ -34,13 +34,13 @@ def run_setup(
 
     # ATTEMPT TO GENERATE VALID WORD LIST AND BOARD
     while setup_attempts < MAX_SETUP_RETRIES:
+        setup_attempts += 1
         grid_setup_attempts = 0
 
         # CREATE WORD LIST
         middle_word, words_to_place = generate_word_list(settings)
         if middle_word is None:
             # FAILED
-            setup_attempts += 1
             continue  # Go to the next attempt
 
         # CREATE GRID
@@ -65,10 +65,13 @@ def main():
 
     # RUN SET-UP MENUS
     settings = run_heart_points_menu()
-    settings["lexicon_path"] = lexicon_file
 
     # LOOP UNTIL THE USER EXITS (Outer loop for Heart Point Mode or single game)
     while True:
+        if settings is None:
+            settings = run_main_menu()
+        settings["lexicon_path"] = lexicon_file
+
         # SET UP WORD LIST AND GRID LAYOUT
         result = run_setup(settings)
         # Check if setup failed after all retries
@@ -107,6 +110,7 @@ def main():
         )
 
         if not settings["heart_point_mode"]:
+            settings = None
             break  # Exit the game if not on heart point mode
 
 

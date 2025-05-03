@@ -1,8 +1,10 @@
+# ************************************************
+# Tests for: Word Selector
+# ************************************************
 import pytest
 from unittest.mock import patch, mock_open
 import itertools  # for get_valid_word_subwords
 
-# Import the module we are testing
 from setup import word_selector
 
 

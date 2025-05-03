@@ -1,3 +1,6 @@
+# ************************************************
+# Tests for: Main Board Setup Helper Functions
+# ************************************************
 import pytest
 from unittest.mock import patch
 from setup import grid_generator
@@ -17,7 +20,6 @@ def initial_board_state_fixture():
     }
 
 
-# For: initialize_board_state
 @patch("setup.grid_generator.create_empty_grid")
 def test_initialize_board_state(mock_create_empty):
     """Test initialization of the board state dictionary."""
@@ -37,7 +39,6 @@ def test_initialize_board_state(mock_create_empty):
     }
 
 
-# For: place_middle_word
 @patch("setup.grid_generator.calculate_middle_word_placement_coords")
 @patch("setup.grid_generator.place_letters_on_grid")
 @patch("setup.grid_generator.update_placed_letter_coords")
@@ -110,7 +111,6 @@ def test_place_middle_word_fail_no_coords(
     assert state["middle_word_coords"] == set()
 
 
-# For: place_other_words
 @patch("setup.grid_generator.random.shuffle")
 @patch("setup.grid_generator.find_possible_placements")
 @patch("setup.grid_generator.select_random_placement")
@@ -129,9 +129,10 @@ def test_place_other_words_success(
     words_to_place = ["ONE", "TWO", "THREE"]
     max_total_words = 999  # Allow placing all words
 
-    # Mock shuffle and find possible placement 
+    # Mock shuffle and find possible placement
     def apply_mock_shuffle_side_effect(placements):
         return placements
+
     mock_shuffle.side_effect = apply_mock_shuffle_side_effect
     mock_find.return_value = [
         {"word": "mock", "coord": (0, 0), "idx": 0, "orientation": "H"}
@@ -197,6 +198,7 @@ def test_place_other_words_reach_max(
     # Mock shuffle and find possible placement functions
     def apply_mock_shuffle_side_effect(placements):
         return placements
+
     mock_shuffle.side_effect = apply_mock_shuffle_side_effect
     mock_find.return_value = [
         {"word": "mock", "coord": (0, 0), "idx": 0, "orientation": "H"}
@@ -258,7 +260,6 @@ def test_place_other_words_reach_max(
     )
 
 
-# For: validate_final_grid
 def test_validate_final_grid():
     """Test the final grid validation logic."""
     min_words = 3
@@ -291,7 +292,6 @@ def test_validate_final_grid():
     assert grid_generator.validate_final_grid(state_unused_middle, min_words) is False
 
 
-# For: capitalize_middle_word_appearance
 @patch("setup.grid_generator.place_letters_on_grid")
 def test_capitalize_middle_word_appearance(mock_place_letters):
     """Test capitalizing the middle word on the grid."""

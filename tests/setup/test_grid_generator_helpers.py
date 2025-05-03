@@ -67,7 +67,9 @@ def sample_state_data():
     }
 
 
+# ************************************************
 # Tests for: Creating Grid and Placing Letters
+# ************************************************
 def test_create_empty_grid():
     """Test creating an empty grid of specified dimensions."""
     height, width = 3, 5
@@ -96,8 +98,9 @@ def test_place_letters_on_grid(empty_grid_3x4):
     assert grid[1][2] is None
 
 
+# ************************************************
 # Tests for: State Update Logic
-# For: update_placed_word_coords
+# ************************************************
 def test_update_placed_word_coords(sample_state_data):
     """Test updating the dictionary tracking placed words and their coords."""
     placed_words_coords = sample_state_data["placed_words_coords"].copy()
@@ -197,7 +200,6 @@ def test_update_placed_word_coords(sample_state_data):
     assert (5, 5) in used_middle_coords
 
 
-# For: update_placed_letter_coords
 def test_update_placed_letter_coords(sample_state_data):
     """Test updating the dictionary tracking letters and their coordinates."""
     # Starting:
@@ -237,8 +239,9 @@ def test_update_placed_letter_coords(sample_state_data):
     assert len(placed_letter_coords["X"]) == 2
 
 
+# ************************************************
 # Tests for: Coordinate Calculations
-# For: calculate_middle_word_placement_coords
+# ************************************************
 def test_calculate_middle_word_placement_coords():
     """Test calculating diagonal coordinates for the middle word."""
     # PARAMETERS: height, width, middle_word
@@ -266,7 +269,6 @@ def test_calculate_middle_word_placement_coords():
     assert coords is None
 
 
-# For: calculate_straight_word_placement
 def test_calculate_straight_word_placement_coords():
     """Test calculating coordinates for horizontal/vertical placements."""
     # 1.) Horizontal
@@ -280,8 +282,9 @@ def test_calculate_straight_word_placement_coords():
     assert coords_v == [(2, 1), (3, 1), (4, 1), (5, 1)]
 
 
+# ************************************************
 # Tests for: Placement Finding and Selection
-# For: find_possible_placements
+# ************************************************
 @patch("setup.grid_generator.is_valid_placement")
 def test_find_possible_placements(mock_is_valid):
     """Test finding potential placements by checking intersections."""
@@ -324,7 +327,6 @@ def test_find_possible_placements(mock_is_valid):
     )
 
 
-# For: categorize_placement
 def test_categorize_placement():
     """Test categorizing placements based on middle word intersection."""
     placements = [
@@ -353,7 +355,6 @@ def test_categorize_placement():
     assert other[2] == {"word": "WE", "coord": (5, 5)}  # Not middle
 
 
-# For: select_random_placement
 @patch("setup.grid_generator.random.choice")
 def test_select_random_placement(mock_random_choice):
     """Test selecting a placement, prioritizing unused middle coords."""
@@ -383,8 +384,6 @@ def test_select_random_placement(mock_random_choice):
     mock_random_choice.assert_not_called()
 
 
-# For: apply_placement
-# Test apply_placement by mocking its dependencies
 @patch("setup.grid_generator.calculate_straight_word_placement_coords")
 @patch("setup.grid_generator.update_placed_letter_coords")
 @patch("setup.grid_generator.update_placed_word_coords")
