@@ -1,10 +1,11 @@
 from getkey import getkey, keys
 from display import (
     clear_screen,
-    display_selection,
+    display_wizard_selection,
     print_message,
     get_input,
     display_wizard_art,
+    display_menu_options,
 )
 
 from settings_details import HEART_POINTS_SETTINGS, NO_HEART_POINTS_SETTINGS
@@ -12,35 +13,33 @@ from wizards_details import WIZARDS_DATA
 
 MAX_NAME_LENGTH = 10
 MAIN_TITLE = """
- .+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+. 
-(                                                                                     )
- )                                                                                   ( 
-(     ██╗    ██╗██╗███████╗ █████╗ ██████╗ ██████╗ ███████╗     ██████╗ ███████╗      )
- )    ██║    ██║██║╚══███╔╝██╔══██╗██╔══██╗██╔══██╗██╔════╝    ██╔═══██╗██╔════╝     ( 
-(     ██║ █╗ ██║██║  ███╔╝ ███████║██████╔╝██║  ██║███████╗    ██║   ██║█████╗        )
- )    ██║███╗██║██║ ███╔╝  ██╔══██║██╔══██╗██║  ██║╚════██║    ██║   ██║██╔══╝       ( 
-(     ╚███╔███╔╝██║███████╗██║  ██║██║  ██║██████╔╝███████║    ╚██████╔╝██║           )
- )     ╚══╝╚══╝ ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝     ╚═════╝ ╚═╝          ( 
-(                                                                                     )
- )        ██╗    ██╗ ██████╗ ██████╗ ██████╗ ███████╗██████╗ ██╗  ██╗   ██╗          ( 
-(         ██║    ██║██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██║  ╚██╗ ██╔╝           )
- )        ██║ █╗ ██║██║   ██║██████╔╝██║  ██║█████╗  ██████╔╝██║   ╚████╔╝           ( 
-(         ██║███╗██║██║   ██║██╔══██╗██║  ██║██╔══╝  ██╔══██╗██║    ╚██╔╝             )
- )        ╚███╔███╔╝╚██████╔╝██║  ██║██████╔╝███████╗██║  ██║███████╗██║             ( 
-(          ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝              )
- )                                                                                   ( 
-(                   ██████╗ ██╗      █████╗  ██████╗███████╗██╗                       )
- )                  ██╔══██╗██║     ██╔══██╗██╔════╝██╔════╝██║                      ( 
-(                   ██████╔╝██║     ███████║██║     █████╗  ██║                       )
- )                  ██╔═══╝ ██║     ██╔══██║██║     ██╔══╝  ╚═╝                      ( 
-(                   ██║     ███████╗██║  ██║╚██████╗███████╗██╗                       )
- )                  ╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝                      ( 
-(                                                                                     )
- "+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+" 
+ .+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.
+(                                                                                 )
+ )                                                                               (
+(    ██╗    ██╗██╗███████╗ █████╗ ██████╗ ██████╗ ███████╗     ██████╗ ███████╗   )
+ )   ██║    ██║██║╚══███╔╝██╔══██╗██╔══██╗██╔══██╗██╔════╝    ██╔═══██╗██╔════╝  ( 
+(    ██║ █╗ ██║██║  ███╔╝ ███████║██████╔╝██║  ██║███████╗    ██║   ██║█████╗     )
+ )   ██║███╗██║██║ ███╔╝  ██╔══██║██╔══██╗██║  ██║╚════██║    ██║   ██║██╔══╝    ( 
+(    ╚███╔███╔╝██║███████╗██║  ██║██║  ██║██████╔╝███████║    ╚██████╔╝██║        )
+ )    ╚══╝╚══╝ ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝     ╚═════╝ ╚═╝       ( 
+(        ██╗    ██╗ ██████╗ ██████╗ ██████╗ ███████╗██████╗ ██╗  ██╗   ██╗        )
+ )       ██║    ██║██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██║  ╚██╗ ██╔╝       ( 
+(        ██║ █╗ ██║██║   ██║██████╔╝██║  ██║█████╗  ██████╔╝██║   ╚████╔╝         )
+ )       ██║███╗██║██║   ██║██╔══██╗██║  ██║██╔══╝  ██╔══██╗██║    ╚██╔╝         ( 
+(        ╚███╔███╔╝╚██████╔╝██║  ██║██████╔╝███████╗██║  ██║███████╗██║           )
+ )        ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝          ( 
+(                   ██████╗ ██╗      █████╗  ██████╗███████╗██╗                   )
+ )                  ██╔══██╗██║     ██╔══██╗██╔════╝██╔════╝██║                  ( 
+(                   ██████╔╝██║     ███████║██║     █████╗  ██║                   )
+ )                  ██╔═══╝ ██║     ██╔══██║██║     ██╔══╝  ╚═╝                  ( 
+(                   ██║     ███████╗██║  ██║╚██████╗███████╗██╗                   )
+ )                  ╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝                  ( 
+(                                                                                 )
+ "+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+" 
 """
 
 
-def select_from_menu(options, title="+.+.+.+ Menu +.+.+.+"):
+def select_from_menu(options, title="+.+.+.+ Menu +.+.+.+", show_main_title=False):
     if not options:
         # Handle empty options list gracefully
         print("Warning: No options provided for the menu.")
@@ -50,10 +49,14 @@ def select_from_menu(options, title="+.+.+.+ Menu +.+.+.+"):
     while True:
         # DISPLAY
         clear_screen()
-        print(f"{title}\n")
-        for i, option in enumerate(options):
-            prefix = "-> " if i == current_index else "   "
-            print(f"{prefix}{option}")
+        if show_main_title:
+            print_message(
+                settings=None, message=MAIN_TITLE, style="magenta", border_style="black",
+            )
+
+        display_menu_options(
+            settings=None, options=options, current_index=current_index, title=title
+        )
 
         # GET INPUT
         key = getkey()
@@ -73,7 +76,7 @@ def select_character_menu(settings):
 
     while True:
         try:
-            display_selection(settings, current_index)
+            display_wizard_selection(settings, current_index)
 
             key = getkey()
 
@@ -94,7 +97,6 @@ def select_character_menu(settings):
             )
             get_input(settings, "  > Press Enter to continue... ")
             return WIZARDS_DATA[0]
-        
 
 
 def get_player_name(settings, selected_wizard):
@@ -137,7 +139,6 @@ def get_player_name(settings, selected_wizard):
             return name
 
 
-
 def initialize_player_info(settings):
     if settings["heart_point_mode"]:
         # GET PLAYER NAME
@@ -170,7 +171,7 @@ MENU3_OPTIONS = [
     "Spellbook",
     "Grand Tome",
     "Arcane Codex",
-    "The Great Bibliotheca"
+    "The Great Bibliotheca",
 ]
 
 
@@ -189,8 +190,8 @@ def run_heart_points_menu():
 
 
 def run_main_menu():
-    title = MAIN_TITLE + "\n+.+.+.+ Main Menu +.+.+.+"
-    selected_option = select_from_menu(MENU2_OPTIONS, title=title)
+    title = "+.+.+.+ Main Menu +.+.+.+"
+    selected_option = select_from_menu(MENU2_OPTIONS, title=title, show_main_title=True)
     if selected_option is not None:
         if selected_option == "Start Game":
             # Run Difficulty Menu
@@ -204,8 +205,8 @@ def run_main_menu():
 
 
 def run_difficulty_menu():
-    title = MAIN_TITLE + "\n+.+.+.+ Select Difficulty / Book +.+.+.+"
-    selected_option = select_from_menu(MENU3_OPTIONS, title=title)
+    title = "+.+.+.+ Select Difficulty / Book +.+.+.+"
+    selected_option = select_from_menu(MENU3_OPTIONS, title=title, show_main_title=True)
     print(selected_option)
 
     settings = None

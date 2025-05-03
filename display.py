@@ -44,7 +44,8 @@ DETAILS_PANEL_WIDTH = 40  # For wizard details panel
 
 
 def print_grid(
-    settings, grid,
+    settings,
+    grid,
     highlighted_coords={},
     highlight_color=None,
     letters_color="black",  # black to debug if it's not working
@@ -66,7 +67,9 @@ def print_grid(
         basic_print_grid(grid)
 
 
-def print_statistics(settings, statistics, border_style, grid, selected_wizard, game_state):
+def print_statistics(
+    settings, statistics, border_style, grid, selected_wizard, game_state
+):
     if settings["heart_point_mode"]:
         rich_print_statistics(
             statistics, border_style, grid, selected_wizard, game_state
@@ -76,15 +79,21 @@ def print_statistics(settings, statistics, border_style, grid, selected_wizard, 
 
 
 def print_message(
-    settings, message,
-    style="",
+    settings,
+    message,
+    style=None,
     border_style=DEFAULT_BORDER_STYLE,
     title=None,
     title_align="left",
     expand=False,
+    width=None,
+    justify="left",
 ):
-    if settings["heart_point_mode"]:
-        rich_print_message(message, style, border_style, title, title_align, expand)
+    # If settings not provided, print rich as default
+    if not settings or settings["heart_point_mode"]:
+        rich_print_message(
+            message, style, border_style, title, title_align, expand, width, justify
+        )
     else:
         basic_print_message(message)
 
@@ -103,11 +112,11 @@ def print_leaderboard(settings, leaderboard):
         return basic_print_leaderboard(leaderboard)
 
 
-def display_selection(settings, wizard_index):
+def display_wizard_selection(settings, wizard_index):
     if settings["heart_point_mode"]:
-        return rich_display_selection(settings, wizard_index)
+        return rich_display_wizard_selection(settings, wizard_index)
     else:
-        return basic_display_selection(wizard_index)
+        return basic_display_wizard_selection(wizard_index)
 
 
 def display_wizard_art(settings, wizard):
@@ -115,6 +124,14 @@ def display_wizard_art(settings, wizard):
         rich_display_wizard_art(wizard)
     else:
         basic_display_wizard_art(wizard)
+
+
+def display_menu_options(settings, options, current_index, title):
+    # If settings not provided, print rich as default
+    if not settings or settings["heart_point_mode"]:
+        rich_display_menu_options(options, current_index, title)
+    else:
+        basic_display_menu_options(options, current_index, title)
 
 
 # ****************
@@ -161,7 +178,7 @@ def basic_print_leaderboard(leaderboard):
     print("-----------------------------------\n")
 
 
-def basic_display_selection(wizard_index):
+def basic_display_wizard_selection(wizard_index):
     clear_screen()
 
     wizard = WIZARDS_DATA[wizard_index]
@@ -182,6 +199,15 @@ def basic_display_selection(wizard_index):
 
 def basic_display_wizard_art(wizard):
     print(wizard["art"])
+
+
+def basic_display_menu_options(options, current_index, title):
+    print(title)
+    for i, option in enumerate(options):
+        prefix = "-> " if i == current_index else "   "
+        print(f"{prefix}{option}")
+    print()
+    print("Use (▲) Up / Down (▼) arrow keys to select. Press Enter to confirm.")
 
 
 # ****************
@@ -365,13 +391,17 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
     console.print(full_panel)
 
 
-def rich_print_message(message, style, border_style, title, title_align, expand):
+def rich_print_message(
+    message, style, border_style, title, title_align, expand, width, justify
+):
+    text_content = Text.from_markup(message, style=style, justify=justify)
     panel = Panel(
-        Text(message, style=style),
+        text_content,
         border_style=border_style,
         title=title,
         title_align=title_align,
         expand=expand,
+        width=width,
     )
     console.print(panel)
 
@@ -406,7 +436,7 @@ def rich_print_leaderboard(leaderboard_data, max_entries=10):
     console.print(table)
 
 
-def rich_display_selection(settings, wizard_index):
+def rich_display_wizard_selection(settings, wizard_index):
     clear_screen()
     wizard = WIZARDS_DATA[wizard_index]
 
@@ -485,3 +515,35 @@ def rich_display_wizard_art(wizard):
         expand=False,
     )
     console.print(art_panel)
+
+
+def rich_display_menu_options(options, current_index, title):
+    options_list = []
+    for i, option in enumerate(options):
+        if i == current_index:
+            # Selected
+            prefix = "-> "
+            line = f"[yellow]{prefix}{option}[/yellow]"
+        else:
+            # Not Selected
+            prefix = "   "
+            line = f"{prefix}{option}"
+        options_list.append(line)
+    # Join the list of lines with newlines
+    options_str = "\n".join(options_list)
+
+    print_message(
+        settings=None,
+        message=options_str,
+        title=title,
+        style="bright_white",
+        border_style="bold magenta",
+        width=71,
+        expand=True,
+    )
+    print_message(
+        settings=None,
+        message="Use (▲) Up / Down (▼) arrow keys to select. Press Enter to confirm.",
+        title="Input",
+        border_style="magenta",
+    )

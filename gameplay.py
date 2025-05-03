@@ -112,7 +112,9 @@ def update_display(settings, game_state, selected_wizard):
         game_state,
     )
     print_message(
-        settings, game_state["next_message"], border_style=game_state["next_message_color"]
+        settings,
+        game_state["next_message"],
+        border_style=game_state["next_message_color"],
     )
 
 
@@ -147,7 +149,9 @@ def get_guess(settings, game_state, selected_wizard):
             game_state["next_message"] = INVALID_GUESS_EMPTY_MSG
             game_state["next_message_color"] = ERROR_COLOR
             update_display(settings, game_state, selected_wizard)
-        elif settings["heart_point_mode"] and guess == POWERUP_COMMAND:  # Only have powerups when heart point mode
+        elif (
+            settings["heart_point_mode"] and guess == POWERUP_COMMAND
+        ):  # Only have powerups when heart point mode
             # Check if powerup can be used
             if wizard_color == "bright_white":
                 game_state["next_message"] = NO_POWERUP_MSG
@@ -317,14 +321,18 @@ def check_game_over(game_state, words_to_find):
         return "continue"
 
 
-def display_game_over(settings, game_over_status, game_state, final_grid, selected_wizard):
+def display_game_over(
+    settings, game_over_status, game_state, final_grid, selected_wizard
+):
     clear_screen()
     stats = game_state["statistics"]
     wizard_color = selected_wizard["color"]
 
     if game_over_status == "win":
         final_message = WIN_MSG
-        print_grid(settings, final_grid, letters_color=WIN_COLOR, border_style=wizard_color)
+        print_grid(
+            settings, final_grid, letters_color=WIN_COLOR, border_style=wizard_color
+        )
     else:  # "loss"
         final_message = LOSE_MSG
         print_grid(
@@ -338,11 +346,15 @@ def display_game_over(settings, game_over_status, game_state, final_grid, select
         )
 
     # Print final stats using the wizard color for the border
-    print_statistics(settings, stats, wizard_color, final_grid, selected_wizard, game_state)
+    print_statistics(
+        settings, stats, wizard_color, final_grid, selected_wizard, game_state
+    )
     print_message(settings, final_message, border_style=wizard_color)
 
 
-def run_game(settings, final_grid, words_to_find, middle_word, player_name, selected_wizard):
+def run_game(
+    settings, final_grid, words_to_find, middle_word, player_name, selected_wizard
+):
     # INITIALIZE GAME
     wizard_color = selected_wizard["color"]
     game_state = initialize_game_state(
@@ -368,7 +380,9 @@ def run_game(settings, final_grid, words_to_find, middle_word, player_name, sele
         game_over_status = check_game_over(game_state, words_to_find)
 
     # DISPLAY GAME OVER
-    display_game_over(settings, game_over_status, game_state, final_grid, selected_wizard)
+    display_game_over(
+        settings, game_over_status, game_state, final_grid, selected_wizard
+    )
     final_score = game_state["statistics"]["points"]
 
     # IF HEART POINTS ENABLED, SAVE SCORE AND DISPLAY LEADERBOARDS
