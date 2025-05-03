@@ -10,6 +10,7 @@ from display.display import (
 from display.display_utils import clear_screen
 from leaderboard.leaderboard import load_leaderboard
 
+from custom_settings import CUSTOM_SETTINGS
 from data.settings_details import HEART_POINTS_SETTINGS, NO_HEART_POINTS_SETTINGS
 from data.wizards_details import WIZARDS_DATA
 
@@ -177,6 +178,7 @@ MENU3_OPTIONS = [
     "Grand Tome",
     "Arcane Codex",
     "The Great Bibliotheca",
+    "Custom Board"
 ]
 
 
@@ -234,5 +236,5 @@ def run_difficulty_menu():
         print(f"Selected difficulty: {selected_option}")
         return settings
 
-    elif selected_option == "Custom":
-        ...
+    elif selected_option == "Custom Board":
+        return CUSTOM_SETTINGS
