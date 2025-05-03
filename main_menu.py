@@ -1,6 +1,16 @@
 from getkey import getkey, keys
-from display import clear_screen
+from display import (
+    clear_screen,
+    display_selection,
+    print_message,
+    get_input,
+    display_wizard_art,
+)
 
+from settings_details import HEART_POINTS_SETTINGS, NO_HEART_POINTS_SETTINGS
+from wizards_details import WIZARDS_DATA
+
+MAX_NAME_LENGTH = 10
 MAIN_TITLE = """
  .+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+. 
 (                                                                                     )
@@ -57,6 +67,80 @@ def select_from_menu(options, title="+.+.+.+ Menu +.+.+.+"):
             return selected_option  # Return the chosen option string
 
 
+def select_character_menu():
+    current_index = 0
+    num_wizards = len(WIZARDS_DATA)
+
+    while True:
+        try:
+            display_selection(current_index)
+
+            key = getkey()
+
+            if key == keys.LEFT:
+                current_index = (current_index - 1) % num_wizards
+            elif key == keys.RIGHT:
+                current_index = (current_index + 1) % num_wizards
+            elif key == keys.ENTER or key == "\r" or key == "\n":
+                # CONFIRM
+                selected_wizard = WIZARDS_DATA[current_index]
+                return selected_wizard
+        except Exception as e:
+            clear_screen()
+            print_message(
+                f"An error occurred during character selection. Normal class will be chosen:\n{e}",
+                border_style="red",
+            )
+            get_input("  > Press Enter to continue... ")
+            return WIZARDS_DATA[0]
+        
+
+
+def get_player_name(selected_wizard):
+    clear_screen()
+
+    display_wizard_art(selected_wizard)
+    print_message(
+        "Mighty wizard, please enter your name!",
+        border_style=selected_wizard["color"],
+        title="Input",
+    )
+
+    while True:
+        name = get_input("  > Name: ").strip()
+        clear_screen()
+        display_wizard_art(selected_wizard)
+        if not name:
+            print_message(
+                "Name cannot be empty. Please try again.",
+                border_style="red",
+                title="Input",
+            )
+        elif not name.isalpha():
+            print_message(
+                "Name must only contain letters! Please try again.",
+                border_style="red",
+                title="Input",
+            )
+        elif len(name) > MAX_NAME_LENGTH:
+            print_message(
+                f"Name cannot be longer than {MAX_NAME_LENGTH} characters. Please try again.",
+                border_style="red",
+                title="Input",
+            )
+        else:
+            return name
+
+
+
+def initialize_player_info():
+    # GET PLAYER NAME
+    selected_wizard = select_character_menu()
+
+    player_name = get_player_name(selected_wizard)
+    return player_name, selected_wizard
+
+
 # ************************************
 # MENUS
 # ************************************
@@ -80,49 +164,6 @@ MENU3_OPTIONS = [
     "Arcane Codex",
     "The Great Bibliotheca"
 ]
-
-HEART_POINTS_SETTINGS = {
-    "Simple Scroll": {
-        "grid": {"height": 15, "width": 25},
-        "words_on_board_needed": {"minimum": 21, "maximum": 25},
-        "max_word_length": 6,
-        "min_subword_length": 3,
-    },
-    "Spellbook": {
-        "grid": {"height": 15, "width": 35},
-        "words_on_board_needed": {"minimum": 30, "maximum": 40},
-        "max_word_length": 6,
-        "min_subword_length": 3,
-    },
-    "Grand Tome": {
-        "grid": {"height": 18, "width": 45},
-        "words_on_board_needed": {"minimum": 50, "maximum": 60},
-        "max_word_length": 7,
-        "min_subword_length": 3,
-    },
-    "Arcane Codex": {
-        "grid": {"height": 18, "width": 55},
-        "words_on_board_needed": {"minimum": 100, "maximum": 110},
-        "max_word_length": 7,
-        "min_subword_length": 3,
-    },
-    "The Great Bibliotheca": {
-        "grid": {"height": 25, "width": 75},
-        "words_on_board_needed": {"minimum": 200, "maximum": 250},
-        "max_word_length": 8,
-        "min_subword_length": 3,
-    },
-    # Note: "Custom" is handled separately.
-}
-
-NO_HEART_POINTS_SETTINGS = {
-    "grid": {"height": 15, "width": 25},
-    "words_on_board_needed": {"minimum": 21, "maximum": 25},
-    "lexicon_path": "corncob-lowercase.txt",
-    "max_word_length": 6,
-    "min_subword_length": 3,
-    "design": False,
-}
 
 
 def run_heart_points_menu():
@@ -173,6 +214,3 @@ def run_difficulty_menu():
 
     elif selected_option == "Custom":
         ...
-
-
-run_heart_points_menu()

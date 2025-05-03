@@ -4,12 +4,17 @@
 
 from word_selector import generate_word_list
 from grid_generator import generate_board
-from player_info_initializer import initialize_player_info
 from gameplay import run_game
-from config import settings
+
+from main_menu import run_heart_points_menu, initialize_player_info
 
 
 def main():
+    settings = run_heart_points_menu()
+
+    # TODO: Add lexicon path to terminal
+    settings["lexicon_path"] = "corncob-lowercase.txt"
+
     while True:
         # CREATE WORD LIST
         middle_word, words_to_place = generate_word_list(settings)
