@@ -412,7 +412,10 @@ def rich_get_input(prompt_message):
 def rich_print_leaderboard(settings, leaderboard_data, max_entries=10):
     if not leaderboard_data:
         print_message(
-            settings, "The leaderboard is empty!", title="Leaderboard", border_style="dim"
+            settings,
+            "The leaderboard is empty!",
+            title="Leaderboard",
+            border_style="dim",
         )
         return
 

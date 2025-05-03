@@ -8,6 +8,7 @@ from display import (
     print_message,
 )
 
+
 def read_word_file(word_path):
     try:
         with open(word_path, "r") as file:
@@ -72,7 +73,12 @@ def generate_word_list(settings):
     min_subwords_needed = settings["words_on_board_needed"]["minimum"]
 
     clear_screen()
-    print_message(settings, "↺ Building board... Hold on, wizard!", style="yellow", border_style="magenta")
+    print_message(
+        settings,
+        "↺ Building board... Hold on, wizard!",
+        style="yellow",
+        border_style="magenta",
+    )
     all_words = read_word_file(lexicon_path)
     if not all_words:
         print("ERROR: Lexicon file reading failed or file is empty")

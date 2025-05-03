@@ -6,7 +6,7 @@ from display import (
     display_wizard_art,
     display_menu_options,
     print_message,
-    print_leaderboard
+    print_leaderboard,
 )
 from leaderboard import load_leaderboard
 
@@ -53,7 +53,10 @@ def select_from_menu(options, title="+.+.+.+ Menu +.+.+.+", show_main_title=Fals
         clear_screen()
         if show_main_title:
             print_message(
-                settings=None, message=MAIN_TITLE, style="magenta", border_style="black",
+                settings=None,
+                message=MAIN_TITLE,
+                style="magenta",
+                border_style="black",
             )
 
         display_menu_options(
@@ -196,7 +199,9 @@ def run_main_menu():
 
     # Keep running until Start Game/Exit Game is chosen by the user
     while True:
-        selected_option = select_from_menu(MENU2_OPTIONS, title=title, show_main_title=True)
+        selected_option = select_from_menu(
+            MENU2_OPTIONS, title=title, show_main_title=True
+        )
         if selected_option is not None:
             if selected_option == "Start Game":
                 # Run Difficulty Menu
@@ -205,7 +210,9 @@ def run_main_menu():
                 clear_screen()
                 leaderboard = load_leaderboard()
                 print_leaderboard(settings=None, leaderboard=leaderboard)
-                get_input(settings=None, prompt_message="  > Press Enter to continue... ")
+                get_input(
+                    settings=None, prompt_message="  > Press Enter to continue... "
+                )
             elif selected_option == "Exit Game":
                 print("Exit game... to implement")
 

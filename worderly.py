@@ -1,15 +1,32 @@
 # ****************
 # MAIN LOGIC
 # ****************
-
-from word_selector import generate_word_list
+import sys
+from menus import run_heart_points_menu, initialize_player_info
+from word_selector import generate_word_list, read_word_file
 from grid_generator import generate_board
 from gameplay import run_game
 
-from menus import run_heart_points_menu, initialize_player_info
+
+def check_lexicon_file():
+    if len(sys.argv) < 2:
+        print("The game requires a lexicon file to start!", file=sys.stderr)
+        print("Please input the correct format.", file=sys.stderr)
+        return False
+
+    lexicon_file = sys.argv[1]
+    if not read_word_file(lexicon_file):
+        print("Lexicon file reading failed, or file is empty!", file=sys.stderr)
+        print("Please recheck your file.", file=sys.stderr)
+        return False
+    else:
+        return True
 
 
 def main():
+    if not check_lexicon_file():
+        return
+
     settings = run_heart_points_menu()
 
     # TODO: Add lexicon path to terminal
