@@ -9,6 +9,7 @@ from rich.panel import Panel
 from rich.text import Text
 from rich.columns import Columns
 from rich.console import Group
+from rich.progress import Progress, BarColumn
 
 # For Wizards data
 from data.wizards_details import WIZARDS_DATA
@@ -99,10 +100,44 @@ def rich_print_grid(
     console.print(grid_panel)
 
 
+def _append_combo_stats(statistics, selected_wizard, powerup_parts):
+    wizard_color = selected_wizard["color"]
+    combo = statistics.get('combo', 0)
+    combo_req = selected_wizard.get("combo_requirement")
+
+    # CURRENT COMBO PROGRESS BAR
+    # Reset bar everytime you gain a power point (take modulo)
+    curr_combo = combo % combo_req 
+    if combo > 0 and curr_combo == 0:
+        # But don't reset if currently on a max combo
+        curr_combo = combo_req
+
+    if combo_req is not None and combo_req > 0:
+        # Add the text label for Combo
+        powerup_parts.append(Text.assemble(
+            ("Combo Meter:  ", "bold cyan"),
+            (f"{curr_combo} / {combo_req}\n") # Show current / required
+        ))
+
+        # Create and configure the progress bar with fixed width
+        combo_progress = Progress(
+            BarColumn(
+                bar_width=27,
+                style="dim white",
+                complete_style="bright_white",
+                finished_style=f"bold {wizard_color}"
+                ),
+        )
+        # Add the task, making sure completed does not overflow
+        combo_progress.add_task("combo", total=combo_req, completed=min(curr_combo, combo_req))
+        powerup_parts.append(combo_progress)
+        powerup_parts.append(Text("\n"))
+
+    
 def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_state):
     wizard_color = selected_wizard["color"]
-    # Assemble text
-    player_stats_text = Text.assemble(
+    # PLAYER STATS CONTENT
+    player_stats_content = Text.assemble(
         ("Letters:      ", "bold cyan"),
         (f"{statistics.get('letters', 'N/A')}\n"),
         ("Lives left:   ", "bold green"),
@@ -110,17 +145,37 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
         ("Points:       ", "bold yellow"),
         (f"{statistics.get('points', 'N/A')}\n"),
         ("Last Guess:   ", "bold magenta"),
-        (f"{statistics.get('last_guess', 'None')}\n"),
+        (f"{statistics.get('last_guess', 'None')}"),
     )
 
-    powerup_stats_text = Text.assemble(
+    # POWERUP STATS CONTENT
+    powerup_parts = [] # Use a list to build the content
+
+    # Add Combo line
+    powerup_parts.append(Text.assemble(
         ("Combo:        ", "bold cyan"),
-        (f"{statistics.get('combo', 'None')}\n"),
-        ("Power Points: ", "bold cyan"),
-        (f"{statistics.get('power_points', 'None')}\n"),
-        ("Shield Turns: ", "bold blue"),
-        (f"{statistics.get('shield_turns', 'None')}"),
-    )
+        (f"{statistics.get('combo', 0)}")
+    ))
+
+    # If NOT WHITE, add Power Points and Combo Progress Bar
+    if wizard_color != "bright_white":
+        powerup_parts.append(Text.assemble(
+            ("Power Points: ", "bold cyan"),
+            (f"{statistics.get('power_points', 0)}"),
+        ))
+        _append_combo_stats(statistics, selected_wizard, powerup_parts)
+    else:
+        powerup_parts.append(Text("Note: White wizards have no powerups!", style="bright_white"))
+
+    # Add Shield Turns, if currently active
+    shield_turns = statistics.get('shield_turns', 0)
+    if shield_turns > 0:
+        powerup_parts.append(Text.assemble(
+            ("Shield Turns: ", "bold blue"),
+            (f"{shield_turns}"), # Display the actual number
+        ))
+
+    powerup_stats_content = Group(*powerup_parts)
 
     # TEXT
     PANELS_HEIGHT = 14
@@ -162,8 +217,9 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
 
     stats_panel_width = grid_width - wizard_panel_width - 1
     player_stats_panel = Panel(
-        player_stats_text,
+        player_stats_content,
         title="Game Stats",
+        title_align="left",
         border_style=border_style,
         expand=True,
         width=stats_panel_width,
@@ -172,8 +228,9 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
 
     powerup_stats_height = PANELS_HEIGHT - STATS_HEIGHT
     powerup_stats_panel = Panel(
-        powerup_stats_text,
+        powerup_stats_content,
         title="Powerup Stats",
+        title_align="left",
         border_style=border_style,
         expand=True,
         width=stats_panel_width,
@@ -218,7 +275,7 @@ def rich_get_input(prompt_message):
     return input(prompt_message)
 
 
-def rich_print_leaderboard(settings, leaderboard_data, max_entries=10):
+def rich_print_leaderboard(leaderboard_data, max_entries=10):
     if not leaderboard_data:
         rich_print_message(
             "The leaderboard is empty!",
@@ -246,7 +303,7 @@ def rich_print_leaderboard(settings, leaderboard_data, max_entries=10):
     console.print(table)
 
 
-def rich_display_wizard_selection(settings, wizard_index):
+def rich_display_wizard_selection(wizard_index):
     clear_screen()
     wizard = WIZARDS_DATA[wizard_index]
 

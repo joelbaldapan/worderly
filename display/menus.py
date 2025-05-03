@@ -1,5 +1,5 @@
 from getkey import getkey, keys
-from display.display_interface import (
+from display.display import (
     get_input,
     display_wizard_selection,
     display_wizard_art,

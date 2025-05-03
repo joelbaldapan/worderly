@@ -217,7 +217,7 @@ WIZARDS_DATA = [
         "starting_lives": 4,
         "combo_requirement": 3,
         "powerup_name": "Hardbound Dict.",
-        "powerup_desc": "For your next turn your life will not be reduced by an invalid answer.",
+        "powerup_desc": "Immune to damage from incorrect guesses for the next 2 turns.",
         "description": "Yes.. the rumors are true I used to be a dictionary but a wizard turned me into a human. Words are literally and figuratively inside me so it'll take a lot more to get me down! (This wizard is a bit more tough so he can defend himself from life reduction for one turn. Being a dictionary in your former life gives you a lot of pages to start a new..y’know, so you also start with more life.)",
     },
     {

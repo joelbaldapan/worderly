@@ -2,7 +2,7 @@
 #            LEADERBOARDS
 # ************************************
 import os
-from display.display_interface import print_message
+from display.display import print_message
 
 
 # Define constants for the leaderboards

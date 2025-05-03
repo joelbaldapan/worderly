@@ -95,14 +95,14 @@ def get_input(settings, prompt_message="Enter Guess"):
 
 def print_leaderboard(settings, leaderboard):
     if not settings or settings["heart_point_mode"]:
-        return rich_print_leaderboard(settings, leaderboard)
+        return rich_print_leaderboard(leaderboard)
     else:
         return basic_print_leaderboard(leaderboard)
 
 
 def display_wizard_selection(settings, wizard_index):
     if not settings or settings["heart_point_mode"]:
-        return rich_display_wizard_selection(settings, wizard_index)
+        return rich_display_wizard_selection(wizard_index)
     else:
         return basic_display_wizard_selection(wizard_index)
 
