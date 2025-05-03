@@ -2,13 +2,13 @@
 #            LEADERBOARDS
 # ************************************
 import os
-from display import print_message
+from display.display_interface import print_message
 
 
 # Define constants for the leaderboards
 # Pipe '|' is used as delimiter for the leaderboards
 # Like this: "name|score"
-LEADERBOARD_FILE = "leaderboards.txt"
+LEADERBOARD_FILE = "leaderboard/leaderboards.txt"
 DELIMITER = "|"
 
 

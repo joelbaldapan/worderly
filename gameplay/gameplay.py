@@ -1,14 +1,14 @@
 # ****************
 # IMPORTS
 # ****************
-from grid_gameplay import (
+from gameplay.grid_gameplay import (
     create_hidden_grid,
     reveal_coords_in_hidden_grid,
     get_all_letter_coords,
     get_coords_for_random_reveal,
     get_coords_for_word_reveal,
 )
-from display import (
+from display.display_interface import (
     print_grid,
     shuffle_letters_statistic,
     clear_screen,
@@ -17,7 +17,7 @@ from display import (
     print_leaderboard,
     get_input,
 )
-from leaderboard import (
+from leaderboard.leaderboard import (
     load_leaderboard,
     save_score,
 )

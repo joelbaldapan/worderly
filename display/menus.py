@@ -1,5 +1,5 @@
 from getkey import getkey, keys
-from display import (
+from display.display_interface import (
     clear_screen,
     get_input,
     display_wizard_selection,
@@ -8,10 +8,10 @@ from display import (
     print_message,
     print_leaderboard,
 )
-from leaderboard import load_leaderboard
+from leaderboard.leaderboard import load_leaderboard
 
-from settings_details import HEART_POINTS_SETTINGS, NO_HEART_POINTS_SETTINGS
-from wizards_details import WIZARDS_DATA
+from data.settings_details import HEART_POINTS_SETTINGS, NO_HEART_POINTS_SETTINGS
+from data.wizards_details import WIZARDS_DATA
 
 MAX_NAME_LENGTH = 10
 MAIN_TITLE = """

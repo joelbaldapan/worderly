@@ -2,10 +2,10 @@
 # MAIN LOGIC
 # ****************
 import sys
-from menus import run_heart_points_menu, initialize_player_info
-from word_selector import generate_word_list, read_word_file
-from grid_generator import generate_board
-from gameplay import run_game
+from display.menus import run_heart_points_menu, initialize_player_info
+from generation.word_selector import generate_word_list, read_word_file
+from generation.grid_generator import generate_board
+from gameplay.gameplay import run_game
 
 
 def check_lexicon_file():

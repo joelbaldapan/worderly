@@ -3,7 +3,7 @@
 # ****************
 import itertools
 import random
-from display import (
+from display.display_interface import (
     clear_screen,
     print_message,
 )

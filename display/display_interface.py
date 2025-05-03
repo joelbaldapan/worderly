@@ -15,7 +15,7 @@ from rich.columns import Columns
 from rich.console import Group
 
 # For Wizards data
-from wizards_details import WIZARDS_DATA
+from data.wizards_details import WIZARDS_DATA
 
 
 # ****************
