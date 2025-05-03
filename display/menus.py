@@ -1,6 +1,5 @@
 from getkey import getkey, keys
 from display.display_interface import (
-    clear_screen,
     get_input,
     display_wizard_selection,
     display_wizard_art,
@@ -8,6 +7,7 @@ from display.display_interface import (
     print_message,
     print_leaderboard,
 )
+from display.display_utils import clear_screen
 from leaderboard.leaderboard import load_leaderboard
 
 from data.settings_details import HEART_POINTS_SETTINGS, NO_HEART_POINTS_SETTINGS

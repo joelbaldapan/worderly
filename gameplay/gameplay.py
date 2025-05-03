@@ -11,12 +11,12 @@ from gameplay.grid_gameplay import (
 from display.display_interface import (
     print_grid,
     shuffle_letters_statistic,
-    clear_screen,
     print_message,
     print_statistics,
     print_leaderboard,
     get_input,
 )
+from display.display_utils import clear_screen
 from leaderboard.leaderboard import (
     load_leaderboard,
     save_score,

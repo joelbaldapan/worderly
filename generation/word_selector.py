@@ -4,9 +4,9 @@
 import itertools
 import random
 from display.display_interface import (
-    clear_screen,
     print_message,
 )
+from display.display_utils import clear_screen
 
 
 def read_word_file(word_path):
