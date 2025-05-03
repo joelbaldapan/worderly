@@ -88,7 +88,9 @@ def use_powerup(game_state, selected_wizard, words_to_find, final_grid):
         )
     elif wizard_color == "green":
         coords_to_reveal = get_coords_for_random_reveal(
-            hidden_letter_coords, game_constants.MIN_RANDOM_REVEAL, game_constants.MAX_RANDOM_REVEAL
+            hidden_letter_coords,
+            game_constants.MIN_RANDOM_REVEAL,
+            game_constants.MAX_RANDOM_REVEAL,
         )
     elif wizard_color == "magenta":
         stats["shield_turns"] += game_constants.SHIELD_INCREMENT

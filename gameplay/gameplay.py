@@ -100,7 +100,10 @@ def update_game_over_display(
     if game_over_status == "win":
         final_message = game_constants.WIN_MSG
         print_grid(
-            settings, final_grid, letters_color=game_constants.WIN_COLOR, border_style=wizard_color
+            settings,
+            final_grid,
+            letters_color=game_constants.WIN_COLOR,
+            border_style=wizard_color,
         )
     else:  # "loss"
         final_message = game_constants.LOSE_MSG
