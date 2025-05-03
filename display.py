@@ -34,9 +34,10 @@ def shuffle_letters_statistic(middle_word):
     return " ".join(letters_list)
 
 
-# ****************
+# ************************************************
 # DISPLAY HANDLERS
-# ****************
+# If settings not provided, print rich as default
+# ************************************************
 
 
 DEFAULT_BORDER_STYLE = "bright_cyan"
@@ -53,7 +54,7 @@ def print_grid(
     title="THE WIZARDS OF WORDERLY PLACE",
     border_style=DEFAULT_BORDER_STYLE,
 ):
-    if settings["heart_point_mode"]:
+    if not settings or settings["heart_point_mode"]:
         rich_print_grid(
             grid,
             highlighted_coords,
@@ -70,7 +71,7 @@ def print_grid(
 def print_statistics(
     settings, statistics, border_style, grid, selected_wizard, game_state
 ):
-    if settings["heart_point_mode"]:
+    if not settings or settings["heart_point_mode"]:
         rich_print_statistics(
             statistics, border_style, grid, selected_wizard, game_state
         )
@@ -89,7 +90,6 @@ def print_message(
     width=None,
     justify="left",
 ):
-    # If settings not provided, print rich as default
     if not settings or settings["heart_point_mode"]:
         rich_print_message(
             message, style, border_style, title, title_align, expand, width, justify
@@ -99,35 +99,34 @@ def print_message(
 
 
 def get_input(settings, prompt_message="Enter Guess"):
-    if settings["heart_point_mode"]:
+    if not settings or settings["heart_point_mode"]:
         return rich_get_input(prompt_message)
     else:
         return basic_get_input(prompt_message)
 
 
 def print_leaderboard(settings, leaderboard):
-    if settings["heart_point_mode"]:
-        return rich_print_leaderboard(leaderboard)
+    if not settings or settings["heart_point_mode"]:
+        return rich_print_leaderboard(settings, leaderboard)
     else:
         return basic_print_leaderboard(leaderboard)
 
 
 def display_wizard_selection(settings, wizard_index):
-    if settings["heart_point_mode"]:
+    if not settings or settings["heart_point_mode"]:
         return rich_display_wizard_selection(settings, wizard_index)
     else:
         return basic_display_wizard_selection(wizard_index)
 
 
 def display_wizard_art(settings, wizard):
-    if settings["heart_point_mode"]:
+    if not settings or settings["heart_point_mode"]:
         rich_display_wizard_art(wizard)
     else:
         basic_display_wizard_art(wizard)
 
 
 def display_menu_options(settings, options, current_index, title):
-    # If settings not provided, print rich as default
     if not settings or settings["heart_point_mode"]:
         rich_display_menu_options(options, current_index, title)
     else:
@@ -410,10 +409,10 @@ def rich_get_input(prompt_message):
     return input(prompt_message)
 
 
-def rich_print_leaderboard(leaderboard_data, max_entries=10):
+def rich_print_leaderboard(settings, leaderboard_data, max_entries=10):
     if not leaderboard_data:
         print_message(
-            "The leaderboard is empty!", title="Leaderboard", border_style="dim"
+            settings, "The leaderboard is empty!", title="Leaderboard", border_style="dim"
         )
         return
 

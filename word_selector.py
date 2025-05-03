@@ -3,7 +3,10 @@
 # ****************
 import itertools
 import random
-
+from display import (
+    clear_screen,
+    print_message,
+)
 
 def read_word_file(word_path):
     try:
@@ -68,20 +71,22 @@ def generate_word_list(settings):
     min_subword_length = settings["min_subword_length"]
     min_subwords_needed = settings["words_on_board_needed"]["minimum"]
 
+    clear_screen()
+    print_message(settings, "↺ Building board... Hold on, wizard!", style="yellow", border_style="magenta")
     all_words = read_word_file(lexicon_path)
     if not all_words:
         print("ERROR: Lexicon file reading failed or file is empty")
         return None
 
     # Create a set:
-    # Valid words <= max_len
+    # Where Valid words <= max_len
     valid_subword_set = filter_words_up_to_max_length(all_words, max_len)
     if not valid_subword_set:
         print(f"ERROR: No words found with length up to {max_len}")
         return None
 
     # Create a list:
-    # Valid words == max_len
+    # Where Valid words == max_len
     exact_length_words = filter_exact_length_words(valid_subword_set, max_len)
 
     if not exact_length_words:

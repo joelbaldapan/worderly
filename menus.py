@@ -1,12 +1,14 @@
 from getkey import getkey, keys
 from display import (
     clear_screen,
-    display_wizard_selection,
-    print_message,
     get_input,
+    display_wizard_selection,
     display_wizard_art,
     display_menu_options,
+    print_message,
+    print_leaderboard
 )
+from leaderboard import load_leaderboard
 
 from settings_details import HEART_POINTS_SETTINGS, NO_HEART_POINTS_SETTINGS
 from wizards_details import WIZARDS_DATA
@@ -156,8 +158,8 @@ def initialize_player_info(settings):
 
 
 MENU1_OPTIONS = [  # Heart Points Mode
-    "No Heart Points",
-    "Heart Points",
+    "</3 No Heart Points",
+    "♥♥♥ Heart Points",
 ]
 
 MENU2_OPTIONS = [  # Main Menu
@@ -180,9 +182,9 @@ def run_heart_points_menu():
         MENU1_OPTIONS, title="+.+.+.+ Select Heart Points Mode +.+.+.+"
     )
     if selected_option is not None:
-        if selected_option == "No Heart Points":
+        if selected_option == "</3 No Heart Points":
             return NO_HEART_POINTS_SETTINGS
-        elif selected_option == "Heart Points":
+        elif selected_option == "♥♥♥ Heart Points":
             # Run Main Menu
             return run_main_menu()
     else:
@@ -191,17 +193,21 @@ def run_heart_points_menu():
 
 def run_main_menu():
     title = "+.+.+.+ Main Menu +.+.+.+"
-    selected_option = select_from_menu(MENU2_OPTIONS, title=title, show_main_title=True)
-    if selected_option is not None:
-        if selected_option == "Start Game":
-            # Run Difficulty Menu
-            return run_difficulty_menu()
-        elif selected_option == "Check Leaderboards":
-            print("Chosen: 1")
-        elif selected_option == "Exit Game":
-            print("Chosen: 2")
-    else:
-        print("No option selected from Main menu.")
+
+    # Keep running until Start Game/Exit Game is chosen by the user
+    while True:
+        selected_option = select_from_menu(MENU2_OPTIONS, title=title, show_main_title=True)
+        if selected_option is not None:
+            if selected_option == "Start Game":
+                # Run Difficulty Menu
+                return run_difficulty_menu()
+            elif selected_option == "Check Leaderboards":
+                clear_screen()
+                leaderboard = load_leaderboard()
+                print_leaderboard(settings=None, leaderboard=leaderboard)
+                get_input(settings=None, prompt_message="  > Press Enter to continue... ")
+            elif selected_option == "Exit Game":
+                print("Exit game... to implement")
 
 
 def run_difficulty_menu():

@@ -398,3 +398,4 @@ def run_game(
             THANKS_MSG.format(player_name, final_score),
             border_style=FINAL_SCORE_BORDER,
         )
+        get_input(settings, "  > Press Enter to continue... ")
