@@ -3,7 +3,7 @@ from unittest.mock import patch
 from getkey import keys
 
 
-from display import menus
+from setup import menus
 from data import wizards_details, settings_details
 
 
@@ -31,20 +31,20 @@ def sample_wizard():
 # ************************************************
 # Paths for convenience
 # ************************************************
-PATCH_GETKEY = "display.menus.getkey"
-PATCH_CLEAR_SCREEN = "display.menus.clear_screen"
-PATCH_PRINT_MSG = "display.menus.print_message"
-PATCH_DISP_MENU_OPTS = "display.menus.display_menu_options"
-PATCH_DISP_WIZ_SEL = "display.menus.display_wizard_selection"
-PATCH_DISP_WIZ_ART = "display.menus.display_wizard_art"
-PATCH_GET_INPUT = "display.menus.get_input"
-PATCH_PRINT_LB = "display.menus.print_leaderboard"
-PATCH_LOAD_LB = "display.menus.load_leaderboard"
-PATCH_SELECT_CHAR_MENU = "display.menus.select_character_menu"
-PATCH_GET_PLAYER_NAME = "display.menus.get_player_name"
-PATCH_SELECT_FROM_MENU = "display.menus.select_from_menu"
-PATCH_RUN_MAIN_MENU = "display.menus.run_main_menu"
-PATCH_RUN_DIFFICULTY_MENU = "display.menus.run_difficulty_menu"
+PATCH_GETKEY = "setup.menus.getkey"
+PATCH_CLEAR_SCREEN = "setup.menus.clear_screen"
+PATCH_PRINT_MSG = "setup.menus.print_message"
+PATCH_DISP_MENU_OPTS = "setup.menus.display_menu_options"
+PATCH_DISP_WIZ_SEL = "setup.menus.display_wizard_selection"
+PATCH_DISP_WIZ_ART = "setup.menus.display_wizard_art"
+PATCH_GET_INPUT = "setup.menus.get_input"
+PATCH_PRINT_LB = "setup.menus.print_leaderboard"
+PATCH_LOAD_LB = "setup.menus.load_leaderboard"
+PATCH_SELECT_CHAR_MENU = "setup.menus.select_character_menu"
+PATCH_GET_PLAYER_NAME = "setup.menus.get_player_name"
+PATCH_SELECT_FROM_MENU = "setup.menus.select_from_menu"
+PATCH_RUN_MAIN_MENU = "setup.menus.run_main_menu"
+PATCH_RUN_DIFFICULTY_MENU = "setup.menus.run_difficulty_menu"
 
 
 # ************************************************

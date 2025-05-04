@@ -3,7 +3,7 @@
 # ****************
 import sys
 from display.display_utils import clear_screen
-from display.menus import run_heart_points_menu, run_main_menu, initialize_player_info
+from setup.menus import run_heart_points_menu, run_main_menu, initialize_player_info
 from setup.word_selector import generate_word_list, read_word_file
 from setup.grid_generator import generate_board
 from gameplay.gameplay import run_game
