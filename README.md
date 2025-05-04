@@ -20,10 +20,10 @@
 	    * [No Heart Points](#no-heart-points)
 	    * [Heart Points](#heart-points)
     * [Controls](#controls)
-    * [Wizards and Powerups)](#wizards-and-powerups)
+    * [Wizards and Powerups](#wizards-and-powerups)
 * [Code Organization and Implementation](#code-organization-and-implementation)
     * [Project Structure](#project-structure)
-    * [Core Game Systems](core-game-systems)
+    * [Core Game Systems](#core-game-systems)
 	    * [Setup System](#setup-system)
 	    * [Gameplay System](#gameplay-system)
 	    * [Display System](#display-system)
@@ -32,7 +32,7 @@
     * [Running Tests](#running-tests)
     * [Test Structure and Thoroughness](#test-structure-and-thoroughness)
     * [Adding New Tests](#adding-new-tests)
-* [Citations](#citations)
+* [External References](#external-references)
 
 <a id="what-is-worderly"></a>
 ## 💡 What is Worderly?
@@ -424,9 +424,9 @@ Unit tests are included in the `tests/` directory to help ensure the correctness
     -   Use `assert` statements (`assert result == expected`, `assert some_condition`) to verify the outcome. Use `pytest.raises` to check for expected exceptions.
 5.  Run `pytest` again to ensure your new tests pass and existing ones are not broken.
 
-<a id="citations"></a>
-## 🎓 Citations
-**ART - Sprite Work and ASCII Implementation**
+<a id="(#external-references"></a>
+## 🎓 External References
+**Sprite Work and ASCII Implementation**
 -   **Full credit to the [Official Terraria Wiki](https://www.google.com/search?q=%23https://terraria.wiki.gg/) for the wizard spritework!** *Ah, the game of our childhood 🙂🌲*
 	-   Oldspella: [Vortex armor](https://www.google.com/search?q=%23https://terraria.wiki.gg/wiki/Vortex_armor)
 	-   Wizard Dict: [Nebula armor](https://www.google.com/search?q=%23https://terraria.wiki.gg/wiki/Nebula_armor)
@@ -452,15 +452,23 @@ Unit tests are included in the `tests/` directory to help ensure the correctness
 -   [Python Modules and Packages – An Introduction – Real Python](https://realpython.com/python-modules-packages/)
 -   [Why __init__.py File is Used in Python Projects | 2MinutesPy](http://www.youtube.com/watch%3Fv%3DmWaMSGwiSB0)
 
-**Python: Testing**
+**Python: Unit Testing**
 -   [Please Learn How To Write Tests in Python… • Pytest Tutorial](https://www.youtube.com/watch%3Fv%3DEgpLj86ZHFQ)
 -   [How to Test Python Code with PyTest (Best Practices & Examples)](https://www.youtube.com/watch%3Fv%3DWxMFCfFRY2w)
-
-**Git & GitHub**
--   [How To Add Image To GitHub README | Add Screenshot In GitHub README.md File](https://www.youtube.com/watch%3Fv%3DlS65X0U1rp4)
+-   [Professional Python Testing with Mocks](https://www.google.com/search?q=%23http://www.youtube.com/watch%3Fv%3D-F6wVOlsEAM)
+-   [Python tests | Pytest Mock and Patch](https://www.google.com/search?q=%23http://www.youtube.com/watch%3Fv%3DWlY8xJt8XMU)
 
 **Command Line Tools**
 -   [tree Command in Linux with Examples | GeeksforGeeks](https://www.geeksforgeeks.org/tree-command-unixlinux/)
 
-**Mark Up Tools**
-- **Markup for `README.md` visualized through:** [StackEdit](https://stackedit.io/).
+**Markdown Documentation**
+- **Markdown for `README.md` visualized through:** [StackEdit](https://stackedit.io/).
+-  [Markdown Cheatsheet · adam-p/markdown-here Wiki · GitHub](https://www.google.com/search?q=%23https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet%23images)
+ -  [How To Add Image To GitHub README | Add Screenshot In GitHub README.md File](https://www.youtube.com/watch%3Fv%3DlS65X0U1rp4)
+
+<h1 align="center">
+🧙📖 Thank you! 🔮✨
+</h1>
+<p align="center">
+<b>May your words wield magic, your wit cast wonders, and every puzzle be an epic adventure—thank you for spelunking through Worderly Place!</b>
+</p>
