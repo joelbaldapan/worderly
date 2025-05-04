@@ -546,10 +546,10 @@ def rich_display_menu_options(options, current_index, title):
     Returns:
         None: This function prints directly to the console and returns nothing.
     """
-    
+
     options_list = []
     for i, option in enumerate(options):
-        detailed_prefix = ''
+        detailed_prefix = ""
         if option in HEART_POINTS_SETTINGS:
             details = HEART_POINTS_SETTINGS[option]
 
@@ -557,7 +557,9 @@ def rich_display_menu_options(options, current_index, title):
             width = details["grid"]["width"]
             min_words_needed = details["words_on_board_needed"]["minimum"]
             max_words_needed = details["words_on_board_needed"]["maximum"]
-            detailed_prefix = f"{height}x{width}, {min_words_needed}-{max_words_needed} words"
+            detailed_prefix = (
+                f"{height}x{width}, {min_words_needed}-{max_words_needed} words"
+            )
             detailed_prefix = detailed_prefix.ljust(22)
 
         if i == current_index:

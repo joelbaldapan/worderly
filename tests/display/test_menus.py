@@ -7,7 +7,6 @@ from getkey import keys
 
 from display import menus
 from data import wizards_details, settings_details
-from custom_settings import CUSTOM_SETTINGS
 
 
 @pytest.fixture

@@ -143,9 +143,7 @@ def test_update_end_game_display(
     gameplay.update_end_game_display(sample_settings, player_name, final_score)
 
     # Check if all necessary functions called
-    mock_get_input.assert_any_call(
-        sample_settings, "  > Press Enter to continue... "
-    )
+    mock_get_input.assert_any_call(sample_settings, "  > Press Enter to continue... ")
     mock_clear.assert_called_once()
     mock_save.assert_called_once_with(player_name, final_score)
     mock_load_lb.assert_called_once()
@@ -225,7 +223,7 @@ def test_get_guess_powerup_command_invalid_wizard(
         game_constants.POWERUP_COMMAND,
         "valid",
     ]  # Try powerup, then give valid
-    
+
     guess = gameplay.get_guess(sample_settings, state, wizard_white)
     assert guess == "valid"
     assert mock_update_disp.call_count == 1  # Error message displayed
@@ -239,7 +237,7 @@ def test_get_guess_powerup_command_invalid_points(
     """Test get_guess handles powerup attempt with insufficient points."""
     # Non-white wizard can use powerups
     wizard_red = sample_wizard
-    wizard_red["color"] = "red"  
+    wizard_red["color"] = "red"
     state = copy.deepcopy(sample_game_state)
     state["statistics"]["power_points"] = 0  # No points
     mock_get_input.side_effect = [
@@ -291,7 +289,7 @@ def test_run_game_win_hp_mode(
         "statistics": {"points": 50},
         "player_name": player_name,
     }  # Simplified state
-    
+
     # Game flow: valid guess -> win
     mock_get_guess_func.return_value = "goodguess"  # Make get_guess return the word
     mock_check_go.side_effect = [
@@ -312,15 +310,15 @@ def test_run_game_win_hp_mode(
     mock_init_state.assert_called_once_with(
         sample_final_grid, middle_word, sample_wizard, player_name
     )
-    
+
     # Check if all functions in the flow are called
     mock_update_disp.assert_called()
     mock_get_guess_func.assert_called()
     mock_proc_guess.assert_called()
     mock_update_pp.assert_called()
-    
+
     mock_use_pu.assert_not_called()  # Powerup not used
-    
+
     # Check game over check calls
     mock_go_disp.assert_called_once()  # Show game over screen
     mock_end_disp.assert_called_once()  # Show end display (HP mode)
@@ -352,7 +350,7 @@ def test_run_game_loss_no_hp_mode(
 ):
     """Test a losing game flow NOT in Heart Point mode."""
     # No name needed if not HP mode
-    player_name = None  
+    player_name = None
     middle_word = "MIDDLE"
     mock_init_state.return_value = {
         "statistics": {"points": 10},
@@ -386,7 +384,7 @@ def test_run_game_loss_no_hp_mode(
     mock_proc_guess.assert_called()
     mock_update_pp.assert_called()
 
-    mock_use_pu.assert_not_called() # Powerup not used
+    mock_use_pu.assert_not_called()  # Powerup not used
 
     mock_go_disp.assert_called_once()
     mock_end_disp.assert_not_called()  # NOT called (no HP mode)
@@ -447,7 +445,7 @@ def test_run_game_uses_powerup(
 
     # Process guess skipped
     # Check update_power_points NOT called after powerup
-    mock_proc_guess.assert_not_called()  
+    mock_proc_guess.assert_not_called()
     mock_update_pp.assert_not_called()
 
     # Check game over check and final displays

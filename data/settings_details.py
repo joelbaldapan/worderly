@@ -25,8 +25,8 @@ HEART_POINTS_SETTINGS = {
     },
     "The Great Bibliotheca": {
         "grid": {"height": 30, "width": 65},
-        "words_on_board_needed": {"minimum": 225, "maximum": 300},
-        "max_word_length": 8,
+        "words_on_board_needed": {"minimum": 242, "maximum": 369},
+        "max_word_length": 9,
         "min_subword_length": 3,
     },
 }

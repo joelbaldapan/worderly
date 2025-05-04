@@ -11,7 +11,6 @@ from display.display import (
 from display.display_utils import clear_screen
 from leaderboard.leaderboard import load_leaderboard
 
-from custom_settings import CUSTOM_SETTINGS
 from data.settings_details import HEART_POINTS_SETTINGS, NO_HEART_POINTS_SETTINGS
 from data.wizards_details import WIZARDS_DATA
 
