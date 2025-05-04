@@ -1,5 +1,3 @@
-# tests/gameplay/test_game_state_handler.py
-
 import pytest
 from unittest.mock import patch
 

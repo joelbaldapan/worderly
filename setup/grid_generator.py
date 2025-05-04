@@ -297,7 +297,7 @@ def _check_for_all_letters(
 
         # Should not place if path goes OOB
         if not _is_within_bounds(current_row, current_col, len(grid), len(grid[0])):
-            return False  
+            return False
 
         current_cell = grid[current_row][current_col]
 

@@ -31,7 +31,9 @@ def sample_wizard():
     return wizard_copy
 
 
-# --- Patch Paths ---
+# ************************************************
+# Paths for convenience
+# ************************************************
 PATCH_GETKEY = "display.menus.getkey"
 PATCH_CLEAR_SCREEN = "display.menus.clear_screen"
 PATCH_PRINT_MSG = "display.menus.print_message"
@@ -47,7 +49,10 @@ PATCH_SELECT_FROM_MENU = "display.menus.select_from_menu"
 PATCH_RUN_MAIN_MENU = "display.menus.run_main_menu"
 PATCH_RUN_DIFFICULTY_MENU = "display.menus.run_difficulty_menu"
 
-# --- Tests ---
+
+# ************************************************
+# Tests for: Selecting and Moving Through Menus
+# ************************************************
 
 
 @patch(PATCH_GETKEY)
