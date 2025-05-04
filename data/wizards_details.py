@@ -221,7 +221,7 @@ WIZARDS_DATA = [
         "description": "Yes... the rumors are indeed true. I used to be a dictionary, but a wizard turned me into a human. Words are literally and figuratively inside me... so it'll take a lot more to get me down.\n\n(This wizard is a bit more tough so he can defend himself from life reduction for one turn. Being a dictionary in your former life gives you a lot of pages to rip.)",
     },
     {
-        "name": "Streakbinder",
+        "name": "Streambinder",
         "art": WIZARDS_ART[2],
         "small_art": WIZARDS_ART_SMALL[2],
         "color": "blue",
