@@ -235,6 +235,16 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
             ("Combo:        ", "bold cyan"), (f"{statistics.get('combo', 0)}")
         )
     )
+
+    # Add Shield Turns if active
+    shield_turns = statistics.get("shield_turns", 0)
+    if shield_turns > 0:
+        # Add newline for shield turns
+        if wizard_color != "bright_white" and selected_wizard.get("combo_requirement"):
+            powerup_parts.append(
+                Text.assemble(("Shield Turns: ", "bold blue"), (f"{shield_turns}"))
+            )
+
     # Add Power Points and Combo Meter if applicable
     if wizard_color != "bright_white":
         powerup_parts.append(
@@ -250,15 +260,7 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
             Text("\nNote: White wizards have no powerups!", style="bright_white")
         )
 
-    # Add Shield Turns if active
-    shield_turns = statistics.get("shield_turns", 0)
-    if shield_turns > 0:
-        # Add newline if combo stats were added for spacing
-        if wizard_color != "bright_white" and selected_wizard.get("combo_requirement"):
-            powerup_parts.append(Text(""))  # Add a blank line for spacing
-        powerup_parts.append(
-            Text.assemble(("Shield Turns:  ", "bold blue"), (f"{shield_turns}"))
-        )
+
     # Group all powerup parts together
     powerup_stats_content = Group(*powerup_parts)
 
@@ -271,7 +273,7 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
 
     # Layout Calculations
     # (Make sure widths of grid and stats are the same)
-    PANELS_HEIGHT = 14  # Target height for consistent layout
+    PANELS_HEIGHT = 15  # Target height for consistent layout
     STATS_HEIGHT = 6  # Height for the top stats panel
     WIZARD_PANEL_WIDTH = 23  # Fixed width for wizard art panel
 

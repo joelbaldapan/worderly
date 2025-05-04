@@ -156,7 +156,7 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print()
+        clear_screen()
         print("\n" + "=" * 40)
         print("\nExiting game...")
         print("I bid you adieu, wandwork wizard!")

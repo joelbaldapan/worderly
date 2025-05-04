@@ -53,6 +53,7 @@ def update_power_points(game_state, selected_wizard):
     # Check and increment if conditions met
     if check_power_point_increment(combo_req, statistics):
         statistics["power_points"] += 1
+        game_state["next_message"] += " Combo requirement reached, +1 Power Point!"
 
 
 # ****************
