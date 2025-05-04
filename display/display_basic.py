@@ -59,6 +59,9 @@ def basic_print_leaderboard(leaderboard):
         leaderboard (list[dict]):
             A list of score dictionaries, which is already sorted.
             Each dict should have 'name' and 'score' keys.
+
+    Returns:
+        None: This function prints directly to the console and returns nothing.
     """
     print("\n----------- Leaderboard -----------")
     if not leaderboard:

@@ -210,7 +210,6 @@ def test_get_coords_for_word_reveal(mock_choice, sample_words_to_find_fixture):
     words_to_find = sample_words_to_find_fixture
     # Simulate "HELLO" is already guessed
     correct_guesses = {"ONE"}
-    unrevealed = ["TWO", "TEN"]
 
     # Simulate random.choice picking "TEN"
     mock_choice.return_value = "TEN"

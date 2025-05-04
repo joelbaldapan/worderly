@@ -98,11 +98,11 @@ def generate_word_list(settings):
             - "words_on_board_needed" (dict): Dictionary with word count info:
                 - "minimum" (int): The minimum total words (middle + subwords)
                   required for a valid setup.
-            - Other keys like "grid", "heart_point_mode" may exist but are
+            - Other keys like "grid", "heart_point_mode" exist but are
               not directly used by this function.
 
     Returns:
-        tuple[str or None, list[str] or None]: A tuple containing:
+        tuple[str | None, list[str] | None]: A tuple containing:
             - The chosen middle word (str) or None if generation fails.
             - A list of shuffled subwords (list[str]) for placement or None.
     """

@@ -146,7 +146,7 @@ def test_reveal_coords_in_hidden_grid(sample_final_grid):
     game_state_handler.reveal_coords_in_hidden_grid(
         sample_final_grid, hidden, coords_to_reveal2
     )
-    assert hidden[1][2] == None  # Still None
+    assert hidden[1][2] is None  # Still None
 
 
 def test_get_all_letter_coords(sample_final_grid):

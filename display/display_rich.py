@@ -217,13 +217,13 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
     # Setup Panel Contents
     # A. Player Stats Panel Content
     player_stats_content = Text.assemble(
-        ("Letters:       ", "bold cyan"),
+        ("Letters:    ", "bold cyan"),
         (f"{statistics.get('letters', 'N/A')}\n"),
-        ("Lives left:    ", "bold green"),
+        ("Lives left: ", "bold green"),
         (f"{statistics.get('lives_left', 'N/A')}\n"),
-        ("Points:        ", "bold yellow"),
+        ("Points:     ", "bold yellow"),
         (f"{statistics.get('points', 'N/A')}\n"),
-        ("Last Guess:    ", "bold magenta"),
+        ("Last Guess: ", "bold magenta"),
         (f"{statistics.get('last_guess', 'None')}"),
     )
 
@@ -231,14 +231,14 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
     powerup_parts = []  # Build content as a list of Rich renderables
     powerup_parts.append(
         Text.assemble(
-            ("Combo:         ", "bold cyan"), (f"{statistics.get('combo', 0)}")
+            ("Combo:        ", "bold cyan"), (f"{statistics.get('combo', 0)}")
         )
     )
     # Add Power Points and Combo Meter if applicable
     if wizard_color != "bright_white":
         powerup_parts.append(
             Text.assemble(
-                ("Power Points:  ", "bold cyan"),
+                ("Power Points: ", "bold cyan"),
                 (f"{statistics.get('power_points', 0)}"),
             )
         )

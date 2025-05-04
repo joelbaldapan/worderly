@@ -153,4 +153,11 @@ def main():
 
 if __name__ == "__main__":
     # Entry point when the script is executed directly
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print()
+        print("\n" + "=" * 40)
+        print("\nExiting game...")
+        print("I bid you adieu, wandwork wizard!")
+        print("\n" + "=" * 40)
