@@ -23,6 +23,7 @@
     * [Wizards and Powerups](#wizards-and-powerups)
 * [Code Organization and Implementation](#code-organization-and-implementation)
     * [Project Structure](#project-structure)
+    * [Data Configuration](#data-configuration)
     * [Core Game Systems](#core-game-systems)
 	    * [Setup System](#setup-system)
 	    * [Gameplay System](#gameplay-system)
@@ -229,6 +230,34 @@ The project is organized with the following directory structure to keep the code
 * **`worderly.py`**: The main **entry point script**. Running `python worderly.py <lexicon_file>` starts the game. It handles command-line arguments and calls functions from the other modules.
 
 
+<a id="data-configuration"></a>
+### 📊 Data Configuration
+
+This **`data/`** directory centralizes static data used to configure game modes, difficulties, and characters, making it easier to adjust parameters without digging deep into the core logic files.
+
+* **Game Settings (`settings_details.py`)**:
+    * **Purpose:** Defines the specific parameters associated with different game difficulties and modes. This allows for easy tweaking of game balance and features.
+    * **Contents:** Contains Python dictionaries (like `HEART_POINTS_SETTINGS` and `NO_HEART_POINTS_SETTINGS`). These dictionaries map difficulty names (e.g., "Simple Scroll", "Spellbook") or mode identifiers to nested dictionaries containing key game settings such as:
+        * `grid`: Specifies the `height` and `width` of the game board.
+        * `words_on_board_needed`: Defines the `minimum` and `maximum` number of words required to be successfully placed on the grid during setup.
+        * `max_word_length`: Sets the exact length requirement for the "middle word" and the upper limit for subwords.
+        * `min_subword_length`: Sets the minimum length allowed for subwords during word selection.
+        * `heart_point_mode` (in `NO_HEART_POINTS_SETTINGS`): A boolean flag indicating the game mode.
+
+* **Wizards Settings (`wizards_details.py`):**
+    * **Purpose:** Stores all the detailed information and flavor text for each playable wizard character available in the "Heart Points" mode.
+    * **Contents:** Primarily contains a list (`WIZARDS_DATA`) where each element is a dictionary representing a single wizard. Each wizard's dictionary includes keys such as:
+        * `name`: The wizard's display name (e.g., "Oldspella").
+        * `art`: A multi-line string containing the large ASCII art for the wizard selection screen.
+        * `small_art`: A smaller multi-line ASCII art string used in the gameplay statistics panel.
+        * `color`: The `rich` library color string associated with the wizard (used for styling UI elements).
+        * `starting_lives`: The number of lives the wizard begins the game with.
+        * `combo_requirement`: The number of consecutive correct guesses needed to earn 1 Power Point (can be `None` if the wizard doesn't use combos).
+        * `powerup_name`: The thematic name of the wizard's special ability.
+        * `powerup_desc`: A short description of what the powerup does.
+        * `description`: Longer flavor text describing the wizard's background and personality, shown during character selection.
+
+
 <a id="core-game-systems"></a>
 ### 🧩 Core Game Systems
 
@@ -255,7 +284,7 @@ The game setup, main controlled
     * **Reads Lexicon File:** Gets the contents of the lexicon file specified via command-line argument.
     * **Filter Words:** Filters words from the lexicon based on the length constraints defined in the chosen difficulty settings.
     * **Find Valid Middle Word:** Searches for a "middle word" (of the maximum allowed length for the difficulty) that has a sufficient number of shorter subwords/anagrams also present in the lexicon. The minimum number of required subwords is also derived from the settings.
-    * **Get Subwords:** Uses `itertools.permutations` to efficiently find potential subwords.
+    * **Get Subwords:** Uses `itertools.permutations` to find all potential subwords.
     * **Final Return/Invalid Attempt:** If a suitable middle word and its accompanying subwords list are found, they are passed to the next phase. Otherwise, the setup might retry this phase (up to `MAX_SETUP_RETRIES` times) or ultimately fail.
 
 3.  **Grid Generation (`grid_generator.py`):** Using the selected words and grid dimensions from settings:
@@ -448,12 +477,12 @@ Unit tests are included in the `tests/` directory to help ensure the correctness
 -   [Example Google Style Python Docstrings — napoleon 0.7 documentation](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html)
 
 **Python: Project Structure & Packaging**
--   [Python Application Layouts: A Reference – Real Python](https://realpython.com/python-application-layouts/%23installable-single-package)
+-   [Python Application Layouts: A Reference – Real Python](https://realpython.com/python-application-layouts/)
 -   [Python Modules and Packages – An Introduction – Real Python](https://realpython.com/python-modules-packages/)
 -   [Why __init__.py File is Used in Python Projects | 2MinutesPy](http://www.youtube.com/watch%3Fv%3DmWaMSGwiSB0)
 
 **Python: Unit Testing**
--   [Please Learn How To Write Tests in Python… • Pytest Tutorial](https://www.youtube.com/watch%3Fv%3DEgpLj86ZHFQ)
+-   [Please Learn How To Write Tests in Python… • Pytest Tutorial](https://www.youtube.com/watch?v=EgpLj86ZHFQ&pp=0gcJCdgAo7VqN5tD)
 -   [How to Test Python Code with PyTest (Best Practices & Examples)](https://www.youtube.com/watch%3Fv%3DWxMFCfFRY2w)
 -   [Professional Python Testing with Mocks](http://www.youtube.com/watch%3Fv%3D-F6wVOlsEAM)
 -   [Python tests | Pytest Mock and Patch](http://www.youtube.com/watch%3Fv%3DWlY8xJt8XMU)
