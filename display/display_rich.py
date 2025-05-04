@@ -11,8 +11,9 @@ from rich.columns import Columns
 from rich.console import Group
 from rich.progress import Progress, BarColumn
 
-# For Wizards data
+# For Settings and Wizards data
 from data.wizards_details import WIZARDS_DATA
+from data.settings_details import HEART_POINTS_SETTINGS
 
 DEFAULT_BORDER_STYLE = "bright_cyan"
 DETAILS_PANEL_WIDTH = 40  # For wizard details panel
@@ -545,17 +546,29 @@ def rich_display_menu_options(options, current_index, title):
     Returns:
         None: This function prints directly to the console and returns nothing.
     """
+    
     options_list = []
     for i, option in enumerate(options):
+        detailed_prefix = ''
+        if option in HEART_POINTS_SETTINGS:
+            details = HEART_POINTS_SETTINGS[option]
+
+            height = details["grid"]["height"]
+            width = details["grid"]["width"]
+            min_words_needed = details["words_on_board_needed"]["minimum"]
+            max_words_needed = details["words_on_board_needed"]["maximum"]
+            detailed_prefix = f"{height}x{width}, {min_words_needed}-{max_words_needed} words"
+            detailed_prefix = detailed_prefix.ljust(22)
+
         if i == current_index:
             # Apply yellow style and arrow prefix to the selected option
             prefix = "-> "
-            line = f"[yellow]{prefix}{option}[/yellow]"
+            line = f"[yellow]{prefix}{detailed_prefix} {option}[/yellow]"
         else:
             # Add padding prefix to non-selected options
             # 3 spaces to align with "-> "
             prefix = "   "
-            line = f"{prefix}{option}"
+            line = f"{prefix}{detailed_prefix} {option}"
         options_list.append(line)
 
     # Join the list of lines with newlines for the message content

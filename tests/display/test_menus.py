@@ -212,7 +212,6 @@ def test_run_main_menu(
 @patch("builtins.print")
 def test_run_difficulty_menu(mock_print, mock_select):
     """Test the difficulty selection returns correct settings."""
-    # 1.) Select a predefined difficulty
     selected_diff = "Grand Tome"
     mock_select.return_value = selected_diff
     expected_settings = settings_details.HEART_POINTS_SETTINGS[selected_diff].copy()
@@ -222,9 +221,3 @@ def test_run_difficulty_menu(mock_print, mock_select):
 
     mock_select.assert_called_once()
     assert result1 == expected_settings
-
-    # 2.) Select Custom Board
-    mock_select.reset_mock()
-    mock_select.return_value = "Custom Board"
-    result2 = menus.run_difficulty_menu()
-    assert result2 == CUSTOM_SETTINGS

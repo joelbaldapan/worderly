@@ -249,7 +249,6 @@ MENU3_OPTIONS = [  # Difficulty Menu
     "Grand Tome",
     "Arcane Codex",
     "The Great Bibliotheca",
-    "Custom Board",
 ]
 
 
@@ -319,6 +318,12 @@ def run_main_menu():
                 # Continue loop to show main menu again
             elif selected_option == "Exit Game":
                 # Exit program
+                print_message(
+                    settings=None,
+                    message="Farewell, wizard! May you venture back on this journey.",
+                    border_style="magenta",
+                    title="Input",
+                )
                 sys.exit()
         else:
             # Handle case where user might somehow exit selection
@@ -354,10 +359,7 @@ def run_difficulty_menu():
         settings["heart_point_mode"] = True
 
         return settings
-    elif selected_option == "Custom Board":
-        # Return the predefined custom settings
-        # Assuming CUSTOM_SETTINGS already has heart_point_mode defined correctly
-        return CUSTOM_SETTINGS
     else:
-        # Handle case where user might somehow exit selection or invalid option
-        return None  # Or handle error appropriately
+        # If somehow the user chooses a different setting,
+        # then fallback to first choice
+        return HEART_POINTS_SETTINGS[MENU3_OPTIONS[0]]

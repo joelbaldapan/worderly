@@ -207,7 +207,7 @@ WIZARDS_DATA = [
         "combo_requirement": None,
         "powerup_name": "I Am Enough",
         "powerup_desc": "<No powerup>",
-        "description": "I am an old soul with the bravado of a new journeyman. Although I may have no power-ups, I am someone familiar with the words of this world, and I prefer to rely solely on my knowledge of the texts to save this world. (This wizard contains no power-ups for players who prefer the classic Worderly Place gameplay",
+        "description": "I am an old soul with the bravado of a new journeyman. Although I may have no power-ups, I am familiar with the words of this world, and I prefer to rely solely on my knowledge of the texts to save it.\n\n(This wizard contains no power-ups for players who prefer the classic Worderly Place gameplay",
     },
     {
         "name": "Wizard Dict",
@@ -218,7 +218,7 @@ WIZARDS_DATA = [
         "combo_requirement": 3,
         "powerup_name": "Hardbound Dict.",
         "powerup_desc": "Immune to damage from incorrect guesses for the next 2 turns.",
-        "description": "Yes.. the rumors are true I used to be a dictionary but a wizard turned me into a human. Words are literally and figuratively inside me so it'll take a lot more to get me down! (This wizard is a bit more tough so he can defend himself from life reduction for one turn. Being a dictionary in your former life gives you a lot of pages to start a new..y’know, so you also start with more life.)",
+        "description": "Yes... the rumors are indeed true. I used to be a dictionary, but a wizard turned me into a human. Words are literally and figuratively inside me... so it'll take a lot more to get me down.\n\n(This wizard is a bit more tough so he can defend himself from life reduction for one turn. Being a dictionary in your former life gives you a lot of pages to rip)",
     },
     {
         "name": "Streakbinder",
@@ -229,7 +229,7 @@ WIZARDS_DATA = [
         "combo_requirement": 3,
         "powerup_name": "Water of Life",
         "powerup_desc": "Restore +1 Life.",
-        "description": " I am a wizard obsessed with healing the sick! Once I get enough right, I can heal myself for this hard ordeal. (This wizard has the option to heal himself but starts with less life since he’s cared so much for others, he’s forgotten to care for himself..)",
+        "description": "Greetings, traveler! I am a wizard devoted to healing the sick. With each cure I master, I edge closer to mending myself from this grueling ordeal.\n\n(This wizard has the option to heal himself but starts with less life since. He’s cared so much for others, he had forgotten to care for himself...)",
     },
     {
         "name": "Fyaspella",
@@ -240,7 +240,7 @@ WIZARDS_DATA = [
         "combo_requirement": 2,
         "powerup_name": "Fire Starter",
         "powerup_desc": "Reveal 1 random word on the board.",
-        "description": "I am a young and upcoming top student of the fya arts and I’ve been quite the blaze! I get rewarded for consistently stoking the flames before I get it to blaze! (This wizard is for those who prefer the pressure of consistently getting it right in order to get a big pay-off. Being a young wizard you start with less health)",
+        "description": "RAHHHH! I am a young and upcoming top student of the fya arts, and I’ve been quite the blaze! Gettin' rewarded for consistently stoking the flames, always, always, always!\n\n(This wizard is for those who prefer the pressure of consistently getting it right in order to get a big pay-off. Being a young wizard, you start with less health)",
     },
     {
         "name": "Lettraseeker",
@@ -251,7 +251,7 @@ WIZARDS_DATA = [
         "combo_requirement": 4,
         "powerup_name": "Letter Seeds",
         "powerup_desc": "Reveal 5-8 letters on the board.",
-        "description": "I am a wizard obsessed with the pieces of the puzzle rather than the puzzle itself. Letters have always been fascinating to me since many of these “seeds” can bloom into a garden of words! (This wizard is for those who prefer to compound a lead with a potential power-up. However, the dedication to such powerful magic makes you start with less life.)",
+        "description": "Ah, the garden of words bloom my curiosity. I am a wizard obsessed with the pieces of the puzzle, rather than the puzzle itself. Each letter is a mystical seed I've sown, scattering them across the soil of thought to let this garden grow.\n\n(This wizard is for those who prefer to compound a lead with a potential power-up. However, the dedication to such powerful magic makes you start with less life.)",
     },
 ]
 
