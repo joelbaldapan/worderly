@@ -72,6 +72,11 @@ def sample_words_to_find():
     return {"A": [(0, 0)]}
 
 
+# ************************************************
+# Paths For Convenience
+# ************************************************
+
+
 PATCH_PRINT_GRID = "gameplay.gameplay.print_grid"
 PATCH_PRINT_STATS = "gameplay.gameplay.print_statistics"
 PATCH_PRINT_MSG = "gameplay.gameplay.print_message"

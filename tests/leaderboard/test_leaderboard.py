@@ -1,6 +1,3 @@
-# ************************************************
-# Tests for: Leaderboards
-# ************************************************
 import pytest
 from unittest.mock import mock_open, patch
 
@@ -9,6 +6,11 @@ from leaderboard import leaderboard
 # Define constants used in the module
 LEADERBOARD_FILE = leaderboard.LEADERBOARD_FILE
 DELIMITER = leaderboard.DELIMITER
+
+
+# ************************************************
+# Tests for: Leaderboards
+# ************************************************
 
 
 @pytest.fixture

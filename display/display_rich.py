@@ -260,7 +260,6 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
             Text("\nNote: White wizards have no powerups!", style="bright_white")
         )
 
-
     # Group all powerup parts together
     powerup_stats_content = Group(*powerup_parts)
 

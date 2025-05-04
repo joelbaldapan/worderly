@@ -1,0 +1,8 @@
+# Used by main game
+rich
+getkey
+
+# For testing
+pytest
+pytest-mock
+ruff

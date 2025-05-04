@@ -1,5 +1,3 @@
-# tests/display/test_menus.py
-
 import pytest
 from unittest.mock import patch
 from getkey import keys

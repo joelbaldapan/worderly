@@ -1,12 +1,8 @@
-# tests/test_worderly.py
-
 import pytest
 from unittest.mock import patch
 
 # Import the module to be tested
 import worderly
-
-# --- Fixtures ---
 
 
 @pytest.fixture
@@ -15,8 +11,11 @@ def sample_settings():
     return {"key": "value", "heart_point_mode": True}  # Added hp mode for consistency
 
 
-# --- Patch Paths ---
-# Target functions imported into worderly.py
+# ************************************************
+# Paths For Convenience
+# ************************************************
+
+
 PATCH_READ_WORD_FILE = "worderly.read_word_file"
 PATCH_GEN_WORD_LIST = "worderly.generate_word_list"
 PATCH_GEN_BOARD = "worderly.generate_board"
@@ -29,7 +28,9 @@ PATCH_CLEAR_SCREEN = "worderly.clear_screen"
 PATCH_PRINT = "builtins.print"  # For print calls within worderly.py
 PATCH_GET_LEXICON = "worderly.get_lexicon_file"  # For testing main
 
-# --- Tests for get_lexicon_file ---
+# ************************************************
+# Tests For: Getting lexicon file
+# ************************************************
 
 
 @patch("sys.argv", ["worderly.py"])  # Simulate no command-line argument
@@ -73,7 +74,9 @@ def test_get_lexicon_file_success(mock_print, mock_read):
     mock_print.assert_not_called()  # No errors printed
 
 
-# --- Tests for run_setup ---
+# ************************************************
+# Tests For: Running Setup
+# ************************************************
 
 
 @patch(PATCH_GEN_BOARD)
@@ -178,7 +181,9 @@ def test_run_setup_grid_fails_all_retries(
         worderly.MAX_GRID_SETUP_RETRIES = original_grid_retries
 
 
-# --- Tests for main (High-Level Flow) ---
+# ************************************************
+# Tests For: Main Flow
+# ************************************************
 
 
 # Remove patch for print
@@ -204,13 +209,12 @@ def test_main_exits_if_setup_fails(
     mock_clear, mock_run_setup, mock_run_menu, mock_get_lex
 ):
     """Test that main prints error and returns if run_setup fails."""
-    worderly.main()  # Call main directly
+    worderly.main()
 
     mock_get_lex.assert_called_once()
     mock_run_menu.assert_called_once()
     mock_run_setup.assert_called_once()
     mock_clear.assert_called_once()  # Called before printing fatal error
-    # Removed check for print output
 
 
 @patch(PATCH_GET_LEXICON, return_value="lex.txt")
@@ -220,7 +224,7 @@ def test_main_exits_if_setup_fails(
 @patch(PATCH_RUN_SETUP)
 @patch(PATCH_INIT_PLAYER)
 @patch(PATCH_RUN_GAME)
-@patch(PATCH_RUN_MAIN_MENU)  # Mock this as it might be called if loop continued
+@patch(PATCH_RUN_MAIN_MENU)
 def test_main_no_hp_mode_runs_once(
     mock_run_main_menu,
     mock_run_game,
@@ -232,7 +236,6 @@ def test_main_no_hp_mode_runs_once(
     """Test that main loop runs once and breaks if not in heart point mode."""
     # Simulate successful setup
     mock_run_setup.return_value = ("MIDDLE", {"A": []}, [["A"]])
-    # Simulate player info init
     mock_init_player.return_value = (None, {"color": "white"})  # Default player/wizard
 
     worderly.main()  # Should not raise SystemExit and should break loop
@@ -263,9 +266,8 @@ def test_main_hp_mode_loops(
     # Simulate HP mode selected initially
     settings_hp = {"heart_point_mode": True, "lexicon_path": ""}
     mock_run_hp_menu.return_value = settings_hp
-    # Simulate successful setup
+    # Simulate successful setup and player info init
     mock_run_setup.return_value = ("MIDDLE", {"A": []}, [["A"]])
-    # Simulate player info init
     mock_init_player.return_value = ("Player", {"color": "red"})
 
     # Limit the loop for testing purposes by making run_game raise an exception
