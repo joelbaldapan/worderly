@@ -151,7 +151,6 @@ def test_initialize_player_info_no_hp_mode(
     assert p_wizard == wizards_details.WIZARDS_DATA[0]  # Check default wizard
 
 
-
 @patch(PATCH_SELECT_FROM_MENU)
 def test_run_heart_points_menu(mock_select):
     """Test the first menu returns correct settings or None."""
@@ -170,12 +169,12 @@ def test_run_heart_points_menu(mock_select):
     mock_select.assert_called_once_with(
         menus.MENU1_OPTIONS, title="+.+.+.+ Select Heart Points Mode +.+.+.+"
     )
-    assert result2 is None 
+    assert result2 is None
 
 
 @patch(PATCH_SELECT_FROM_MENU)
 @patch(PATCH_RUN_DIFFICULTY_MENU)
-@patch(PATCH_CLEAR_SCREEN)  
+@patch(PATCH_CLEAR_SCREEN)
 @patch(PATCH_LOAD_LB)
 @patch(PATCH_PRINT_LB)
 @patch(PATCH_GET_INPUT)

@@ -1,8 +1,7 @@
 # tests/test_worderly.py
 
 import pytest
-from unittest.mock import patch, MagicMock
-import sys  # To patch sys.argv
+from unittest.mock import patch
 
 # Import the module to be tested
 import worderly

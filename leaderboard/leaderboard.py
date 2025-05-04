@@ -1,5 +1,5 @@
 # ************************************
-#            LEADERBOARDS
+#         LEADERBOARDS
 # ************************************
 import os
 from display.display import print_message
@@ -13,74 +13,90 @@ DELIMITER = "|"
 
 
 def load_leaderboard(filename=LEADERBOARD_FILE):
+    """Loads, parses, and sorts scores from the leaderboard file."""
     scores = []
+    # Check if the file exists before attempting to open
     if not os.path.exists(filename):
         return scores
 
     try:
+        # Open the file safely using 'with' statement
         with open(filename, "r", encoding="utf-8") as f:
+            # Enumerate lines for potential error reporting
             for line_num, line in enumerate(f, 1):
                 line = line.strip()
                 if not line:
                     continue  # Skip empty lines
 
-                # Split only on the first delimiter
+                # Split only on the first delimiter to handle names with '|'
                 parts = line.split(DELIMITER, 1)
 
+                # Ensure exactly two parts (name and score)
                 if len(parts) != 2:
-                    # print(
+                    # Optional warning
+                    # print( #
                     #     f"WARNING: Skipping wrong format line {line_num} in {filename}: {line}"
                     # )
                     continue
 
                 name = parts[0].strip()
                 try:
+                    # Attempt to convert score part to integer
                     score = int(parts[1].strip())
+                    # Ensure name is not empty after stripping
                     if name:
                         scores.append({"name": name, "score": score})
                     else:
+                        # Optional warning
                         # print(
                         #     f"WARNING: Skipping line {line_num} in {filename} due to empty name"
                         # )
-                        ...
+                        pass  # Silently skip lines with empty names
                 except ValueError:
+                    # Handle cases where score is not a valid integer
+                    # Optional warning
                     # print(
                     #     f"WARNING: Skipping line {line_num} in {filename} due to invalid score: {parts[1]}"
                     # )
-                    ...
+                    pass  # Silently skip lines with invalid scores
 
     except IOError as e:
+        # Handle file reading errors (e.g., permissions)
         print_message(
-            settings=None,
+            settings=None,  # Settings might not be available here
             message=f"ERROR: Could not read leaderboard file {filename}: {e}",
             border_style="red",
         )
     except Exception as e:
+        # Handle any other unexpected errors during loading
         print_message(
             settings=None,
             message=f"ERROR: An unexpected error occurred loading leaderboard: {e}",
             border_style="red",
         )
 
-    # Sort by score DESCENDING ORDER
+    # Sort the collected scores by score in descending order
     scores.sort(key=lambda x: x["score"], reverse=True)
     return scores
 
 
 def save_score(player_name, player_score, filename=LEADERBOARD_FILE):
+    """Appends a player's name and score to the leaderboard file."""
     try:
-        # Use append mode 'a' because we'll add onto the leaderboards
+        # Use append mode 'a' to add to the end of the file
         with open(filename, "a", encoding="utf-8") as f:
             f.write(f"{player_name}{DELIMITER}{player_score}\n")
     except IOError as e:
+        # Handle file writing errors
         print_message(
             settings=None,
             message=f"ERROR: Could not save score to {filename}: {e}",
             border_style="red",
         )
     except Exception as e:
+        # Handle any other unexpected errors during saving
         print_message(
             settings=None,
-            messsage=f"ERROR: An unexpected error occurred saving score: {e}",
+            message=f"ERROR: An unexpected error occurred saving score: {e}",
             border_style="red",
         )
