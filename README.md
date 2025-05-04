@@ -424,7 +424,7 @@ Unit tests are included in the `tests/` directory to help ensure the correctness
     -   Use `assert` statements (`assert result == expected`, `assert some_condition`) to verify the outcome. Use `pytest.raises` to check for expected exceptions.
 5.  Run `pytest` again to ensure your new tests pass and existing ones are not broken.
 
-<a id="(#external-references"></a>
+<a id="(external-references"></a>
 ## 🎓 External References
 **Sprite Work and ASCII Implementation**
 -   **Full credit to the [Official Terraria Wiki](https://www.google.com/search?q=%23https://terraria.wiki.gg/) for the wizard spritework!** *Ah, the game of our childhood 🙂🌲*
@@ -455,15 +455,15 @@ Unit tests are included in the `tests/` directory to help ensure the correctness
 **Python: Unit Testing**
 -   [Please Learn How To Write Tests in Python… • Pytest Tutorial](https://www.youtube.com/watch%3Fv%3DEgpLj86ZHFQ)
 -   [How to Test Python Code with PyTest (Best Practices & Examples)](https://www.youtube.com/watch%3Fv%3DWxMFCfFRY2w)
--   [Professional Python Testing with Mocks](https://www.google.com/search?q=%23http://www.youtube.com/watch%3Fv%3D-F6wVOlsEAM)
--   [Python tests | Pytest Mock and Patch](https://www.google.com/search?q=%23http://www.youtube.com/watch%3Fv%3DWlY8xJt8XMU)
+-   [Professional Python Testing with Mocks](http://www.youtube.com/watch%3Fv%3D-F6wVOlsEAM)
+-   [Python tests | Pytest Mock and Patch](http://www.youtube.com/watch%3Fv%3DWlY8xJt8XMU)
 
 **Command Line Tools**
 -   [tree Command in Linux with Examples | GeeksforGeeks](https://www.geeksforgeeks.org/tree-command-unixlinux/)
 
 **Markdown Documentation**
-- **Markdown for `README.md` visualized through:** [StackEdit](https://stackedit.io/).
--  [Markdown Cheatsheet · adam-p/markdown-here Wiki · GitHub](https://www.google.com/search?q=%23https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet%23images)
+- **Markdown for `README.md` visualized through:** [StackEdit](https://stackedit.io/)
+- [Markdown Cheat Sheet](https://www.markdownguide.org/)
  -  [How To Add Image To GitHub README | Add Screenshot In GitHub README.md File](https://www.youtube.com/watch%3Fv%3DlS65X0U1rp4)
 
 <h1 align="center">
