@@ -22,9 +22,10 @@
     * [Wizards and Powerups (Heart Points Mode)](#wizards-and-powerups)
 * [Code Organization and Implementation](#code-organization-and-implementation)
     * [Project Structure](#project-structure)
-    * [Setup Algorithm](#setup-algorithm)
-    * [Gameplay Loop](#gameplay-loop)
-    * [Display System](#display-system)
+    * [Core Game Systems](core-game-systems)
+	    * [Setup System](#setup-system)
+	    * [Gameplay System](#gameplay-system)
+	    * [Display System](#display-system)
     * [Leaderboard System](#leaderboard-system)
 * [Unit Tests](#unit-tests)
     * [Running Tests](#running-tests)
@@ -78,7 +79,7 @@ _(This file includes runtime dependencies like `rich` and `getkey`, as well as d
 ### ▶️ Running the Game
 To run the game, open your terminal or command prompt, navigate to the directory containing `worderly.py`, and run the script using your Python 3 interpreter (`python3` or `python`), providing the path to your lexicon file as the first argument:
 
-A *lexicon file*—a plain text file containing a list of valid words, one word per line.
+A **lexicon file** is a plain text file containing a list of valid words, one word per line.
 ```
 # Example for Linux/macOS/Ubuntu
 python3 worderly.py path/to/your/lexicon.txt
@@ -87,7 +88,7 @@ python3 worderly.py path/to/your/lexicon.txt
 python worderly.py path\to\your\lexicon.txt
 ```
 
-A lexicon file is already provided in the repository, `corncob-lowercase.txt`:
+`corncob-lowercase.txt` is a lexicon file that is already provided:
 ```
 # Linux/macOS/Ubuntu
 python3 worderly.py corncob-lowercase.txt
@@ -155,7 +156,7 @@ Check the wizard selection screen for details on their starting lives, powerup c
 ## 👨‍💻 Code Organization and Implementation
 
 The project is structured into several directories and files to promote modularity and separation of concerns.
-**These are the files and directories of the root.**
+**These are the program's files and directories.**
 ```
 .
 ├── README.md
@@ -182,10 +183,148 @@ The project is structured into several directories and files to promote modulari
 │   ├── grid_generator.py
 │   └── word_selector.py
 ├── tests
+│   └── (to be discussed later)
+└── worderly.py
+```
+<a id="project-structure"></a>
+### 📂 Project Structure
+The project is organized with the following directory structure to keep the code modular and maintainable:
+
+* **`data/`**: Holds static game data and configuration, separating it from executable code.
+    * `settings_details.py`: Defines parameters (grid size, word counts, etc.) used by different difficulty levels and game modes.
+    * `wizards_details.py`: Stores detailed information for each playable wizard, including their ASCII art, stats, powerup specifics, and descriptive text.
+    * `__init__.py`: An empty file marking this directory as a Python package for consistent importing.
+
+* **`display/`**: Manages all aspects of the user interface, including rendering output to the terminal and handling interactive menus.
+    * `display_basic.py`: Implements simple, unstyled text-based output functions (e.g., basic grid print).
+    * `display_rich.py`: Implements enhanced UI functions using the `rich` library for colorful, formatted output (panels, tables, etc.).
+    * `display.py`: Acts as a facade, selecting whether to use `basic` or `rich` display functions based on game settings.
+    * `display_utils.py`: Provides utility functions for the display, such as `clear_screen()`.
+    * `__init__.py`: (Recommended) Marks this directory as a Python package.
+
+* **`gameplay/`**: Contains the core logic for the interactive game loop, game rules, and state management.
+    * `gameplay.py`: Orchestrates the main game loop turn by turn, integrating display, input, processing, and game-over checks.
+    * `game_constants.py`: Centralizes constant values used during gameplay, like messages, commands (`!p`), and default parameters.
+    * `game_state_handler.py`: Manages the dynamic state of the game during play (lives, points, hidden grid status, found words/letters) and includes logic for processing guesses and revealing parts of the grid.
+    * `powerup_handler.py`: Implements the specific logic for wizard powerups, including how Power Points are earned and the effects of activating different abilities.
+    * `__init__.py`: (Recommended) Marks this directory as a Python package.
+
+* **`leaderboard/`**: Handles the persistent high score system.
+    * `leaderboard.py`: Contains functions for reading score data from the `leaderboards.txt` file, parsing/sorting scores, and writing new scores back to the file, including error handling.
+    * `leaderboards.txt`: (Generated) The plain text file where high scores are stored, typically one `name|score` entry per line. Created when the first score is saved.
+    * `__init__.py`: (Recommended) Marks this directory as a Python package.
+
+* **`setup/`**: Responsible for the initial, pre-game process of generating the puzzle grid and word list.
+	*    `menus.py`: Contains the logic for interactive menus (main menu, difficulty selection, wizard selection, name input) using the `getkey` library for arrow key input.
+    * `word_selector.py`: Contains functions to read the specified lexicon file, filter the words based on game settings, select a suitable "middle word", and find its valid subwords/anagrams.
+    * `grid_generator.py`: Implements the complex algorithm that takes the selected words and attempts to place them onto the 2D grid according to specific rules (diagonal middle word, intersections, bounds checking, adjacency constraints, etc.) with retry logic.
+    * `__init__.py`: (Recommended) Marks this directory as a Python package.
+
+* **`tests/`**: Contains unit tests using the `pytest` framework to verify the functionality and correctness of the different modules. *To be discussed later in the documentation: [Unit Tests](#unit-tests).*
+
+* **`corncob-lowercase.txt`**: An example **lexicon file**. This plain text file provides the dictionary of valid words (one per line, typically lowercase) used by the `setup` modules to create the word puzzles.
+* **`README.md`**: This documentation file, explaining the project.
+* **`requirements.txt`**: Lists the external Python packages (e.g., `rich`, `getkey`, `pytest`) needed for the project. Install using `pip install -r requirements.txt`.
+* **`worderly.py`**: The main **entry point script**. Running `python worderly.py <lexicon_file>` starts the game. It handles command-line arguments and calls functions from the other modules.
+
+<a id="core-game-systems"></a>
+### 🧩 Core Game Systems
+
+The game's implementation can be broadly understood through four core systems, each primarily handled by its respective directory:
+
+1.  **🛠️ Setup System (`setup/`):** Responsible for all pre-game preparations, including reading a lexicon file, selecting a suitable set of words based on difficulty settings, and algorithmically generating the puzzle grid by placing these words according to specific layout and validation rules, complete with retry logic.
+2.  **🎮 Gameplay System (`gameplay/`):** Manages the interactive turn-based loop, handling player input (guesses and powerup commands), processing game logic (checking guesses, applying powerup effects, updating lives and points via `game_state_handler.py` and `powerup_handler.py`), managing the game state, and detecting win/loss conditions.
+3.  **🎨 Display System (`display/`):** Handles all user interface rendering, presenting the game board, statistics, messages, and interactive menus (`menus.py`) to the player in the terminal. It offers options for both basic text (`display_basic.py`) and an enhanced `rich` TUI (`display_rich.py`), selected via a facade (`display.py`).
+4.  **🏆 Leaderboard System (`leaderboard/`):** Provides score persistence (primarily for the Heart Points mode) by saving player names and scores to a file (`leaderboards.txt`) and allowing high scores to be loaded, parsed, sorted, and displayed (`leaderboard.py`).
+
+<a id="setup-system"></a>
+#### 🛠️ Setup System 
+
+The game setup involves two main phases, with built-in retries to handle the 
+
+1.  **Word Selection (`word_selector.py`):**
+    -   Reads the provided lexicon file.
+    -   Filters words based on length constraints defined in the chosen difficulty settings.
+    -   Searches for a "middle word" of the maximum allowed length that has a sufficient number of shorter subwords/anagrams also present in the lexicon. The minimum number of required subwords is also based on settings.
+    -   Uses `itertools.permutations` to find potential subwords.
+    -   If a suitable middle word and its subwords are found, they are passed to the next phase. Otherwise, the setup might retry or fail.
+2.  **Grid Generation (`grid_generator.py`):**
+    
+    -   Initializes an empty grid based on the dimensions in the settings.
+    -   Places the chosen `middle_word` diagonally near the center of the grid, with empty cells between its letters. If the word cannot fit diagonally, the setup fails for this attempt.
+    -   Iteratively attempts to place the `subwords` onto the grid:
+        -   Finds all possible valid intersection points with letters already on the grid.
+        -   **Validation:** A placement is valid only if it:
+            -   Stays within the grid boundaries.
+            -   Doesn't run parallel and adjacent to another word.
+            -   Doesn't run directly into the start/end of another word in the same line.
+            -   Matches letters correctly at intersection points.
+            -   Doesn't overwrite an existing word completely.
+            -   Places at least one new letter (doesn't just trace over existing letters).
+        -   **Prioritization:** Placements that intersect with unused letters of the _original_ middle word are prioritized.
+        -   A random valid placement (preferring prioritized ones) is chosen and applied to the grid.
+    -   This continues until the maximum number of words for the difficulty is placed, or all words have been attempted.
+    -   **Final Validation:** The generated grid is checked to ensure it meets the _minimum_ required word count and that all letters of the original middle word were used as intersection points (ensuring connectivity).
+    -   If validation passes, the middle word is capitalized on the grid, and the final grid and word coordinate data are returned. Otherwise, the setup might retry or fail.
+
+<a id="gameplay-system"></a>
+#### 🎮 Gameplay System 
+
+The main game loop (`gameplay.py`) follows this cycle:
+
+1.  **Initialize:** Set up the initial game state (lives, points, hidden grid, etc.) based on settings and chosen wizard.
+2.  **Display:** Update the terminal display showing the current grid (with hidden/revealed letters), game statistics (lives, points, combo, etc.), wizard info, and the message from the previous turn.
+3.  **Input:** Prompt the player for input (a word guess or the powerup command `!p`). Validate the input (invalid guesses cost 1 life as required).
+4.  **Process:**
+    -   **If Guess:** Check if the guess is correct, incorrect, or already found. Update lives, points, combo meter accordingly. If correct, reveal the word's letters on the grid (`game_state_handler.py`) and check if any other words were implicitly completed by this reveal.
+    -   **If Powerup:** Check if the wizard can use a powerup and has enough power points. Activate the powerup effect (`powerup_handler.py`), which might involve revealing letters/words, gaining lives, or activating a shield. Consume a power point.
+5.  **Update Power Points:** If the turn involved a _guess_ (not a powerup activation) and the wizard has a combo requirement, check if a power point should be awarded (`powerup_handler.py`).
+6.  **Check Game Over:** Determine if the player has won (all words found) or lost (lives <= 0) (`game_state_handler.py`). The game stops accepting input upon detecting a final state.
+7.  **Loop/End:** If the game is not over, repeat from step 2. If the game is over, display the final win/loss screen showing the final grid state, lives, points, and last guess. In Heart Points mode, save the score and show the leaderboard before returning to the main menu or ending.
+
+<a id="display-system"></a>
+#### 🎨 Display System
+
+The game uses a flexible display system (`display/`) capable of rendering in two modes:
+
+-   **Basic:** Simple, unstyled text output suitable for any terminal. Fulfills the basic display requirements.
+-   **Rich:** Enhanced terminal UI using the `rich` library, featuring colors, formatted panels, tables, progress bars (for combo meter), and better layout. Used in Heart Points mode.
+
+The main module (`display.py`) acts as the one who controls which modes to use.
+* The  `heart_point_mode` setting is checked. Based on this, the corresponding `basic_` or `rich_` implementation is called.
+
+<a id="leaderboard-system"></a>
+#### 🏆 Leaderboard System
+
+The leaderboard (`leaderboard/leaderboard.py`) provides persistence for high scores in Heart Points mode:
+
+-   Scores (player name and points) are stored in a simple text file (`leaderboard/leaderboards.txt`).
+-   A delimiter (`|`) separates the name and score on each line.
+-   `save_score` appends a new entry to the file.
+-   `load_leaderboard` reads the file, parses each line carefully (handling potential errors like missing file, bad formatting, non-numeric scores), sorts the scores in descending order, and returns the data for display.
+
+<a id="unit-tests"></a>
+## 🧪 Unit Tests
+Unit tests are included in the `tests/` directory to help ensure the correctness and robustness of the game's logic. The project appears to use the `pytest` framework.
+
+**These are the program's files and directories.**
+```
+.
+├── README.md
+├── corncob-lowercase.txt
+├── data
+│   └── ...
+├── display
+│   └── ...
+├── gameplay
+│   └── ...
+├── leaderboard
+│   └── ...
+├── requirements.txt
+├── setup
+│   └── ...
+├── tests
 │   ├── __init__.py
-│   ├── display
-│   │   ├── __init__.py
-│   │   └── test_menus.py
 │   ├── gameplay
 │   │   ├── __init__.py
 │   │   ├── test_game_state_handler.py
@@ -203,52 +342,13 @@ The project is structured into several directories and files to promote modulari
 │   └── test_worderly.py
 └── worderly.py
 ```
-<a id="project-structure"></a>
-### Project Structure
 
-<a id="project-structure"></a>
-## 📂 Project Structure
-
-The project is organized with the following directory structure to keep the code modular and maintainable:
-
-* **`data/`**: Holds static game data and configuration, separating it from executable code.
-    * `settings_details.py`: Defines parameters (grid size, word counts, etc.) used by different difficulty levels and game modes.
-    * `wizards_details.py`: Stores detailed information for each playable wizard, including their ASCII art, stats, powerup specifics, and descriptive text.
-    * `__init__.py`: An empty file marking this directory as a Python package for consistent importing.
-
-* **`display/`**: Manages all aspects of the user interface, including rendering output to the terminal and handling interactive menus.
-    * `display_basic.py`: Implements simple, unstyled text-based output functions (e.g., basic grid print).
-    * `display_rich.py`: Implements enhanced UI functions using the `rich` library for colorful, formatted output (panels, tables, etc.).
-    * `display.py`: Acts as a facade, selecting whether to use `basic` or `rich` display functions based on game settings.
-    * `menus.py`: Contains the logic for interactive menus (main menu, difficulty selection, wizard selection, name input) using the `getkey` library for arrow key input.
-    * `display_utils.py`: Provides utility functions for the display, such as `clear_screen()`.
-    * `__init__.py`: (Recommended) Marks this directory as a Python package.
-
-* **`gameplay/`**: Contains the core logic for the interactive game loop, game rules, and state management.
-    * `gameplay.py`: Orchestrates the main game loop turn by turn, integrating display, input, processing, and game-over checks.
-    * `game_constants.py`: Centralizes constant values used during gameplay, like messages, commands (`!p`), and default parameters.
-    * `game_state_handler.py`: Manages the dynamic state of the game during play (lives, points, hidden grid status, found words/letters) and includes logic for processing guesses and revealing parts of the grid.
-    * `powerup_handler.py`: Implements the specific logic for wizard powerups, including how Power Points are earned and the effects of activating different abilities.
-    * `__init__.py`: (Recommended) Marks this directory as a Python package.
-
-* **`leaderboard/`**: Handles the persistent high score system.
-    * `leaderboard.py`: Contains functions for reading score data from the `leaderboards.txt` file, parsing/sorting scores, and writing new scores back to the file, including error handling.
-    * `leaderboards.txt`: (Generated) The plain text file where high scores are stored, typically one `name|score` entry per line. Created when the first score is saved.
-    * `__init__.py`: (Recommended) Marks this directory as a Python package.
-
-* **`setup/`**: Responsible for the initial, pre-game process of generating the puzzle grid and word list.
-    * `word_selector.py`: Contains functions to read the specified lexicon file, filter the words based on game settings, select a suitable "middle word", and find its valid subwords/anagrams.
-    * `grid_generator.py`: Implements the complex algorithm that takes the selected words and attempts to place them onto the 2D grid according to specific rules (diagonal middle word, intersections, bounds checking, adjacency constraints, etc.) with retry logic.
-    * `__init__.py`: (Recommended) Marks this directory as a Python package.
-
-* **`tests/`**: Contains unit tests (using the `pytest` framework) to verify the functionality and correctness of the different modules. The internal structure mirrors the main application directories. *Discussed later in the documentation: [Unit Tests](#unit-tests).*
+### 📁 Unit Test Structure
+* **`tests/`**: Contains unit tests using the `pytest` framework to verify the functionality and correctness of the different modules. *To be discussed later in the documentation: [Unit Tests](#unit-tests).*
     * `__init__.py`: Marks the `tests` directory and its subdirectories as packages, essential for test discovery tools.
-    * `test_worderly.py`: (Potential) Tests related to the main script's orchestration or argument handling.
-    * **`tests/display/`**: Contains tests for UI-related logic.
-        * `test_menus.py`: Tests the logic within the interactive menus (e.g., navigation, selection).
-        * `__init__.py`: Marks directory as a package.
+    * **`test_worderly.py`:** Tests related to the main script's handling of the program's flow, as well as argument handling for the lexicon file.
     * **`tests/gameplay/`**: Contains tests for core game logic.
-        * `test_gameplay.py`: (Potential) Tests for the main game loop orchestration.
+        * `test_gameplay.py`: Tests for the main game loop functionalities.
         * `test_game_state_handler.py`: Tests state changes, guess processing, reveal logic, game over conditions.
         * `test_powerup_handler.py`: Tests earning power points and powerup effects.
         * `__init__.py`: Marks directory as a package.
@@ -257,11 +357,53 @@ The project is organized with the following directory structure to keep the code
         * `__init__.py`: Marks directory as a package.
     * **`tests/setup/`**: Contains tests for the setup process.
         * `test_grid_generator*.py`: Tests various aspects of the grid generation algorithm and validation rules.
-        * `test_word_selector.py`: Tests lexicon reading, word filtering, and subword finding.
+        * `test_word_selector.py`: Tests lexicon file reading, word filtering, and subword finding.
         * `__init__.py`: Marks directory as a package.
 
-* **`corncob-lowercase.txt`**: An example **lexicon file**. This plain text file provides the dictionary of valid words (one per line, typically lowercase) used by the `setup` modules to create the word puzzles.
-* **`README.md`**: This documentation file, explaining the project.
-* **`requirements.txt`**: Lists the external Python packages (e.g., `rich`, `getkey`, `pytest`) needed for the project. Install using `pip install -r requirements.txt`.
-* **`worderly.py`**: The main **entry point script**. Running `python worderly.py <lexicon_file>` starts the game. It handles command-line arguments and calls functions from the other modules.
--   **`tests/`:** Contains unit tests for verifying the correctness of different modules. *Discussed later in the documentation: [Unit Tests](#unit-tests).
+<a id="running-tests"></a>
+### ✅ Running Tests
+
+1.  Ensure you have installed all dependencies from `requirements.txt` (which includes `pytest`):
+    
+    ```
+    pip install -r requirements.txt
+    ```
+2.  Navigate to the project's root directory in your terminal.
+3.  Run `pytest`:
+    ```
+    pytest
+    ```
+    
+    Pytest will automatically discover and run the tests located in the `tests/` directory.
+
+<a id="test-structure-and-thoroughness"></a>
+### 🏗️ Test Structure and Thoroughness
+
+-   **Structure:** Tests are organized within the `tests/` directory, *mirroring the main project structure*
+	- Each module file of the program begins with `test_`, followed by the module's name.
+		- For example:  `tests/test_setup/`, `tests/test_gameplay/`
+	- The same is true witih functions, each function from the core program files begin with `test_`, followed by the function name, and what the unit test does.
+		- For example: `def check_game_over` and `def test_check_game_over_win`
+-   **Coverage:** Reasonably thorough tests would aim to cover:
+    -   **`setup`:** Grid generation rules, coordinate calculations, word selection logic, file reading. As well as Menu navigation logic, input validation (where applicable without testing direct 
+    -   **`gameplay`:** State updates, guess processing outcomes, game over conditions, powerup logic.
+    -   **`leaderboard`:** Leaderboard loading/saving, parsing, sorting.
+    -   **`display`/`menus`:** terminal output/input capture).
+    -   **Edge Cases:** Empty inputs, invalid inputs, restrictive settings, boundary conditions.
+-   **Mocking:** Testing involves mocking external dependencies and interactions.
+	- This includes:
+		- File system access for the leaderboard,
+		- `getkey` for menu input,
+		- Aspects of `rich` display output
+	-	Python's built-in `unittest.mock` library, integrated via the `pytest-mock` plugin is utilized.
+<a id="adding-new-tests"></a>
+### ➕ Adding New Tests
+
+1.  Identify the module/function you want to test.
+2.  Find or create the corresponding test file within the `tests/` directory structure.
+3.  Write new test functions (usually starting with `test_`) using `pytest` conventions.
+4.  Inside the test function:
+    -   Set up necessary preconditions.
+    -   Call the code being tested.
+    -   Use `assert` statements (`assert result == expected`, `assert some_condition`) to verify the outcome. Use `pytest.raises` to check for expected exceptions.
+5.  Run `pytest` again to ensure your new tests pass and existing ones are not broken.
