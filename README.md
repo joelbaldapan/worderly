@@ -1,5 +1,5 @@
 
-![mainmenu](https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/7b5861f001486f67cdf52a7dec33b5bae298ce19/documentation_images/main_menu.png)
+![mainmenu](https://github.com/joelbaldapan/worderly/blob/main/documentation_images/main_menu.png?raw=true)
 <h1 align="center">
 🧙✨ Worderly - The Wizards of Worderly Place 📖🔮
 </h1>
@@ -123,7 +123,7 @@ Upon starting, you'll be asked to choose a mode:
 - This fulfills bare minimum assignment requirements.
 
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/noheartpoints_demo.png?raw=true" width="75%">
+<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/noheartpoints_.png?raw=true" width="75%">
 </p>
 
 <a id="heart-points"></a>
@@ -138,7 +138,7 @@ Upon starting, you'll be asked to choose a mode:
 -  **🔄 Game Restart:** After a game ends, you're automatically taken back to the main menu without having to restart the program.
 
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/heartpoints_youwin.png?raw=true" width="75%">
+<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/heartpoints_youwin.png?raw=true" width="75%">
 </p>
 
 <a id="controls"></a>
@@ -163,7 +163,7 @@ In **💖 Heart Points Mode**, you get to choose the challenge level by selectin
     * *A good starting point to learn the ropes.*
 
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/heartpoints_answertyped.png?raw=true" width="75%">
+<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/heartpoints_answertyped.png?raw=true" width="75%">
 </p>
 
 * **📖 Spellbook:**
@@ -171,7 +171,7 @@ In **💖 Heart Points Mode**, you get to choose the challenge level by selectin
     * **Words to Find:** 35 - 40 words
 
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/spellbook_difficulty.png?raw=true" width="75%">
+<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/spellbook_difficulty.png?raw=true" width="75%">
 </p>
 
 * **📓 Grand Tome:**
@@ -179,7 +179,7 @@ In **💖 Heart Points Mode**, you get to choose the challenge level by selectin
     * **Words to Find:** 60 - 80 words
 
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/grandtome_difficulty.png?raw=true" width="75%">
+<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/grandtome_difficulty.png?raw=true" width="75%">
 </p>
 
 * **📕 Arcane Codex:**
@@ -187,7 +187,7 @@ In **💖 Heart Points Mode**, you get to choose the challenge level by selectin
     * **Words to Find:** 100 - 150 words
 
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/arcodex_difficulty.png?raw=true" width="75%">
+<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/arcodex_difficulty.png?raw=true" width="75%">
 </p>
 
 * **🏛️ The Great Bibliotheca:**
@@ -195,7 +195,7 @@ In **💖 Heart Points Mode**, you get to choose the challenge level by selectin
     * **Words to Find:** 242 - 369 words
 
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/biblio.png?raw=true" width="75%">
+<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/biblio.png?raw=true" width="75%">
 </p>
 
 <a id="wizards-and-powerups"></a>
@@ -223,7 +223,7 @@ Here are the wizards available in Worderly Place and their unique attributes:
     * **Powerup Description:** \<No powerup>
 
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/oldspella_chardescrip.png?raw=true" width="75%">
+<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/oldspella_chardescrip.png?raw=true" width="75%">
 </p>
 
 -   **💜 Wizard Dict (Magenta):** Powerup grants temporary immunity to damage. Earns power points via combos.
@@ -233,7 +233,7 @@ Here are the wizards available in Worderly Place and their unique attributes:
     * **Powerup Description:** Become immune to damage from incorrect guesses for the next 2 turns.
 
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/a6e777351b35e364a257bf3d8ffcc77edce33618/documentation_images/wizardict_chardescrip.png?raw=true" width="75%">
+<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/documentation_images/wizardict_chardescrip.png?raw=true" width="75%">
 </p>
 
 -   **💙 Streambinder (Blue):** Powerup restores a lost life. Earns power points via combos.
@@ -243,7 +243,7 @@ Here are the wizards available in Worderly Place and their unique attributes:
     * **Powerup Description:** Instantly restore +1 
 
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/streambinder_chardescrip.png?raw=true" width="75%">
+<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/documentation_images/streambinder_chardescrip.png?raw=true" width="75%">
 </p>
 
 -   **❤️ Fyaspella (Red):** Powerup reveals a random hidden word. Earns power points frequently with shorter combos.
@@ -253,7 +253,7 @@ Here are the wizards available in Worderly Place and their unique attributes:
     * **Powerup Description:** Reveal 1 random, complete hidden word on the board.
 
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/fyaspella_chardescrip.png?raw=true" width="75%">
+<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/fyaspella_chardescrip.png?raw=true" width="75%">
 </p>
 
 -   **💚 Lettraseeker (Green):** Powerup reveals several random hidden letters. Earns power points with longer combos.
@@ -263,7 +263,7 @@ Here are the wizards available in Worderly Place and their unique attributes:
     * **Powerup Description:** Reveal 5-8 random hidden letters scattered across the board.
     
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/lettraseeker_chardescrip.png?raw=true" width="75%">
+<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/lettraseeker_chardescrip.png?raw=true" width="75%">
 </p>
 
 💡 **The wizard selection screen shows details on their starting lives, combo requirements and descriptions!**
@@ -281,7 +281,7 @@ Want to see how your wizarding word skills stack up? The Leaderboard tracks the 
 * **What's Shown:** The leaderboard displays the **Top 10 highest scores** achieved so far. It shows each player's Rank (from 1st to 10th), their Name, and their Score, sorted from highest to lowest.
 
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/leaderboard_sample2.png?raw=true" width="75%">
+<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/leaderboard_sample2.png?raw=true" width="75%">
 </p>
 
 **Challenge yourself to climb the ranks and become a legendary Wizard of Worderly Place!**
