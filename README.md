@@ -163,7 +163,7 @@ In **💖 Heart Points Mode**, you get to choose the challenge level by selectin
     * *A good starting point to learn the ropes.*
 
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/heartpoints_answertyped.png?raw=true" width="50%">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/heartpoints_answertyped.png?raw=true" width="75%">
 </p>
 
 * **📖 Spellbook:**
@@ -171,7 +171,7 @@ In **💖 Heart Points Mode**, you get to choose the challenge level by selectin
     * **Words to Find:** 35 - 40 words
 
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/spellbook_difficulty.png?raw=true" width="50%">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/spellbook_difficulty.png?raw=true" width="75%">
 </p>
 
 * **📓 Grand Tome:**
@@ -179,7 +179,7 @@ In **💖 Heart Points Mode**, you get to choose the challenge level by selectin
     * **Words to Find:** 60 - 80 words
 
 <p align="center">
-<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/grandtome_difficulty.png?raw=true" width="50%">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/grandtome_difficulty.png?raw=true" width="75%">
 </p>
 
 * **📕 Arcane Codex:**
