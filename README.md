@@ -1,6 +1,5 @@
 
-
-
+![mainmenu](https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/7b5861f001486f67cdf52a7dec33b5bae298ce19/documentation_images/main_menu.png)
 <h1 align="center">
 🧙✨ Worderly - The Wizards of Worderly Place 📖🔮
 </h1>
@@ -20,7 +19,11 @@
 	    * [No Heart Points](#no-heart-points)
 	    * [Heart Points](#heart-points)
     * [Controls](#controls)
+    * [Difficulty Level & Board Sizes](#difficulty)
     * [Wizards and Powerups](#wizards-and-powerups)
+	    * [Combos and Powerups](#combos-and-pps)
+	    * [Meet the Wizards](#combos-and-pps)
+	* [Leaderboards](#leaderboards) 
 * [Code Organization and Implementation](#code-organization-and-implementation)
     * [Project Structure](#project-structure)
     * [Data Configuration](#data-configuration)
@@ -119,6 +122,10 @@ Upon starting, you'll be asked to choose a mode:
 - The display uses basic text. 
 - This fulfills bare minimum assignment requirements.
 
+<p align="center">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/noheartpoints_demo.png?raw=true" width="75%">
+</p>
+
 <a id="heart-points"></a>
 #### 2. **💖 Heart Points:** 
 - **The enhanced, feature-rich mode! _(Includes bonus features)_**
@@ -129,6 +136,10 @@ Upon starting, you'll be asked to choose a mode:
 -   **🏆 Leaderboards:** Your final score is saved, and you can view the high scores.
 -   **🎨 Enhanced Visuals:** Uses the `rich` library for colorful, formatted output with panels, tables, and progress bars.
 -  **🔄 Game Restart:** After a game ends, you're automatically taken back to the main menu without having to restart the program.
+
+<p align="center">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/heartpoints_youwin.png?raw=true" width="75%">
+</p>
 
 <a id="controls"></a>
 ### 🎮 Controls
@@ -141,18 +152,140 @@ Upon starting, you'll be asked to choose a mode:
     -   In **Heart Points Mode**, if you have enough Power Points and your wizard has an ability, type **`!p`** and press **Enter** to activate your powerup instead of guessing a word.
 -   **Exiting:** You can exit the game anytime by pressing **Ctrl+C**. The Main Menu also has an *"Exit Game"* option.
 
+<a id="difficulty"></a>
+### 📚 Difficulty Levels & Board Sizes
+
+In **💖 Heart Points Mode**, you get to choose the challenge level by selecting a "book" or difficulty. Each difficulty presents a different size puzzle grid and requires finding a varying number of hidden words. Here's a quick guide to what each level entails:
+
+* **📜 Simple Scroll:**
+    * **Grid Size:** 15 rows x 25 columns
+    * **Words to Find:** 21 - 25 words
+    * *A good starting point to learn the ropes.*
+
+<p align="center">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/heartpoints_answertyped.png?raw=true" width="50%">
+</p>
+
+* **📖 Spellbook:**
+    * **Grid Size:** 15 rows x 25 columns
+    * **Words to Find:** 35 - 40 words
+
+<p align="center">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/spellbook_difficulty.png?raw=true" width="50%">
+</p>
+
+* **📓 Grand Tome:**
+    * **Grid Size:** 18 rows x 35 columns
+    * **Words to Find:** 60 - 80 words
+
+<p align="center">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/grandtome_difficulty.png?raw=true" width="50%">
+</p>
+
+* **📕 Arcane Codex:**
+    * **Grid Size:** 18 rows x 45 columns
+    * **Words to Find:** 100 - 150 words
+
+<p align="center">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/arcodex_difficulty.png?raw=true" width="75%">
+</p>
+
+* **🏛️ The Great Bibliotheca:**
+    * **Grid Size:** 30 rows x 65 columns
+    * **Words to Find:** 242 - 369 words
+
+<p align="center">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/biblio.png?raw=true" width="75%">
+</p>
+
 <a id="wizards-and-powerups"></a>
 ### 🧙 Wizards and Powerups
 
-In Heart Points mode, each wizard offers a different playstyle:
+In **💖 Heart Points Mode**, choosing a wizard significantly impacts your gameplay strategy. Each wizard (except the traditional Oldspella) has a unique powerup ability and a way to earn Power Points to fuel it.
+
+<a id="combos-and-pps"></a>
+#### ✨ Combos and Power Points
+
+-   **Power Points (PP):** These are the resource used to activate your wizard's special powerup. Using a powerup always costs **1 Power Point**. You can see your current PP in the statistics panel during gameplay.
+-   **Combos:** You build a combo by getting consecutive correct word guesses. Finding a word adds 1 to your combo meter.
+-   **Earning Power Points:** Each wizard with a powerup has a **Combo Requirement**. When your current combo count reaches a multiple of this requirement (e.g., 3, 6, 9 for a requirement of 3), you earn **+1 Power Point**. The statistics panel often includes a visual meter showing your progress towards the next Power Point.
+-   **Breaking Combos:** Making an incorrect guess (guessing a word not on the board, or guessing a word you've already found) resets your combo meter back to **0**, and you'll have to start building it up again.
+
+<a id="meet-the-wizards"></a>
+#### Meet the Wizards
+
+Here are the wizards available in Worderly Place and their unique attributes:
 
 -   **🤍 Oldspella (White):** No powerups, relies purely on word knowledge. For the classic experience.
--   **💜 Wizard Dict (Magenta):** Powerup grants temporary immunity to damage. Earns power points via combos.
--   **💙 Streambinder (Blue):** Powerup restores a lost life. Earns power points via combos.
--   **❤️ Fyaspella (Red):** Powerup reveals a random hidden word. Earns power points frequently with shorter combos.
--   **💚 Lettraseeker (Green):** Powerup reveals several random hidden letters. Earns power points with longer combos.
+    * **Starting Lives:** 5 ❤️
+    * **Combo Requirement:** N/A (Does not use Power Points)
+    * **Powerup Name:** I Am Enough
+    * **Powerup Description:** \<No powerup>
 
-Check the wizard selection screen for details on their starting lives, powerup cost (always 1 Power Point), combo requirements (how many correct guesses in a row grant a Power Point), and descriptions.
+<p align="center">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/oldspella_chardescrip.png?raw=true" width="75%">
+</p>
+
+-   **💜 Wizard Dict (Magenta):** Powerup grants temporary immunity to damage. Earns power points via combos.
+    * **Starting Lives:** 4 ❤️
+    * **Combo Requirement:** 3 Combo
+    * **Powerup Name:** Hardbound Dict.
+    * **Powerup Description:** Become immune to damage from incorrect guesses for the next 2 turns.
+
+<p align="center">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/a6e777351b35e364a257bf3d8ffcc77edce33618/documentation_images/wizardict_chardescrip.png?raw=true" width="75%">
+</p>
+
+-   **💙 Streambinder (Blue):** Powerup restores a lost life. Earns power points via combos.
+    * **Starting Lives:** 3 ❤️
+    * **Combo Requirement:** 3 Combo
+    * **Powerup Name:** Tide of Renewal
+    * **Powerup Description:** Instantly restore +1 
+
+<p align="center">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/streambinder_chardescrip.png?raw=true" width="75%">
+</p>
+
+-   **❤️ Fyaspella (Red):** Powerup reveals a random hidden word. Earns power points frequently with shorter combos.
+    * **Starting Lives:** 4 ❤️
+    * **Combo Requirement:** 2 Combo
+    * **Powerup Name:** Fire Starter
+    * **Powerup Description:** Reveal 1 random, complete hidden word on the board.
+
+<p align="center">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/fyaspella_chardescrip.png?raw=true" width="75%">
+</p>
+
+-   **💚 Lettraseeker (Green):** Powerup reveals several random hidden letters. Earns power points with longer combos.
+    * **Starting Lives:** 4 ❤️
+    * **Combo Requirement:** 4 Combo (Requires longer combos)
+    * **Powerup Name:** Wildgrowth
+    * **Powerup Description:** Reveal 5-8 random hidden letters scattered across the board.
+    
+<p align="center">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/lettraseeker_chardescrip.png?raw=true" width="75%">
+</p>
+
+💡 **The wizard selection screen shows details on their starting lives, combo requirements and descriptions!**
+
+<a id="leaderboards"></a>
+### 🏆 Leaderboards
+
+Want to see how your wizarding word skills stack up? The Leaderboard tracks the mightiest scores achieved in Worderly Place!
+
+* **Exclusive to Heart Points Mode:** The leaderboard feature is only active when you play the **💖 Heart Points** mode. Your scores from "No Heart Points" mode are not recorded.
+* **Automatic Score Saving:** When you finish a game in Heart Points mode, your final score (earned by revealing letters) and the player name you entered are automatically saved to the high score list.
+* **Viewing the Top 10:** You can check the current high scores in two ways:
+    1.  Select the **"Check Leaderboards"** option from the main menu in Heart Points mode.
+    2.  The leaderboard will also typically be displayed automatically right after you finish a game and before you return to the main menu.
+* **What's Shown:** The leaderboard displays the **Top 10 highest scores** achieved so far. It shows each player's Rank (from 1st to 10th), their Name, and their Score, sorted from highest to lowest.
+
+<p align="center">
+<img src="https://github.com/UPD-CS11-242/project-1-wizards-of-worderly-place-corncob-clowns/blob/main/documentation_images/leaderboard_sample2.png?raw=true" width="75%">
+</p>
+
+**Challenge yourself to climb the ranks and become a legendary Wizard of Worderly Place!**
+
 
 <a id="code-organization-and-implementation"></a>
 ## 👨‍💻 Code Organization and Implementation
@@ -163,6 +296,9 @@ The project is structured into several directories and files to promote modulari
 .
 ├── README.md
 ├── corncob-lowercase.txt
+├── gameplay
+├── documentation_images
+│   └── ...
 ├── data
 │   ├── settings_details.py
 │   └── wizards_details.py
@@ -223,6 +359,8 @@ The project is organized with the following directory structure to keep the code
     * `__init__.py`: Marks this directory as a Python package.
 
 * **`tests/`**: Contains unit tests using the `pytest` framework to verify the functionality and correctness of the different modules. *To be discussed later in the documentation: [Unit Tests](#unit-tests).*
+
+**`documentation_images/`**: Contains the pictures for the GitHub repository.
 
 * **`corncob-lowercase.txt`**: An example **lexicon file**. This plain text file provides the dictionary of valid words (one per line, typically lowercase) used by the `setup` modules to create the word puzzles.
 * **`README.md`**: This documentation file, explaining the project.
@@ -357,6 +495,8 @@ Unit tests are included in the `tests/` directory to help ensure the correctness
 .
 ├── README.md
 ├── corncob-lowercase.txt
+├── documentation_images
+│   └── ...
 ├── data
 │   └── ...
 ├── display
@@ -453,15 +593,15 @@ Unit tests are included in the `tests/` directory to help ensure the correctness
     -   Use `assert` statements (`assert result == expected`, `assert some_condition`) to verify the outcome. Use `pytest.raises` to check for expected exceptions.
 5.  Run `pytest` again to ensure your new tests pass and existing ones are not broken.
 
-<a id="(external-references"></a>
+<a id="external-references"></a>
 ## 🎓 External References
 **Sprite Work and ASCII Implementation**
--   **Full credit to the [Official Terraria Wiki](https://www.google.com/search?q=%23https://terraria.wiki.gg/) for the wizard spritework!** *Ah, the game of our childhood 🙂🌲*
-	-   Oldspella: [Vortex armor](https://www.google.com/search?q=%23https://terraria.wiki.gg/wiki/Vortex_armor)
-	-   Wizard Dict: [Nebula armor](https://www.google.com/search?q=%23https://terraria.wiki.gg/wiki/Nebula_armor)
-	- Streambinder: [Stardust armor](https://www.google.com/search?q=%23https://terraria.wiki.gg/wiki/Stardust_armor)
-	-   Fyaspella: [Solar Flare armor](https://www.google.com/search?q=%23https://terraria.wiki.gg/wiki/Solar_Flare_armor)
-	-   Lettraseeker: [Chlorophyte armor](https://www.google.com/search?q=%23https://terraria.wiki.gg/wiki/Chlorophyte_armor)
+-   **Full credit to the [Official Terraria Wiki](https://terraria.wiki.gg/) for the wizard spritework!** *Ah, the game of our childhood 🙂🌲*
+	-   Oldspella: [Vortex armor](https://terraria.wiki.gg/wiki/Vortex_armor)
+	-   Wizard Dict: [Nebula armor](https://terraria.wiki.gg/wiki/Nebula_armor)
+	- Streambinder: [Stardust armor](https://terraria.wiki.gg/wiki/Stardust_armor)
+	-   Fyaspella: [Solar Flare armor](https://terraria.wiki.gg/wiki/Solar_Flare_armor)
+	-   Lettraseeker: [Chlorophyte armor](https://terraria.wiki.gg/wiki/Chlorophyte_armor)
 - Generating ASCII art: [Text to ASCII: The best ASCII Art Generator & Maker](https://www.asciiart.eu/text-to-ascii-art)
 
 
@@ -479,13 +619,13 @@ Unit tests are included in the `tests/` directory to help ensure the correctness
 **Python: Project Structure & Packaging**
 -   [Python Application Layouts: A Reference – Real Python](https://realpython.com/python-application-layouts/)
 -   [Python Modules and Packages – An Introduction – Real Python](https://realpython.com/python-modules-packages/)
--   [Why __init__.py File is Used in Python Projects | 2MinutesPy](http://www.youtube.com/watch%3Fv%3DmWaMSGwiSB0)
+-   [Why __init__.py File is Used in Python Projects | 2MinutesPy](https://www.youtube.com/watch?v=mWaMSGwiSB0)
 
 **Python: Unit Testing**
--   [Please Learn How To Write Tests in Python… • Pytest Tutorial](https://www.youtube.com/watch?v=EgpLj86ZHFQ&pp=0gcJCdgAo7VqN5tD)
--   [How to Test Python Code with PyTest (Best Practices & Examples)](https://www.youtube.com/watch%3Fv%3DWxMFCfFRY2w)
--   [Professional Python Testing with Mocks](http://www.youtube.com/watch%3Fv%3D-F6wVOlsEAM)
--   [Python tests | Pytest Mock and Patch](http://www.youtube.com/watch%3Fv%3DWlY8xJt8XMU)
+-   [Please Learn How To Write Tests in Python… • Pytest Tutorial](https://www.youtube.com/watch?v=EgpLj86ZHFQ)
+-   [How to Test Python Code with PyTest (Best Practices & Examples)](https://www.youtube.com/watch?v=WxMFCfFRY2w)
+-   [Professional Python Testing with Mocks](https://www.youtube.com/watch?v=-F6wVOlsEAM)
+-   [Python tests | Pytest Mock and Patch](https://www.youtube.com/watch?v=WlY8xJt8XMU&pp=ygUJI2RhdGFtb2Nr )
 
 **Command Line Tools**
 -   [tree Command in Linux with Examples | GeeksforGeeks](https://www.geeksforgeeks.org/tree-command-unixlinux/)
@@ -493,7 +633,7 @@ Unit tests are included in the `tests/` directory to help ensure the correctness
 **Markdown Documentation**
 - **Markdown for `README.md` visualized through:** [StackEdit](https://stackedit.io/)
 - [Markdown Cheat Sheet](https://www.markdownguide.org/)
- -  [How To Add Image To GitHub README | Add Screenshot In GitHub README.md File](https://www.youtube.com/watch%3Fv%3DlS65X0U1rp4)
+ -  [How To Add Image To GitHub README | Add Screenshot In GitHub README.md File](https://www.youtube.com/watch?v=lS65X0U1rp4)
 
 <h1 align="center">
 🧙📖 Thank you! 🔮✨
