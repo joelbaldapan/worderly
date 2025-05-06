@@ -233,7 +233,7 @@ Here are the wizards available in Worderly Place and their unique attributes:
     * **Powerup Description:** Become immune to damage from incorrect guesses for the next 2 turns.
 
 <p align="center">
-<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/documentation_images/wizardict_chardescrip.png?raw=true" width="75%">
+<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/wizardict_chardescrip.png?raw=true" width="75%">
 </p>
 
 -   **💙 Streambinder (Blue):** Powerup restores a lost life. Earns power points via combos.
@@ -243,7 +243,7 @@ Here are the wizards available in Worderly Place and their unique attributes:
     * **Powerup Description:** Instantly restore +1 
 
 <p align="center">
-<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/documentation_images/streambinder_chardescrip.png?raw=true" width="75%">
+<img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/streambinder_chardescrip.png?raw=true" width="75%">
 </p>
 
 -   **❤️ Fyaspella (Red):** Powerup reveals a random hidden word. Earns power points frequently with shorter combos.
