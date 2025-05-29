@@ -1,300 +1,205 @@
-# ****************
-# IMPORTS
-# ****************
+# gameplay/gameplay.py
+from typing import List, Optional, Dict, Tuple, Any
+
+# Import dataclasses
+from data.settings_details import DifficultyData
+from data.wizards_details import WizardData
+
 from display.display import (
     get_input,
     print_grid,
     print_leaderboard,
     print_message,
-    print_statistics,
+    print_statistics,  # This will receive GameStatisticsData
 )
 from display.display_utils import clear_screen
 from gameplay import game_constants
+
+# GameStateData will be used here
 from gameplay.game_state_handler import (
+    GameStateData,  # Import the dataclass
+    GameStatisticsData,  # Import for type hint consistency if needed, though mainly via GameStateData
     check_game_over,
-    initialize_game_state,
-    process_guess,
+    initialize_game_state,  # Returns GameStateData
+    process_guess,  # Takes GameStateData
 )
+
+# These will also need to be updated to take GameStateData and WizardData
 from gameplay.powerup_handler import update_power_points, use_powerup
 from leaderboard.leaderboard import (
     load_leaderboard,
     save_score,
 )
 
-# ****************
-# GAME LOGIC
-# ****************
 
-
-def update_display(settings, game_state, selected_wizard) -> None:
-    """Updates the entire game display for the current turn.
-
-    Clears the screen and then prints the grid, statistics panel, and
-    the current message based on the game state.
-
-    Args:
-        settings (dict): The current game settings.
-        game_state (dict): The main game state dictionary.
-        selected_wizard (dict):
-            The dictionary containing data for the selected wizard.
-
-    Returns:
-        None
-
-    """
+def update_display(
+    current_difficulty_config: DifficultyData,
+    game_st: GameStateData,  # Changed to GameStateData
+    current_selected_wizard: WizardData,
+) -> None:
+    """Updates the entire game display for the current turn."""
     clear_screen()
     print_grid(
-        settings,
-        game_state["hidden_grid"],
-        highlighted_coords=game_state["last_guess_coords"],
+        current_difficulty_config,
+        game_st.hidden_grid,  # Attribute access
+        highlighted_coords=game_st.last_guess_coords,  # Attribute access
         highlight_color=game_constants.DEFAULT_HIGHLIGHT_COLOR,
         letters_color=game_constants.DEFAULT_LETTERS_COLOR,
-        border_style=game_state["next_message_color"],
-        hidden_color=game_state["next_message_color"],
+        border_style=game_st.next_message_color,  # Attribute access
+        hidden_color=game_st.next_message_color,  # Attribute access
     )
     print_statistics(
-        settings,
-        game_state["statistics"],
-        game_state["next_message_color"],  # Use message color for stats border
-        game_state["hidden_grid"],
-        selected_wizard,
-        game_state,
+        current_difficulty_config,
+        game_st.statistics,  # Pass GameStatisticsData object
+        game_st.next_message_color,
+        game_st.hidden_grid,
+        current_selected_wizard,
+        game_st,  # Pass GameStateData for player_name etc. if display needs more
     )
     print_message(
-        settings,
-        game_state["next_message"],
-        border_style=game_state["next_message_color"],
+        current_difficulty_config,
+        game_st.next_message,  # Attribute access
+        border_style=game_st.next_message_color,  # Attribute access
     )
 
 
-def get_guess(settings, game_state, selected_wizard):
-    """Prompts the player for input and validates it as a guess or powerup command.
-
-    Loops until valid input is received. Validates against empty input,
-    non-alphabetic characters (for guesses), and powerup command rules
-    (heart point mode enabled, wizard type, sufficient power points).
-    Updates the display with error messages for invalid inputs.
-
-    Args:
-        settings (dict): The current game settings.
-        game_state (dict):
-            The main game state dictionary (used for validation
-            and potentially modified for error messages).
-        selected_wizard (dict): The dictionary for the current wizard.
-
-    Returns:
-        str: The validated player input (lowercase, stripped word guess or
-             the powerup command string).
-
-    """
-    wizard_color = selected_wizard["color"]
-    power_points = game_state["statistics"]["power_points"]
+def get_guess(
+    current_difficulty_config: DifficultyData,
+    game_st: GameStateData,  # Changed to GameStateData
+    current_selected_wizard: WizardData,
+) -> str:
+    """Prompts player for input, validates it as a guess or powerup command."""
+    wizard_color = current_selected_wizard.color
+    power_points = game_st.statistics.power_points  # Attribute access
 
     while True:
-        # Show (Type `!p` to activate powerup!) if on heart point mode
-        if settings["heart_point_mode"] and wizard_color != "bright_white":
-            user_input = get_input(
-                settings,
-                "  > Enter guess (Type `!p` to activate powerup!): ",
-            )
-        else:
-            user_input = get_input(settings, "  > Enter guess: ")
+        prompt = "  > Enter guess: "
+        if current_difficulty_config.heart_point_mode and wizard_color != "bright_white":
+            prompt = "  > Enter guess (Type `!p` to activate powerup!): "
+
+        user_input = get_input(current_difficulty_config, prompt)
         guess = user_input.lower().strip()
 
         if not guess:
-            # Handle empty input
-            game_state["next_message"] = game_constants.INVALID_GUESS_EMPTY_MSG
-            game_state["next_message_color"] = game_constants.ERROR_COLOR
-            update_display(settings, game_state, selected_wizard)
-        elif (
-            settings["heart_point_mode"] and guess == game_constants.POWERUP_COMMAND
-        ):  # Only have powerups when heart point mode
-            # Handle powerup command attempt
+            game_st.next_message = game_constants.INVALID_GUESS_EMPTY_MSG  # Attribute access
+            game_st.next_message_color = game_constants.ERROR_COLOR  # Attribute access
+            update_display(current_difficulty_config, game_st, current_selected_wizard)
+        elif current_difficulty_config.heart_point_mode and guess == game_constants.POWERUP_COMMAND:
             if wizard_color == "bright_white":
-                # White wizard cannot use powerups
-                game_state["next_message"] = game_constants.NO_POWERUP_MSG
-                game_state["next_message_color"] = game_constants.ERROR_COLOR
-                update_display(settings, game_state, selected_wizard)
-            elif power_points <= 0:  # Check power points (use <= 0 for safety)
-                # Insufficient power points
-                game_state["next_message"] = game_constants.INSUFFICIENT_POWER_MSG
-                game_state["next_message_color"] = game_constants.ERROR_COLOR
-                update_display(settings, game_state, selected_wizard)
+                game_st.next_message = game_constants.NO_POWERUP_MSG
+                game_st.next_message_color = game_constants.ERROR_COLOR
+                update_display(current_difficulty_config, game_st, current_selected_wizard)
+            elif power_points <= 0:
+                game_st.next_message = game_constants.INSUFFICIENT_POWER_MSG
+                game_st.next_message_color = game_constants.ERROR_COLOR
+                update_display(current_difficulty_config, game_st, current_selected_wizard)
             else:
-                # Valid powerup attempt
-                return guess  # Return the command itself
+                return guess
         elif not guess.isalpha():
-            # Handle non-alphabetic guess
-            game_state["next_message"] = game_constants.INVALID_GUESS_ALPHA_MSG
-            game_state["next_message_color"] = game_constants.ERROR_COLOR
-            update_display(settings, game_state, selected_wizard)
+            game_st.next_message = game_constants.INVALID_GUESS_ALPHA_MSG
+            game_st.next_message_color = game_constants.ERROR_COLOR
+            update_display(current_difficulty_config, game_st, current_selected_wizard)
         else:
-            # Valid word guess
-            game_state["next_message_color"] = wizard_color  # Reset color for next display
+            game_st.next_message_color = wizard_color
             return guess
 
 
 def update_game_over_display(
-    settings,
-    game_over_status,
-    game_state,
-    final_grid,
-    selected_wizard,
+    current_difficulty_config: DifficultyData,
+    game_over_status: str,
+    game_st: GameStateData,  # Changed to GameStateData
+    final_grid: List[List[Optional[str]]],
+    current_selected_wizard: WizardData,
 ) -> None:
-    """Displays the final game over screen (win or loss).
-
-    Clears the screen, prints the final grid state (revealed or partially
-    revealed based on win/loss), final statistics, and the win/loss message.
-
-    Args:
-        settings (dict): The current game settings.
-        game_over_status (str): "win" or "loss".
-        game_state (dict): The final game state dictionary.
-        final_grid (list[list[str or None]]): The complete, revealed game grid.
-        selected_wizard (dict): The dictionary for the selected wizard.
-
-    Returns:
-        None: This function prints directly to the console and returns nothing.
-
-    """
+    """Displays the final game over screen (win or loss)."""
     clear_screen()
-    stats = game_state["statistics"]
-    wizard_color = selected_wizard["color"]
+    stats = game_st.statistics  # stats is now GameStatisticsData
+    wizard_color = current_selected_wizard.color
 
-    if game_over_status == "win":
-        final_message = game_constants.WIN_MSG
-        print_grid(
-            settings,
-            final_grid,  # Show fully revealed grid
-            letters_color=game_constants.WIN_COLOR,
-            border_style=wizard_color,
-        )
-    else:  # "loss"
-        final_message = game_constants.LOSE_MSG
-        print_grid(
-            settings,
-            final_grid,  # Show fully revealed grid
-            highlighted_coords=game_state["found_letter_coords"],  # Highlight found letters
-            highlight_color=game_constants.DEFAULT_HIGHLIGHT_COLOR,
-            letters_color=game_constants.LOSE_COLOR,  # Show all letters in red
-            border_style=wizard_color,
-            hidden_color=wizard_color,  # Keep hidden letters consistent color
-        )
+    final_message = game_constants.WIN_MSG if game_over_status == "win" else game_constants.LOSE_MSG
+    letters_display_color = game_constants.WIN_COLOR if game_over_status == "win" else game_constants.LOSE_COLOR
 
-    # Print final stats using the wizard color for the border
-    print_statistics(
-        settings,
+    grid_to_show = final_grid
+    highlight_coords_on_loss = game_st.found_letter_coords if game_over_status == "loss" else []  # Attribute access
+
+    print_grid(
+        current_difficulty_config,
+        grid_to_show,
+        highlighted_coords=highlight_coords_on_loss,
+        highlight_color=game_constants.DEFAULT_HIGHLIGHT_COLOR,
+        letters_color=letters_display_color,
+        border_style=wizard_color,
+        hidden_color=wizard_color,
+    )
+    print_statistics(  # This will pass GameStatisticsData as 'stats'
+        current_difficulty_config,
         stats,
         wizard_color,
         final_grid,
-        selected_wizard,
-        game_state,
+        current_selected_wizard,
+        game_st,  # Pass GameStateData
     )
-    # Print the final win/loss message
-    print_message(settings, final_message, border_style=wizard_color)
+    print_message(current_difficulty_config, final_message, border_style=wizard_color)
 
 
-def update_end_game_display(settings, player_name, final_score) -> None:
-    """Handles the display and actions after the game over screen in HP mode.
-
-    Waits for user input, clears screen, saves the score, loads and prints
-    the leaderboard, prints the final thank you message, and waits for input again.
-
-    Args:
-        settings (dict): The current game settings.
-        player_name (str): The name of the player.
-        final_score (int): The player's final score.
-
-    Returns:
-        None
-
-    """
-    get_input(
-        settings,
-        "  > Press Enter to continue... ",
-    )  # Pause after game over screen
-
+def update_end_game_display(
+    current_difficulty_config: DifficultyData, player_name: Optional[str], final_score: int
+) -> None:
+    """Handles display after game over screen in Heart Points mode."""
+    get_input(current_difficulty_config, "  > Press Enter to continue... ")
     clear_screen()
-    save_score(player_name, final_score)
+
+    if player_name is not None:
+        save_score(player_name, final_score)
+    else:
+        print("Note: Score not saved as player name was not available.")
+
     leaderboard = load_leaderboard()
-    print_leaderboard(settings, leaderboard)
+    print_leaderboard(current_difficulty_config, leaderboard)
+
+    name_to_display = player_name if player_name is not None else "Wizard"
     print_message(
-        settings,
-        game_constants.THANKS_MSG.format(player_name, final_score),
+        current_difficulty_config,
+        game_constants.THANKS_MSG.format(name_to_display, final_score),
         border_style=game_constants.FINAL_SCORE_BORDER,
     )
-    get_input(settings, "  > Press Enter to continue... ")  # Pause after leaderboard
-
-
-# *******************
-# MAIN GAME FUNCTION
-# *******************
+    get_input(current_difficulty_config, "  > Press Enter to continue... ")
 
 
 def run_game(
-    settings,
-    final_grid,
-    words_to_find,
-    middle_word,
-    player_name,
-    selected_wizard,
+    difficulty_conf: DifficultyData,
+    final_grid: List[List[Optional[str]]],
+    words_to_find: Dict[str, List[Tuple[int, int]]],
+    middle_word: str,
+    player_name: Optional[str],
+    selected_wizard: WizardData,
 ) -> None:
-    """Runs the main gameplay loop for a single game instance.
+    """Runs the main gameplay loop for a single game instance."""
+    wizard_color = selected_wizard.color
 
-    Initializes the game state, then enters a loop that updates the display,
-    gets player input, processes the guess or powerup, updates power points,
-    and checks for game over conditions. After the loop ends, displays the
-    game over screen and potentially the end game display (leaderboard).
-
-    Args:
-        settings (dict): The settings for the current game.
-        final_grid (list[list[str | None]]): The fully generated game grid.
-        words_to_find (dict): Dictionary mapping placed words to their coordinates.
-        middle_word (str): The central word used for setup.
-        player_name (str | None): The player's name (can be None if not HP mode).
-        selected_wizard (dict): The dictionary containing the selected wizard's data.
-
-    Returns:
-        None
-
-    """
-    # INITIALIZE GAME
-    wizard_color = selected_wizard["color"]
-    game_state = initialize_game_state(
-        final_grid,
-        middle_word,
-        selected_wizard,
-        player_name,
+    game_st: GameStateData = initialize_game_state(  # Returns GameStateData
+        final_grid, middle_word, selected_wizard, player_name
     )
-    game_over_status = "continue"
+    game_over_status: str = "continue"
 
-    # RUN GAME LOOP
     while game_over_status == "continue":
-        # Update display and get guess
-        update_display(settings, game_state, selected_wizard)
-        guess = get_guess(settings, game_state, selected_wizard)
+        update_display(difficulty_conf, game_st, selected_wizard)
+        guess = get_guess(difficulty_conf, game_st, selected_wizard)
 
-        # Handle guess
         if guess == game_constants.POWERUP_COMMAND:
-            use_powerup(game_state, selected_wizard, words_to_find, final_grid)
+            # use_powerup expects GameStateData and WizardData
+            use_powerup(game_st, selected_wizard, words_to_find, final_grid)
         else:
-            process_guess(guess, game_state, words_to_find, final_grid, wizard_color)
-            # Increment power points only after a standard guess, not powerup use
-            update_power_points(game_state, selected_wizard)
+            # process_guess expects GameStateData
+            process_guess(guess, game_st, words_to_find, final_grid, wizard_color)
+            # update_power_points expects GameStateData and WizardData
+            update_power_points(game_st, selected_wizard)
 
-        # Check for game over after handling the guess/powerup
-        game_over_status = check_game_over(game_state, words_to_find)
+        # check_game_over expects GameStateData
+        game_over_status = check_game_over(game_st, words_to_find)
 
-    # DISPLAY GAME OVER
-    update_game_over_display(
-        settings,
-        game_over_status,
-        game_state,
-        final_grid,
-        selected_wizard,
-    )
-    final_score = game_state["statistics"]["points"]
+    update_game_over_display(difficulty_conf, game_over_status, game_st, final_grid, selected_wizard)
+    final_score: int = game_st.statistics.points  # Attribute access
 
-    # IF HEART POINTS ENABLED, SAVE SCORE AND DISPLAY LEADERBOARDS
-    if settings["heart_point_mode"]:
-        update_end_game_display(settings, player_name, final_score)
+    if difficulty_conf.heart_point_mode:
+        update_end_game_display(difficulty_conf, player_name, final_score)
