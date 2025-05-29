@@ -1,10 +1,9 @@
-# display/display.py
-
 from typing import List, Optional, Dict, Set, Tuple, Any, Union  # Added Union
 
 # Import dataclasses
 from data.settings_details import DifficultyData
 from data.wizards_details import WizardData
+from gameplay.game_state_handler import GameStateData, GameStatisticsData
 
 from display.display_basic import (
     basic_display_menu_options,
@@ -62,24 +61,23 @@ def print_grid(
 
 def print_statistics(
     settings: Optional[DifficultyData],
-    statistics: Dict[str, Any],
-    border_style: str,  # Used by rich version
-    grid: Optional[List[List[Optional[str]]]],  # Used by rich version for layout
-    selected_wizard: WizardData,  # Now WizardData
-    game_state: Dict[str, Any],  # Used by rich version
+    statistics_obj: GameStatisticsData,
+    border_style: str,
+    grid: Optional[List[List[Optional[str]]]],
+    selected_wizard: WizardData,
+    game_st: GameStateData,
 ) -> None:
     """Prints game statistics using either rich or basic formatting based on settings."""
     if not settings or settings.heart_point_mode:
         rich_print_statistics(
-            statistics,
+            statistics_obj,
             border_style,
             grid,
-            selected_wizard,  # Pass WizardData
-            game_state,
+            selected_wizard,
+            game_st,
         )
     else:
-        # basic_print_statistics only takes 'statistics'
-        basic_print_statistics(statistics)
+        basic_print_statistics(statistics_obj)
 
 
 def print_message(
