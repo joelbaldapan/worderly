@@ -7,11 +7,11 @@ from rich.progress import BarColumn, Progress
 from rich.table import Table
 from rich.text import Text
 
-# Import the dataclasses and relevant data
-from data.settings_details import HEART_POINTS_SETTINGS, DifficultyData, GridConfigData, WordsNeededData
-from data.wizards_details import WizardData  # WIZARDS_DATA is also imported if needed locally, but usually passed
+from data.settings_details import DifficultyData, HEART_POINTS_SETTINGS
+from data.wizards_details import WizardData
+from gameplay.game_state_handler import GameStateData, GameStatisticsData
 
-from display.display_utils import clear_screen
+from .display_utils import clear_screen
 
 DEFAULT_BORDER_STYLE = "bright_cyan"
 DETAILS_PANEL_WIDTH = 40
@@ -89,10 +89,10 @@ def rich_print_grid(
     console.print(grid_panel)
 
 
-def _append_combo_stats(statistics: Dict[str, Any], selected_wizard: WizardData, powerup_parts: List[Any]) -> None:
+def _append_combo_stats(statistics: GameStatisticsData, selected_wizard: WizardData, powerup_parts: List[Any]) -> None:
     """Appends combo meter Text and Progress bar to the powerup_parts list."""
     wizard_color = selected_wizard.color
-    combo = statistics.get("combo", 0)
+    combo = statistics.combo
     combo_req = selected_wizard.combo_requirement
 
     if combo_req is not None and combo_req > 0:
@@ -121,36 +121,36 @@ def _append_combo_stats(statistics: Dict[str, Any], selected_wizard: WizardData,
 
 
 def rich_print_statistics(
-    statistics: Dict[str, Any],
+    statistics: GameStatisticsData,
     border_style: str,
-    grid: Optional[List[List[Optional[str]]]],  # For width calculation
-    selected_wizard: WizardData,  # Changed to WizardData
-    game_state: Dict[str, Any],  # For player_name
+    grid: Optional[List[List[Optional[str]]]],
+    selected_wizard: WizardData,
+    game_st: GameStateData,
 ) -> None:
     """Prints the formatted statistics panel using Rich Columns and Panels."""
     wizard_color = selected_wizard.color
 
     player_stats_content = Text.assemble(
         ("Letters:    ", "bold cyan"),
-        (f"{statistics.get('letters', 'N/A')}\n"),
+        (f"{statistics.letters}\n"),
         ("Lives left: ", "bold green"),
-        (f"{statistics.get('lives_left', 'N/A')}\n"),
+        (f"{statistics.lives_left}\n"),
         ("Points:     ", "bold yellow"),
-        (f"{statistics.get('points', 'N/A')}\n"),
+        (f"{statistics.points}\n"),
         ("Last Guess: ", "bold magenta"),
-        (f"{statistics.get('last_guess', 'None')}"),
+        (f"{statistics.last_guess if statistics.last_guess is not None else 'None'}"),
     )
 
     powerup_parts: List[Any] = []
-    powerup_parts.append(Text.assemble(("Combo:        ", "bold cyan"), (f"{statistics.get('combo', 0)}")))
+    powerup_parts.append(Text.assemble(("Combo:        ", "bold cyan"), (f"{statistics.combo}")))
 
-    shield_turns = statistics.get("shield_turns", 0)
+    shield_turns = statistics.shield_turns
     if shield_turns > 0:
         if wizard_color != "bright_white" and selected_wizard.combo_requirement is not None:
             powerup_parts.append(Text.assemble(("Shield Turns: ", "bold blue"), (f"{shield_turns}")))
 
     if wizard_color != "bright_white":
-        powerup_parts.append(Text.assemble(("Power Points: ", "bold cyan"), (f"{statistics.get('power_points', 0)}")))
+        powerup_parts.append(Text.assemble(("Power Points: ", "bold cyan"), (f"{statistics.power_points}")))
         _append_combo_stats(statistics, selected_wizard, powerup_parts)
     else:
         powerup_parts.append(Text("\nNote: White wizards have no powerups!", style="bright_white"))
@@ -158,16 +158,17 @@ def rich_print_statistics(
     powerup_stats_content = Group(*powerup_parts)
 
     small_wizard_art = selected_wizard.small_art.strip("\n")
-    player_name = game_state.get("player_name", "Player")
+    # Access player_name from GameStateData, provide default if None
+    player_name_display = game_st.player_name if game_st.player_name is not None else "Player"
     art_text = Text(f"\n{small_wizard_art}", style=wizard_color, justify="left")
-    name_text = Text(f"--- {player_name} ---", style=wizard_color, justify="center")
+    name_text = Text(f"--- {player_name_display} ---", style=wizard_color, justify="center")
     wizard_panel_content = Group(art_text, name_text)
 
     PANELS_HEIGHT = 15
     STATS_HEIGHT = 6
     WIZARD_PANEL_WIDTH = 23
 
-    grid_actual_width = WIZARD_PANEL_WIDTH + 30  # Fallback
+    grid_actual_width = WIZARD_PANEL_WIDTH + 30
     if grid and grid[0]:
         grid_actual_width = len(grid[0]) * 2 + 3
 

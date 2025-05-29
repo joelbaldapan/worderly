@@ -2,10 +2,9 @@
 
 from typing import List, Optional, Dict, Any, Tuple  # Added necessary types
 
-# Import WizardData for type hinting and WIZARDS_DATA for direct access if still needed (though ideally pass objects)
-from data.wizards_details import WizardData, WIZARDS_DATA  # WIZARDS_DATA for basic_display_wizard_selection
-from data.settings_details import DifficultyData  # For type hinting 'settings' parameter
-
+from data.wizards_details import WizardData, WIZARDS_DATA
+from data.settings_details import DifficultyData
+from gameplay.game_state_handler import GameStatisticsData
 from display.display_utils import clear_screen
 
 
@@ -23,18 +22,19 @@ def basic_print_grid(grid: Optional[List[List[Optional[str]]]]) -> None:
         print(" ".join(cell or "." for cell in row))
 
 
-def basic_print_statistics(statistics: Dict[str, Any]) -> None:
+def basic_print_statistics(statistics: GameStatisticsData) -> None:
     """Prints basic game statistics to the console.
 
     Args:
-        statistics (Dict[str, Any]):
-            A dictionary containing game stats like 'letters', 'lives_left',
-            'points', 'last_guess'.
+        statistics (GameStatisticsData):
+            An object containing game stats like letters, lives_left,
+            points, last_guess.
     """
-    print(f"Letters:     {statistics.get('letters', 'N/A')}")
-    print(f"Lives left:  {statistics.get('lives_left', 'N/A')}")
-    print(f"Points:      {statistics.get('points', 'N/A')}")
-    print(f"Last Guess:  {statistics.get('last_guess', 'None')}")
+    print(f"Letters:     {statistics.letters}")
+    print(f"Lives left:  {statistics.lives_left}")
+    print(f"Points:      {statistics.points}")
+    last_guess_display = statistics.last_guess if statistics.last_guess is not None else "None"
+    print(f"Last Guess:  {last_guess_display}")
 
 
 def basic_print_message(message: str) -> None:
@@ -72,12 +72,10 @@ def basic_print_leaderboard(leaderboard: List[Dict[str, Any]]) -> None:
     print("-----------------------------------\n")
 
 
-# Updated signature to match how it's called from display.py
-# The 'settings' and 'wizard_index' parameters might be ignored if 'wizard' object is sufficient.
 def basic_display_wizard_selection(
-    settings: Optional[DifficultyData],  # Passed by display.py, may be unused here
-    wizard: WizardData,  # The actual WizardData object
-    wizard_index: int,  # Passed by display.py, may be unused here
+    settings: Optional[DifficultyData],
+    wizard: WizardData,
+    wizard_index: int,
 ) -> None:
     """Displays basic text information about the currently selected wizard.
 
@@ -91,22 +89,21 @@ def basic_display_wizard_selection(
     # Use the passed 'wizard' object directly
     basic_display_wizard_art(settings, wizard)  # Pass settings and wizard object
     print("-----------------------------------------")
-    print(f"Name: {wizard.name}")  # Attribute access
-    print(f"Starting Lives: {wizard.starting_lives}")  # Attribute access
+    print(f"Name: {wizard.name}")
+    print(f"Starting Lives: {wizard.starting_lives}")
     print()
-    print(f"Powerup: {wizard.powerup_name}")  # Attribute access
-    print(f"Powerup Description: {wizard.powerup_desc}")  # Attribute access
+    print(f"Powerup: {wizard.powerup_name}")
+    print(f"Powerup Description: {wizard.powerup_desc}")
     print()
-    print(f"Wizard Description: {wizard.description}")  # Attribute access
+    print(f"Wizard Description: {wizard.description}")
     print("-----------------------------------------")
     print()
     print("Use (◀) Left / Right (▶) arrow keys to select. Press Enter to confirm.")
 
 
-# Updated signature to accept WizardData and settings (for consistency)
 def basic_display_wizard_art(
-    settings: Optional[DifficultyData],  # Passed by display.py, may be unused here
-    wizard: WizardData,  # Changed to WizardData object
+    settings: Optional[DifficultyData],
+    wizard: WizardData,
 ) -> None:
     """Prints the basic ASCII art for a given wizard.
 
@@ -114,7 +111,7 @@ def basic_display_wizard_art(
         settings (Optional[DifficultyData]): Game settings (passed by dispatcher, maybe unused).
         wizard (WizardData): The WizardData object containing the art.
     """
-    print(wizard.art)  # Direct attribute access
+    print(wizard.art)
 
 
 def basic_display_menu_options(options: List[str], current_index: int, title: str) -> None:
@@ -127,7 +124,7 @@ def basic_display_menu_options(options: List[str], current_index: int, title: st
     """
     print(title)
     for i, option in enumerate(options):
-        prefix = "-> " if i == current_index else "   "  # Corrected spacing for alignment
+        prefix = "-> " if i == current_index else "   "
         print(f"{prefix}{option}")
     print()
     print("Use (▲) Up / Down (▼) arrow keys to select. Press Enter to confirm.")
