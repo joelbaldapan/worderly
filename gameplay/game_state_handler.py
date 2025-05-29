@@ -1,6 +1,6 @@
-from dataclasses import dataclass, field
-from typing import List, Optional, Set, Tuple, Dict, Any, Iterable
 import random
+from collections.abc import Iterable
+from dataclasses import dataclass, field
 
 # Assuming WizardData is imported if not defined here (it's defined in data.wizards_details)
 from data.wizards_details import WizardData
@@ -12,7 +12,7 @@ class GameStatisticsData:
     letters: str = ""
     lives_left: int = 0
     points: int = 0
-    last_guess: Optional[str] = None
+    last_guess: str | None = None
     combo: int = 0
     power_points: int = 0
     shield_turns: int = 0
@@ -20,15 +20,15 @@ class GameStatisticsData:
 
 @dataclass
 class GameStateData:
-    player_name: Optional[str]
+    player_name: str | None
     statistics: GameStatisticsData
-    hidden_grid: List[List[Optional[str]]]
+    hidden_grid: list[list[str | None]]
     next_message: str
     next_message_color: str
-    last_guess_coords: List[Tuple[int, int]] = field(default_factory=list)
-    correctly_guessed_words: Set[str] = field(default_factory=set)
-    hidden_letter_coords: Set[Tuple[int, int]] = field(default_factory=set)
-    found_letter_coords: Set[Tuple[int, int]] = field(default_factory=set)
+    last_guess_coords: list[tuple[int, int]] = field(default_factory=list)
+    correctly_guessed_words: set[str] = field(default_factory=set)
+    hidden_letter_coords: set[tuple[int, int]] = field(default_factory=set)
+    found_letter_coords: set[tuple[int, int]] = field(default_factory=set)
 
 
 def shuffle_letters_statistic(middle_word: str) -> str:
@@ -38,13 +38,15 @@ def shuffle_letters_statistic(middle_word: str) -> str:
     return " ".join(letters_list)
 
 
-def create_hidden_grid(final_grid: List[List[Optional[str]]]) -> List[List[Optional[str]]]:
+def create_hidden_grid(final_grid: list[list[str | None]]) -> list[list[str | None]]:
     """Creates the initial hidden grid for the player."""
     return [["#" if col else None for col in row] for row in final_grid]
 
 
 def reveal_coords_in_hidden_grid(
-    final_grid: List[List[Optional[str]]], hidden_grid: List[List[Optional[str]]], coords: Iterable[Tuple[int, int]]
+    final_grid: list[list[str | None]],
+    hidden_grid: list[list[str | None]],
+    coords: Iterable[tuple[int, int]],
 ) -> None:
     """Reveals specific coordinates on the hidden grid."""
     for r, c in coords:
@@ -52,9 +54,9 @@ def reveal_coords_in_hidden_grid(
             hidden_grid[r][c] = final_grid[r][c]
 
 
-def get_all_letter_coords(final_grid: List[List[Optional[str]]]) -> Set[Tuple[int, int]]:
+def get_all_letter_coords(final_grid: list[list[str | None]]) -> set[tuple[int, int]]:
     """Gets the set of all coordinates containing letters on the final grid."""
-    all_coords: Set[Tuple[int, int]] = set()
+    all_coords: set[tuple[int, int]] = set()
     height = len(final_grid)
     width = len(final_grid[0]) if height > 0 else 0
     for r_idx in range(height):
@@ -65,7 +67,9 @@ def get_all_letter_coords(final_grid: List[List[Optional[str]]]) -> Set[Tuple[in
 
 
 def apply_coordinate_reveal(
-    game_state: GameStateData, final_grid: List[List[Optional[str]]], coords_to_reveal: Iterable[Tuple[int, int]]
+    game_state: GameStateData,
+    final_grid: list[list[str | None]],
+    coords_to_reveal: Iterable[tuple[int, int]],
 ) -> None:
     """Applies the effects of revealing coordinates to the game state."""
     coords_set = set(coords_to_reveal)
@@ -82,7 +86,10 @@ def apply_coordinate_reveal(
 
 
 def initialize_game_state(
-    final_grid: List[List[Optional[str]]], middle_word: str, selected_wizard: WizardData, player_name: Optional[str]
+    final_grid: list[list[str | None]],
+    middle_word: str,
+    selected_wizard: WizardData,
+    player_name: str | None,
 ) -> GameStateData:
     """Initializes the game state object for a new game round."""
     stats = GameStatisticsData(
@@ -114,8 +121,8 @@ def initialize_game_state(
 def process_guess(
     guess: str,
     game_state: GameStateData,
-    words_to_find: Dict[str, List[Tuple[int, int]]],
-    final_grid: List[List[Optional[str]]],
+    words_to_find: dict[str, list[tuple[int, int]]],
+    final_grid: list[list[str | None]],
     wizard_color: str,
 ) -> None:
     """Processes a player's word guess and updates the game state."""
@@ -156,9 +163,9 @@ def process_guess(
         stats.shield_turns -= 1
 
 
-def check_for_completed_words(game_state: GameStateData, words_to_find: Dict[str, List[Tuple[int, int]]]) -> List[str]:
+def check_for_completed_words(game_state: GameStateData, words_to_find: dict[str, list[tuple[int, int]]]) -> list[str]:
     """Checks if any words were implicitly completed by the last reveal."""
-    newly_found_words: List[str] = []
+    newly_found_words: list[str] = []
 
     for word, coords in words_to_find.items():
         if word not in game_state.correctly_guessed_words:
@@ -168,7 +175,7 @@ def check_for_completed_words(game_state: GameStateData, words_to_find: Dict[str
     return newly_found_words
 
 
-def check_game_over(game_state: GameStateData, words_to_find: Dict[str, List[Tuple[int, int]]]) -> str:
+def check_game_over(game_state: GameStateData, words_to_find: dict[str, list[tuple[int, int]]]) -> str:
     """Checks if the game has reached a win or loss condition."""
     if len(game_state.correctly_guessed_words) == len(words_to_find):
         return "win"

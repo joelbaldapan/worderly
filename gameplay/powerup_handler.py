@@ -1,10 +1,7 @@
 import random
-from typing import List, Optional, Set, Tuple, Dict
-
-from gameplay import game_constants
-
 
 from data.wizards_details import WizardData
+from gameplay import game_constants
 from gameplay.game_state_handler import (
     GameStateData,
     GameStatisticsData,
@@ -13,7 +10,7 @@ from gameplay.game_state_handler import (
 )
 
 
-def check_power_point_increment(combo_req: Optional[int], statistics: GameStatisticsData) -> bool:
+def check_power_point_increment(combo_req: int | None, statistics: GameStatisticsData) -> bool:
     """Checks if conditions are met to increment power points."""
     return combo_req is not None and statistics.combo > 0 and statistics.combo % combo_req == 0
 
@@ -32,8 +29,10 @@ def update_power_points(game_st: GameStateData, current_selected_wizard: WizardD
 
 
 def get_coords_for_random_reveal(
-    hidden_letter_coords_set: Set[Tuple[int, int]], min_reveal: int, max_reveal: int
-) -> List[Tuple[int, int]]:
+    hidden_letter_coords_set: set[tuple[int, int]],
+    min_reveal: int,
+    max_reveal: int,
+) -> list[tuple[int, int]]:
     """Determines a random subset of hidden coordinates to reveal."""
     hidden_letter_coords_list = list(hidden_letter_coords_set)
     available_to_reveal_count = len(hidden_letter_coords_list)
@@ -47,8 +46,9 @@ def get_coords_for_random_reveal(
 
 
 def get_coords_for_word_reveal(
-    words_to_find: Dict[str, List[Tuple[int, int]]], correct_guesses_set: Set[str]
-) -> List[Tuple[int, int]]:
+    words_to_find: dict[str, list[tuple[int, int]]],
+    correct_guesses_set: set[str],
+) -> list[tuple[int, int]]:
     """Selects the coordinates of a random, not-yet-guessed word."""
     unrevealed_words = [word for word in words_to_find if word not in correct_guesses_set]
     if not unrevealed_words:
@@ -60,14 +60,14 @@ def get_coords_for_word_reveal(
 def use_powerup(
     game_st: GameStateData,  # Changed to GameStateData
     current_selected_wizard: WizardData,  # Changed to WizardData
-    words_to_find: Dict[str, List[Tuple[int, int]]],
-    final_grid: List[List[Optional[str]]],
+    words_to_find: dict[str, list[tuple[int, int]]],
+    final_grid: list[list[str | None]],
 ) -> None:
     """Activates the selected wizard's power-up and updates the game state."""
     stats = game_st.statistics  # stats is GameStatisticsData
     wizard_color = current_selected_wizard.color
 
-    coords_to_reveal: List[Tuple[int, int]] = []
+    coords_to_reveal: list[tuple[int, int]] = []
     powerup_message = ""
     stats.power_points -= 1
 
