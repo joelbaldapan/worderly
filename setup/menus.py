@@ -85,7 +85,10 @@ def select_from_menu(options, title="+.+.+.+ Menu +.+.+.+", show_main_title=Fals
             )
 
         display_menu_options(
-            settings=None, options=options, current_index=current_index, title=title,
+            settings=None,
+            options=options,
+            current_index=current_index,
+            title=title,
         )
 
         # GET INPUT
@@ -269,7 +272,8 @@ def run_heart_points_menu():
 
     """
     selected_option = select_from_menu(
-        MENU1_OPTIONS, title="+.+.+.+ Select Heart Points Mode +.+.+.+",
+        MENU1_OPTIONS,
+        title="+.+.+.+ Select Heart Points Mode +.+.+.+",
     )
     if selected_option is not None:
         if selected_option == "</3 No Heart Points":
@@ -306,7 +310,9 @@ def run_main_menu():
     # Keep running until Start Game/Exit Game is chosen by the user
     while True:
         selected_option = select_from_menu(
-            MENU2_OPTIONS, title=title, show_main_title=True,
+            MENU2_OPTIONS,
+            title=title,
+            show_main_title=True,
         )
         if selected_option is not None:
             if selected_option == "Start Game":
@@ -318,7 +324,8 @@ def run_main_menu():
                 leaderboard = load_leaderboard()
                 print_leaderboard(settings=None, leaderboard=leaderboard)
                 get_input(
-                    settings=None, prompt_message="  > Press Enter to continue... ",
+                    settings=None,
+                    prompt_message="  > Press Enter to continue... ",
                 )
                 # Continue loop to show main menu again
             elif selected_option == "Exit Game":

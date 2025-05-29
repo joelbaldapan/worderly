@@ -68,7 +68,9 @@ def run_setup(settings):
         while grid_setup_attempts < MAX_GRID_SETUP_RETRIES:
             grid_setup_attempts += 1  # Increment grid attempt counter
             final_grid, words_to_find = generate_board(
-                settings, middle_word, words_to_place,
+                settings,
+                middle_word,
+                words_to_place,
             )
             if final_grid is None:
                 # FAILED grid generation for this attempt

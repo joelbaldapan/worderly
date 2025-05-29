@@ -111,9 +111,7 @@ def get_coords_for_word_reveal(words_to_find, correct_guesses_set):
 
     """
     # Find all words that haven't been guessed yet
-    unrevealed_words = [
-        word for word in words_to_find if word not in correct_guesses_set
-    ]
+    unrevealed_words = [word for word in words_to_find if word not in correct_guesses_set]
 
     if not unrevealed_words:
         return []
@@ -157,7 +155,8 @@ def use_powerup(game_state, selected_wizard, words_to_find, final_grid) -> None:
     # Determine power-up based on wizard color
     if wizard_color == "red":
         coords_to_reveal = get_coords_for_word_reveal(
-            words_to_find, correctly_guessed_words,
+            words_to_find,
+            correctly_guessed_words,
         )
         # Message set below based on reveal outcome
     elif wizard_color == "green":

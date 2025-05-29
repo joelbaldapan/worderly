@@ -94,7 +94,8 @@ def get_guess(settings, game_state, selected_wizard):
         # Show (Type `!p` to activate powerup!) if on heart point mode
         if settings["heart_point_mode"] and wizard_color != "bright_white":
             user_input = get_input(
-                settings, "  > Enter guess (Type `!p` to activate powerup!): ",
+                settings,
+                "  > Enter guess (Type `!p` to activate powerup!): ",
             )
         else:
             user_input = get_input(settings, "  > Enter guess: ")
@@ -129,14 +130,16 @@ def get_guess(settings, game_state, selected_wizard):
             update_display(settings, game_state, selected_wizard)
         else:
             # Valid word guess
-            game_state["next_message_color"] = (
-                wizard_color  # Reset color for next display
-            )
+            game_state["next_message_color"] = wizard_color  # Reset color for next display
             return guess
 
 
 def update_game_over_display(
-    settings, game_over_status, game_state, final_grid, selected_wizard,
+    settings,
+    game_over_status,
+    game_state,
+    final_grid,
+    selected_wizard,
 ) -> None:
     """Displays the final game over screen (win or loss).
 
@@ -171,9 +174,7 @@ def update_game_over_display(
         print_grid(
             settings,
             final_grid,  # Show fully revealed grid
-            highlighted_coords=game_state[
-                "found_letter_coords"
-            ],  # Highlight found letters
+            highlighted_coords=game_state["found_letter_coords"],  # Highlight found letters
             highlight_color=game_constants.DEFAULT_HIGHLIGHT_COLOR,
             letters_color=game_constants.LOSE_COLOR,  # Show all letters in red
             border_style=wizard_color,
@@ -182,7 +183,12 @@ def update_game_over_display(
 
     # Print final stats using the wizard color for the border
     print_statistics(
-        settings, stats, wizard_color, final_grid, selected_wizard, game_state,
+        settings,
+        stats,
+        wizard_color,
+        final_grid,
+        selected_wizard,
+        game_state,
     )
     # Print the final win/loss message
     print_message(settings, final_message, border_style=wizard_color)
@@ -204,7 +210,8 @@ def update_end_game_display(settings, player_name, final_score) -> None:
 
     """
     get_input(
-        settings, "  > Press Enter to continue... ",
+        settings,
+        "  > Press Enter to continue... ",
     )  # Pause after game over screen
 
     clear_screen()
@@ -225,7 +232,12 @@ def update_end_game_display(settings, player_name, final_score) -> None:
 
 
 def run_game(
-    settings, final_grid, words_to_find, middle_word, player_name, selected_wizard,
+    settings,
+    final_grid,
+    words_to_find,
+    middle_word,
+    player_name,
+    selected_wizard,
 ) -> None:
     """Runs the main gameplay loop for a single game instance.
 
@@ -249,7 +261,10 @@ def run_game(
     # INITIALIZE GAME
     wizard_color = selected_wizard["color"]
     game_state = initialize_game_state(
-        final_grid, middle_word, selected_wizard, player_name,
+        final_grid,
+        middle_word,
+        selected_wizard,
+        player_name,
     )
     game_over_status = "continue"
 
@@ -272,7 +287,11 @@ def run_game(
 
     # DISPLAY GAME OVER
     update_game_over_display(
-        settings, game_over_status, game_state, final_grid, selected_wizard,
+        settings,
+        game_over_status,
+        game_state,
+        final_grid,
+        selected_wizard,
     )
     final_score = game_state["statistics"]["points"]
 

@@ -225,9 +225,7 @@ def process_guess(guess, game_state, words_to_find, final_grid, wizard_color) ->
         if completed_words:
             # Update the set of correctly guessed words for implicitly found ones
             correctly_guessed_words.update(completed_words)
-            game_state["next_message"] += (
-                f" (Also completed: {', '.join(completed_words)})"
-            )
+            game_state["next_message"] += f" (Also completed: {', '.join(completed_words)})"
 
     # Apply damage if guess was wrong/duplicate AND shield is down
     if took_damage and stats["shield_turns"] <= 0:
@@ -269,9 +267,7 @@ def check_for_completed_words(game_state, words_to_find):
         if word not in correctly_guessed_words:
             # Check if ALL coordinates for this word are NOT in the hidden_letter_coords set
             # If a coordinate is NOT in hidden_letter_coords_set, it means it HAS been revealed
-            all_letters_revealed = all(
-                coord not in hidden_letter_coords_set for coord in coords
-            )
+            all_letters_revealed = all(coord not in hidden_letter_coords_set for coord in coords)
 
             if all_letters_revealed:
                 newly_found_words.append(word)

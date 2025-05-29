@@ -70,9 +70,7 @@ def rich_print_grid(
     num_cols = 0
     if grid:  # Make sure grid is not empty before checking rows
         try:
-            num_cols = max(
-                len(row) for row in grid if row
-            )  # Handle potential empty rows
+            num_cols = max(len(row) for row in grid if row)  # Handle potential empty rows
         except ValueError:  # Handles case where grid only contains empty lists
             num_cols = 0
 
@@ -192,7 +190,9 @@ def _append_combo_stats(statistics, selected_wizard, powerup_parts) -> None:
         # Add the task to the progress bar
         # Make sure 'completed' doesn't exceed 'total'
         combo_progress.add_task(
-            "combo", total=combo_req, completed=min(curr_combo, combo_req),
+            "combo",
+            total=combo_req,
+            completed=min(curr_combo, combo_req),
         )
         powerup_parts.append(combo_progress)
         powerup_parts.append(Text("\n"))  # Add spacing after the bar
@@ -234,7 +234,8 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
     powerup_parts = []  # Build content as a list of Rich renderables
     powerup_parts.append(
         Text.assemble(
-            ("Combo:        ", "bold cyan"), (f"{statistics.get('combo', 0)}"),
+            ("Combo:        ", "bold cyan"),
+            (f"{statistics.get('combo', 0)}"),
         ),
     )
 
@@ -565,9 +566,7 @@ def rich_display_menu_options(options, current_index, title) -> None:
             width = details["grid"]["width"]
             min_words_needed = details["words_on_board_needed"]["minimum"]
             max_words_needed = details["words_on_board_needed"]["maximum"]
-            detailed_prefix = (
-                f"{height}x{width}, {min_words_needed}-{max_words_needed} words"
-            )
+            detailed_prefix = f"{height}x{width}, {min_words_needed}-{max_words_needed} words"
             detailed_prefix = detailed_prefix.ljust(22)
 
         if i == current_index:

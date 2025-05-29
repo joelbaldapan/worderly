@@ -59,12 +59,21 @@ def print_grid(
 
 
 def print_statistics(
-    settings, statistics, border_style, grid, selected_wizard, game_state,
+    settings,
+    statistics,
+    border_style,
+    grid,
+    selected_wizard,
+    game_state,
 ) -> None:
     """Prints game statistics using either rich or basic formatting based on settings."""
     if not settings or settings["heart_point_mode"]:
         rich_print_statistics(
-            statistics, border_style, grid, selected_wizard, game_state,
+            statistics,
+            border_style,
+            grid,
+            selected_wizard,
+            game_state,
         )
     else:
         basic_print_statistics(statistics)
@@ -84,7 +93,14 @@ def print_message(
     """Prints a message using either rich or basic formatting based on settings."""
     if not settings or settings["heart_point_mode"]:
         rich_print_message(
-            message, style, border_style, title, title_align, expand, width, justify,
+            message,
+            style,
+            border_style,
+            title,
+            title_align,
+            expand,
+            width,
+            justify,
         )
     else:
         basic_print_message(message)
