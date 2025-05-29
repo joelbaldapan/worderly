@@ -1,9 +1,10 @@
 # ************************************
 #         LEADERBOARDS
 # ************************************
+import operator
 import os
-from display.display import print_message
 
+from display.display import print_message
 
 # Define constants for the leaderboards
 # Pipe '|' is used as delimiter for the leaderboards
@@ -21,9 +22,9 @@ def load_leaderboard(filename=LEADERBOARD_FILE):
 
     try:
         # Open the file safely using 'with' statement
-        with open(filename, "r", encoding="utf-8") as f:
+        with open(filename, encoding="utf-8") as f:
             # Enumerate lines for potential error reporting
-            for line_num, line in enumerate(f, 1):
+            for line in f:
                 line = line.strip()
                 if not line:
                     continue  # Skip empty lines
@@ -60,7 +61,7 @@ def load_leaderboard(filename=LEADERBOARD_FILE):
                     # )
                     pass  # Silently skip lines with invalid scores
 
-    except IOError as e:
+    except OSError as e:
         # Handle file reading errors (e.g., permissions)
         print_message(
             settings=None,  # Settings might not be available here
@@ -76,17 +77,17 @@ def load_leaderboard(filename=LEADERBOARD_FILE):
         )
 
     # Sort the collected scores by score in descending order
-    scores.sort(key=lambda x: x["score"], reverse=True)
+    scores.sort(key=operator.itemgetter("score"), reverse=True)
     return scores
 
 
-def save_score(player_name, player_score, filename=LEADERBOARD_FILE):
+def save_score(player_name, player_score, filename=LEADERBOARD_FILE) -> None:
     """Appends a player's name and score to the leaderboard file."""
     try:
         # Use append mode 'a' to add to the end of the file
         with open(filename, "a", encoding="utf-8") as f:
             f.write(f"{player_name}{DELIMITER}{player_score}\n")
-    except IOError as e:
+    except OSError as e:
         # Handle file writing errors
         print_message(
             settings=None,

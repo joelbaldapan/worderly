@@ -1,19 +1,19 @@
 # gameplay/powerup_handler.py
 
-import gameplay.game_constants as game_constants
+import random
+
+from gameplay import game_constants
 from gameplay.game_state_handler import (
     apply_coordinate_reveal,
     check_for_completed_words,
 )
-import random
 
 
 # **********************
 # POWER POINTS UPDATING
 # **********************
 def check_power_point_increment(combo_req, statistics):
-    """
-    Checks if conditions are met to increment power points.
+    """Checks if conditions are met to increment power points.
 
     Args:
         combo_req (int or None):
@@ -23,6 +23,7 @@ def check_power_point_increment(combo_req, statistics):
 
     Returns:
         bool: True if power points should be incremented, False otherwise.
+
     """
     return (
         combo_req is not None  # Requirement must exist
@@ -31,9 +32,8 @@ def check_power_point_increment(combo_req, statistics):
     )
 
 
-def update_power_points(game_state, selected_wizard):
-    """
-    Increments power points in the game state if the combo requirement is met.
+def update_power_points(game_state, selected_wizard) -> None:
+    """Increments power points in the game state if the combo requirement is met.
 
     Args:
         game_state (dict): The main game state dictionary.
@@ -42,6 +42,7 @@ def update_power_points(game_state, selected_wizard):
 
     Returns:
         None: Modifies game_state in place.
+
     """
     combo_req = selected_wizard["combo_requirement"]
     statistics = game_state["statistics"]
@@ -62,8 +63,7 @@ def update_power_points(game_state, selected_wizard):
 
 
 def get_coords_for_random_reveal(hidden_letter_coords_set, min_reveal, max_reveal):
-    """
-    Determines a random subset of hidden coordinates to reveal.
+    """Determines a random subset of hidden coordinates to reveal.
 
     Selects a random number of coordinates between min_reveal and max_reveal,
     ensuring not to exceed the number of available hidden coordinates.
@@ -78,8 +78,8 @@ def get_coords_for_random_reveal(hidden_letter_coords_set, min_reveal, max_revea
         list[tuple[int, int]]:
             A list of randomly selected coordinates to reveal. Returns an empty
             list if no hidden coordinates are available.
-    """
 
+    """
     hidden_letter_coords_list = list(hidden_letter_coords_set)
     available_to_reveal_count = len(hidden_letter_coords_list)
 
@@ -96,8 +96,7 @@ def get_coords_for_random_reveal(hidden_letter_coords_set, min_reveal, max_revea
 
 
 def get_coords_for_word_reveal(words_to_find, correct_guesses_set):
-    """
-    Selects the coordinates of a random, not-yet-guessed word.
+    """Selects the coordinates of a random, not-yet-guessed word.
 
     Args:
         words_to_find (dict):
@@ -109,11 +108,11 @@ def get_coords_for_word_reveal(words_to_find, correct_guesses_set):
         list[tuple[int, int]]:
             The list of coordinates for the randomly chosen unrevealed word.
             Returns an empty list if all words have been guessed.
-    """
 
+    """
     # Find all words that haven't been guessed yet
     unrevealed_words = [
-        word for word in words_to_find.keys() if word not in correct_guesses_set
+        word for word in words_to_find if word not in correct_guesses_set
     ]
 
     if not unrevealed_words:
@@ -129,9 +128,8 @@ def get_coords_for_word_reveal(words_to_find, correct_guesses_set):
 # ************************
 
 
-def use_powerup(game_state, selected_wizard, words_to_find, final_grid):
-    """
-    Activates the selected wizard's power-up and updates the game state.
+def use_powerup(game_state, selected_wizard, words_to_find, final_grid) -> None:
+    """Activates the selected wizard's power-up and updates the game state.
 
     Consumes one power point, determines the power-up effect based on the
     wizard's color, calls appropriate helper functions (reveals, state updates),
@@ -145,6 +143,7 @@ def use_powerup(game_state, selected_wizard, words_to_find, final_grid):
 
     Returns:
         None: Modifies game_state in place.
+
     """
     stats = game_state["statistics"]
     wizard_color = selected_wizard["color"]
@@ -158,7 +157,7 @@ def use_powerup(game_state, selected_wizard, words_to_find, final_grid):
     # Determine power-up based on wizard color
     if wizard_color == "red":
         coords_to_reveal = get_coords_for_word_reveal(
-            words_to_find, correctly_guessed_words
+            words_to_find, correctly_guessed_words,
         )
         # Message set below based on reveal outcome
     elif wizard_color == "green":
@@ -179,7 +178,7 @@ def use_powerup(game_state, selected_wizard, words_to_find, final_grid):
     game_state["next_message_color"] = wizard_color
 
     # Apply reveal logic for Red and Green wizards
-    if wizard_color == "red" or wizard_color == "green":
+    if wizard_color in {"red", "green"}:
         if not coords_to_reveal:
             # Handle case where no coords could be revealed (All words found for red)
             powerup_message = game_constants.POWERUP_NO_REVEAL_MSG
@@ -192,7 +191,7 @@ def use_powerup(game_state, selected_wizard, words_to_find, final_grid):
                 # Update the set of correctly guessed words explicitly
                 correctly_guessed_words.update(completed_words)
                 powerup_message = game_constants.POWERUP_REVEAL_WORDS_MSG.format(
-                    ", ".join(completed_words)
+                    ", ".join(completed_words),
                 )
             else:
                 # If reveal happened but no words completed

@@ -1,19 +1,18 @@
 # ****************
 # RICH DISPLAY
 # ****************
-from display.display_utils import clear_screen
-
-from rich.console import Console
-from rich.table import Table
-from rich.panel import Panel
-from rich.text import Text
 from rich.columns import Columns
-from rich.console import Group
-from rich.progress import Progress, BarColumn
+from rich.console import Console, Group
+from rich.panel import Panel
+from rich.progress import BarColumn, Progress
+from rich.table import Table
+from rich.text import Text
+
+from data.settings_details import HEART_POINTS_SETTINGS
 
 # For Settings and Wizards data
 from data.wizards_details import WIZARDS_DATA
-from data.settings_details import HEART_POINTS_SETTINGS
+from display.display_utils import clear_screen
 
 DEFAULT_BORDER_STYLE = "bright_cyan"
 DETAILS_PANEL_WIDTH = 40  # For wizard details panel
@@ -30,7 +29,7 @@ def rich_print_grid(
     hidden_color,
     title,
     border_style,
-):
+) -> None:
     """Prints the game grid using Rich library for prettier formatting.
 
     Creates a Rich Table within a Rich Panel to display the grid, applying
@@ -49,6 +48,7 @@ def rich_print_grid(
 
     Returns:
         None: This function prints directly to the console and returns nothing.
+
     """
     # Check for completely empty grid or grid with only empty rows
     if not grid or not any(grid):
@@ -83,7 +83,7 @@ def rich_print_grid(
                 "[yellow]Grid has rows but no columns.[/yellow]",
                 title=title,
                 border_style="yellow",
-            )
+            ),
         )
         return
     elif num_cols == 0:  # Handles grid = [[]] or grid = [] after initial checks
@@ -92,7 +92,7 @@ def rich_print_grid(
                 "[yellow]Empty grid provided (no columns).[/yellow]",
                 title=title,
                 border_style="red",
-            )
+            ),
         )
         return
 
@@ -144,7 +144,7 @@ def rich_print_grid(
     console.print(grid_panel)
 
 
-def _append_combo_stats(statistics, selected_wizard, powerup_parts):
+def _append_combo_stats(statistics, selected_wizard, powerup_parts) -> None:
     """Appends combo meter Text and Progress bar to the powerup_parts list.
 
     Calculates the current combo progress relative to the wizard's requirement
@@ -157,6 +157,7 @@ def _append_combo_stats(statistics, selected_wizard, powerup_parts):
 
     Returns:
         None: Modifies powerup_parts list in place.
+
     """
     wizard_color = selected_wizard.get("color", "white")  # Default color
     combo = statistics.get("combo", 0)
@@ -175,7 +176,7 @@ def _append_combo_stats(statistics, selected_wizard, powerup_parts):
             Text.assemble(
                 ("Combo Meter:  ", "bold cyan"),
                 (f"{curr_combo} / {combo_req}\n"),  # Show current / required
-            )
+            ),
         )
 
         # Create and configure the progress bar
@@ -191,13 +192,13 @@ def _append_combo_stats(statistics, selected_wizard, powerup_parts):
         # Add the task to the progress bar
         # Make sure 'completed' doesn't exceed 'total'
         combo_progress.add_task(
-            "combo", total=combo_req, completed=min(curr_combo, combo_req)
+            "combo", total=combo_req, completed=min(curr_combo, combo_req),
         )
         powerup_parts.append(combo_progress)
         powerup_parts.append(Text("\n"))  # Add spacing after the bar
 
 
-def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_state):
+def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_state) -> None:
     """Prints the formatted statistics panel using Rich Columns and Panels.
 
     Displays game stats (letters, lives, points, guess) and powerup stats
@@ -212,6 +213,7 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
 
     Returns:
         None: This function prints directly to the console and returns nothing.
+
     """
     wizard_color = selected_wizard.get("color", "white")
 
@@ -232,8 +234,8 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
     powerup_parts = []  # Build content as a list of Rich renderables
     powerup_parts.append(
         Text.assemble(
-            ("Combo:        ", "bold cyan"), (f"{statistics.get('combo', 0)}")
-        )
+            ("Combo:        ", "bold cyan"), (f"{statistics.get('combo', 0)}"),
+        ),
     )
 
     # Add Shield Turns if active
@@ -242,7 +244,7 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
         # Add newline for shield turns
         if wizard_color != "bright_white" and selected_wizard.get("combo_requirement"):
             powerup_parts.append(
-                Text.assemble(("Shield Turns: ", "bold blue"), (f"{shield_turns}"))
+                Text.assemble(("Shield Turns: ", "bold blue"), (f"{shield_turns}")),
             )
 
     # Add Power Points and Combo Meter if applicable
@@ -251,13 +253,13 @@ def rich_print_statistics(statistics, border_style, grid, selected_wizard, game_
             Text.assemble(
                 ("Power Points: ", "bold cyan"),
                 (f"{statistics.get('power_points', 0)}"),
-            )
+            ),
         )
         # Call helper to add the combo meter bar
         _append_combo_stats(statistics, selected_wizard, powerup_parts)
     else:
         powerup_parts.append(
-            Text("\nNote: White wizards have no powerups!", style="bright_white")
+            Text("\nNote: White wizards have no powerups!", style="bright_white"),
         )
 
     # Group all powerup parts together
@@ -333,7 +335,7 @@ def rich_print_message(
     expand=False,
     width=None,
     justify="left",
-):
+) -> None:
     """Prints a message string wrapped in a Rich Panel.
 
     Args:
@@ -358,6 +360,7 @@ def rich_print_message(
 
     Returns:
         None
+
     """
     # Create styled text content
     text_content = Text.from_markup(message, style=style, justify=justify)
@@ -382,12 +385,13 @@ def rich_get_input(prompt_message):
 
     Returns:
         str: The string entered by the user.
+
     """
     # Rich generally works well with standard input()
     return input(prompt_message)
 
 
-def rich_print_leaderboard(leaderboard_data, max_entries=10):
+def rich_print_leaderboard(leaderboard_data, max_entries=10) -> None:
     """Prints the leaderboard data in a formatted Rich Table.
 
     Args:
@@ -399,6 +403,7 @@ def rich_print_leaderboard(leaderboard_data, max_entries=10):
 
     Returns:
         None: This function prints directly to the console and returns nothing.
+
     """
     # Handle empty leaderboard case
     if not leaderboard_data:
@@ -432,7 +437,7 @@ def rich_print_leaderboard(leaderboard_data, max_entries=10):
     console.print(table)
 
 
-def rich_display_wizard_selection(wizard_index):
+def rich_display_wizard_selection(wizard_index) -> None:
     """Displays the wizard selection interface using Rich Panels and Columns.
 
     Shows wizard art, details, and navigation instructions.
@@ -442,6 +447,7 @@ def rich_display_wizard_selection(wizard_index):
 
     Returns:
         None: This function prints directly to the console and returns nothing.
+
     """
     clear_screen()  # Clear screen before displaying
 
@@ -511,7 +517,7 @@ def rich_display_wizard_selection(wizard_index):
     )
 
 
-def rich_display_wizard_art(wizard):
+def rich_display_wizard_art(wizard) -> None:
     """Displays only the ASCII art for a given wizard in a Rich Panel.
 
     Args:
@@ -520,6 +526,7 @@ def rich_display_wizard_art(wizard):
 
     Returns:
         None: This function prints directly to the console and returns nothing.
+
     """
     art_content_str = wizard.get("art", "No Art").strip("\n")
     wizard_color = wizard.get("color", "white")
@@ -536,7 +543,7 @@ def rich_display_wizard_art(wizard):
     console.print(art_panel)
 
 
-def rich_display_menu_options(options, current_index, title):
+def rich_display_menu_options(options, current_index, title) -> None:
     """Displays vertical menu options using Rich, highlighting the current selection.
 
     Args:
@@ -546,8 +553,8 @@ def rich_display_menu_options(options, current_index, title):
 
     Returns:
         None: This function prints directly to the console and returns nothing.
-    """
 
+    """
     options_list = []
     for i, option in enumerate(options):
         detailed_prefix = ""
