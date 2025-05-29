@@ -1,10 +1,8 @@
 # gameplay/gameplay.py
-from typing import List, Optional, Dict, Tuple, Any
 
 # Import dataclasses
 from data.settings_details import DifficultyData
 from data.wizards_details import WizardData
-
 from display.display import (
     get_input,
     print_grid,
@@ -18,7 +16,6 @@ from gameplay import game_constants
 # GameStateData will be used here
 from gameplay.game_state_handler import (
     GameStateData,  # Import the dataclass
-    GameStatisticsData,  # Import for type hint consistency if needed, though mainly via GameStateData
     check_game_over,
     initialize_game_state,  # Returns GameStateData
     process_guess,  # Takes GameStateData
@@ -108,7 +105,7 @@ def update_game_over_display(
     current_difficulty_config: DifficultyData,
     game_over_status: str,
     game_st: GameStateData,  # Changed to GameStateData
-    final_grid: List[List[Optional[str]]],
+    final_grid: list[list[str | None]],
     current_selected_wizard: WizardData,
 ) -> None:
     """Displays the final game over screen (win or loss)."""
@@ -143,7 +140,9 @@ def update_game_over_display(
 
 
 def update_end_game_display(
-    current_difficulty_config: DifficultyData, player_name: Optional[str], final_score: int
+    current_difficulty_config: DifficultyData,
+    player_name: str | None,
+    final_score: int,
 ) -> None:
     """Handles display after game over screen in Heart Points mode."""
     get_input(current_difficulty_config, "  > Press Enter to continue... ")
@@ -168,17 +167,20 @@ def update_end_game_display(
 
 def run_game(
     difficulty_conf: DifficultyData,
-    final_grid: List[List[Optional[str]]],
-    words_to_find: Dict[str, List[Tuple[int, int]]],
+    final_grid: list[list[str | None]],
+    words_to_find: dict[str, list[tuple[int, int]]],
     middle_word: str,
-    player_name: Optional[str],
+    player_name: str | None,
     selected_wizard: WizardData,
 ) -> None:
     """Runs the main gameplay loop for a single game instance."""
     wizard_color = selected_wizard.color
 
     game_st: GameStateData = initialize_game_state(  # Returns GameStateData
-        final_grid, middle_word, selected_wizard, player_name
+        final_grid,
+        middle_word,
+        selected_wizard,
+        player_name,
     )
     game_over_status: str = "continue"
 

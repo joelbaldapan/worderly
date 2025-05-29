@@ -2,12 +2,10 @@
 # MAIN LOGIC
 # ****************
 import sys
-from typing import Optional, Tuple, Dict, List
 
 # Import dataclasses from other modules
 from data.settings_details import DifficultyData
 from data.wizards_details import WizardData
-
 from display.display_utils import clear_screen
 from gameplay.gameplay import run_game
 from setup.grid_generator import generate_board
@@ -18,7 +16,7 @@ MAX_SETUP_RETRIES = 5  # Maximum number of attempts to generate words and board
 MAX_GRID_SETUP_RETRIES = 5  # Maximum number of attempts to generate board
 
 
-def get_lexicon_file() -> Optional[str]:
+def get_lexicon_file() -> str | None:
     """Retrieves and validates the lexicon file path from command-line arguments."""
     if len(sys.argv) < 2:
         print("The game requires a lexicon file to start!", file=sys.stderr)
@@ -44,6 +42,7 @@ def run_setup(difficulty_config: DifficultyData, lexicon_file_path: str):
     Returns:
         Optional[Tuple[str, Dict[str, List[Tuple[int, int]]], List[List[Optional[str]]]]]:
             (middle_word, words_to_find, final_grid) on success, None on failure.
+
     """
     setup_attempts = 0
     while setup_attempts < MAX_SETUP_RETRIES:
@@ -69,11 +68,11 @@ def run_setup(difficulty_config: DifficultyData, lexicon_file_path: str):
 
 def main() -> None:
     """Main function to run the Worderly game."""
-    lexicon_file_p: Optional[str] = get_lexicon_file()
+    lexicon_file_p: str | None = get_lexicon_file()
     if not lexicon_file_p:
         return
 
-    current_difficulty_setting: Optional[DifficultyData] = run_heart_points_menu()
+    current_difficulty_setting: DifficultyData | None = run_heart_points_menu()
 
     while True:
         if current_difficulty_setting is None:
@@ -94,11 +93,11 @@ def main() -> None:
             return
 
         middle_word: str
-        words_to_find: Dict[str, List[Tuple[int, int]]]
-        final_grid: List[List[Optional[str]]]
+        words_to_find: dict[str, list[tuple[int, int]]]
+        final_grid: list[list[str | None]]
         middle_word, words_to_find, final_grid = setup_result
 
-        player_name: Optional[str]
+        player_name: str | None
         selected_wizard: WizardData  # initialize_player_info returns WizardData
         player_name, selected_wizard = initialize_player_info(current_difficulty_setting)
 

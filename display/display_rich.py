@@ -1,4 +1,4 @@
-from typing import List, Optional, Dict, Set, Tuple, Any  # Added common types
+from typing import Any
 
 from rich.columns import Columns
 from rich.console import Console, Group
@@ -7,7 +7,7 @@ from rich.progress import BarColumn, Progress
 from rich.table import Table
 from rich.text import Text
 
-from data.settings_details import DifficultyData, HEART_POINTS_SETTINGS
+from data.settings_details import HEART_POINTS_SETTINGS, DifficultyData
 from data.wizards_details import WizardData
 from gameplay.game_state_handler import GameStateData, GameStatisticsData
 
@@ -20,8 +20,8 @@ console = Console()
 
 
 def rich_print_grid(
-    grid: Optional[List[List[Optional[str]]]],
-    highlighted_coords: Set[Tuple[int, int]] | List[Tuple[int, int]],  # Can be set or list
+    grid: list[list[str | None]] | None,
+    highlighted_coords: set[tuple[int, int]] | list[tuple[int, int]],  # Can be set or list
     highlight_color: str,
     letters_color: str,
     hidden_color: str,
@@ -47,15 +47,19 @@ def rich_print_grid(
     if num_cols == 0 and grid:
         console.print(
             Panel(
-                Text.from_markup("[yellow]Grid has rows but no columns.[/yellow]"), title=title, border_style="yellow"
-            )
+                Text.from_markup("[yellow]Grid has rows but no columns.[/yellow]"),
+                title=title,
+                border_style="yellow",
+            ),
         )
         return
     elif num_cols == 0:
         console.print(
             Panel(
-                Text.from_markup("[yellow]Empty grid provided (no columns).[/yellow]"), title=title, border_style="red"
-            )
+                Text.from_markup("[yellow]Empty grid provided (no columns).[/yellow]"),
+                title=title,
+                border_style="red",
+            ),
         )
         return
 
@@ -63,7 +67,7 @@ def rich_print_grid(
         table.add_column(justify="left", no_wrap=True)
 
     for row_idx, row_data in enumerate(grid):
-        styled_row_items: List[Text] = []
+        styled_row_items: list[Text] = []
         for col_idx in range(num_cols):
             content = "."
             current_style = "dim"
@@ -89,7 +93,7 @@ def rich_print_grid(
     console.print(grid_panel)
 
 
-def _append_combo_stats(statistics: GameStatisticsData, selected_wizard: WizardData, powerup_parts: List[Any]) -> None:
+def _append_combo_stats(statistics: GameStatisticsData, selected_wizard: WizardData, powerup_parts: list[Any]) -> None:
     """Appends combo meter Text and Progress bar to the powerup_parts list."""
     wizard_color = selected_wizard.color
     combo = statistics.combo
@@ -123,7 +127,7 @@ def _append_combo_stats(statistics: GameStatisticsData, selected_wizard: WizardD
 def rich_print_statistics(
     statistics: GameStatisticsData,
     border_style: str,
-    grid: Optional[List[List[Optional[str]]]],
+    grid: list[list[str | None]] | None,
     selected_wizard: WizardData,
     game_st: GameStateData,
 ) -> None:
@@ -141,7 +145,7 @@ def rich_print_statistics(
         (f"{statistics.last_guess if statistics.last_guess is not None else 'None'}"),
     )
 
-    powerup_parts: List[Any] = []
+    powerup_parts: list[Any] = []
     powerup_parts.append(Text.assemble(("Combo:        ", "bold cyan"), (f"{statistics.combo}")))
 
     shield_turns = statistics.shield_turns
@@ -211,18 +215,23 @@ def rich_print_statistics(
 
 def rich_print_message(
     message: str,
-    style: Optional[str] = None,
+    style: str | None = None,
     border_style: str = DEFAULT_BORDER_STYLE,
-    title: Optional[str] = None,
+    title: str | None = None,
     title_align: str = "left",
     expand: bool = False,
-    width: Optional[int] = None,
+    width: int | None = None,
     justify: str = "left",
 ) -> None:
     """Prints a message string wrapped in a Rich Panel."""
     text_content = Text.from_markup(message, style=style, justify=justify)
     panel = Panel(
-        text_content, border_style=border_style, title=title, title_align=title_align, expand=expand, width=width
+        text_content,
+        border_style=border_style,
+        title=title,
+        title_align=title_align,
+        expand=expand,
+        width=width,
     )
     console.print(panel)
 
@@ -232,7 +241,7 @@ def rich_get_input(prompt_message: str) -> str:
     return input(prompt_message)
 
 
-def rich_print_leaderboard(leaderboard_data: List[Dict[str, Any]], max_entries: int = 10) -> None:
+def rich_print_leaderboard(leaderboard_data: list[dict[str, Any]], max_entries: int = 10) -> None:
     """Prints the leaderboard data in a formatted Rich Table."""
     if not leaderboard_data:
         rich_print_message("The leaderboard is empty!", title="Leaderboard", border_style="dim")
@@ -251,7 +260,7 @@ def rich_print_leaderboard(leaderboard_data: List[Dict[str, Any]], max_entries: 
     console.print(table)
 
 
-def rich_display_wizard_selection(settings: Optional[DifficultyData], wizard: WizardData, wizard_index: int) -> None:
+def rich_display_wizard_selection(settings: DifficultyData | None, wizard: WizardData, wizard_index: int) -> None:
     """Displays the wizard selection interface using Rich Panels and Columns."""
     clear_screen()
 
@@ -301,7 +310,7 @@ def rich_display_wizard_selection(settings: Optional[DifficultyData], wizard: Wi
 
 
 def rich_display_wizard_art(
-    settings: Optional[DifficultyData],  # Added settings for consistency if display.py passes it
+    settings: DifficultyData | None,  # Added settings for consistency if display.py passes it
     wizard: WizardData,  # Changed from dict
 ) -> None:
     """Displays only the ASCII art for a given wizard in a Rich Panel."""
@@ -310,19 +319,24 @@ def rich_display_wizard_art(
 
     art_text = Text(art_content_str, style=f"bold {wizard_color}")
     art_panel = Panel(
-        art_text, border_style=wizard_color, title="Wizard", title_align="left", padding=(1, 2), expand=False
+        art_text,
+        border_style=wizard_color,
+        title="Wizard",
+        title_align="left",
+        padding=(1, 2),
+        expand=False,
     )
     console.print(art_panel)
 
 
 def rich_display_menu_options(
-    settings: Optional[DifficultyData],  # Added settings for consistency
-    options: List[str],
+    settings: DifficultyData | None,  # Added settings for consistency
+    options: list[str],
     current_index: int,
     title: str,
 ) -> None:
     """Displays vertical menu options using Rich, highlighting the current selection."""
-    options_texts: List[str] = []
+    options_texts: list[str] = []
     for i, option_name in enumerate(options):
         detailed_prefix = ""
         # HEART_POINTS_SETTINGS now stores DifficultyData objects
@@ -344,7 +358,12 @@ def rich_display_menu_options(
 
     options_str = "\n".join(options_texts)
     rich_print_message(
-        message=options_str, title=title, style="bright_white", border_style="bold magenta", width=71, expand=False
+        message=options_str,
+        title=title,
+        style="bright_white",
+        border_style="bold magenta",
+        width=71,
+        expand=False,
     )
     rich_print_message(
         message="Use (▲) Up / Down (▼) arrow keys to select. Press Enter to confirm.",

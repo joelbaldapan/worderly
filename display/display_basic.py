@@ -1,19 +1,20 @@
 # display/display_basic.py
 
-from typing import List, Optional, Dict, Any, Tuple  # Added necessary types
+from typing import Any  # Added necessary types
 
-from data.wizards_details import WizardData, WIZARDS_DATA
 from data.settings_details import DifficultyData
-from gameplay.game_state_handler import GameStatisticsData
+from data.wizards_details import WizardData
 from display.display_utils import clear_screen
+from gameplay.game_state_handler import GameStatisticsData
 
 
-def basic_print_grid(grid: Optional[List[List[Optional[str]]]]) -> None:
+def basic_print_grid(grid: list[list[str | None]] | None) -> None:
     """Prints a basic text representation of the game grid to the console.
 
     Args:
         grid (Optional[List[List[Optional[str]]]]):
             The 2D list representing the game grid. None represents empty cells.
+
     """
     if not grid:
         print("Grid is empty or not provided.")
@@ -29,6 +30,7 @@ def basic_print_statistics(statistics: GameStatisticsData) -> None:
         statistics (GameStatisticsData):
             An object containing game stats like letters, lives_left,
             points, last_guess.
+
     """
     print(f"Letters:     {statistics.letters}")
     print(f"Lives left:  {statistics.lives_left}")
@@ -47,13 +49,14 @@ def basic_get_input(prompt_message: str = "") -> str:
     return input(prompt_message)
 
 
-def basic_print_leaderboard(leaderboard: List[Dict[str, Any]]) -> None:
+def basic_print_leaderboard(leaderboard: list[dict[str, Any]]) -> None:
     """Prints a basic text representation of the leaderboard.
 
     Args:
         leaderboard (List[Dict[str, Any]]):
             A list of score dictionaries, already sorted.
             Each dict should have 'name' and 'score' keys.
+
     """
     print("\n----------- Leaderboard -----------")
     if not leaderboard:
@@ -73,7 +76,7 @@ def basic_print_leaderboard(leaderboard: List[Dict[str, Any]]) -> None:
 
 
 def basic_display_wizard_selection(
-    settings: Optional[DifficultyData],
+    settings: DifficultyData | None,
     wizard: WizardData,
     wizard_index: int,
 ) -> None:
@@ -83,6 +86,7 @@ def basic_display_wizard_selection(
         settings (Optional[DifficultyData]): Game settings (passed by dispatcher, maybe unused).
         wizard (WizardData): The WizardData object to display.
         wizard_index (int): The index of the wizard (passed by dispatcher, maybe unused).
+
     """
     clear_screen()
 
@@ -102,7 +106,7 @@ def basic_display_wizard_selection(
 
 
 def basic_display_wizard_art(
-    settings: Optional[DifficultyData],
+    settings: DifficultyData | None,
     wizard: WizardData,
 ) -> None:
     """Prints the basic ASCII art for a given wizard.
@@ -110,17 +114,19 @@ def basic_display_wizard_art(
     Args:
         settings (Optional[DifficultyData]): Game settings (passed by dispatcher, maybe unused).
         wizard (WizardData): The WizardData object containing the art.
+
     """
     print(wizard.art)
 
 
-def basic_display_menu_options(options: List[str], current_index: int, title: str) -> None:
+def basic_display_menu_options(options: list[str], current_index: int, title: str) -> None:
     """Displays a basic text-based vertical menu with selection indicator.
 
     Args:
         options (List[str]): A list of strings representing the menu options.
         current_index (int): The index of the currently selected option.
         title (str): The title to display above the menu.
+
     """
     print(title)
     for i, option in enumerate(options):

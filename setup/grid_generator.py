@@ -1,21 +1,21 @@
 # setup/grid_generator.py
 import random
-from typing import List, Optional, Set, Tuple, Dict, Any, Union
+from typing import Any
 
 # Import DifficultyData for type hinting
 from data.settings_details import DifficultyData
 
 # Type Aliases for complex internal dictionary structures
-PlacementDict = Dict[str, Any]  # For dictionaries describing a word placement
-BoardStateDict = Dict[str, Any]  # For the internal 'state' dictionary during board generation
+PlacementDict = dict[str, Any]  # For dictionaries describing a word placement
+BoardStateDict = dict[str, Any]  # For the internal 'state' dictionary during board generation
 
 
-def create_empty_grid(height: int, width: int) -> List[List[Optional[str]]]:
+def create_empty_grid(height: int, width: int) -> list[list[str | None]]:
     """Creates a 2D list representing an empty grid filled with None."""
     return [[None] * width for _ in range(height)]
 
 
-def place_letters_on_grid(grid: List[List[Optional[str]]], word: str, coords_to_place: List[Tuple[int, int]]) -> None:
+def place_letters_on_grid(grid: list[list[str | None]], word: str, coords_to_place: list[tuple[int, int]]) -> None:
     """Places the letters of a word onto the grid at specified coordinates."""
     for idx, coord in enumerate(coords_to_place):
         row, col = coord
@@ -25,14 +25,14 @@ def place_letters_on_grid(grid: List[List[Optional[str]]], word: str, coords_to_
 
 def update_placed_word_coords(
     chosen_placement: PlacementDict,
-    coords_to_place: List[Tuple[int, int]],
-    placed_words_coords: Dict[str, List[Tuple[int, int]]],
-    middle_word_coords: Set[Tuple[int, int]],
-    used_middle_word_coords: Set[Tuple[int, int]],
+    coords_to_place: list[tuple[int, int]],
+    placed_words_coords: dict[str, list[tuple[int, int]]],
+    middle_word_coords: set[tuple[int, int]],
+    used_middle_word_coords: set[tuple[int, int]],
 ) -> None:
     """Updates state dictionaries after a word is successfully placed."""
     word: str = chosen_placement["word"]
-    intersection_coord: Tuple[int, int] = chosen_placement["coord"]
+    intersection_coord: tuple[int, int] = chosen_placement["coord"]
 
     placed_words_coords[word] = coords_to_place
     if intersection_coord in middle_word_coords:
@@ -40,7 +40,9 @@ def update_placed_word_coords(
 
 
 def update_placed_letter_coords(
-    placed_letter_coords: Dict[str, List[Tuple[int, int]]], word: str, placed_coords: List[Tuple[int, int]]
+    placed_letter_coords: dict[str, list[tuple[int, int]]],
+    word: str,
+    placed_coords: list[tuple[int, int]],
 ) -> None:
     """Updates the dictionary tracking all placed letters and their coordinates."""
     for i, coord in enumerate(placed_coords):
@@ -57,7 +59,7 @@ def _is_within_bounds(r: int, c: int, height: int, width: int) -> bool:
     return 0 <= r < height and 0 <= c < width
 
 
-def _check_parallel_cells(grid: List[List[Optional[str]]], r: int, c: int, dr: int, dc: int) -> bool:
+def _check_parallel_cells(grid: list[list[str | None]], r: int, c: int, dr: int, dc: int) -> bool:
     """Checks if cells perpendicular to a given cell along a direction are empty."""
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
@@ -72,7 +74,11 @@ def _check_parallel_cells(grid: List[List[Optional[str]]], r: int, c: int, dr: i
 
 
 def _check_adjacent_before_start(
-    grid: List[List[Optional[str]]], start_row: int, start_col: int, dr: int, dc: int
+    grid: list[list[str | None]],
+    start_row: int,
+    start_col: int,
+    dr: int,
+    dc: int,
 ) -> bool:
     """Checks if the cell immediately before the start of a word path is empty."""
     height = len(grid)
@@ -83,7 +89,7 @@ def _check_adjacent_before_start(
     return not cell_occupied
 
 
-def _check_adjacent_after_end(grid: List[List[Optional[str]]], end_row: int, end_col: int, dr: int, dc: int) -> bool:
+def _check_adjacent_after_end(grid: list[list[str | None]], end_row: int, end_col: int, dr: int, dc: int) -> bool:
     """Checks if the cell immediately after the end of a word path is empty."""
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
@@ -93,9 +99,9 @@ def _check_adjacent_after_end(grid: List[List[Optional[str]]], end_row: int, end
 
 
 def _check_for_all_letters(
-    grid: List[List[Optional[str]]],
+    grid: list[list[str | None]],
     word: str,
-    words_to_place_set: Set[str],
+    words_to_place_set: set[str],
     word_len: int,
     start_row: int,
     start_col: int,
@@ -129,9 +135,9 @@ def _check_for_all_letters(
 
 
 def is_valid_placement(
-    grid: List[List[Optional[str]]],
+    grid: list[list[str | None]],
     word: str,
-    words_to_place_set: Set[str],
+    words_to_place_set: set[str],
     intersect_row: int,
     intersect_col: int,
     intersect_idx: int,
@@ -165,13 +171,13 @@ def is_valid_placement(
 
 
 def find_possible_placements(
-    grid: List[List[Optional[str]]],
+    grid: list[list[str | None]],
     word: str,
-    words_to_place_set: Set[str],
-    placed_letter_coords: Dict[str, List[Tuple[int, int]]],
-) -> List[PlacementDict]:
+    words_to_place_set: set[str],
+    placed_letter_coords: dict[str, list[tuple[int, int]]],
+) -> list[PlacementDict]:
     """Finds all valid horizontal and vertical placements for a given word."""
-    possible_placements: List[PlacementDict] = []
+    possible_placements: list[PlacementDict] = []
     for idx, letter in enumerate(word):
         if letter not in placed_letter_coords:
             continue
@@ -185,13 +191,13 @@ def find_possible_placements(
 
 
 def categorize_placement(
-    possible_placements: List[PlacementDict],
-    middle_word_coords: Set[Tuple[int, int]],
-    used_middle_word_coords_set: Set[Tuple[int, int]],
-) -> Tuple[List[PlacementDict], List[PlacementDict]]:
+    possible_placements: list[PlacementDict],
+    middle_word_coords: set[tuple[int, int]],
+    used_middle_word_coords_set: set[tuple[int, int]],
+) -> tuple[list[PlacementDict], list[PlacementDict]]:
     """Categorizes possible placements into priority and other lists."""
-    priority_placements: List[PlacementDict] = []
-    other_placements: List[PlacementDict] = []
+    priority_placements: list[PlacementDict] = []
+    other_placements: list[PlacementDict] = []
     for placement in possible_placements:
         if placement["coord"] in middle_word_coords and placement["coord"] not in used_middle_word_coords_set:
             priority_placements.append(placement)
@@ -201,8 +207,9 @@ def categorize_placement(
 
 
 def select_random_placement(
-    priority_placements: List[PlacementDict], other_placements: List[PlacementDict]
-) -> Optional[PlacementDict]:
+    priority_placements: list[PlacementDict],
+    other_placements: list[PlacementDict],
+) -> PlacementDict | None:
     """Selects a random placement, prioritizing the priority list."""
     if priority_placements:
         return random.choice(priority_placements)
@@ -212,12 +219,12 @@ def select_random_placement(
 
 
 def apply_placement(
-    grid: List[List[Optional[str]]],
+    grid: list[list[str | None]],
     chosen_placement: PlacementDict,
-    placed_letter_coords: Dict[str, List[Tuple[int, int]]],
-    placed_words_coords: Dict[str, List[Tuple[int, int]]],
-    middle_word_coords: Set[Tuple[int, int]],
-    used_middle_word_coords: Set[Tuple[int, int]],
+    placed_letter_coords: dict[str, list[tuple[int, int]]],
+    placed_words_coords: dict[str, list[tuple[int, int]]],
+    middle_word_coords: set[tuple[int, int]],
+    used_middle_word_coords: set[tuple[int, int]],
 ) -> None:
     """Applies a chosen placement to the grid and updates tracking dictionaries."""
     word: str = chosen_placement["word"]
@@ -225,12 +232,16 @@ def apply_placement(
 
     update_placed_letter_coords(placed_letter_coords, word, coords_to_place)
     update_placed_word_coords(
-        chosen_placement, coords_to_place, placed_words_coords, middle_word_coords, used_middle_word_coords
+        chosen_placement,
+        coords_to_place,
+        placed_words_coords,
+        middle_word_coords,
+        used_middle_word_coords,
     )
     place_letters_on_grid(grid, word, coords_to_place)
 
 
-def _calculate_middle_word_start(height: int, width: int, word_len: int) -> Optional[Tuple[int, int]]:
+def _calculate_middle_word_start(height: int, width: int, word_len: int) -> tuple[int, int] | None:
     """Calculates the starting (top-left) coordinate for diagonal middle word."""
     diag_space = word_len * 2 - 1
     start_row = (height - diag_space) // 2
@@ -241,15 +252,17 @@ def _calculate_middle_word_start(height: int, width: int, word_len: int) -> Opti
 
 
 def calculate_middle_word_placement_coords(
-    height: int, width: int, middle_word: str
-) -> Optional[List[Tuple[int, int]]]:
+    height: int,
+    width: int,
+    middle_word: str,
+) -> list[tuple[int, int]] | None:
     """Calculates the list of diagonal coordinates for the middle word."""
     start_coords = _calculate_middle_word_start(height, width, len(middle_word))
     if start_coords is None:
         return None
 
     start_row, start_col = start_coords
-    coords_to_place: List[Tuple[int, int]] = []
+    coords_to_place: list[tuple[int, int]] = []
     row, col = start_row, start_col
     for _ in middle_word:
         coords_to_place.append((row, col))
@@ -258,7 +271,7 @@ def calculate_middle_word_placement_coords(
     return coords_to_place
 
 
-def calculate_straight_word_placement_coords(chosen_placement: PlacementDict) -> List[Tuple[int, int]]:
+def calculate_straight_word_placement_coords(chosen_placement: PlacementDict) -> list[tuple[int, int]]:
     """Calculates the list of coordinates for a straight (H or V) placement."""
     word: str = chosen_placement["word"]
     intersect_row, intersect_col = chosen_placement["coord"]
@@ -270,7 +283,7 @@ def calculate_straight_word_placement_coords(chosen_placement: PlacementDict) ->
     start_row = intersect_row - intersect_idx * dr
     start_col = intersect_col - intersect_idx * dc
 
-    coords_to_place: List[Tuple[int, int]] = []
+    coords_to_place: list[tuple[int, int]] = []
     for i in range(word_len):
         coords_to_place.append((start_row + i * dr, start_col + i * dc))
     return coords_to_place
@@ -289,7 +302,7 @@ def initialize_board_state(height: int, width: int) -> BoardStateDict:
 
 def place_middle_word(state: BoardStateDict, middle_word: str) -> bool:
     """Places the initial diagonal middle word onto the grid and updates state."""
-    grid: List[List[Optional[str]]] = state["grid"]
+    grid: list[list[str | None]] = state["grid"]
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
 
@@ -304,13 +317,13 @@ def place_middle_word(state: BoardStateDict, middle_word: str) -> bool:
     return True
 
 
-def place_other_words(state: BoardStateDict, words_to_place: List[str], max_total_words: int) -> None:
+def place_other_words(state: BoardStateDict, words_to_place: list[str], max_total_words: int) -> None:
     """Attempts to place the remaining words onto the grid."""
-    grid: List[List[Optional[str]]] = state["grid"]
-    placed_letter_coords: Dict[str, List[Tuple[int, int]]] = state["placed_letter_coords"]
-    placed_words_coords: Dict[str, List[Tuple[int, int]]] = state["placed_words_coords"]
-    middle_word_coords_set: Set[Tuple[int, int]] = state["middle_word_coords"]
-    used_middle_word_coords_set: Set[Tuple[int, int]] = state["used_middle_word_coords"]
+    grid: list[list[str | None]] = state["grid"]
+    placed_letter_coords: dict[str, list[tuple[int, int]]] = state["placed_letter_coords"]
+    placed_words_coords: dict[str, list[tuple[int, int]]] = state["placed_words_coords"]
+    middle_word_coords_set: set[tuple[int, int]] = state["middle_word_coords"]
+    used_middle_word_coords_set: set[tuple[int, int]] = state["used_middle_word_coords"]
 
     # Ensure words_to_place is a set for efficient lookup in is_valid_placement
     words_to_place_as_set = set(words_to_place)
@@ -329,7 +342,9 @@ def place_other_words(state: BoardStateDict, words_to_place: List[str], max_tota
 
         possible_placements = find_possible_placements(grid, word, words_to_place_as_set, placed_letter_coords)
         priority_placements, other_placements = categorize_placement(
-            possible_placements, middle_word_coords_set, used_middle_word_coords_set
+            possible_placements,
+            middle_word_coords_set,
+            used_middle_word_coords_set,
         )
         chosen_placement = select_random_placement(priority_placements, other_placements)
 
@@ -346,9 +361,9 @@ def place_other_words(state: BoardStateDict, words_to_place: List[str], max_tota
 
 def validate_final_grid(state: BoardStateDict, min_total_words: int) -> bool:
     """Validates the generated grid against placement requirements."""
-    placed_words_coords: Dict[str, List[Tuple[int, int]]] = state["placed_words_coords"]
-    middle_word_coords_set: Set[Tuple[int, int]] = state["middle_word_coords"]
-    used_middle_word_coords_set: Set[Tuple[int, int]] = state["used_middle_word_coords"]
+    placed_words_coords: dict[str, list[tuple[int, int]]] = state["placed_words_coords"]
+    middle_word_coords_set: set[tuple[int, int]] = state["middle_word_coords"]
+    used_middle_word_coords_set: set[tuple[int, int]] = state["used_middle_word_coords"]
 
     total_placed_count = len(placed_words_coords)
     if total_placed_count < min_total_words:
@@ -362,14 +377,16 @@ def capitalize_middle_word_appearance(state: BoardStateDict, middle_word: str) -
     """Capitalizes the letters of the middle word on the final grid."""
     # Ensure middle_word is in placed_words_coords before trying to access it
     if middle_word in state["placed_words_coords"]:
-        middle_word_coords: List[Tuple[int, int]] = state["placed_words_coords"][middle_word]
+        middle_word_coords: list[tuple[int, int]] = state["placed_words_coords"][middle_word]
         middle_word_upper = middle_word.upper()
         place_letters_on_grid(state["grid"], middle_word_upper, middle_word_coords)
 
 
 def generate_board(
-    difficulty_conf: DifficultyData, middle_word: str, words_to_place: List[str]
-) -> Tuple[Optional[List[List[Optional[str]]]], Optional[Dict[str, List[Tuple[int, int]]]]]:
+    difficulty_conf: DifficultyData,
+    middle_word: str,
+    words_to_place: list[str],
+) -> tuple[list[list[str | None]] | None, dict[str, list[tuple[int, int]]] | None]:
     """Generates the final game board and word coordinate data.
 
     Args:
@@ -380,6 +397,7 @@ def generate_board(
     Returns:
         Tuple[Optional[List[List[Optional[str]]]], Optional[Dict[str, List[Tuple[int, int]]]]]:
             Grid and placed words dictionary, or (None, None) on failure.
+
     """
     min_total_words = difficulty_conf.words_on_board_needed.minimum
     max_total_words = difficulty_conf.words_on_board_needed.maximum

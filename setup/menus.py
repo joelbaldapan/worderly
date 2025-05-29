@@ -1,12 +1,10 @@
 import sys
-from typing import List, Optional, Tuple
 
 from getkey import getkey, keys
 
 # Import the new dataclasses and the data constants
 from data.settings_details import HEART_POINTS_SETTINGS, NO_HEART_POINTS_SETTINGS, DifficultyData
 from data.wizards_details import WIZARDS_DATA, WizardData
-
 from display.display import (
     display_menu_options,
     display_wizard_art,
@@ -46,7 +44,7 @@ MAIN_TITLE = """
 """
 
 
-def select_from_menu(options: List[str], title: str = "+.+.+.+ Menu +.+.+.+", show_main_title: bool = False) -> str:
+def select_from_menu(options: list[str], title: str = "+.+.+.+ Menu +.+.+.+", show_main_title: bool = False) -> str:
     """Handles navigation and selection for vertical text-based menus.
     Assumes options is not empty and a selection will always be made.
 
@@ -57,6 +55,7 @@ def select_from_menu(options: List[str], title: str = "+.+.+.+ Menu +.+.+.+", sh
 
     Returns:
         str: The string of the selected option.
+
     """
     current_index = 0
     while True:
@@ -86,7 +85,7 @@ def select_from_menu(options: List[str], title: str = "+.+.+.+ Menu +.+.+.+", sh
             return options[current_index]
 
 
-def select_character_menu(settings: Optional[DifficultyData]) -> WizardData:
+def select_character_menu(settings: DifficultyData | None) -> WizardData:
     """Handles the character selection menu interface.
 
     Args:
@@ -95,6 +94,7 @@ def select_character_menu(settings: Optional[DifficultyData]) -> WizardData:
 
     Returns:
         WizardData: The selected wizard's data object.
+
     """
     current_index = 0
     num_wizards = len(WIZARDS_DATA)
@@ -122,7 +122,7 @@ def select_character_menu(settings: Optional[DifficultyData]) -> WizardData:
             return WIZARDS_DATA[0]
 
 
-def get_player_name(settings: Optional[DifficultyData], selected_wizard: WizardData) -> str:
+def get_player_name(settings: DifficultyData | None, selected_wizard: WizardData) -> str:
     """Prompts the player to enter their name and validates it.
 
     Args:
@@ -131,6 +131,7 @@ def get_player_name(settings: Optional[DifficultyData], selected_wizard: WizardD
 
     Returns:
         str: The validated player name.
+
     """
     clear_screen()
     # Assuming display_wizard_art is updated to take WizardData
@@ -171,7 +172,7 @@ def get_player_name(settings: Optional[DifficultyData], selected_wizard: WizardD
             return name
 
 
-def initialize_player_info(settings: DifficultyData) -> Tuple[Optional[str], WizardData]:
+def initialize_player_info(settings: DifficultyData) -> tuple[str | None, WizardData]:
     """Initializes player name and selected wizard based on game mode.
 
     Args:
@@ -179,6 +180,7 @@ def initialize_player_info(settings: DifficultyData) -> Tuple[Optional[str], Wiz
 
     Returns:
         Tuple[Optional[str], WizardData]: Player name (or None) and wizard data object.
+
     """
     if settings.heart_point_mode:  # Direct attribute access
         selected_wizard = select_character_menu(settings)
@@ -188,18 +190,18 @@ def initialize_player_info(settings: DifficultyData) -> Tuple[Optional[str], Wiz
         return None, WIZARDS_DATA[0]
 
 
-MENU1_OPTIONS: List[str] = [
+MENU1_OPTIONS: list[str] = [
     "</3 No Heart Points",
     "♥♥♥ Heart Points",
 ]
 
-MENU2_OPTIONS: List[str] = [
+MENU2_OPTIONS: list[str] = [
     "Start Game",
     "Check Leaderboards",
     "Exit Game",
 ]
 
-MENU3_OPTIONS: List[str] = [
+MENU3_OPTIONS: list[str] = [
     "Simple Scroll",
     "Spellbook",
     "Grand Tome",
@@ -208,11 +210,12 @@ MENU3_OPTIONS: List[str] = [
 ]
 
 
-def run_heart_points_menu() -> Optional[DifficultyData]:
+def run_heart_points_menu() -> DifficultyData | None:
     """Runs the initial menu to select the game mode.
 
     Returns:
         Optional[DifficultyData]: DifficultyData for No Heart Points mode, or None for HP mode.
+
     """
     selected_option = select_from_menu(
         MENU1_OPTIONS,
@@ -231,6 +234,7 @@ def run_main_menu() -> DifficultyData:
 
     Returns:
         DifficultyData: DifficultyData object if "Start Game" is chosen, otherwise exits.
+
     """
     title = "+.+.+.+ Main Menu +.+.+.+"
 
@@ -267,6 +271,7 @@ def run_difficulty_menu() -> DifficultyData:
 
     Returns:
         DifficultyData: A DifficultyData object for the chosen difficulty.
+
     """
     title = "+.+.+.+ Select Difficulty / Book +.+.+.+"
     selected_option: str = select_from_menu(MENU3_OPTIONS, title=title, show_main_title=True)
