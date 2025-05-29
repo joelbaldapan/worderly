@@ -1,33 +1,32 @@
 # ****************
 # IMPORTS
 # ****************
-import gameplay.game_constants as game_constants
-from gameplay.game_state_handler import (
-    initialize_game_state,
-    process_guess,
-    check_game_over,
-)
-from gameplay.powerup_handler import update_power_points, use_powerup
 from display.display import (
+    get_input,
     print_grid,
+    print_leaderboard,
     print_message,
     print_statistics,
-    print_leaderboard,
-    get_input,
 )
 from display.display_utils import clear_screen
+from gameplay import game_constants
+from gameplay.game_state_handler import (
+    check_game_over,
+    initialize_game_state,
+    process_guess,
+)
+from gameplay.powerup_handler import update_power_points, use_powerup
 from leaderboard.leaderboard import (
     load_leaderboard,
     save_score,
 )
-
 
 # ****************
 # GAME LOGIC
 # ****************
 
 
-def update_display(settings, game_state, selected_wizard):
+def update_display(settings, game_state, selected_wizard) -> None:
     """Updates the entire game display for the current turn.
 
     Clears the screen and then prints the grid, statistics panel, and
@@ -41,6 +40,7 @@ def update_display(settings, game_state, selected_wizard):
 
     Returns:
         None
+
     """
     clear_screen()
     print_grid(
@@ -85,6 +85,7 @@ def get_guess(settings, game_state, selected_wizard):
     Returns:
         str: The validated player input (lowercase, stripped word guess or
              the powerup command string).
+
     """
     wizard_color = selected_wizard["color"]
     power_points = game_state["statistics"]["power_points"]
@@ -93,7 +94,7 @@ def get_guess(settings, game_state, selected_wizard):
         # Show (Type `!p` to activate powerup!) if on heart point mode
         if settings["heart_point_mode"] and wizard_color != "bright_white":
             user_input = get_input(
-                settings, "  > Enter guess (Type `!p` to activate powerup!): "
+                settings, "  > Enter guess (Type `!p` to activate powerup!): ",
             )
         else:
             user_input = get_input(settings, "  > Enter guess: ")
@@ -135,8 +136,8 @@ def get_guess(settings, game_state, selected_wizard):
 
 
 def update_game_over_display(
-    settings, game_over_status, game_state, final_grid, selected_wizard
-):
+    settings, game_over_status, game_state, final_grid, selected_wizard,
+) -> None:
     """Displays the final game over screen (win or loss).
 
     Clears the screen, prints the final grid state (revealed or partially
@@ -151,6 +152,7 @@ def update_game_over_display(
 
     Returns:
         None: This function prints directly to the console and returns nothing.
+
     """
     clear_screen()
     stats = game_state["statistics"]
@@ -180,13 +182,13 @@ def update_game_over_display(
 
     # Print final stats using the wizard color for the border
     print_statistics(
-        settings, stats, wizard_color, final_grid, selected_wizard, game_state
+        settings, stats, wizard_color, final_grid, selected_wizard, game_state,
     )
     # Print the final win/loss message
     print_message(settings, final_message, border_style=wizard_color)
 
 
-def update_end_game_display(settings, player_name, final_score):
+def update_end_game_display(settings, player_name, final_score) -> None:
     """Handles the display and actions after the game over screen in HP mode.
 
     Waits for user input, clears screen, saves the score, loads and prints
@@ -199,9 +201,10 @@ def update_end_game_display(settings, player_name, final_score):
 
     Returns:
         None
+
     """
     get_input(
-        settings, "  > Press Enter to continue... "
+        settings, "  > Press Enter to continue... ",
     )  # Pause after game over screen
 
     clear_screen()
@@ -222,8 +225,8 @@ def update_end_game_display(settings, player_name, final_score):
 
 
 def run_game(
-    settings, final_grid, words_to_find, middle_word, player_name, selected_wizard
-):
+    settings, final_grid, words_to_find, middle_word, player_name, selected_wizard,
+) -> None:
     """Runs the main gameplay loop for a single game instance.
 
     Initializes the game state, then enters a loop that updates the display,
@@ -241,11 +244,12 @@ def run_game(
 
     Returns:
         None
+
     """
     # INITIALIZE GAME
     wizard_color = selected_wizard["color"]
     game_state = initialize_game_state(
-        final_grid, middle_word, selected_wizard, player_name
+        final_grid, middle_word, selected_wizard, player_name,
     )
     game_over_status = "continue"
 
@@ -268,7 +272,7 @@ def run_game(
 
     # DISPLAY GAME OVER
     update_game_over_display(
-        settings, game_over_status, game_state, final_grid, selected_wizard
+        settings, game_over_status, game_state, final_grid, selected_wizard,
     )
     final_score = game_state["statistics"]["points"]
 

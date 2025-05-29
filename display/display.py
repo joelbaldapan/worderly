@@ -2,26 +2,25 @@
 # DISPLAY
 # ****************
 from display.display_basic import (
-    basic_print_grid,
-    basic_print_statistics,
-    basic_print_message,
-    basic_get_input,
-    basic_print_leaderboard,
-    basic_display_wizard_selection,
-    basic_display_wizard_art,
     basic_display_menu_options,
+    basic_display_wizard_art,
+    basic_display_wizard_selection,
+    basic_get_input,
+    basic_print_grid,
+    basic_print_leaderboard,
+    basic_print_message,
+    basic_print_statistics,
 )
 from display.display_rich import (
-    rich_print_grid,
-    rich_print_statistics,
-    rich_print_message,
-    rich_get_input,
-    rich_print_leaderboard,
-    rich_display_wizard_selection,
-    rich_display_wizard_art,
     rich_display_menu_options,
+    rich_display_wizard_art,
+    rich_display_wizard_selection,
+    rich_get_input,
+    rich_print_grid,
+    rich_print_leaderboard,
+    rich_print_message,
+    rich_print_statistics,
 )
-
 
 # ************************************************
 # DISPLAY HANDLERS
@@ -35,14 +34,16 @@ DEFAULT_BORDER_STYLE = "bright_cyan"
 def print_grid(
     settings,
     grid,
-    highlighted_coords={},
+    highlighted_coords=None,
     highlight_color=None,
     letters_color="black",  # black to debug if it's not working
     hidden_color="black",
     title="THE WIZARDS OF WORDERLY PLACE",
     border_style=DEFAULT_BORDER_STYLE,
-):
+) -> None:
     """Prints the game grid using either rich or basic formatting based on settings."""
+    if highlighted_coords is None:
+        highlighted_coords = {}
     if not settings or settings["heart_point_mode"]:
         rich_print_grid(
             grid,
@@ -58,12 +59,12 @@ def print_grid(
 
 
 def print_statistics(
-    settings, statistics, border_style, grid, selected_wizard, game_state
-):
+    settings, statistics, border_style, grid, selected_wizard, game_state,
+) -> None:
     """Prints game statistics using either rich or basic formatting based on settings."""
     if not settings or settings["heart_point_mode"]:
         rich_print_statistics(
-            statistics, border_style, grid, selected_wizard, game_state
+            statistics, border_style, grid, selected_wizard, game_state,
         )
     else:
         basic_print_statistics(statistics)
@@ -79,11 +80,11 @@ def print_message(
     expand=False,
     width=None,
     justify="left",
-):
+) -> None:
     """Prints a message using either rich or basic formatting based on settings."""
     if not settings or settings["heart_point_mode"]:
         rich_print_message(
-            message, style, border_style, title, title_align, expand, width, justify
+            message, style, border_style, title, title_align, expand, width, justify,
         )
     else:
         basic_print_message(message)
@@ -97,7 +98,7 @@ def get_input(settings, prompt_message="Enter Guess"):
         return basic_get_input(prompt_message)
 
 
-def print_leaderboard(settings, leaderboard):
+def print_leaderboard(settings, leaderboard) -> None:
     """Prints the leaderboard using either rich or basic formatting based on settings."""
     if not settings or settings["heart_point_mode"]:
         rich_print_leaderboard(leaderboard)
@@ -105,7 +106,7 @@ def print_leaderboard(settings, leaderboard):
         basic_print_leaderboard(leaderboard)
 
 
-def display_wizard_selection(settings, wizard_index):
+def display_wizard_selection(settings, wizard_index) -> None:
     """Displays wizard selection using either rich or basic formatting based on settings."""
     if not settings or settings["heart_point_mode"]:
         rich_display_wizard_selection(wizard_index)
@@ -113,7 +114,7 @@ def display_wizard_selection(settings, wizard_index):
         basic_display_wizard_selection(wizard_index)
 
 
-def display_wizard_art(settings, wizard):
+def display_wizard_art(settings, wizard) -> None:
     """Displays wizard art using either rich or basic formatting based on settings."""
     if not settings or settings["heart_point_mode"]:
         rich_display_wizard_art(wizard)
@@ -121,7 +122,7 @@ def display_wizard_art(settings, wizard):
         basic_display_wizard_art(wizard)
 
 
-def display_menu_options(settings, options, current_index, title):
+def display_menu_options(settings, options, current_index, title) -> None:
     """Displays menu options using either rich or basic formatting based on settings."""
     if not settings or settings["heart_point_mode"]:
         rich_display_menu_options(options, current_index, title)

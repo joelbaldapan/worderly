@@ -1,7 +1,7 @@
 # gameplay/game_state_handler.py
-import gameplay.game_constants as game_constants
 import random
 
+from gameplay import game_constants
 
 # ****************
 # UTILS
@@ -18,6 +18,7 @@ def shuffle_letters_statistic(middle_word):
         str:
             A string of the shuffled uppercase letters of the middle word,
             separated by spaces.
+
     """
     letters_list = list(str(middle_word).upper())
     random.shuffle(letters_list)
@@ -34,7 +35,7 @@ def create_hidden_grid(final_grid):
     return [["#" if col else None for col in row] for row in final_grid]
 
 
-def reveal_coords_in_hidden_grid(final_grid, hidden_grid, coords):
+def reveal_coords_in_hidden_grid(final_grid, hidden_grid, coords) -> None:
     """Reveals specific coordinates on the hidden grid.
 
     Updates the `hidden_grid` in place by copying the characters from the
@@ -52,6 +53,7 @@ def reveal_coords_in_hidden_grid(final_grid, hidden_grid, coords):
 
     Returns:
         None: The `hidden_grid` is modified directly.
+
     """
     for i, j in coords:
         # Basic bounds check for safety, although coords should be valid
@@ -71,7 +73,7 @@ def get_all_letter_coords(final_grid):
     return all_coords
 
 
-def apply_coordinate_reveal(game_state, final_grid, coords_to_reveal):
+def apply_coordinate_reveal(game_state, final_grid, coords_to_reveal) -> None:
     """Applies the effects of revealing coordinates to the game state.
 
     Updates the hidden grid display, calculates points gained from newly revealed
@@ -91,6 +93,7 @@ def apply_coordinate_reveal(game_state, final_grid, coords_to_reveal):
 
     Returns:
         None: The `game_state` dictionary is modified directly.
+
     """
     stats = game_state["statistics"]
     coords_set = set(coords_to_reveal)
@@ -138,6 +141,7 @@ def initialize_game_state(final_grid, middle_word, selected_wizard, player_name)
         dict:
             The initialized game state dictionary containing all necessary
             information to start tracking the game's progress.
+
     """
     hidden_grid = create_hidden_grid(final_grid)
     statistics = {
@@ -149,7 +153,7 @@ def initialize_game_state(final_grid, middle_word, selected_wizard, player_name)
         "power_points": 0,
         "shield_turns": 0,
     }
-    game_state = {
+    return {
         "player_name": player_name,
         "statistics": statistics,
         "hidden_grid": hidden_grid,
@@ -160,10 +164,9 @@ def initialize_game_state(final_grid, middle_word, selected_wizard, player_name)
         "next_message": game_constants.WELCOME_MSG,
         "next_message_color": selected_wizard["color"],
     }
-    return game_state
 
 
-def process_guess(guess, game_state, words_to_find, final_grid, wizard_color):
+def process_guess(guess, game_state, words_to_find, final_grid, wizard_color) -> None:
     """Processes a player's word guess and updates the game state accordingly.
 
     Checks if the guess is correct, incorrect, or already found. Updates
@@ -184,6 +187,7 @@ def process_guess(guess, game_state, words_to_find, final_grid, wizard_color):
 
     Returns:
         None: The `game_state` dictionary is modified directly.
+
     """
     stats = game_state["statistics"]
     correctly_guessed_words = game_state["correctly_guessed_words"]
@@ -253,6 +257,7 @@ def check_for_completed_words(game_state, words_to_find):
         list[str]:
             A list of words that were found to be implicitly completed
             during this check. Can be empty.
+
     """
     newly_found_words = []
     correctly_guessed_words = game_state["correctly_guessed_words"]
@@ -274,7 +279,7 @@ def check_for_completed_words(game_state, words_to_find):
     return newly_found_words
 
 
-def check_game_over(game_state, words_to_find):
+def check_game_over(game_state, words_to_find) -> str:
     """Checks if the game has reached a win or loss condition.
 
     Args:
@@ -289,6 +294,7 @@ def check_game_over(game_state, words_to_find):
         str:
             "win" if all words have been found, "loss" if lives are zero or less,
             "continue" otherwise.
+
     """
     if len(game_state["correctly_guessed_words"]) == len(words_to_find):
         return "win"

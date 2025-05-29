@@ -3,6 +3,7 @@
 # ****************
 import itertools
 import random
+
 from display.display import (
     print_message,
 )
@@ -12,12 +13,12 @@ from display.display_utils import clear_screen
 def read_word_file(word_path):
     """Reads a lexicon file, cleans words, and returns them as a list."""
     try:
-        with open(word_path, "r") as file:
+        with open(word_path) as file:
             return [word.strip().lower() for word in file if word.strip()]
     except FileNotFoundError:
         print(f"Error: File {word_path} not found.")
         return []
-    except IOError as e:
+    except OSError as e:
         print(f"Error reading file {word_path}: {e}")
         return []
 
@@ -49,7 +50,7 @@ def get_valid_word_subwords(word, valid_words_set, min_length):
 
 
 def find_valid_word_with_subwords(
-    exact_max_length_words, min_subword_length, min_subwords_needed, valid_subword_set
+    exact_max_length_words, min_subword_length, min_subwords_needed, valid_subword_set,
 ):
     """Searches for a word of a specific length that has enough valid subwords."""
     # middle word counts as 1 word already
@@ -60,7 +61,7 @@ def find_valid_word_with_subwords(
     for chosen_word in exact_max_length_words:
         # Find subwords for the current candidate
         subwords = get_valid_word_subwords(
-            chosen_word, valid_subword_set, min_subword_length
+            chosen_word, valid_subword_set, min_subword_length,
         )
 
         # Check if enough subwords were found
@@ -82,8 +83,7 @@ def find_valid_word_with_subwords(
 
 
 def generate_word_list(settings):
-    """
-    Generates the middle word and the list of words to place on the board.
+    """Generates the middle word and the list of words to place on the board.
 
     Reads the lexicon, filters words based on settings, finds a suitable
     middle word with enough subwords, and returns them. Handles file reading
@@ -105,6 +105,7 @@ def generate_word_list(settings):
         tuple[str | None, list[str] | None]: A tuple containing:
             - The chosen middle word (str) or None if generation fails.
             - A list of shuffled subwords (list[str]) for placement or None.
+
     """
     # Extract settings for clarity
     lexicon_path = settings["lexicon_path"]
@@ -148,7 +149,7 @@ def generate_word_list(settings):
 
     # Find a suitable middle word and its accompanying subwords
     middle_word, list_of_words_to_place = find_valid_word_with_subwords(
-        exact_length_words, min_subword_length, min_subwords_needed, valid_subword_set
+        exact_length_words, min_subword_length, min_subwords_needed, valid_subword_set,
     )
 
     # Return the result

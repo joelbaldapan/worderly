@@ -2,11 +2,12 @@
 # MAIN LOGIC
 # ****************
 import sys
+
 from display.display_utils import clear_screen
-from setup.menus import run_heart_points_menu, run_main_menu, initialize_player_info
-from setup.word_selector import generate_word_list, read_word_file
-from setup.grid_generator import generate_board
 from gameplay.gameplay import run_game
+from setup.grid_generator import generate_board
+from setup.menus import initialize_player_info, run_heart_points_menu, run_main_menu
+from setup.word_selector import generate_word_list, read_word_file
 
 MAX_SETUP_RETRIES = 5  # Maximum number of attempts to generate words and board
 MAX_GRID_SETUP_RETRIES = 5  # Maximum number of attempts to generate board
@@ -30,8 +31,7 @@ def get_lexicon_file():
 
 
 def run_setup(settings):
-    """
-    Attempts to generate a valid word list and game board based on settings.
+    """Attempts to generate a valid word list and game board based on settings.
 
     Retries word list generation and grid generation up to a maximum number
     of attempts defined by MAX_SETUP_RETRIES and MAX_GRID_SETUP_RETRIES.
@@ -49,6 +49,7 @@ def run_setup(settings):
                       - words_to_find (dict): Dictionary mapping placed words
                         to their coordinates.
                       - final_grid (list[list[str|None]]): The generated game grid.
+
     """
     setup_attempts = 0
 
@@ -67,21 +68,19 @@ def run_setup(settings):
         while grid_setup_attempts < MAX_GRID_SETUP_RETRIES:
             grid_setup_attempts += 1  # Increment grid attempt counter
             final_grid, words_to_find = generate_board(
-                settings, middle_word, words_to_place
+                settings, middle_word, words_to_place,
             )
             if final_grid is None:
                 # FAILED grid generation for this attempt
                 continue  # Go to the next grid attempt
-            else:
-                # Both word list and grid succeeded!
-                return middle_word, words_to_find, final_grid
+            # Both word list and grid succeeded!
+            return middle_word, words_to_find, final_grid
 
     return None  # Return None if all setup attempts failed
 
 
-def main():
-    """
-    Main function to run the Worderly game.
+def main() -> None:
+    """Main function to run the Worderly game.
 
     Handles command-line validation, menu navigation, game setup,
     and the main game loop.
@@ -113,14 +112,14 @@ def main():
             clear_screen()
             print("\n" + "=" * 50)
             print(
-                f"FATAL ERROR: Failed to set up the game after {MAX_SETUP_RETRIES} attempts."
+                f"FATAL ERROR: Failed to set up the game after {MAX_SETUP_RETRIES} attempts.",
             )
             print("This could be due to:")
             print(
-                "  - Very restrictive grid settings (Grid size, number of words needed, word lengths)."
+                "  - Very restrictive grid settings (Grid size, number of words needed, word lengths).",
             )
             print(
-                "  - Lexicon file lacks suitable words (Must have enough subwords to satisfy grid creation)."
+                "  - Lexicon file lacks suitable words (Must have enough subwords to satisfy grid creation).",
             )
             print("Please check your settings, lexicon file, or try again.")
             print("Exiting program.")
@@ -146,9 +145,8 @@ def main():
         # Check if we should break the outer loop
         if not settings.get("heart_point_mode", False):  # Check if heart_point_mode
             break  # Exit the outer loop if not on heart point mode
-        else:
-            # In HP mode, reset settings to None to force main menu on next loop iteration
-            settings = None
+        # In HP mode, reset settings to None to force main menu on next loop iteration
+        settings = None
 
 
 if __name__ == "__main__":

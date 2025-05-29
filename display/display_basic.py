@@ -1,13 +1,12 @@
 # ****************
 # BASIC DISPLAY
 # ****************
-from display.display_utils import clear_screen
-
 # For Wizards data
 from data.wizards_details import WIZARDS_DATA
+from display.display_utils import clear_screen
 
 
-def basic_print_grid(grid):
+def basic_print_grid(grid) -> None:
     """Prints a basic text representation of the game grid to the console.
 
     Args:
@@ -17,13 +16,14 @@ def basic_print_grid(grid):
 
     Returns:
         None: This function prints directly to the console and returns nothing.
+
     """
     for row in grid:
         # Print each cell, replacing None with '.' for visibility
-        print(" ".join(cell if cell else "." for cell in row))
+        print(" ".join(cell or "." for cell in row))
 
 
-def basic_print_statistics(statistics):
+def basic_print_statistics(statistics) -> None:
     """Prints basic game statistics to the console.
 
     Args:
@@ -33,6 +33,7 @@ def basic_print_statistics(statistics):
 
     Returns:
         None: This function prints directly to the console and returns nothing.
+
     """
     print(f"Letters:     {statistics.get('letters', 'N/A')}")
     print(f"Lives left:  {statistics.get('lives_left', 'N/A')}")
@@ -40,7 +41,7 @@ def basic_print_statistics(statistics):
     print(f"Last Guess:  {statistics.get('last_guess', 'None')}")
 
 
-def basic_print_message(message):
+def basic_print_message(message) -> None:
     """Prints a simple message string to the console."""
     print(message)
 
@@ -50,7 +51,7 @@ def basic_get_input(prompt_message=""):
     return input(prompt_message)
 
 
-def basic_print_leaderboard(leaderboard):
+def basic_print_leaderboard(leaderboard) -> None:
     """Prints a basic text representation of the leaderboard.
 
     Formats the leaderboard data with rank numbers and prints it to the console.
@@ -62,6 +63,7 @@ def basic_print_leaderboard(leaderboard):
 
     Returns:
         None: This function prints directly to the console and returns nothing.
+
     """
     print("\n----------- Leaderboard -----------")
     if not leaderboard:
@@ -83,7 +85,7 @@ def basic_print_leaderboard(leaderboard):
     print("-----------------------------------\n")
 
 
-def basic_display_wizard_selection(wizard_index):
+def basic_display_wizard_selection(wizard_index) -> None:
     """Displays basic text information about the currently selected wizard.
 
     Clears the screen, prints the wizard's art and details based on the index.
@@ -93,6 +95,7 @@ def basic_display_wizard_selection(wizard_index):
 
     Returns:
         None: This function prints directly to the console and returns nothing.
+
     """
     clear_screen()
 
@@ -117,7 +120,7 @@ def basic_display_wizard_selection(wizard_index):
     print("Use (◀) Left / Right (▶) arrow keys to select. Press Enter to confirm.")
 
 
-def basic_display_wizard_art(wizard):
+def basic_display_wizard_art(wizard) -> None:
     """Prints the basic ASCII art for a given wizard.
 
     Args:
@@ -125,12 +128,13 @@ def basic_display_wizard_art(wizard):
 
     Returns:
         None: This function prints directly to the console and returns nothing.
+
     """
     # Use .get() for safer access in case 'art' key is missing
     print(wizard.get("art", "No art available."))
 
 
-def basic_display_menu_options(options, current_index, title):
+def basic_display_menu_options(options, current_index, title) -> None:
     """Displays a basic text-based vertical menu with selection indicator.
 
     Args:
@@ -140,6 +144,7 @@ def basic_display_menu_options(options, current_index, title):
 
     Returns:
         None: This function prints directly to the console and returns nothing.
+
     """
     print(title)
     for i, option in enumerate(options):

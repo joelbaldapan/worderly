@@ -19,11 +19,12 @@ def create_empty_grid(height, width):
 
     Returns:
         list[list[None]]: A list of lists initialized with None values.
+
     """
     return [[None] * width for _ in range(height)]
 
 
-def place_letters_on_grid(grid, word, coords_to_place):
+def place_letters_on_grid(grid, word, coords_to_place) -> None:
     """Places the letters of a word onto the grid at specified coordinates.
 
     Modifies the grid in place. Assumes coordinates are valid and correspond
@@ -37,6 +38,7 @@ def place_letters_on_grid(grid, word, coords_to_place):
 
     Returns:
         None: Modifies the input grid directly.
+
     """
     for idx, coord in enumerate(coords_to_place):
         row, col = coord
@@ -55,7 +57,7 @@ def update_placed_word_coords(
     placed_words_coords,
     middle_word_coords,
     used_middle_word_coords,
-):
+) -> None:
     """Updates state dictionaries after a word is successfully placed.
 
     Adds the word and its coordinates to `placed_words_coords`.
@@ -79,6 +81,7 @@ def update_placed_word_coords(
 
     Returns:
         None: Modifies placed_words_coords and used_middle_word_coords.
+
     """
     word = chosen_placement["word"]
     intersection_coord = chosen_placement["coord"]
@@ -91,7 +94,7 @@ def update_placed_word_coords(
         used_middle_word_coords.add(intersection_coord)
 
 
-def update_placed_letter_coords(placed_letter_coords, word, placed_coords):
+def update_placed_letter_coords(placed_letter_coords, word, placed_coords) -> None:
     """Updates the dictionary tracking all placed letters and their coordinates.
 
     For each letter in the placed word, adds its coordinate to the list
@@ -107,6 +110,7 @@ def update_placed_letter_coords(placed_letter_coords, word, placed_coords):
 
     Returns:
         None: Modifies placed_letter_coords.
+
     """
     for i, coord in enumerate(placed_coords):
         letter = word[i]
@@ -135,11 +139,12 @@ def _is_within_bounds(r, c, height, width):
 
     Returns:
         bool: True if the coordinate is within bounds, False otherwise.
+
     """
     return 0 <= r < height and 0 <= c < width
 
 
-def _check_parallel_cells(grid, r, c, dr, dc):
+def _check_parallel_cells(grid, r, c, dr, dc) -> bool:
     """Checks if cells perpendicular to a given cell along a direction are empty.
 
     This prevents words from running parallel and adjacent to each other.
@@ -161,6 +166,7 @@ def _check_parallel_cells(grid, r, c, dr, dc):
             . T E S T .
             . W O R D .
             . . . . . .
+
     """
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
@@ -185,7 +191,7 @@ def _check_parallel_cells(grid, r, c, dr, dc):
     return not (neighbor1_occupied or neighbor2_occupied)
 
 
-def _check_adjacent_before_start(grid, start_row, start_col, dr, dc):
+def _check_adjacent_before_start(grid, start_row, start_col, dr, dc) -> bool:
     """Checks if the cell immediately before the start of a word path is empty.
 
     Args:
@@ -204,6 +210,7 @@ def _check_adjacent_before_start(grid, start_row, start_col, dr, dc):
             . . . . . . . .
             . N E W O L D .
             . . . . . . . .
+
     """
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
@@ -219,7 +226,7 @@ def _check_adjacent_before_start(grid, start_row, start_col, dr, dc):
     return not cell_occupied
 
 
-def _check_adjacent_after_end(grid, end_row, end_col, dr, dc):
+def _check_adjacent_after_end(grid, end_row, end_col, dr, dc) -> bool:
     """Checks if the cell immediately after the end of a word path is empty.
 
     Args:
@@ -238,6 +245,7 @@ def _check_adjacent_after_end(grid, end_row, end_col, dr, dc):
             . . . . . . . .
             . O L D N E W .
             . . . . . . . .
+
     """
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
@@ -254,7 +262,7 @@ def _check_adjacent_after_end(grid, end_row, end_col, dr, dc):
 
 
 def _check_for_all_letters(
-    grid, word, words_to_place, word_len, start_row, start_col, dr, dc
+    grid, word, words_to_place, word_len, start_row, start_col, dr, dc,
 ):
     """Checks conditions along the entire path of a potential word placement.
 
@@ -288,6 +296,7 @@ def _check_for_all_letters(
             . N . O .    . N E W .
             . O . L . -> . O . L .
             . W . D .    . W . D .
+
     """
     placed_new_letter = False
     checked_letters = ""  # String to accumulate letters at occupied cells along path
@@ -332,7 +341,7 @@ def is_valid_placement(
     intersect_col,
     intersect_idx,
     orientation,
-):
+) -> bool:
     """Determines if placing a word at a specific intersection is valid.
 
     Handles functions that check for bounds, adjacent cells before start/after end,
@@ -352,6 +361,7 @@ def is_valid_placement(
 
     Returns:
         bool: True if the placement is valid according to all rules, False otherwise.
+
     """
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
@@ -380,7 +390,7 @@ def is_valid_placement(
 
     # 3.) Check conditions for all letters along the path
     if not _check_for_all_letters(
-        grid, word, words_to_place, word_len, start_row, start_col, dr, dc
+        grid, word, words_to_place, word_len, start_row, start_col, dr, dc,
     ):
         return False
 
@@ -440,7 +450,7 @@ def find_possible_placements(grid, word, words_to_place, placed_letter_coords):
 
             # Check VERTICAL placement possibility
             if is_valid_placement(
-                grid, word, words_to_place, intersect_row, intersect_col, idx, "V"
+                grid, word, words_to_place, intersect_row, intersect_col, idx, "V",
             ):
                 possible_placements.append(
                     {
@@ -448,12 +458,12 @@ def find_possible_placements(grid, word, words_to_place, placed_letter_coords):
                         "coord": coord,
                         "idx": idx,
                         "orientation": "V",
-                    }
+                    },
                 )
 
             # Check HORIZONTAL placement possibility
             if is_valid_placement(
-                grid, word, words_to_place, intersect_row, intersect_col, idx, "H"
+                grid, word, words_to_place, intersect_row, intersect_col, idx, "H",
             ):
                 possible_placements.append(
                     {
@@ -461,14 +471,14 @@ def find_possible_placements(grid, word, words_to_place, placed_letter_coords):
                         "coord": coord,
                         "idx": idx,
                         "orientation": "H",
-                    }
+                    },
                 )
 
     return possible_placements
 
 
 def categorize_placement(
-    possible_placements, middle_word_coords, used_middle_word_coords_set
+    possible_placements, middle_word_coords, used_middle_word_coords_set,
 ):
     """Categorizes possible placements into priority and other lists.
 
@@ -486,6 +496,7 @@ def categorize_placement(
         tuple[list[dict], list[dict]]: A tuple containing two lists:
             - priority_placements: Placements intersecting unused middle coords.
             - other_placements: All other valid placements.
+
     """
     priority_placements = []
     other_placements = []
@@ -516,6 +527,7 @@ def select_random_placement(priority_placements, other_placements):
         dict | None:
             A randomly chosen placement dictionary,
             or None if both input lists are empty.
+
     """
     if priority_placements:
         return random.choice(priority_placements)
@@ -533,7 +545,7 @@ def apply_placement(
     placed_words_coords,
     middle_word_coords,
     used_middle_word_coords,
-):
+) -> None:
     """Applies a chosen placement to the grid and updates tracking dictionaries.
 
     Calculates the full coordinates for the placement, updates the letter and
@@ -551,6 +563,7 @@ def apply_placement(
 
     Returns:
         None: Modifies grid and various tracking dictionaries/sets directly.
+
     """
     # Calculate the full list of coordinates for the word placement
     word = chosen_placement["word"]
@@ -588,6 +601,7 @@ def _calculate_middle_word_start(height, width, word_len):
         tuple[int, int] | tuple[None, None]:
             The (row, col) starting coordinates,
             or (None, None) if the word doesn't fit.
+
     """
     # Diagonal placement needs more space (letters + gaps)
     diag_space = word_len * 2 - 1
@@ -624,6 +638,7 @@ def calculate_middle_word_placement_coords(height, width, middle_word):
         list[tuple[int, int]] | None:
             A list of (row, col) coordinates for the diagonal placement,
             or None if the word cannot fit on the grid.
+
     """
     # Calculate the starting position first
     result = _calculate_middle_word_start(height, width, len(middle_word))
@@ -660,6 +675,7 @@ def calculate_straight_word_placement_coords(chosen_placement):
 
     Returns:
         list[tuple[int, int]]: A list of (row, col) coordinates for the placement.
+
     """
     word = chosen_placement["word"]
     intersect_row, intersect_col = chosen_placement["coord"]
@@ -716,6 +732,7 @@ def initialize_board_state(height, width):
             - 'middle_word_coords' (set): An empty set that will store the
                 coordinates (tuple[int, int]) where the middle word is initially
                 placed.
+
     """
     return {
         "grid": create_empty_grid(height, width),
@@ -726,7 +743,7 @@ def initialize_board_state(height, width):
     }
 
 
-def place_middle_word(state, middle_word):
+def place_middle_word(state, middle_word) -> bool:
     """Places the initial diagonal middle word onto the grid and updates state.
 
     Calculates the placement coordinates, places the letters, and updates
@@ -740,6 +757,7 @@ def place_middle_word(state, middle_word):
         bool:
             True if the middle word was placed successfully, False if it
             could not fit on the grid.
+
     """
     grid = state["grid"]
     # Calculate grid dimensions from the state's grid
@@ -748,7 +766,7 @@ def place_middle_word(state, middle_word):
 
     # Calculate the diagonal coordinates
     middle_word_placement_coords = calculate_middle_word_placement_coords(
-        height, width, middle_word
+        height, width, middle_word,
     )
     # Check if placement calculation failed
     if middle_word_placement_coords is None:
@@ -762,7 +780,7 @@ def place_middle_word(state, middle_word):
     # Place letters and update tracking data
     place_letters_on_grid(grid, middle_word, middle_word_placement_coords)
     update_placed_letter_coords(
-        placed_letter_coords, middle_word, middle_word_placement_coords
+        placed_letter_coords, middle_word, middle_word_placement_coords,
     )
     placed_words_coords[middle_word] = middle_word_placement_coords
     state["middle_word_coords"] = set(middle_word_placement_coords)
@@ -770,7 +788,7 @@ def place_middle_word(state, middle_word):
     return True  # ALL GOOD
 
 
-def place_other_words(state, words_to_place, max_total_words):
+def place_other_words(state, words_to_place, max_total_words) -> None:
     """Attempts to place the remaining words onto the grid.
 
     Iterates through a shuffled list of words, finds possible placements,
@@ -785,6 +803,7 @@ def place_other_words(state, words_to_place, max_total_words):
 
     Returns:
         None: Modifies the state dictionary in place.
+
     """
     # Get references to state components
     grid = state["grid"]
@@ -808,13 +827,13 @@ def place_other_words(state, words_to_place, max_total_words):
 
         # Find and evaluate possible placements for the current word
         possible_placements = find_possible_placements(
-            grid, word, words_to_place, placed_letter_coords
+            grid, word, words_to_place, placed_letter_coords,
         )
         priority_placements, other_placements = categorize_placement(
-            possible_placements, middle_word_coords, used_middle_word_coords
+            possible_placements, middle_word_coords, used_middle_word_coords,
         )
         chosen_placement = select_random_placement(
-            priority_placements, other_placements
+            priority_placements, other_placements,
         )
 
         # Apply the placement if a valid one was found
@@ -829,7 +848,7 @@ def place_other_words(state, words_to_place, max_total_words):
             )
 
 
-def validate_final_grid(state, min_total_words):
+def validate_final_grid(state, min_total_words) -> bool:
     """Validates the generated grid against placement requirements.
 
     Checks if the minimum number of words have been placed and if all
@@ -841,6 +860,7 @@ def validate_final_grid(state, min_total_words):
 
     Returns:
         bool: True if the grid is valid, False otherwise.
+
     """
     placed_words_coords = state["placed_words_coords"]
     middle_word_coords = state["middle_word_coords"]
@@ -853,13 +873,10 @@ def validate_final_grid(state, min_total_words):
         return False
 
     # 2.) Check if all middle word coordinates were used (if middle word exists)
-    if middle_word_coords and middle_word_coords != used_middle_word_coords_set:
-        return False
-
-    return True
+    return not (middle_word_coords and middle_word_coords != used_middle_word_coords_set)
 
 
-def capitalize_middle_word_appearance(state, middle_word):
+def capitalize_middle_word_appearance(state, middle_word) -> None:
     """Capitalizes the letters of the middle word on the final grid.
 
     Args:
@@ -868,6 +885,7 @@ def capitalize_middle_word_appearance(state, middle_word):
 
     Returns:
         None: Modifies the grid within the state dictionary in place.
+
     """
     middle_word_coords = state["placed_words_coords"][middle_word]
     middle_word_upper = middle_word.upper()
@@ -899,6 +917,7 @@ def generate_board(settings, middle_word, words_to_place):
         tuple[list[list[str | None]] | None, dict | None]: A tuple containing:
             - The final generated grid (list of lists) or None if generation failed.
             - The dictionary mapping placed words to coordinates or None if failed.
+
     """
     # Extract necessary settings
     min_total_words = settings["words_on_board_needed"]["minimum"]

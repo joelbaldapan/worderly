@@ -1,18 +1,19 @@
 import sys
+
 from getkey import getkey, keys
-from display.display import (
-    get_input,
-    display_wizard_selection,
-    display_wizard_art,
-    display_menu_options,
-    print_message,
-    print_leaderboard,
-)
-from display.display_utils import clear_screen
-from leaderboard.leaderboard import load_leaderboard
 
 from data.settings_details import HEART_POINTS_SETTINGS, NO_HEART_POINTS_SETTINGS
 from data.wizards_details import WIZARDS_DATA
+from display.display import (
+    display_menu_options,
+    display_wizard_art,
+    display_wizard_selection,
+    get_input,
+    print_leaderboard,
+    print_message,
+)
+from display.display_utils import clear_screen
+from leaderboard.leaderboard import load_leaderboard
 
 MAX_NAME_LENGTH = 10
 MAIN_TITLE = """
@@ -20,25 +21,25 @@ MAIN_TITLE = """
 (                                                                                 )
  )                                                                               (
 (    ██╗    ██╗██╗███████╗ █████╗ ██████╗ ██████╗ ███████╗     ██████╗ ███████╗   )
- )   ██║    ██║██║╚══███╔╝██╔══██╗██╔══██╗██╔══██╗██╔════╝    ██╔═══██╗██╔════╝  ( 
+ )   ██║    ██║██║╚══███╔╝██╔══██╗██╔══██╗██╔══██╗██╔════╝    ██╔═══██╗██╔════╝  (
 (    ██║ █╗ ██║██║  ███╔╝ ███████║██████╔╝██║  ██║███████╗    ██║   ██║█████╗     )
- )   ██║███╗██║██║ ███╔╝  ██╔══██║██╔══██╗██║  ██║╚════██║    ██║   ██║██╔══╝    ( 
+ )   ██║███╗██║██║ ███╔╝  ██╔══██║██╔══██╗██║  ██║╚════██║    ██║   ██║██╔══╝    (
 (    ╚███╔███╔╝██║███████╗██║  ██║██║  ██║██████╔╝███████║    ╚██████╔╝██║        )
- )    ╚══╝╚══╝ ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝     ╚═════╝ ╚═╝       ( 
+ )    ╚══╝╚══╝ ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝     ╚═════╝ ╚═╝       (
 (        ██╗    ██╗ ██████╗ ██████╗ ██████╗ ███████╗██████╗ ██╗  ██╗   ██╗        )
- )       ██║    ██║██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██║  ╚██╗ ██╔╝       ( 
+ )       ██║    ██║██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██║  ╚██╗ ██╔╝       (
 (        ██║ █╗ ██║██║   ██║██████╔╝██║  ██║█████╗  ██████╔╝██║   ╚████╔╝         )
- )       ██║███╗██║██║   ██║██╔══██╗██║  ██║██╔══╝  ██╔══██╗██║    ╚██╔╝         ( 
+ )       ██║███╗██║██║   ██║██╔══██╗██║  ██║██╔══╝  ██╔══██╗██║    ╚██╔╝         (
 (        ╚███╔███╔╝╚██████╔╝██║  ██║██████╔╝███████╗██║  ██║███████╗██║           )
- )        ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝          ( 
+ )        ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝          (
 (                   ██████╗ ██╗      █████╗  ██████╗███████╗██╗                   )
- )                  ██╔══██╗██║     ██╔══██╗██╔════╝██╔════╝██║                  ( 
+ )                  ██╔══██╗██║     ██╔══██╗██╔════╝██╔════╝██║                  (
 (                   ██████╔╝██║     ███████║██║     █████╗  ██║                   )
- )                  ██╔═══╝ ██║     ██╔══██║██║     ██╔══╝  ╚═╝                  ( 
+ )                  ██╔═══╝ ██║     ██╔══██║██║     ██╔══╝  ╚═╝                  (
 (                   ██║     ███████╗██║  ██║╚██████╗███████╗██╗                   )
- )                  ╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝                  ( 
+ )                  ╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝                  (
 (                                                                                 )
- "+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+" 
+ "+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"
 """
 
 
@@ -64,6 +65,7 @@ def select_from_menu(options, title="+.+.+.+ Menu +.+.+.+", show_main_title=Fals
     Returns:
         str | None: The string of the selected option, or None if the options
                     list was empty.
+
     """
     if not options:
         # Handle empty options
@@ -83,7 +85,7 @@ def select_from_menu(options, title="+.+.+.+ Menu +.+.+.+", show_main_title=Fals
             )
 
         display_menu_options(
-            settings=None, options=options, current_index=current_index, title=title
+            settings=None, options=options, current_index=current_index, title=title,
         )
 
         # GET INPUT
@@ -93,9 +95,8 @@ def select_from_menu(options, title="+.+.+.+ Menu +.+.+.+", show_main_title=Fals
             current_index = (current_index - 1) % len(options)
         elif key == keys.DOWN:
             current_index = (current_index + 1) % len(options)
-        elif key == keys.ENTER or key == "\r" or key == "\n":
-            selected_option = options[current_index]
-            return selected_option  # Return the chosen option string
+        elif key in {keys.ENTER, "\r", "\n"}:
+            return options[current_index]
 
 
 def select_character_menu(settings):
@@ -115,6 +116,7 @@ def select_character_menu(settings):
             The dictionary containing the selected wizard's data from
             WIZARDS_DATA. Returns the default wizard (index 0) if an
             exception occurs during selection.
+
     """
     current_index = 0
     num_wizards = len(WIZARDS_DATA)
@@ -129,10 +131,9 @@ def select_character_menu(settings):
                 current_index = (current_index - 1) % num_wizards
             elif key == keys.RIGHT:
                 current_index = (current_index + 1) % num_wizards
-            elif key == keys.ENTER or key == "\r" or key == "\n":
+            elif key in {keys.ENTER, "\r", "\n"}:
                 # CONFIRM
-                selected_wizard = WIZARDS_DATA[current_index]
-                return selected_wizard
+                return WIZARDS_DATA[current_index]
         except Exception as e:
             # Fallback on error
             clear_screen()
@@ -159,6 +160,7 @@ def get_player_name(settings, selected_wizard):
 
     Returns:
         str: The validated player name entered by the user.
+
     """
     clear_screen()
 
@@ -215,6 +217,7 @@ def initialize_player_info(settings):
         tuple[str | None, dict]: A tuple containing:
             - The player's name (str) or None.
             - The selected wizard's data dictionary (dict).
+
     """
     if settings["heart_point_mode"]:
         # GET PLAYER NAME AND WIZARD IN HP MODE
@@ -263,9 +266,10 @@ def run_heart_points_menu():
 
     Returns:
         dict: The settings dictionary for No Heart Points mode.
+
     """
     selected_option = select_from_menu(
-        MENU1_OPTIONS, title="+.+.+.+ Select Heart Points Mode +.+.+.+"
+        MENU1_OPTIONS, title="+.+.+.+ Select Heart Points Mode +.+.+.+",
     )
     if selected_option is not None:
         if selected_option == "</3 No Heart Points":
@@ -277,6 +281,7 @@ def run_heart_points_menu():
         # Handle case where user might somehow exit selection
         # Fallback to choosingn Heart Points mode
         return None
+    return None
 
 
 def run_main_menu():
@@ -294,13 +299,14 @@ def run_main_menu():
             The settings dictionary returned by run_difficulty_menu if
             "Start Game" is selected. If the user selects "Exit Game",
             then the program closes
+
     """
     title = "+.+.+.+ Main Menu +.+.+.+"
 
     # Keep running until Start Game/Exit Game is chosen by the user
     while True:
         selected_option = select_from_menu(
-            MENU2_OPTIONS, title=title, show_main_title=True
+            MENU2_OPTIONS, title=title, show_main_title=True,
         )
         if selected_option is not None:
             if selected_option == "Start Game":
@@ -312,7 +318,7 @@ def run_main_menu():
                 leaderboard = load_leaderboard()
                 print_leaderboard(settings=None, leaderboard=leaderboard)
                 get_input(
-                    settings=None, prompt_message="  > Press Enter to continue... "
+                    settings=None, prompt_message="  > Press Enter to continue... ",
                 )
                 # Continue loop to show main menu again
             elif selected_option == "Exit Game":
@@ -343,6 +349,7 @@ def run_difficulty_menu():
         dict:
             A dictionary containing the game settings for the chosen
             difficulty, or None if the selection process fails.
+
     """
     title = "+.+.+.+ Select Difficulty / Book +.+.+.+"
     selected_option = select_from_menu(MENU3_OPTIONS, title=title, show_main_title=True)
