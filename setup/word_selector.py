@@ -50,7 +50,10 @@ def get_valid_word_subwords(word, valid_words_set, min_length):
 
 
 def find_valid_word_with_subwords(
-    exact_max_length_words, min_subword_length, min_subwords_needed, valid_subword_set,
+    exact_max_length_words,
+    min_subword_length,
+    min_subwords_needed,
+    valid_subword_set,
 ):
     """Searches for a word of a specific length that has enough valid subwords."""
     # middle word counts as 1 word already
@@ -61,7 +64,9 @@ def find_valid_word_with_subwords(
     for chosen_word in exact_max_length_words:
         # Find subwords for the current candidate
         subwords = get_valid_word_subwords(
-            chosen_word, valid_subword_set, min_subword_length,
+            chosen_word,
+            valid_subword_set,
+            min_subword_length,
         )
 
         # Check if enough subwords were found
@@ -149,7 +154,10 @@ def generate_word_list(settings):
 
     # Find a suitable middle word and its accompanying subwords
     middle_word, list_of_words_to_place = find_valid_word_with_subwords(
-        exact_length_words, min_subword_length, min_subwords_needed, valid_subword_set,
+        exact_length_words,
+        min_subword_length,
+        min_subwords_needed,
+        valid_subword_set,
     )
 
     # Return the result

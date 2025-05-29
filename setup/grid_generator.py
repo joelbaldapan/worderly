@@ -175,17 +175,11 @@ def _check_parallel_cells(grid, r, c, dr, dc) -> bool:
 
     # Check neighbor 1 (r - perp_dr, c - perp_dc)
     check_r1, check_c1 = r - perp_dr, c - perp_dc
-    neighbor1_occupied = (
-        _is_within_bounds(check_r1, check_c1, height, width)
-        and grid[check_r1][check_c1] is not None
-    )
+    neighbor1_occupied = _is_within_bounds(check_r1, check_c1, height, width) and grid[check_r1][check_c1] is not None
 
     # Check neighbor 2 (r + perp_dr, c + perp_dc)
     check_r2, check_c2 = r + perp_dr, c + perp_dc
-    neighbor2_occupied = (
-        _is_within_bounds(check_r2, check_c2, height, width)
-        and grid[check_r2][check_c2] is not None
-    )
+    neighbor2_occupied = _is_within_bounds(check_r2, check_c2, height, width) and grid[check_r2][check_c2] is not None
 
     # Return True only if BOTH neighbors are empty/OOB
     return not (neighbor1_occupied or neighbor2_occupied)
@@ -218,10 +212,7 @@ def _check_adjacent_before_start(grid, start_row, start_col, dr, dc) -> bool:
     before_r, before_c = start_row - dr, start_col - dc
 
     # Check if that cell is within bounds and occupied
-    cell_occupied = (
-        _is_within_bounds(before_r, before_c, height, width)
-        and grid[before_r][before_c] is not None
-    )
+    cell_occupied = _is_within_bounds(before_r, before_c, height, width) and grid[before_r][before_c] is not None
     # Return True if the cell is NOT occupied
     return not cell_occupied
 
@@ -253,16 +244,20 @@ def _check_adjacent_after_end(grid, end_row, end_col, dr, dc) -> bool:
     after_r, after_c = end_row + dr, end_col + dc
 
     # Check if that cell is within bounds and occupied
-    cell_occupied = (
-        _is_within_bounds(after_r, after_c, height, width)
-        and grid[after_r][after_c] is not None
-    )
+    cell_occupied = _is_within_bounds(after_r, after_c, height, width) and grid[after_r][after_c] is not None
     # Return True if the cell is NOT occupied
     return not cell_occupied
 
 
 def _check_for_all_letters(
-    grid, word, words_to_place, word_len, start_row, start_col, dr, dc,
+    grid,
+    word,
+    words_to_place,
+    word_len,
+    start_row,
+    start_col,
+    dr,
+    dc,
 ):
     """Checks conditions along the entire path of a potential word placement.
 
@@ -376,8 +371,7 @@ def is_valid_placement(
 
     # 1.) Check if the entire word fits within bounds
     if not (
-        _is_within_bounds(start_row, start_col, height, width)
-        and _is_within_bounds(end_row, end_col, height, width)
+        _is_within_bounds(start_row, start_col, height, width) and _is_within_bounds(end_row, end_col, height, width)
     ):
         return False
 
@@ -390,7 +384,14 @@ def is_valid_placement(
 
     # 3.) Check conditions for all letters along the path
     if not _check_for_all_letters(
-        grid, word, words_to_place, word_len, start_row, start_col, dr, dc,
+        grid,
+        word,
+        words_to_place,
+        word_len,
+        start_row,
+        start_col,
+        dr,
+        dc,
     ):
         return False
 
@@ -450,7 +451,13 @@ def find_possible_placements(grid, word, words_to_place, placed_letter_coords):
 
             # Check VERTICAL placement possibility
             if is_valid_placement(
-                grid, word, words_to_place, intersect_row, intersect_col, idx, "V",
+                grid,
+                word,
+                words_to_place,
+                intersect_row,
+                intersect_col,
+                idx,
+                "V",
             ):
                 possible_placements.append(
                     {
@@ -463,7 +470,13 @@ def find_possible_placements(grid, word, words_to_place, placed_letter_coords):
 
             # Check HORIZONTAL placement possibility
             if is_valid_placement(
-                grid, word, words_to_place, intersect_row, intersect_col, idx, "H",
+                grid,
+                word,
+                words_to_place,
+                intersect_row,
+                intersect_col,
+                idx,
+                "H",
             ):
                 possible_placements.append(
                     {
@@ -478,7 +491,9 @@ def find_possible_placements(grid, word, words_to_place, placed_letter_coords):
 
 
 def categorize_placement(
-    possible_placements, middle_word_coords, used_middle_word_coords_set,
+    possible_placements,
+    middle_word_coords,
+    used_middle_word_coords_set,
 ):
     """Categorizes possible placements into priority and other lists.
 
@@ -503,10 +518,7 @@ def categorize_placement(
 
     for placement in possible_placements:
         # Check if intersection coord is a middle word coord and not yet used
-        if (
-            placement["coord"] in middle_word_coords
-            and placement["coord"] not in used_middle_word_coords_set
-        ):
+        if placement["coord"] in middle_word_coords and placement["coord"] not in used_middle_word_coords_set:
             priority_placements.append(placement)
         else:
             other_placements.append(placement)
@@ -766,7 +778,9 @@ def place_middle_word(state, middle_word) -> bool:
 
     # Calculate the diagonal coordinates
     middle_word_placement_coords = calculate_middle_word_placement_coords(
-        height, width, middle_word,
+        height,
+        width,
+        middle_word,
     )
     # Check if placement calculation failed
     if middle_word_placement_coords is None:
@@ -780,7 +794,9 @@ def place_middle_word(state, middle_word) -> bool:
     # Place letters and update tracking data
     place_letters_on_grid(grid, middle_word, middle_word_placement_coords)
     update_placed_letter_coords(
-        placed_letter_coords, middle_word, middle_word_placement_coords,
+        placed_letter_coords,
+        middle_word,
+        middle_word_placement_coords,
     )
     placed_words_coords[middle_word] = middle_word_placement_coords
     state["middle_word_coords"] = set(middle_word_placement_coords)
@@ -827,13 +843,19 @@ def place_other_words(state, words_to_place, max_total_words) -> None:
 
         # Find and evaluate possible placements for the current word
         possible_placements = find_possible_placements(
-            grid, word, words_to_place, placed_letter_coords,
+            grid,
+            word,
+            words_to_place,
+            placed_letter_coords,
         )
         priority_placements, other_placements = categorize_placement(
-            possible_placements, middle_word_coords, used_middle_word_coords,
+            possible_placements,
+            middle_word_coords,
+            used_middle_word_coords,
         )
         chosen_placement = select_random_placement(
-            priority_placements, other_placements,
+            priority_placements,
+            other_placements,
         )
 
         # Apply the placement if a valid one was found
