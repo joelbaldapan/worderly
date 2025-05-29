@@ -1,6 +1,11 @@
-# ****************
-# DISPLAY
-# ****************
+# display/display.py
+
+from typing import List, Optional, Dict, Set, Tuple, Any, Union  # Added Union
+
+# Import dataclasses
+from data.settings_details import DifficultyData
+from data.wizards_details import WizardData
+
 from display.display_basic import (
     basic_display_menu_options,
     basic_display_wizard_art,
@@ -22,76 +27,74 @@ from display.display_rich import (
     rich_print_statistics,
 )
 
-# ************************************************
-# DISPLAY HANDLERS
-# If settings not provided, print rich as default
-# ************************************************
-
-
 DEFAULT_BORDER_STYLE = "bright_cyan"
 
 
 def print_grid(
-    settings,
-    grid,
-    highlighted_coords=None,
-    highlight_color=None,
-    letters_color="black",  # black to debug if it's not working
-    hidden_color="black",
-    title="THE WIZARDS OF WORDERLY PLACE",
-    border_style=DEFAULT_BORDER_STYLE,
+    settings: Optional[DifficultyData],
+    grid: Optional[List[List[Optional[str]]]],
+    highlighted_coords: Optional[Union[Set[Tuple[int, int]], List[Tuple[int, int]]]] = None,
+    highlight_color: Optional[str] = None,  # Made Optional, rich version needs it
+    letters_color: str = "black",
+    hidden_color: str = "black",  # Consistency with rich version
+    title: str = "THE WIZARDS OF WORDERLY PLACE",
+    border_style: str = DEFAULT_BORDER_STYLE,
 ) -> None:
     """Prints the game grid using either rich or basic formatting based on settings."""
-    if highlighted_coords is None:
-        highlighted_coords = {}
-    if not settings or settings["heart_point_mode"]:
+    active_highlighted_coords = highlighted_coords if highlighted_coords is not None else []  # Default to empty list
+
+    if not settings or settings.heart_point_mode:
+        # Ensure highlight_color is provided if None, or handle in rich_print_grid
+        effective_highlight_color = highlight_color if highlight_color is not None else "yellow"  # Default for rich
         rich_print_grid(
             grid,
-            highlighted_coords,
-            highlight_color,
+            active_highlighted_coords,
+            effective_highlight_color,
             letters_color,
-            hidden_color,
+            hidden_color,  # Pass hidden_color
             title,
             border_style,
         )
     else:
+        # basic_print_grid typically doesn't handle highlights or complex coloring
         basic_print_grid(grid)
 
 
 def print_statistics(
-    settings,
-    statistics,
-    border_style,
-    grid,
-    selected_wizard,
-    game_state,
+    settings: Optional[DifficultyData],
+    statistics: Dict[str, Any],
+    border_style: str,  # Used by rich version
+    grid: Optional[List[List[Optional[str]]]],  # Used by rich version for layout
+    selected_wizard: WizardData,  # Now WizardData
+    game_state: Dict[str, Any],  # Used by rich version
 ) -> None:
     """Prints game statistics using either rich or basic formatting based on settings."""
-    if not settings or settings["heart_point_mode"]:
+    if not settings or settings.heart_point_mode:
         rich_print_statistics(
             statistics,
             border_style,
             grid,
-            selected_wizard,
+            selected_wizard,  # Pass WizardData
             game_state,
         )
     else:
+        # basic_print_statistics only takes 'statistics'
         basic_print_statistics(statistics)
 
 
 def print_message(
-    settings,
-    message,
-    style=None,
-    border_style=DEFAULT_BORDER_STYLE,
-    title=None,
-    title_align="left",
-    expand=False,
-    width=None,
-    justify="left",
+    settings: Optional[DifficultyData],
+    message: str,
+    style: Optional[str] = None,
+    border_style: str = DEFAULT_BORDER_STYLE,
+    title: Optional[str] = None,
+    title_align: str = "left",
+    expand: bool = False,
+    width: Optional[int] = None,
+    justify: str = "left",
 ) -> None:
     """Prints a message using either rich or basic formatting based on settings."""
-    if not settings or settings["heart_point_mode"]:
+    if not settings or settings.heart_point_mode:
         rich_print_message(
             message,
             style,
@@ -106,41 +109,58 @@ def print_message(
         basic_print_message(message)
 
 
-def get_input(settings, prompt_message="Enter Guess"):
+def get_input(settings: Optional[DifficultyData], prompt_message: str = "Enter Guess") -> str:
     """Gets user input using either rich or basic input based on settings."""
-    if not settings or settings["heart_point_mode"]:
+    if not settings or settings.heart_point_mode:
         return rich_get_input(prompt_message)
     else:
         return basic_get_input(prompt_message)
 
 
-def print_leaderboard(settings, leaderboard) -> None:
+def print_leaderboard(settings: Optional[DifficultyData], leaderboard: List[Dict[str, Any]]) -> None:
     """Prints the leaderboard using either rich or basic formatting based on settings."""
-    if not settings or settings["heart_point_mode"]:
+    if not settings or settings.heart_point_mode:
         rich_print_leaderboard(leaderboard)
     else:
         basic_print_leaderboard(leaderboard)
 
 
-def display_wizard_selection(settings, wizard_index) -> None:
+# Signature changed to match call from menus.py
+def display_wizard_selection(
+    settings: Optional[DifficultyData],
+    wizard: WizardData,  # Changed from wizard_index to WizardData object
+    wizard_index: int,  # Kept wizard_index if basic version or rich version still needs it
+) -> None:
     """Displays wizard selection using either rich or basic formatting based on settings."""
-    if not settings or settings["heart_point_mode"]:
-        rich_display_wizard_selection(wizard_index)
+    if not settings or settings.heart_point_mode:
+        # rich_display_wizard_selection expects (settings, wizard_object, wizard_index)
+        rich_display_wizard_selection(settings, wizard, wizard_index)
     else:
-        basic_display_wizard_selection(wizard_index)
+        # basic_display_wizard_selection will need to be updated to accept similar args
+        # or adapt. For now, let's assume it can take the wizard object.
+        # If it strictly needs only index, this call needs adjustment or basic_display_wizard_selection needs to lookup.
+        basic_display_wizard_selection(settings, wizard, wizard_index)
 
 
-def display_wizard_art(settings, wizard) -> None:
+# Signature changed to accept WizardData
+def display_wizard_art(settings: Optional[DifficultyData], wizard: WizardData) -> None:
     """Displays wizard art using either rich or basic formatting based on settings."""
-    if not settings or settings["heart_point_mode"]:
-        rich_display_wizard_art(wizard)
+    if not settings or settings.heart_point_mode:
+        # rich_display_wizard_art expects (settings, wizard_object)
+        rich_display_wizard_art(settings, wizard)
     else:
-        basic_display_wizard_art(wizard)
+        # basic_display_wizard_art will need to be updated to accept WizardData
+        basic_display_wizard_art(settings, wizard)
 
 
-def display_menu_options(settings, options, current_index, title) -> None:
+def display_menu_options(
+    settings: Optional[DifficultyData], options: List[str], current_index: int, title: str
+) -> None:
     """Displays menu options using either rich or basic formatting based on settings."""
-    if not settings or settings["heart_point_mode"]:
-        rich_display_menu_options(options, current_index, title)
+    if not settings or settings.heart_point_mode:
+        # rich_display_menu_options expects (settings, options, current_index, title)
+        rich_display_menu_options(settings, options, current_index, title)
     else:
-        basic_display_menu_options(options, current_index, title)
+        basic_display_menu_options(
+            options, current_index, title
+        )  # basic doesn't need settings if it doesn't use HEART_POINTS_SETTINGS
