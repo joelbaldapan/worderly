@@ -2,6 +2,11 @@
 # MAIN LOGIC
 # ****************
 import sys
+from typing import Optional, Tuple, Dict, List
+
+# Import dataclasses from other modules
+from data.settings_details import DifficultyData
+from data.wizards_details import WizardData
 
 from display.display_utils import clear_screen
 from gameplay.gameplay import run_game
@@ -13,130 +18,92 @@ MAX_SETUP_RETRIES = 5  # Maximum number of attempts to generate words and board
 MAX_GRID_SETUP_RETRIES = 5  # Maximum number of attempts to generate board
 
 
-def get_lexicon_file():
+def get_lexicon_file() -> Optional[str]:
     """Retrieves and validates the lexicon file path from command-line arguments."""
     if len(sys.argv) < 2:
         print("The game requires a lexicon file to start!", file=sys.stderr)
         print("Please input the correct format.", file=sys.stderr)
         return None
 
-    lexicon_file = sys.argv[1]
-    # Use read_word_file for validation (checks existence and non-emptiness)
-    if not read_word_file(lexicon_file):
+    lexicon_file_path = sys.argv[1]
+    if not read_word_file(lexicon_file_path):
         print("Lexicon file reading failed, or file is empty!", file=sys.stderr)
         print("Please recheck your file.", file=sys.stderr)
         return None
     else:
-        return lexicon_file
+        return lexicon_file_path
 
 
-def run_setup(settings):
-    """Attempts to generate a valid word list and game board based on settings.
-
-    Retries word list generation and grid generation up to a maximum number
-    of attempts defined by MAX_SETUP_RETRIES and MAX_GRID_SETUP_RETRIES.
+def run_setup(difficulty_config: DifficultyData, lexicon_file_path: str):
+    """Attempts to generate a valid word list and game board.
 
     Args:
-        settings (dict):
-            A dictionary containing game settings like grid size,
-            word length constraints, and minimum words needed.
+        difficulty_config (DifficultyData): The difficulty settings for the game.
+        lexicon_file_path (str): The path to the lexicon file.
 
     Returns:
-        tuple or None: A tuple containing (middle_word, words_to_find, final_grid)
-                      if setup is successful. Returns None if setup fails after
-                      all retry attempts.
-                      - middle_word (str): The central word for the puzzle.
-                      - words_to_find (dict): Dictionary mapping placed words
-                        to their coordinates.
-                      - final_grid (list[list[str|None]]): The generated game grid.
-
+        Optional[Tuple[str, Dict[str, List[Tuple[int, int]]], List[List[Optional[str]]]]]:
+            (middle_word, words_to_find, final_grid) on success, None on failure.
     """
     setup_attempts = 0
-
-    # ATTEMPT TO GENERATE VALID WORD LIST AND BOARD
     while setup_attempts < MAX_SETUP_RETRIES:
-        setup_attempts += 1  # Increment attempt counter at the start
+        setup_attempts += 1
         grid_setup_attempts = 0
 
-        # CREATE WORD LIST
-        middle_word, words_to_place = generate_word_list(settings)
+        middle_word, words_to_place = generate_word_list(difficulty_config, lexicon_file_path)
         if middle_word is None:
-            # FAILED word list generation for this attempt
-            continue  # Go to the next setup attempt
+            continue
 
-        # CREATE GRID
         while grid_setup_attempts < MAX_GRID_SETUP_RETRIES:
-            grid_setup_attempts += 1  # Increment grid attempt counter
+            grid_setup_attempts += 1
             final_grid, words_to_find = generate_board(
-                settings,
+                difficulty_config,
                 middle_word,
                 words_to_place,
             )
             if final_grid is None:
-                # FAILED grid generation for this attempt
-                continue  # Go to the next grid attempt
-            # Both word list and grid succeeded!
+                continue
             return middle_word, words_to_find, final_grid
-
-    return None  # Return None if all setup attempts failed
+    return None
 
 
 def main() -> None:
-    """Main function to run the Worderly game.
+    """Main function to run the Worderly game."""
+    lexicon_file_p: Optional[str] = get_lexicon_file()
+    if not lexicon_file_p:
+        return
 
-    Handles command-line validation, menu navigation, game setup,
-    and the main game loop.
-    """
-    # VALIDATE LEXICON FILE
-    lexicon_file = get_lexicon_file()
-    if not lexicon_file:
-        return  # Exit out of program if lexicon is invalid
+    current_difficulty_setting: Optional[DifficultyData] = run_heart_points_menu()
 
-    # RUN SET-UP MENUS
-    # run_heart_points_menu determines initial mode or returns None to go to main menu
-    settings = run_heart_points_menu()
-
-    # LOOP UNTIL THE USER EXITS (Outer loop for Heart Point Mode or single game)
     while True:
-        # If run_heart_points_menu returned None (meaning user chose HP mode initially
-        # or finished a non-HP game), run the main menu to get settings.
-        if settings is None:
-            settings = run_main_menu()
+        if current_difficulty_setting is None:
+            current_difficulty_setting = run_main_menu()
 
-        # Ensure lexicon path is always set for the current game round
-        settings["lexicon_path"] = lexicon_file
+        setup_result = run_setup(current_difficulty_setting, lexicon_file_p)
 
-        # SET UP WORD LIST AND GRID LAYOUT
-        result = run_setup(settings)
-
-        # Check if setup failed after all retries
-        if not result:
+        if not setup_result:
             clear_screen()
             print("\n" + "=" * 50)
-            print(
-                f"FATAL ERROR: Failed to set up the game after {MAX_SETUP_RETRIES} attempts.",
-            )
+            print(f"FATAL ERROR: Failed to set up the game after {MAX_SETUP_RETRIES} attempts.")
             print("This could be due to:")
-            print(
-                "  - Very restrictive grid settings (Grid size, number of words needed, word lengths).",
-            )
-            print(
-                "  - Lexicon file lacks suitable words (Must have enough subwords to satisfy grid creation).",
-            )
+            print("  - Very restrictive grid settings (Grid size, number of words needed, word lengths).")
+            print("  - Lexicon file lacks suitable words (Must have enough subwords to satisfy grid creation).")
             print("Please check your settings, lexicon file, or try again.")
             print("Exiting program.")
             print("=" * 50 + "\n")
-            return  # Exit the entire application
+            return
 
-        # UNPACK RESULT
-        middle_word, words_to_find, final_grid = result
+        middle_word: str
+        words_to_find: Dict[str, List[Tuple[int, int]]]
+        final_grid: List[List[Optional[str]]]
+        middle_word, words_to_find, final_grid = setup_result
 
-        # INITALIZE PLAYER INFO (only relevant for HP mode, returns defaults otherwise)
-        player_name, selected_wizard = initialize_player_info(settings)
+        player_name: Optional[str]
+        selected_wizard: WizardData  # initialize_player_info returns WizardData
+        player_name, selected_wizard = initialize_player_info(current_difficulty_setting)
 
-        # GAMEPLAY
         run_game(
-            settings,
+            current_difficulty_setting,  # Pass DifficultyData
             final_grid,
             words_to_find,
             middle_word,
@@ -144,15 +111,13 @@ def main() -> None:
             selected_wizard,
         )
 
-        # Check if we should break the outer loop
-        if not settings.get("heart_point_mode", False):  # Check if heart_point_mode
-            break  # Exit the outer loop if not on heart point mode
-        # In HP mode, reset settings to None to force main menu on next loop iteration
-        settings = None
+        if not current_difficulty_setting.heart_point_mode:
+            break
+
+        current_difficulty_setting = None
 
 
 if __name__ == "__main__":
-    # Entry point when the script is executed directly
     try:
         main()
     except KeyboardInterrupt:
