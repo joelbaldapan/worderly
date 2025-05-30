@@ -12,14 +12,12 @@ from display.display import (
 )
 from display.display_utils import clear_screen
 from gameplay import game_constants
-
 from gameplay.game_state_handler import (
     GameStateData,
     check_game_over,
-    initialize_game_state,  # Returns GameStateData
-    process_guess,  # Takes GameStateData
+    initialize_game_state,
+    process_guess,
 )
-
 from gameplay.powerup_handler import update_power_points, use_powerup
 from leaderboard.leaderboard import (
     load_leaderboard,

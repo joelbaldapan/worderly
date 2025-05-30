@@ -8,7 +8,7 @@ from data.settings_details import DifficultyData
 from data.wizards_details import WizardData
 from display.display_utils import clear_screen
 from gameplay.gameplay import run_game
-from setup.grid_generator import generate_board
+from setup.grid_generator.main_generator import generate_board
 from setup.menus import initialize_player_info, run_heart_points_menu, run_main_menu
 from setup.word_selector import generate_word_list, read_word_file
 
