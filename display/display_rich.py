@@ -162,7 +162,7 @@ def rich_print_statistics(
     powerup_stats_content = Group(*powerup_parts)
 
     small_wizard_art = selected_wizard.small_art.strip("\n")
-    # Access player_name from GameStateData, provide default if None
+
     player_name_display = game_st.player_name if game_st.player_name is not None else "Player"
     art_text = Text(f"\n{small_wizard_art}", style=wizard_color, justify="left")
     name_text = Text(f"--- {player_name_display} ---", style=wizard_color, justify="center")
@@ -310,6 +310,7 @@ def rich_display_wizard_selection(settings: DifficultyData | None, wizard: Wizar
 
 
 def rich_display_wizard_art(
+    settings: DifficultyData | None,
     wizard: WizardData,
 ) -> None:
     """Displays only the ASCII art for a given wizard in a Rich Panel."""
@@ -329,6 +330,7 @@ def rich_display_wizard_art(
 
 
 def rich_display_menu_options(
+    settings: DifficultyData | None,
     options: list[str],
     current_index: int,
     title: str,
