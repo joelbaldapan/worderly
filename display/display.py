@@ -1,6 +1,5 @@
 from typing import Any
 
-# Import dataclasses
 from data.settings_details import DifficultyData
 from data.wizards_details import WizardData
 from display.display_basic import (
@@ -32,23 +31,23 @@ def print_grid(
     settings: DifficultyData | None,
     grid: list[list[str | None]] | None,
     highlighted_coords: set[tuple[int, int]] | list[tuple[int, int]] | None = None,
-    highlight_color: str | None = None,  # Made Optional, rich version needs it
+    highlight_color: str | None = None,
     letters_color: str = "black",
-    hidden_color: str = "black",  # Consistency with rich version
+    hidden_color: str = "black",
     title: str = "THE WIZARDS OF WORDERLY PLACE",
     border_style: str = DEFAULT_BORDER_STYLE,
 ) -> None:
     """Prints the game grid using either rich or basic formatting based on settings."""
-    active_highlighted_coords = highlighted_coords if highlighted_coords is not None else []  # Default to empty list
+    active_highlighted_coords = highlighted_coords if highlighted_coords is not None else []
 
     if not settings or settings.heart_point_mode:
-        effective_highlight_color = highlight_color if highlight_color is not None else "yellow"  # Default for rich
+        effective_highlight_color = highlight_color if highlight_color is not None else "yellow"
         rich_print_grid(
             grid,
             active_highlighted_coords,
             effective_highlight_color,
             letters_color,
-            hidden_color, 
+            hidden_color,
             title,
             border_style,
         )
@@ -122,8 +121,8 @@ def print_leaderboard(settings: DifficultyData | None, leaderboard: list[dict[st
 
 def display_wizard_selection(
     settings: DifficultyData | None,
-    wizard: WizardData,
-    wizard_index: int,
+    wizard: WizardData,  
+    wizard_index: int, 
 ) -> None:
     """Displays wizard selection using either rich or basic formatting based on settings."""
     if not settings or settings.heart_point_mode:
@@ -154,4 +153,4 @@ def display_menu_options(
             options,
             current_index,
             title,
-        )
+        ) 
