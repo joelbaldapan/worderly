@@ -2,15 +2,18 @@
 # MAIN LOGIC
 # ****************
 import sys
+from typing import TYPE_CHECKING
 
 # Import dataclasses from other modules
 from data.settings_details import DifficultyData
-from data.wizards_details import WizardData
 from display.display_utils import clear_screen
 from gameplay.gameplay import run_game
 from setup.grid_generator.main_generator import generate_board
 from setup.menus import initialize_player_info, run_heart_points_menu, run_main_menu
 from setup.word_selector import generate_word_list, read_word_file
+
+if TYPE_CHECKING:
+    from data.wizards_details import WizardData
 
 MAX_SETUP_RETRIES = 5  # Maximum number of attempts to generate words and board
 MAX_GRID_SETUP_RETRIES = 5  # Maximum number of attempts to generate board

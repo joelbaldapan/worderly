@@ -120,8 +120,7 @@ def _append_combo_stats(statistics: GameStatisticsData, selected_wizard: WizardD
             expand=False,
         )
         combo_progress.add_task("combo", total=combo_req, completed=min(curr_combo, combo_req))
-        powerup_parts.append(combo_progress)
-        powerup_parts.append(Text("\n"))
+        powerup_parts.extend((combo_progress, Text("\n")))
 
 
 def rich_print_statistics(
@@ -149,9 +148,8 @@ def rich_print_statistics(
     powerup_parts.append(Text.assemble(("Combo:        ", "bold cyan"), (f"{statistics.combo}")))
 
     shield_turns = statistics.shield_turns
-    if shield_turns > 0:
-        if wizard_color != "bright_white" and selected_wizard.combo_requirement is not None:
-            powerup_parts.append(Text.assemble(("Shield Turns: ", "bold blue"), (f"{shield_turns}")))
+    if shield_turns > 0 and wizard_color != "bright_white" and selected_wizard.combo_requirement is not None:
+        powerup_parts.append(Text.assemble(("Shield Turns: ", "bold blue"), (f"{shield_turns}")))
 
     if wizard_color != "bright_white":
         powerup_parts.append(Text.assemble(("Power Points: ", "bold cyan"), (f"{statistics.power_points}")))

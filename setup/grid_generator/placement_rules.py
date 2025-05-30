@@ -117,7 +117,4 @@ def is_valid_placement(
     ):
         return False
 
-    if not _check_for_all_letters(grid, word, words_to_place_set, word_len, start_row, start_col, dr, dc):
-        return False
-
-    return True
+    return _check_for_all_letters(grid, word, words_to_place_set, word_len, start_row, start_col, dr, dc)

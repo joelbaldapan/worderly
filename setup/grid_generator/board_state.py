@@ -74,7 +74,5 @@ def calculate_straight_word_placement_coords(chosen_placement: PlacementDetail) 
     start_row = chosen_placement.coord[0] - chosen_placement.idx * dr
     start_col = chosen_placement.coord[1] - chosen_placement.idx * dc
 
-    coords_to_place: list[tuple[int, int]] = []
-    for i in range(word_len):
-        coords_to_place.append((start_row + i * dr, start_col + i * dc))
+    coords_to_place: list[tuple[int, int]] = [(start_row + i * dr, start_col + i * dc) for i in range(word_len)]
     return coords_to_place
