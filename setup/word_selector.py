@@ -1,4 +1,3 @@
-# setup/word_selector.py
 import itertools
 import random
 

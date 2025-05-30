@@ -2,7 +2,6 @@ import sys
 
 from getkey import getkey, keys
 
-# Import the new dataclasses and the data constants
 from data.settings_details import HEART_POINTS_SETTINGS, NO_HEART_POINTS_SETTINGS, DifficultyData
 from data.wizards_details import WIZARDS_DATA, WizardData
 from display.display import (
@@ -101,7 +100,6 @@ def select_character_menu(settings: DifficultyData | None) -> WizardData:
 
     while True:
         try:
-            # Assuming display_wizard_selection is updated to take WizardData and current_index
             display_wizard_selection(settings, WIZARDS_DATA[current_index], current_index)
             key = getkey()
 
@@ -134,12 +132,11 @@ def get_player_name(settings: DifficultyData | None, selected_wizard: WizardData
 
     """
     clear_screen()
-    # Assuming display_wizard_art is updated to take WizardData
     display_wizard_art(settings, selected_wizard)
     print_message(
         settings,
         "Mighty wizard, please enter your name!",
-        border_style=selected_wizard.color,  # Direct attribute access
+        border_style=selected_wizard.color,
         title="Input",
     )
 
@@ -225,7 +222,6 @@ def run_heart_points_menu() -> DifficultyData | None:
         return NO_HEART_POINTS_SETTINGS
     elif selected_option == "♥♥♥ Heart Points":
         return None
-    # This path should ideally not be reached if select_from_menu guarantees a return from options
     return None
 
 
@@ -262,7 +258,6 @@ def run_main_menu() -> DifficultyData:
                 title="Input",
             )
             sys.exit()
-        # No 'else' needed if select_from_menu always returns a valid option
 
 
 def run_difficulty_menu() -> DifficultyData:
@@ -275,8 +270,6 @@ def run_difficulty_menu() -> DifficultyData:
     """
     title = "+.+.+.+ Select Difficulty / Book +.+.+.+"
     selected_option: str = select_from_menu(MENU3_OPTIONS, title=title, show_main_title=True)
-
-    print(f"Selected Option (DEBUG): {selected_option}")  # Kept debug print
 
     difficulty_config = HEART_POINTS_SETTINGS[selected_option]
     return difficulty_config
