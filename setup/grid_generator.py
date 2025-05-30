@@ -328,7 +328,7 @@ def place_other_words(state: BoardStateDict, words_to_place: list[str], max_tota
     # Ensure words_to_place is a set for efficient lookup in is_valid_placement
     words_to_place_as_set = set(words_to_place)
     # Also add the middle word to this set if it's not already, as it's a word on the board
-    if "middle_word" in state["placed_words_coords"]:  # Assuming middle_word key exists if placed
+    if "middle_word" in state["placed_words_coords"]:
         words_to_place_as_set.add(list(state["placed_words_coords"].keys())[0])  # Add the actual middle word string
 
     shuffled_words = list(words_to_place)  # These are subwords, not including middle word initially
