@@ -80,9 +80,7 @@ def validate_final_grid(state: BoardGenerationState, min_total_words: int) -> bo
         return False
     # Ensure all letters of the middle word were used as intersection points,
     # but only if a middle word was actually defined and placed.
-    if state.middle_word_coords and (state.middle_word_coords != state.used_middle_word_coords):
-        return False
-    return True
+    return not (state.middle_word_coords and state.middle_word_coords != state.used_middle_word_coords)
 
 
 def capitalize_middle_word_appearance(state: BoardGenerationState, middle_word: str) -> None:

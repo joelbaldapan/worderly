@@ -271,5 +271,4 @@ def run_difficulty_menu() -> DifficultyData:
     title = "+.+.+.+ Select Difficulty / Book +.+.+.+"
     selected_option: str = select_from_menu(MENU3_OPTIONS, title=title, show_main_title=True)
 
-    difficulty_config = HEART_POINTS_SETTINGS[selected_option]
-    return difficulty_config
+    return HEART_POINTS_SETTINGS[selected_option]
