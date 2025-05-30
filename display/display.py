@@ -121,8 +121,8 @@ def print_leaderboard(settings: DifficultyData | None, leaderboard: list[dict[st
 
 def display_wizard_selection(
     settings: DifficultyData | None,
-    wizard: WizardData,  
-    wizard_index: int, 
+    wizard: WizardData,
+    wizard_index: int,
 ) -> None:
     """Displays wizard selection using either rich or basic formatting based on settings."""
     if not settings or settings.heart_point_mode:
@@ -153,4 +153,4 @@ def display_menu_options(
             options,
             current_index,
             title,
-        ) 
+        )
