@@ -18,7 +18,7 @@ def check_power_point_increment(combo_req: int | None, statistics: GameStatistic
 def update_power_points(game_st: GameStateData, current_selected_wizard: WizardData) -> None:
     """Increments power points in the game state if the combo requirement is met."""
     combo_req = current_selected_wizard.combo_requirement
-    stats = game_st.statistics  # stats is GameStatisticsData
+    stats = game_st.statistics
 
     if stats.combo == 0:
         return
@@ -64,7 +64,7 @@ def use_powerup(
     final_grid: list[list[str | None]],
 ) -> None:
     """Activates the selected wizard's power-up and updates the game state."""
-    stats = game_st.statistics  # stats is GameStatisticsData
+    stats = game_st.statistics
     wizard_color = current_selected_wizard.color
 
     coords_to_reveal: list[tuple[int, int]] = []
@@ -92,9 +92,7 @@ def use_powerup(
         if not coords_to_reveal:
             powerup_message = game_constants.POWERUP_NO_REVEAL_MSG
         else:
-            # apply_coordinate_reveal expects GameStateData
             apply_coordinate_reveal(game_st, final_grid, coords_to_reveal)
-            # check_for_completed_words expects GameStateData
             completed_words = check_for_completed_words(game_st, words_to_find)
 
             if completed_words:
