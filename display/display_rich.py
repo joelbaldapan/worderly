@@ -21,7 +21,7 @@ console = Console()
 
 def rich_print_grid(
     grid: list[list[str | None]] | None,
-    highlighted_coords: set[tuple[int, int]] | list[tuple[int, int]],  # Can be set or list
+    highlighted_coords: set[tuple[int, int]] | list[tuple[int, int]],
     highlight_color: str,
     letters_color: str,
     hidden_color: str,
@@ -29,9 +29,9 @@ def rich_print_grid(
     border_style: str,
 ) -> None:
     """Prints the game grid using Rich library for prettier formatting."""
-    if not grid or not any(grid):  # Check for empty grid or grid with only empty rows
+    if not grid or not any(grid):
         message = "[yellow]Empty grid provided.[/yellow]"
-        if grid == [[]]:  # Check specifically for [[]] case
+        if grid == [[]]:
             message = "[yellow]Grid contains an empty row.[/yellow]"
         console.print(Panel(Text.from_markup(message), title=title, border_style="red"))
         return
@@ -310,8 +310,7 @@ def rich_display_wizard_selection(settings: DifficultyData | None, wizard: Wizar
 
 
 def rich_display_wizard_art(
-    settings: DifficultyData | None,  # Added settings for consistency if display.py passes it
-    wizard: WizardData,  # Changed from dict
+    wizard: WizardData,
 ) -> None:
     """Displays only the ASCII art for a given wizard in a Rich Panel."""
     art_content_str = wizard.art.strip("\n")
@@ -330,7 +329,6 @@ def rich_display_wizard_art(
 
 
 def rich_display_menu_options(
-    settings: DifficultyData | None,  # Added settings for consistency
     options: list[str],
     current_index: int,
     title: str,
@@ -339,7 +337,6 @@ def rich_display_menu_options(
     options_texts: list[str] = []
     for i, option_name in enumerate(options):
         detailed_prefix = ""
-        # HEART_POINTS_SETTINGS now stores DifficultyData objects
         if option_name in HEART_POINTS_SETTINGS:
             difficulty_details: DifficultyData = HEART_POINTS_SETTINGS[option_name]
 

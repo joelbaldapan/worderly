@@ -58,8 +58,8 @@ def get_coords_for_word_reveal(
 
 
 def use_powerup(
-    game_st: GameStateData,  # Changed to GameStateData
-    current_selected_wizard: WizardData,  # Changed to WizardData
+    game_st: GameStateData,
+    current_selected_wizard: WizardData,
     words_to_find: dict[str, list[tuple[int, int]]],
     final_grid: list[list[str | None]],
 ) -> None:

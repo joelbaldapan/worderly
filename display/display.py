@@ -1,4 +1,4 @@
-from typing import Any  # Added Union
+from typing import Any
 
 # Import dataclasses
 from data.settings_details import DifficultyData
@@ -42,19 +42,17 @@ def print_grid(
     active_highlighted_coords = highlighted_coords if highlighted_coords is not None else []  # Default to empty list
 
     if not settings or settings.heart_point_mode:
-        # Ensure highlight_color is provided if None, or handle in rich_print_grid
         effective_highlight_color = highlight_color if highlight_color is not None else "yellow"  # Default for rich
         rich_print_grid(
             grid,
             active_highlighted_coords,
             effective_highlight_color,
             letters_color,
-            hidden_color,  # Pass hidden_color
+            hidden_color, 
             title,
             border_style,
         )
     else:
-        # basic_print_grid typically doesn't handle highlights or complex coloring
         basic_print_grid(grid)
 
 
@@ -122,31 +120,23 @@ def print_leaderboard(settings: DifficultyData | None, leaderboard: list[dict[st
         basic_print_leaderboard(leaderboard)
 
 
-# Signature changed to match call from menus.py
 def display_wizard_selection(
     settings: DifficultyData | None,
-    wizard: WizardData,  # Changed from wizard_index to WizardData object
-    wizard_index: int,  # Kept wizard_index if basic version or rich version still needs it
+    wizard: WizardData,
+    wizard_index: int,
 ) -> None:
     """Displays wizard selection using either rich or basic formatting based on settings."""
     if not settings or settings.heart_point_mode:
-        # rich_display_wizard_selection expects (settings, wizard_object, wizard_index)
         rich_display_wizard_selection(settings, wizard, wizard_index)
     else:
-        # basic_display_wizard_selection will need to be updated to accept similar args
-        # or adapt. For now, let's assume it can take the wizard object.
-        # If it strictly needs only index, this call needs adjustment or basic_display_wizard_selection needs to lookup.
         basic_display_wizard_selection(settings, wizard, wizard_index)
 
 
-# Signature changed to accept WizardData
 def display_wizard_art(settings: DifficultyData | None, wizard: WizardData) -> None:
     """Displays wizard art using either rich or basic formatting based on settings."""
     if not settings or settings.heart_point_mode:
-        # rich_display_wizard_art expects (settings, wizard_object)
         rich_display_wizard_art(settings, wizard)
     else:
-        # basic_display_wizard_art will need to be updated to accept WizardData
         basic_display_wizard_art(settings, wizard)
 
 
@@ -158,11 +148,10 @@ def display_menu_options(
 ) -> None:
     """Displays menu options using either rich or basic formatting based on settings."""
     if not settings or settings.heart_point_mode:
-        # rich_display_menu_options expects (settings, options, current_index, title)
         rich_display_menu_options(settings, options, current_index, title)
     else:
         basic_display_menu_options(
             options,
             current_index,
             title,
-        )  # basic doesn't need settings if it doesn't use HEART_POINTS_SETTINGS
+        )

@@ -1,6 +1,4 @@
-# display/display_basic.py
-
-from typing import Any  # Added necessary types
+from typing import Any
 
 from data.settings_details import DifficultyData
 from data.wizards_details import WizardData
@@ -78,20 +76,16 @@ def basic_print_leaderboard(leaderboard: list[dict[str, Any]]) -> None:
 def basic_display_wizard_selection(
     settings: DifficultyData | None,
     wizard: WizardData,
-    wizard_index: int,
 ) -> None:
     """Displays basic text information about the currently selected wizard.
 
     Args:
-        settings (Optional[DifficultyData]): Game settings (passed by dispatcher, maybe unused).
+        settings (DifficultyData | None): Game settings.
         wizard (WizardData): The WizardData object to display.
-        wizard_index (int): The index of the wizard (passed by dispatcher, maybe unused).
-
     """
     clear_screen()
 
-    # Use the passed 'wizard' object directly
-    basic_display_wizard_art(settings, wizard)  # Pass settings and wizard object
+    basic_display_wizard_art(settings, wizard)
     print("-----------------------------------------")
     print(f"Name: {wizard.name}")
     print(f"Starting Lives: {wizard.starting_lives}")
@@ -106,7 +100,6 @@ def basic_display_wizard_selection(
 
 
 def basic_display_wizard_art(
-    settings: DifficultyData | None,
     wizard: WizardData,
 ) -> None:
     """Prints the basic ASCII art for a given wizard.

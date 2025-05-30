@@ -2,9 +2,8 @@ import random
 from collections.abc import Iterable
 from dataclasses import dataclass, field
 
-# Assuming WizardData is imported if not defined here (it's defined in data.wizards_details)
 from data.wizards_details import WizardData
-from gameplay import game_constants  # Your constants module
+from gameplay import game_constants
 
 
 @dataclass
