@@ -1,10 +1,10 @@
 def _is_within_bounds(r: int, c: int, height: int, width: int) -> bool:
-    """Checks if a given coordinate (r, c) is within the grid boundaries."""
+    """Check if a given coordinate (r, c) is within the grid boundaries."""
     return 0 <= r < height and 0 <= c < width
 
 
 def _check_parallel_cells(grid: list[list[str | None]], r: int, c: int, dr: int, dc: int) -> bool:
-    """Checks if cells perpendicular to a given cell along a direction are empty."""
+    """Check if cells perpendicular to a given cell along a direction are empty."""
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
     perp_dr, perp_dc = dc, dr
@@ -24,7 +24,7 @@ def _check_adjacent_before_start(
     dr: int,
     dc: int,
 ) -> bool:
-    """Checks if the cell immediately before the start of a word path is empty."""
+    """Check if the cell immediately before the start of a word path is empty."""
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
     before_r, before_c = start_row - dr, start_col - dc
@@ -34,7 +34,7 @@ def _check_adjacent_before_start(
 
 
 def _check_adjacent_after_end(grid: list[list[str | None]], end_row: int, end_col: int, dr: int, dc: int) -> bool:
-    """Checks if the cell immediately after the end of a word path is empty."""
+    """Check if the cell immediately after the end of a word path is empty."""
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
     after_r, after_c = end_row + dr, end_col + dc
@@ -53,7 +53,7 @@ def _check_for_all_letters(
     dr: int,
     dc: int,
 ) -> bool:
-    """Checks conditions along the entire path of a potential word placement."""
+    """Check conditions along the entire path of a potential word placement."""
     placed_new_letter = False
     checked_letters = ""
     grid_height = len(grid)
@@ -95,7 +95,7 @@ def is_valid_placement(
     intersect_idx: int,
     orientation: str,  # "V" or "H"
 ) -> bool:
-    """Determines if placing a word at a specific intersection is valid."""
+    """Determine if placing a word at a specific intersection is valid."""
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
     word_len = len(word)

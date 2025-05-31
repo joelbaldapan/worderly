@@ -44,8 +44,8 @@ MAIN_TITLE = """
 
 
 def select_from_menu(options: list[str], title: str = "+.+.+.+ Menu +.+.+.+", show_main_title: bool = False) -> str:
-    """Handles navigation and selection for vertical text-based menus.
-    Assumes options is not empty and a selection will always be made.
+    """Handle navigation and selection for vertical text-based menus.
+    Assume options is not empty and a selection will always be made.
 
     Args:
         options (List[str]): A list of strings representing the menu choices.
@@ -85,7 +85,7 @@ def select_from_menu(options: list[str], title: str = "+.+.+.+ Menu +.+.+.+", sh
 
 
 def select_character_menu(settings: DifficultyData | None) -> WizardData:
-    """Handles the character selection menu interface.
+    """Handle the character selection menu interface.
 
     Args:
         settings (Optional[DifficultyData]): Game settings, possibly None or DifficultyData.
@@ -170,7 +170,7 @@ def get_player_name(settings: DifficultyData | None, selected_wizard: WizardData
 
 
 def initialize_player_info(settings: DifficultyData) -> tuple[str | None, WizardData]:
-    """Initializes player name and selected wizard based on game mode.
+    """Initialize player name and selected wizard based on game mode.
 
     Args:
         settings (DifficultyData): The game settings object.
@@ -208,7 +208,7 @@ MENU3_OPTIONS: list[str] = [
 
 
 def run_heart_points_menu() -> DifficultyData | None:
-    """Runs the initial menu to select the game mode.
+    """Run the initial menu to select the game mode.
 
     Returns:
         Optional[DifficultyData]: DifficultyData for No Heart Points mode, or None for HP mode.
@@ -226,7 +226,7 @@ def run_heart_points_menu() -> DifficultyData | None:
 
 
 def run_main_menu() -> DifficultyData:
-    """Runs the main menu loop for Heart Points mode.
+    """Run the main menu loop for Heart Points mode.
 
     Returns:
         DifficultyData: DifficultyData object if "Start Game" is chosen, otherwise exits.
@@ -261,7 +261,7 @@ def run_main_menu() -> DifficultyData:
 
 
 def run_difficulty_menu() -> DifficultyData:
-    """Runs the difficulty selection menu.
+    """Run the difficulty selection menu.
     Assumes the user always makes a valid selection.
 
     Returns:

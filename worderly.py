@@ -20,7 +20,7 @@ MAX_GRID_SETUP_RETRIES = 5  # Maximum number of attempts to generate board
 
 
 def get_lexicon_file() -> str | None:
-    """Retrieves and validates the lexicon file path from command-line arguments."""
+    """Retrieve and validates the lexicon file path from command-line arguments."""
     if len(sys.argv) < 2:
         print("The game requires a lexicon file to start!", file=sys.stderr)
         print("Please input the correct format.", file=sys.stderr)
@@ -36,7 +36,7 @@ def get_lexicon_file() -> str | None:
 
 
 def run_setup(difficulty_config: DifficultyData, lexicon_file_path: str):
-    """Attempts to generate a valid word list and game board.
+    """Attempt to generate a valid word list and game board.
 
     Args:
         difficulty_config (DifficultyData): The difficulty settings for the game.
@@ -70,7 +70,7 @@ def run_setup(difficulty_config: DifficultyData, lexicon_file_path: str):
 
 
 def main() -> None:
-    """Main function to run the Worderly game."""
+    """Run Worderly game."""
     lexicon_file_p: str | None = get_lexicon_file()
     if not lexicon_file_p:
         return

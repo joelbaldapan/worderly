@@ -7,7 +7,7 @@ from display.display_utils import clear_screen
 
 
 def read_word_file(word_path: str) -> list[str]:
-    """Reads a lexicon file, cleans words, and returns them as a list."""
+    """Read a lexicon file, cleans words, and returns them as a list."""
     try:
         with open(word_path, encoding="utf-8") as file:
             return [word.strip().lower() for word in file if word.strip()]
@@ -20,17 +20,17 @@ def read_word_file(word_path: str) -> list[str]:
 
 
 def filter_exact_length_words(words: list[str], exact_length: int) -> list[str]:
-    """Filters a list of words to include only those of a specific exact length."""
+    """Filter a list of words to include only those of a specific exact length."""
     return [word for word in words if len(word) == exact_length]
 
 
 def filter_words_up_to_max_length(words: list[str], max_length: int) -> set[str]:
-    """Filters a word list to include only words up to a maximum length, returning a set."""
+    """Filter a word list to include only words up to a maximum length, returning a set."""
     return {word for word in words if len(word) <= max_length}
 
 
 def get_valid_word_subwords(word: str, valid_words_set: set[str], min_length: int) -> list[str]:
-    """Finds all valid subwords/anagrams of a given word from a valid set."""
+    """Find all valid subwords/anagrams of a given word from a valid set."""
     valid_subwords: set[str] = set()
     for length in range(min_length, len(word) + 1):
         for p in itertools.permutations(word, length):
@@ -46,7 +46,7 @@ def find_valid_word_with_subwords(
     min_subwords_needed: int,
     valid_subword_set: set[str],
 ) -> tuple[str | None, list[str] | None]:
-    """Searches for a word of a specific length that has enough valid subwords."""
+    """Search for a word of a specific length that has enough valid subwords."""
     actual_subwords_needed = min_subwords_needed - 1
 
     for chosen_word in exact_max_length_words:
@@ -60,7 +60,7 @@ def find_valid_word_with_subwords(
 
 
 def generate_word_list(difficulty_conf: DifficultyData, lexicon_path: str) -> tuple[str | None, list[str] | None]:
-    """Generates the middle word and the list of words to place on the board.
+    """Generate the middle word and the list of words to place on the board.
 
     Reads the lexicon, filters words based on settings, finds a suitable
     middle word with enough subwords, and returns them.

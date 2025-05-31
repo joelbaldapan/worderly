@@ -30,7 +30,7 @@ def update_display(
     game_st: GameStateData,
     current_selected_wizard: WizardData,
 ) -> None:
-    """Updates the entire game display for the current turn."""
+    """Update the entire game display for the current turn."""
     clear_screen()
     print_grid(
         current_difficulty_config,
@@ -104,7 +104,7 @@ def update_game_over_display(
     final_grid: list[list[str | None]],
     current_selected_wizard: WizardData,
 ) -> None:
-    """Displays the final game over screen (win or loss)."""
+    """Display the final game over screen (win or loss)."""
     clear_screen()
     stats = game_st.statistics
     wizard_color = current_selected_wizard.color
@@ -140,7 +140,7 @@ def update_end_game_display(
     player_name: str | None,
     final_score: int,
 ) -> None:
-    """Handles display after game over screen in Heart Points mode."""
+    """Handle display after game over screen in Heart Points mode."""
     get_input(current_difficulty_config, "  > Press Enter to continue... ")
     clear_screen()
 
@@ -169,7 +169,7 @@ def run_game(
     player_name: str | None,
     selected_wizard: WizardData,
 ) -> None:
-    """Runs the main gameplay loop for a single game instance."""
+    """Run the main gameplay loop for a single game instance."""
     wizard_color = selected_wizard.color
 
     game_st: GameStateData = initialize_game_state(

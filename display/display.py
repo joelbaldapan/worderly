@@ -37,7 +37,7 @@ def print_grid(
     title: str = "THE WIZARDS OF WORDERLY PLACE",
     border_style: str = DEFAULT_BORDER_STYLE,
 ) -> None:
-    """Prints the game grid using either rich or basic formatting based on settings."""
+    """Print the game grid using either rich or basic formatting based on settings."""
     active_highlighted_coords = highlighted_coords if highlighted_coords is not None else []
 
     if not settings or settings.heart_point_mode:
@@ -63,7 +63,7 @@ def print_statistics(
     selected_wizard: WizardData,
     game_st: GameStateData,
 ) -> None:
-    """Prints game statistics using either rich or basic formatting based on settings."""
+    """Print game statistics using either rich or basic formatting based on settings."""
     if not settings or settings.heart_point_mode:
         rich_print_statistics(
             statistics_obj,
@@ -87,7 +87,7 @@ def print_message(
     width: int | None = None,
     justify: str = "left",
 ) -> None:
-    """Prints a message using either rich or basic formatting based on settings."""
+    """Print a message using either rich or basic formatting based on settings."""
     if not settings or settings.heart_point_mode:
         rich_print_message(
             message,
@@ -104,7 +104,7 @@ def print_message(
 
 
 def get_input(settings: DifficultyData | None, prompt_message: str = "Enter Guess") -> str:
-    """Gets user input using either rich or basic input based on settings."""
+    """Get user input using either rich or basic input based on settings."""
     if not settings or settings.heart_point_mode:
         return rich_get_input(prompt_message)
     else:
@@ -112,7 +112,7 @@ def get_input(settings: DifficultyData | None, prompt_message: str = "Enter Gues
 
 
 def print_leaderboard(settings: DifficultyData | None, leaderboard: list[dict[str, Any]]) -> None:
-    """Prints the leaderboard using either rich or basic formatting based on settings."""
+    """Print the leaderboard using either rich or basic formatting based on settings."""
     if not settings or settings.heart_point_mode:
         rich_print_leaderboard(leaderboard)
     else:
@@ -124,7 +124,7 @@ def display_wizard_selection(
     wizard: WizardData,
     wizard_index: int,
 ) -> None:
-    """Displays wizard selection using either rich or basic formatting based on settings."""
+    """Display wizard selection using either rich or basic formatting based on settings."""
     if not settings or settings.heart_point_mode:
         rich_display_wizard_selection(settings, wizard, wizard_index)
     else:
@@ -132,7 +132,7 @@ def display_wizard_selection(
 
 
 def display_wizard_art(settings: DifficultyData | None, wizard: WizardData) -> None:
-    """Displays wizard art using either rich or basic formatting based on settings."""
+    """Display wizard art using either rich or basic formatting based on settings."""
     if not settings or settings.heart_point_mode:
         rich_display_wizard_art(settings, wizard)
     else:
@@ -145,7 +145,7 @@ def display_menu_options(
     current_index: int,
     title: str,
 ) -> None:
-    """Displays menu options using either rich or basic formatting based on settings."""
+    """Display menu options using either rich or basic formatting based on settings."""
     if not settings or settings.heart_point_mode:
         rich_display_menu_options(settings, options, current_index, title)
     else:

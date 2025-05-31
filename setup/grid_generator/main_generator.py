@@ -39,7 +39,7 @@ def place_other_words(
     words_to_place: list[str],  # Sub-words
     max_total_words: int,
 ) -> None:
-    """Attempts to place the remaining words onto the grid."""
+    """Attempt to place the remaining words onto the grid."""
     all_potential_words_on_board = set(words_to_place)
     if state.placed_words_coords:  # Check if middle word was placed
         # The first key is the middle_word if it's the only one placed so far.
@@ -74,7 +74,7 @@ def place_other_words(
 
 
 def validate_final_grid(state: BoardGenerationState, min_total_words: int) -> bool:
-    """Validates the generated grid against placement requirements."""
+    """Validate the generated grid against placement requirements."""
     total_placed_count = len(state.placed_words_coords)
     if total_placed_count < min_total_words:
         return False
@@ -96,7 +96,7 @@ def generate_board(
     middle_word: str,
     words_to_place: list[str],  # These are the sub-words
 ) -> tuple[list[list[str | None]] | None, dict[str, list[tuple[int, int]]] | None]:
-    """Generates the final game board and word coordinate data.
+    """Generate the final game board and word coordinate data.
     This is the main public function for this grid generation package.
     """
     min_total_words = difficulty_conf.words_on_board_needed.minimum

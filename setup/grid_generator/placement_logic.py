@@ -15,7 +15,7 @@ def find_possible_placements(
     words_to_place_set: set[str],
     placed_letter_coords: dict[str, list[tuple[int, int]]],
 ) -> list[PlacementDetail]:
-    """Finds all valid horizontal and vertical placements for a given word."""
+    """Find all valid horizontal and vertical placements for a given word."""
     possible_placements: list[PlacementDetail] = []
     for idx, letter_in_word in enumerate(word):
         if letter_in_word not in placed_letter_coords:
@@ -51,7 +51,7 @@ def select_random_placement(
     priority_placements: list[PlacementDetail],
     other_placements: list[PlacementDetail],
 ) -> PlacementDetail | None:
-    """Selects a random placement, prioritizing the priority list."""
+    """Select a random placement, prioritizing the priority list."""
     if priority_placements:
         return random.choice(priority_placements)
     elif other_placements:
@@ -64,7 +64,7 @@ def update_placed_word_coords(
     coords_to_place: list[tuple[int, int]],
     state: BoardGenerationState,
 ) -> None:
-    """Updates state after a word is successfully placed."""
+    """Update state after a word is successfully placed."""
     state.placed_words_coords[chosen_placement.word] = coords_to_place
     if chosen_placement.coord in state.middle_word_coords:
         state.used_middle_word_coords.add(chosen_placement.coord)
@@ -75,7 +75,7 @@ def update_placed_letter_coords(
     word: str,
     placed_coords: list[tuple[int, int]],
 ) -> None:
-    """Updates the dictionary tracking all placed letters and their coordinates."""
+    """Update the dictionary tracking all placed letters and their coordinates."""
     for i, coord in enumerate(placed_coords):
         letter = word[i]
         if letter not in state.placed_letter_coords:
@@ -88,7 +88,7 @@ def apply_placement(
     state: BoardGenerationState,
     chosen_placement: PlacementDetail,
 ) -> None:
-    """Applies a chosen placement to the grid and updates tracking state."""
+    """Apply a chosen placement to the grid and updates tracking state."""
     coords_to_place = calculate_straight_word_placement_coords(chosen_placement)
 
     update_placed_letter_coords(state, chosen_placement.word, coords_to_place)

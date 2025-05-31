@@ -23,7 +23,7 @@ class BoardGenerationState:
 
 
 def create_empty_grid(height: int, width: int) -> list[list[str | None]]:
-    """Creates a 2D list representing an empty grid filled with None."""
+    """Create a 2D list representing an empty grid filled with None."""
     return [[None] * width for _ in range(height)]
 
 
@@ -36,12 +36,12 @@ def place_letters_on_grid(grid: list[list[str | None]], word: str, coords_to_pla
 
 
 def initialize_board_state(height: int, width: int) -> BoardGenerationState:
-    """Initializes the state object required for board generation."""
+    """Initialize the state object required for board generation."""
     return BoardGenerationState(grid=create_empty_grid(height, width))
 
 
 def _calculate_middle_word_start(height: int, width: int, word_len: int) -> tuple[int, int] | None:
-    """Calculates the starting (top-left) coordinate for diagonal middle word."""
+    """Calculate the starting (top-left) coordinate for diagonal middle word."""
     diag_space = word_len * 2 - 1
     start_row = (height - diag_space) // 2
     start_col = (width - diag_space) // 2
@@ -51,7 +51,7 @@ def _calculate_middle_word_start(height: int, width: int, word_len: int) -> tupl
 
 
 def calculate_middle_word_placement_coords(height: int, width: int, middle_word: str) -> list[tuple[int, int]] | None:
-    """Calculates the list of diagonal coordinates for the middle word."""
+    """Calculate the list of diagonal coordinates for the middle word."""
     start_coords = _calculate_middle_word_start(height, width, len(middle_word))
     if start_coords is None:
         return None
@@ -67,7 +67,7 @@ def calculate_middle_word_placement_coords(height: int, width: int, middle_word:
 
 
 def calculate_straight_word_placement_coords(chosen_placement: PlacementDetail) -> list[tuple[int, int]]:
-    """Calculates the list of coordinates for a straight (H or V) placement."""
+    """Calculate the list of coordinates for a straight (H or V) placement."""
     word_len = len(chosen_placement.word)
     dr, dc = (1, 0) if chosen_placement.orientation == "V" else (0, 1)
 

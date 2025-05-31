@@ -7,7 +7,7 @@ from gameplay.game_state_handler import GameStatisticsData
 
 
 def basic_print_grid(grid: list[list[str | None]] | None) -> None:
-    """Prints a basic text representation of the game grid to the console.
+    """Print a basic text representation of the game grid to the console.
 
     Args:
         grid (Optional[List[List[Optional[str]]]]):
@@ -22,7 +22,7 @@ def basic_print_grid(grid: list[list[str | None]] | None) -> None:
 
 
 def basic_print_statistics(statistics: GameStatisticsData) -> None:
-    """Prints basic game statistics to the console.
+    """Print basic game statistics to the console.
 
     Args:
         statistics (GameStatisticsData):
@@ -38,17 +38,17 @@ def basic_print_statistics(statistics: GameStatisticsData) -> None:
 
 
 def basic_print_message(message: str) -> None:
-    """Prints a simple message string to the console."""
+    """Print a simple message string to the console."""
     print(message)
 
 
 def basic_get_input(prompt_message: str = "") -> str:
-    """Gets input from the user via the console."""
+    """Get input from the user via the console."""
     return input(prompt_message)
 
 
 def basic_print_leaderboard(leaderboard: list[dict[str, Any]]) -> None:
-    """Prints a basic text representation of the leaderboard.
+    """Print a basic text representation of the leaderboard.
 
     Args:
         leaderboard (List[Dict[str, Any]]):
@@ -78,7 +78,7 @@ def basic_display_wizard_selection(
     wizard: WizardData,
     wizard_index: int,
 ) -> None:
-    """Displays basic text information about the currently selected wizard.
+    """Display basic text information about the currently selected wizard.
 
     Args:
         settings (Optional[DifficultyData]): Game settings (passed by dispatcher, maybe unused).
@@ -106,7 +106,7 @@ def basic_display_wizard_art(
     settings: DifficultyData | None,
     wizard: WizardData,
 ) -> None:
-    """Prints the basic ASCII art for a given wizard.
+    """Print the basic ASCII art for a given wizard.
 
     Args:
         settings (Optional[DifficultyData]): Game settings (passed by dispatcher, maybe unused).
@@ -117,7 +117,7 @@ def basic_display_wizard_art(
 
 
 def basic_display_menu_options(options: list[str], current_index: int, title: str) -> None:
-    """Displays a basic text-based vertical menu with selection indicator.
+    """Display a basic text-based vertical menu with selection indicator.
 
     Args:
         options (List[str]): A list of strings representing the menu options.

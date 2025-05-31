@@ -28,7 +28,7 @@ def rich_print_grid(
     title: str,
     border_style: str,
 ) -> None:
-    """Prints the game grid using Rich library for prettier formatting."""
+    """Print the game grid using Rich library for prettier formatting."""
     if not grid or not any(grid):
         message = "[yellow]Empty grid provided.[/yellow]"
         if grid == [[]]:
@@ -94,7 +94,7 @@ def rich_print_grid(
 
 
 def _append_combo_stats(statistics: GameStatisticsData, selected_wizard: WizardData, powerup_parts: list[Any]) -> None:
-    """Appends combo meter Text and Progress bar to the powerup_parts list."""
+    """Append combo meter Text and Progress bar to the powerup_parts list."""
     wizard_color = selected_wizard.color
     combo = statistics.combo
     combo_req = selected_wizard.combo_requirement
@@ -130,7 +130,7 @@ def rich_print_statistics(
     selected_wizard: WizardData,
     game_st: GameStateData,
 ) -> None:
-    """Prints the formatted statistics panel using Rich Columns and Panels."""
+    """Print the formatted statistics panel using Rich Columns and Panels."""
     wizard_color = selected_wizard.color
 
     player_stats_content = Text.assemble(
@@ -221,7 +221,7 @@ def rich_print_message(
     width: int | None = None,
     justify: str = "left",
 ) -> None:
-    """Prints a message string wrapped in a Rich Panel."""
+    """Print a message string wrapped in a Rich Panel."""
     text_content = Text.from_markup(message, style=style, justify=justify)
     panel = Panel(
         text_content,
@@ -235,12 +235,12 @@ def rich_print_message(
 
 
 def rich_get_input(prompt_message: str) -> str:
-    """Gets user input using the standard input() function."""
+    """Get user input using the standard input() function."""
     return input(prompt_message)
 
 
 def rich_print_leaderboard(leaderboard_data: list[dict[str, Any]], max_entries: int = 10) -> None:
-    """Prints the leaderboard data in a formatted Rich Table."""
+    """Print the leaderboard data in a formatted Rich Table."""
     if not leaderboard_data:
         rich_print_message("The leaderboard is empty!", title="Leaderboard", border_style="dim")
         return
@@ -259,7 +259,7 @@ def rich_print_leaderboard(leaderboard_data: list[dict[str, Any]], max_entries: 
 
 
 def rich_display_wizard_selection(settings: DifficultyData | None, wizard: WizardData, wizard_index: int) -> None:
-    """Displays the wizard selection interface using Rich Panels and Columns."""
+    """Display the wizard selection interface using Rich Panels and Columns."""
     clear_screen()
 
     art_content_str = wizard.art.strip("\n")
@@ -311,7 +311,7 @@ def rich_display_wizard_art(
     settings: DifficultyData | None,
     wizard: WizardData,
 ) -> None:
-    """Displays only the ASCII art for a given wizard in a Rich Panel."""
+    """Display only the ASCII art for a given wizard in a Rich Panel."""
     art_content_str = wizard.art.strip("\n")
     wizard_color = wizard.color
 
@@ -333,7 +333,7 @@ def rich_display_menu_options(
     current_index: int,
     title: str,
 ) -> None:
-    """Displays vertical menu options using Rich, highlighting the current selection."""
+    """Display vertical menu options using Rich, highlighting the current selection."""
     options_texts: list[str] = []
     for i, option_name in enumerate(options):
         detailed_prefix = ""

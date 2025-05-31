@@ -14,7 +14,7 @@ DELIMITER = "|"
 
 
 def load_leaderboard(filename=LEADERBOARD_FILE):
-    """Loads, parses, and sorts scores from the leaderboard file."""
+    """Load, parse, and sort scores from the leaderboard file."""
     scores = []
     # Check if the file exists before attempting to open
     if not os.path.exists(filename):
@@ -82,7 +82,7 @@ def load_leaderboard(filename=LEADERBOARD_FILE):
 
 
 def save_score(player_name, player_score, filename=LEADERBOARD_FILE) -> None:
-    """Appends a player's name and score to the leaderboard file."""
+    """Append a player's name and score to the leaderboard file."""
     try:
         # Use append mode 'a' to add to the end of the file
         with open(filename, "a", encoding="utf-8") as f:
