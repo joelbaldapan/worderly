@@ -1,5 +1,3 @@
-import sys
-
 from getkey import getkey, keys
 
 from data.settings_details import HEART_POINTS_SETTINGS, NO_HEART_POINTS_SETTINGS, DifficultyData
@@ -9,11 +7,13 @@ from display.display import (
     display_wizard_art,
     display_wizard_selection,
     get_input,
-    print_leaderboard,
     print_message,
+    print_streak_leaderboard,
 )
 from display.display_utils import clear_screen
-from leaderboard.leaderboard import load_leaderboard
+from leaderboard.streak_handler import load_streaks
+
+EXIT_GAME_SENTINEL = "##EXIT_GAME_SENTINEL##"
 
 MAX_NAME_LENGTH = 10
 MAIN_TITLE = """
@@ -225,15 +225,12 @@ def run_heart_points_menu() -> DifficultyData | None:
     return None
 
 
-def run_main_menu() -> DifficultyData:
-    """Run the main menu loop for Heart Points mode.
-
-    Returns:
-        DifficultyData: DifficultyData object if "Start Game" is chosen, otherwise exits.
-
+def run_main_menu() -> DifficultyData | str:
+    """Runs the main menu loop for Heart Points mode.
+    Returns DifficultyData if "Start Game" is chosen,
+    EXIT_GAME_SENTINEL if "Exit Game", otherwise loops for leaderboards.
     """
     title = "+.+.+.+ Main Menu +.+.+.+"
-
     while True:
         selected_option = select_from_menu(
             MENU2_OPTIONS,
@@ -244,20 +241,14 @@ def run_main_menu() -> DifficultyData:
             return run_difficulty_menu()
         elif selected_option == "Check Leaderboards":
             clear_screen()
-            leaderboard = load_leaderboard()
-            print_leaderboard(settings=None, leaderboard=leaderboard)
+            streaks = load_streaks()
+            print_streak_leaderboard(settings=None, streaks=streaks)
             get_input(
                 settings=None,
                 prompt_message="  > Press Enter to continue... ",
             )
         elif selected_option == "Exit Game":
-            print_message(
-                settings=None,
-                message="Farewell, wizard! May you venture back on this journey.",
-                border_style="magenta",
-                title="Input",
-            )
-            sys.exit()
+            return EXIT_GAME_SENTINEL
 
 
 def run_difficulty_menu() -> DifficultyData:

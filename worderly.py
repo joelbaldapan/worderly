@@ -8,8 +8,11 @@ from typing import TYPE_CHECKING
 from data.settings_details import DifficultyData
 from display.display_utils import clear_screen
 from gameplay.gameplay import run_game
+
+# Import for new streak leaderboard
+from leaderboard.streak_handler import StreakEntry, add_streak_entry
 from setup.grid_generator.main_generator import generate_board
-from setup.menus import initialize_player_info, run_heart_points_menu, run_main_menu
+from setup.menus import EXIT_GAME_SENTINEL, initialize_player_info, run_heart_points_menu, run_main_menu
 from setup.word_selector import generate_word_list, read_word_file
 
 if TYPE_CHECKING:
@@ -70,53 +73,100 @@ def run_setup(difficulty_config: DifficultyData, lexicon_file_path: str):
 
 
 def main() -> None:
-    """Run Worderly game."""
     lexicon_file_p: str | None = get_lexicon_file()
     if not lexicon_file_p:
         return
 
-    current_difficulty_setting: DifficultyData | None = run_heart_points_menu()
+    active_player_name: str | None = None
+    active_streak_count: int = 0
+    active_streak_points_total: int = 0
+
+    # Initial mode selection
+    current_game_difficulty_config: DifficultyData | None = run_heart_points_menu()
 
     while True:
-        if current_difficulty_setting is None:
-            current_difficulty_setting = run_main_menu()
+        if current_game_difficulty_config is None:  # HP mode was chosen, or continuing HP loop
+            menu_result = run_main_menu()  # Returns DifficultyData or EXIT_GAME_SENTINEL
 
-        setup_result = run_setup(current_difficulty_setting, lexicon_file_p)
+            if menu_result == EXIT_GAME_SENTINEL:
+                if active_streak_count > 0 and active_player_name:
+                    entry = StreakEntry(active_player_name, active_streak_count, active_streak_points_total)
+                    add_streak_entry(entry)
+                    print(
+                        f"\nStreak for {active_player_name} saved: {active_streak_count} wins, {active_streak_points_total} pts.",
+                    )
+                print("\nExiting Worderly. Farewell, brave wizard!")
+                return
+            current_game_difficulty_config = menu_result
+
+        player_name_for_this_game: str | None
+        selected_wizard: WizardData
+        player_name_for_this_game, selected_wizard = initialize_player_info(current_game_difficulty_config)
+
+        # Streak logic related
+        if current_game_difficulty_config.heart_point_mode:
+            if active_player_name != player_name_for_this_game and active_player_name is not None:
+                if active_streak_count > 0:  # Save old player's streak
+                    entry = StreakEntry(active_player_name, active_streak_count, active_streak_points_total)
+                    add_streak_entry(entry)
+                active_streak_count = 0  # Reset for new player
+                active_streak_points_total = 0
+            active_player_name = player_name_for_this_game  # Update current HP player
+        else:  # Not HP mode for this game; save any prior HP streak and reset
+            if active_streak_count > 0 and active_player_name:
+                entry = StreakEntry(active_player_name, active_streak_count, active_streak_points_total)
+                add_streak_entry(entry)
+            active_streak_count = 0
+            active_streak_points_total = 0
+            active_player_name = None  # No player for streaks in non-HP
+
+        setup_result = run_setup(current_game_difficulty_config, lexicon_file_p)
 
         if not setup_result:
             clear_screen()
             print("\n" + "=" * 50)
-            print(f"FATAL ERROR: Failed to set up the game after {MAX_SETUP_RETRIES} attempts.")
+            print(
+                f"FATAL ERROR: Failed to set up the game after {MAX_SETUP_RETRIES} attempts.",
+            )
             print("This could be due to:")
-            print("  - Very restrictive grid settings (Grid size, number of words needed, word lengths).")
-            print("  - Lexicon file lacks suitable words (Must have enough subwords to satisfy grid creation).")
+            print(
+                "  - Very restrictive grid settings (Grid size, number of words needed, word lengths).",
+            )
+            print(
+                "  - Lexicon file lacks suitable words (Must have enough subwords to satisfy grid creation).",
+            )
             print("Please check your settings, lexicon file, or try again.")
             print("Exiting program.")
             print("=" * 50 + "\n")
-            return
 
-        middle_word: str
-        words_to_find: dict[str, list[tuple[int, int]]]
-        final_grid: list[list[str | None]]
         middle_word, words_to_find, final_grid = setup_result
 
-        player_name: str | None
-        selected_wizard: WizardData  # initialize_player_info returns WizardData
-        player_name, selected_wizard = initialize_player_info(current_difficulty_setting)
-
-        run_game(
-            current_difficulty_setting,  # Pass DifficultyData
+        game_outcome: str
+        points_this_game: int
+        game_outcome, points_this_game = run_game(
+            current_game_difficulty_config,
             final_grid,
             words_to_find,
             middle_word,
-            player_name,
+            player_name_for_this_game,
             selected_wizard,
         )
 
-        if not current_difficulty_setting.heart_point_mode:
-            break
+        if current_game_difficulty_config.heart_point_mode and active_player_name:
+            if game_outcome == "win":
+                active_streak_count += 1
+                active_streak_points_total += points_this_game
+            elif game_outcome == "loss":
+                if active_streak_count > 0:
+                    entry = StreakEntry(active_player_name, active_streak_count, active_streak_points_total)
+                    add_streak_entry(entry)
+                active_streak_count = 0
+                active_streak_points_total = 0
 
-        current_difficulty_setting = None
+        if not current_game_difficulty_config.heart_point_mode:
+            break  # Exit the main worderly loop if this game was non-HP
+
+        current_game_difficulty_config = None  # Reset to show main menu for next HP game iteration
 
 
 if __name__ == "__main__":

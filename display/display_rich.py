@@ -10,6 +10,7 @@ from rich.text import Text
 from data.settings_details import HEART_POINTS_SETTINGS, DifficultyData
 from data.wizards_details import WizardData
 from gameplay.game_state_handler import GameStateData, GameStatisticsData
+from leaderboard.streak_handler import StreakEntry
 
 from .display_utils import clear_screen
 
@@ -367,3 +368,40 @@ def rich_display_menu_options(
         title="Input",
         border_style="magenta",
     )
+
+
+def rich_print_streak_leaderboard(streaks: list[StreakEntry]) -> None:
+    """Prints the winning streak leaderboard data in a formatted Rich Table.
+    Uses styling similar to the old high score leaderboard.
+    """
+    if not streaks:
+        rich_print_message(
+            "Winning streak leaderboard is empty!",
+            title="🏆 Winning Streaks 🏆",
+            border_style="dim",
+            justify="center",
+        )
+        return
+
+    table = Table(
+        title="🏆 Winning Streaks Leaderboard 🏆",
+        border_style="bold yellow",
+        show_header=True,
+        header_style="bold yellow",
+        min_width=50,
+    )
+
+    table.add_column("Rank", style="cyan", width=6, justify="center")
+    table.add_column("Player Name", style="magenta", min_width=15, overflow="ellipsis")
+    table.add_column("Streak", style="green", justify="right", min_width=8)
+    table.add_column("Total Points", style="blue", justify="right", min_width=12)
+
+    for index, entry in enumerate(streaks):
+        rank = str(index + 1)
+        player_name = entry.player_name
+        streak_count = str(entry.streak_count)
+        total_points = str(entry.total_points_in_streak)
+
+        table.add_row(rank, player_name, streak_count, total_points)
+
+    console.print(table)

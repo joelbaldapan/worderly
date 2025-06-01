@@ -4,6 +4,7 @@ from data.settings_details import DifficultyData
 from data.wizards_details import WizardData
 from display.display_utils import clear_screen
 from gameplay.game_state_handler import GameStatisticsData
+from leaderboard.streak_handler import StreakEntry
 
 
 def basic_print_grid(grid: list[list[str | None]] | None) -> None:
@@ -131,3 +132,33 @@ def basic_display_menu_options(options: list[str], current_index: int, title: st
         print(f"{prefix}{option}")
     print()
     print("Use (▲) Up / Down (▼) arrow keys to select. Press Enter to confirm.")
+
+
+def basic_print_streak_leaderboard(streaks: list[StreakEntry]) -> None:
+    """Prints a basic text representation of the winning streak leaderboard."""
+    print("\n--- Winning Streaks Leaderboard ---")
+    if not streaks:
+        print("Leaderboard is empty.")
+        print("---------------------------------")
+        return
+
+    MAX_NAME_LEN = 15  # Default/max width for player name
+    if streaks:
+        pass
+
+    # Header
+    header = f"{'Rank':<5} | {'Player Name':<{MAX_NAME_LEN}} | {'Streak':>7} | {'Total Points':>12}"
+    print(header)
+    print("-" * len(header))
+
+    for index, entry in enumerate(streaks):
+        rank = str(index + 1)
+        name = entry.player_name
+        streak = str(entry.streak_count)
+        points = str(entry.total_points_in_streak)
+
+        display_name = (name[: MAX_NAME_LEN - 3] + "...") if len(name) > MAX_NAME_LEN else name
+
+        print(f"{rank:<5} | {display_name:<{MAX_NAME_LEN}} | {streak:>7} | {points:>12}")
+
+    print("---------------------------------")

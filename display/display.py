@@ -1,5 +1,3 @@
-from typing import Any
-
 from data.settings_details import DifficultyData
 from data.wizards_details import WizardData
 from display.display_basic import (
@@ -8,9 +6,9 @@ from display.display_basic import (
     basic_display_wizard_selection,
     basic_get_input,
     basic_print_grid,
-    basic_print_leaderboard,
     basic_print_message,
     basic_print_statistics,
+    basic_print_streak_leaderboard,
 )
 from display.display_rich import (
     rich_display_menu_options,
@@ -18,11 +16,12 @@ from display.display_rich import (
     rich_display_wizard_selection,
     rich_get_input,
     rich_print_grid,
-    rich_print_leaderboard,
     rich_print_message,
     rich_print_statistics,
+    rich_print_streak_leaderboard,
 )
 from gameplay.game_state_handler import GameStateData, GameStatisticsData
+from leaderboard.streak_handler import StreakEntry
 
 DEFAULT_BORDER_STYLE = "bright_cyan"
 
@@ -111,12 +110,15 @@ def get_input(settings: DifficultyData | None, prompt_message: str = "Enter Gues
         return basic_get_input(prompt_message)
 
 
-def print_leaderboard(settings: DifficultyData | None, leaderboard: list[dict[str, Any]]) -> None:
-    """Print the leaderboard using either rich or basic formatting based on settings."""
+def print_streak_leaderboard(settings: DifficultyData | None, streaks: list[StreakEntry]) -> None:
+    """Displays the winning streak leaderboard using rich or basic formatting.
+    If settings are not provided (e.g. viewing from main menu before game mode select),
+    or if heart_point_mode is True, it defaults to the rich display.
+    """
     if not settings or settings.heart_point_mode:
-        rich_print_leaderboard(leaderboard)
+        rich_print_streak_leaderboard(streaks)
     else:
-        basic_print_leaderboard(leaderboard)
+        basic_print_streak_leaderboard(streaks)
 
 
 def display_wizard_selection(

@@ -1,15 +1,6 @@
-# gameplay/gameplay.py
-
-# Import dataclasses
 from data.settings_details import DifficultyData
 from data.wizards_details import WizardData
-from display.display import (
-    get_input,
-    print_grid,
-    print_leaderboard,
-    print_message,
-    print_statistics,
-)
+from display.display import get_input, print_grid, print_message, print_statistics, print_streak_leaderboard
 from display.display_utils import clear_screen
 from gameplay import game_constants
 from gameplay.game_state_handler import (
@@ -19,10 +10,7 @@ from gameplay.game_state_handler import (
     process_guess,
 )
 from gameplay.powerup_handler import update_power_points, use_powerup
-from leaderboard.leaderboard import (
-    load_leaderboard,
-    save_score,
-)
+from leaderboard.streak_handler import load_streaks
 
 
 def update_display(
@@ -135,22 +123,50 @@ def update_game_over_display(
     print_message(current_difficulty_config, final_message, border_style=wizard_color)
 
 
-def update_end_game_display(
+def update_game_over_display(
+    current_difficulty_config: DifficultyData,
+    game_over_status: str,
+    game_st: GameStateData,
+    final_grid: list[list[str | None]],
+    current_selected_wizard: WizardData,
+) -> None:
+    clear_screen()
+    stats = game_st.statistics
+    wizard_color = current_selected_wizard.color
+    final_message = game_constants.WIN_MSG if game_over_status == "win" else game_constants.LOSE_MSG
+    letters_display_color = game_constants.WIN_COLOR if game_over_status == "win" else game_constants.LOSE_COLOR
+    grid_to_show = final_grid
+    highlight_coords_on_loss = game_st.found_letter_coords if game_over_status == "loss" else []
+    print_grid(
+        current_difficulty_config,
+        grid_to_show,
+        highlighted_coords=highlight_coords_on_loss,
+        highlight_color=game_constants.DEFAULT_HIGHLIGHT_COLOR,
+        letters_color=letters_display_color,
+        border_style=wizard_color,
+        hidden_color=wizard_color,
+    )
+    print_statistics(
+        current_difficulty_config,
+        stats,
+        wizard_color,
+        final_grid,
+        current_selected_wizard,
+        game_st,
+    )
+    print_message(current_difficulty_config, final_message, border_style=wizard_color)
+
+
+def simplified_end_game_interaction(
     current_difficulty_config: DifficultyData,
     player_name: str | None,
     final_score: int,
 ) -> None:
-    """Handle display after game over screen in Heart Points mode."""
-    get_input(current_difficulty_config, "  > Press Enter to continue... ")
+    """Handles display and interaction after a game ends in Heart Points mode,
+    including showing the updated streak leaderboard.
+    """
+    get_input(current_difficulty_config, "  > Game Over. Press Enter to see summary and leaderboards... ")
     clear_screen()
-
-    if player_name is not None:
-        save_score(player_name, final_score)
-    else:
-        print("Note: Score not saved as player name was not available.")
-
-    leaderboard = load_leaderboard()
-    print_leaderboard(current_difficulty_config, leaderboard)
 
     name_to_display = player_name if player_name is not None else "Wizard"
     print_message(
@@ -158,7 +174,12 @@ def update_end_game_display(
         game_constants.THANKS_MSG.format(name_to_display, final_score),
         border_style=game_constants.FINAL_SCORE_BORDER,
     )
-    get_input(current_difficulty_config, "  > Press Enter to continue... ")
+
+    # Display the streak leaderboard
+    streaks = load_streaks()  # Load the latest streak data
+    print_streak_leaderboard(current_difficulty_config, streaks)  # Display it
+
+    get_input(current_difficulty_config, "  > Press Enter to return to the main menu... ")
 
 
 def run_game(
@@ -168,10 +189,11 @@ def run_game(
     middle_word: str,
     player_name: str | None,
     selected_wizard: WizardData,
-) -> None:
-    """Run the main gameplay loop for a single game instance."""
+) -> tuple[str, int]:
+    """Runs the main gameplay loop for a single game instance.
+    Returns the game outcome ("win" or "loss") and the points scored.
+    """
     wizard_color = selected_wizard.color
-
     game_st: GameStateData = initialize_game_state(
         final_grid,
         middle_word,
@@ -192,8 +214,16 @@ def run_game(
 
         game_over_status = check_game_over(game_st, words_to_find)
 
-    update_game_over_display(difficulty_conf, game_over_status, game_st, final_grid, selected_wizard)
-    final_score: int = game_st.statistics.points
+    update_game_over_display(
+        difficulty_conf,
+        game_over_status,
+        game_st,
+        final_grid,
+        selected_wizard,
+    )
+    final_score_this_game: int = game_st.statistics.points
 
     if difficulty_conf.heart_point_mode:
-        update_end_game_display(difficulty_conf, player_name, final_score)
+        simplified_end_game_interaction(difficulty_conf, player_name, final_score_this_game)
+
+    return game_over_status, final_score_this_game
