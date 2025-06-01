@@ -132,7 +132,10 @@ def get_player_name(settings: DifficultyData | None, selected_wizard: WizardData
 
     """
     clear_screen()
-    display_wizard_art(settings, selected_wizard)
+
+    if settings.heart_point_mode:
+        display_wizard_art(settings, selected_wizard)
+
     print_message(
         settings,
         "Mighty wizard, please enter your name!",
@@ -143,7 +146,8 @@ def get_player_name(settings: DifficultyData | None, selected_wizard: WizardData
     while True:
         name = get_input(settings, "  > Name: ").strip()
         clear_screen()
-        display_wizard_art(settings, selected_wizard)
+        if settings.heart_point_mode:
+            display_wizard_art(settings, selected_wizard)
         if not name:
             print_message(
                 settings,
@@ -169,22 +173,37 @@ def get_player_name(settings: DifficultyData | None, selected_wizard: WizardData
             return name
 
 
-def initialize_player_info(settings: DifficultyData) -> tuple[str | None, WizardData]:
-    """Initialize player name and selected wizard based on game mode.
-
-    Args:
-        settings (DifficultyData): The game settings object.
-
-    Returns:
-        Tuple[Optional[str], WizardData]: Player name (or None) and wizard data object.
-
+def initialize_player_info(
+    settings: DifficultyData,
+    current_session_player_name: str | None,
+) -> tuple[str, WizardData]:
+    """Initializes player name and selected wizard based on game mode.
+    - HP Mode: Skips name prompt if current_session_player_name (from active streak) is provided. Allows wizard selection.
+    - NHP Mode: Skips name prompt if current_session_player_name (from NHP session) is provided. Uses a default wizard.
     """
-    if settings.heart_point_mode:  # Direct attribute access
-        selected_wizard = select_character_menu(settings)
-        player_name = get_player_name(settings, selected_wizard)
-        return player_name, selected_wizard
+    player_name_to_use: str
+    selected_wizard_for_game: WizardData
+
+    clear_screen()
+    # Get wizard
+    if settings.heart_point_mode:
+        # Heart Points Mode
+        selected_wizard_for_game = select_character_menu(settings)  # Player chooses wizard
+        display_wizard_art(settings, selected_wizard_for_game)
     else:
-        return None, WIZARDS_DATA[0]
+        # No Heart Points Mode
+        selected_wizard_for_game = WIZARDS_DATA[0]  # Default wizard
+
+    # Re-use name if in a current streak session
+    if current_session_player_name:
+        clear_screen()
+        player_name_to_use = current_session_player_name
+        print_message(settings, f"Continuing streak as {player_name_to_use}!", border_style="green")
+        get_input(settings, "  > Press Enter to begin...")
+    else:
+        player_name_to_use = get_player_name(settings, selected_wizard_for_game)
+
+    return player_name_to_use, selected_wizard_for_game
 
 
 MENU1_OPTIONS: list[str] = [

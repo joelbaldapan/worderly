@@ -197,7 +197,10 @@ def run_game(
 ) -> tuple[str, int]:
     wizard_color = selected_wizard.color
     game_st: GameStateData = initialize_game_state(
-        final_grid, middle_word, selected_wizard, player_name,
+        final_grid,
+        middle_word,
+        selected_wizard,
+        player_name,
     )
     game_over_status: str = "continue"
 
@@ -215,7 +218,11 @@ def run_game(
         game_over_status = check_game_over(game_st, words_to_find)
 
     update_game_over_display(
-        difficulty_conf, game_over_status, game_st, final_grid, selected_wizard,
+        difficulty_conf,
+        game_over_status,
+        game_st,
+        final_grid,
+        selected_wizard,
     )
     final_score_this_game: int = game_st.statistics.points
 

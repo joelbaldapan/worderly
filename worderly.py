@@ -90,80 +90,72 @@ def _handle_fatal_setup_error(
         add_streak_entry(entry)
 
 
-def _run_nhp_session(lexicon_file_p: str, nhp_difficulty_config: DifficultyData) -> None:
-    """Runs the game in a persistent No Heart Points mode loop."""
+def _handle_streak_on_loss(player_name: str | None, streak_count: int, streak_points: int) -> None:
+    """Adds a streak entry if the streak is active and player name is set."""
+    if player_name and streak_count > 0:
+        entry = StreakEntry(player_name, streak_count, streak_points)
+        add_streak_entry(entry)
+
+
+def _run_game_session(
+    lexicon_file_p: str,
+    initial_difficulty_config: DifficultyData | None,
+    is_hp_mode: bool,
+) -> None:
+    """Runs the game session loop for either HP or NHP mode."""
+    player_name: str | None = None
+    streak_count: int = 0
+    streak_points_total: int = 0
+
     while True:
-        player_name_for_this_game, selected_wizard = initialize_player_info(nhp_difficulty_config)
+        # For HP mode, get difficulty from menu each round; for NHP, use fixed config
+        if is_hp_mode:
+            menu_result = run_main_menu()
+            if menu_result == EXIT_GAME_SENTINEL:
+                _handle_streak_on_loss(player_name, streak_count, streak_points_total)
+                print("\nThanks for your bravery, Wizard! Exiting Worderly Place.")
+                return
+            difficulty_config = menu_result
+        else:
+            difficulty_config = initial_difficulty_config
 
-        setup_result = run_setup(nhp_difficulty_config, lexicon_file_p)
-        if not setup_result:
-            _handle_fatal_setup_error(False, None, 0, 0)  # NHP mode doesn't save streaks
-            return  # Exit NHP session (and thus main) on fatal setup error
-
-        middle_word, words_to_find, final_grid = setup_result
-
-        # run_game will call simplified_end_game_interaction, which shows leaderboard
-        # and the NHP-specific "Press Enter for next puzzle..." prompt.
-        run_game(
-            nhp_difficulty_config, final_grid, words_to_find,
-            middle_word, player_name_for_this_game, selected_wizard,
+        # Pass player name if streak is active, else None
+        name_for_init = player_name if streak_count > 0 else None
+        player_name_for_this_game, selected_wizard = initialize_player_info(
+            difficulty_config,
+            name_for_init,
         )
-        # Loop continues for the next NHP game
 
+        player_name = player_name_for_this_game
 
-def _run_hp_session(lexicon_file_p: str) -> None:
-    """Runs the game in a persistent Heart Points mode loop with streak tracking."""
-    active_player_name: str | None = None
-    active_streak_count: int = 0
-    active_streak_points_total: int = 0
-
-    while True:
-        game_specific_difficulty_config: DifficultyData
-        menu_result = run_main_menu()
-        if menu_result == EXIT_GAME_SENTINEL:
-            if active_streak_count > 0 and active_player_name:
-                entry = StreakEntry(active_player_name, active_streak_count, active_streak_points_total)
-                add_streak_entry(entry)
-            print("\nThanks for your bravery, Wizard! Exiting Worderly Place.")
-            return
-        game_specific_difficulty_config = menu_result
-
-        player_name_for_this_game, selected_wizard = initialize_player_info(game_specific_difficulty_config)
-
-        if active_player_name != player_name_for_this_game and active_player_name is not None:
-            if active_streak_count > 0:
-                entry = StreakEntry(active_player_name, active_streak_count, active_streak_points_total)
-                add_streak_entry(entry)
-            active_streak_count = 0
-            active_streak_points_total = 0
-        active_player_name = player_name_for_this_game
-
-        setup_result = run_setup(game_specific_difficulty_config, lexicon_file_p)
+        setup_result = run_setup(difficulty_config, lexicon_file_p)
         if not setup_result:
-            _handle_fatal_setup_error(True, active_player_name, active_streak_count, active_streak_points_total)
+            _handle_fatal_setup_error(
+                is_hp_mode,
+                player_name,
+                streak_count,
+                streak_points_total,
+            )
             return
 
         middle_word, words_to_find, final_grid = setup_result
 
-        game_outcome: str
-        points_this_game: int
         game_outcome, points_this_game = run_game(
-            game_specific_difficulty_config, final_grid, words_to_find,
-            middle_word, active_player_name, selected_wizard,  # Pass active_player_name for streak
+            difficulty_config,
+            final_grid,
+            words_to_find,
+            middle_word,
+            player_name,
+            selected_wizard,
         )
 
-        if active_player_name:
-            if game_outcome == "win":
-                active_streak_count += 1
-                active_streak_points_total += points_this_game
-            elif game_outcome == "loss":
-                if active_streak_count > 0:
-                    entry = StreakEntry(active_player_name, active_streak_count, active_streak_points_total)
-                    add_streak_entry(entry)
-                active_streak_count = 0
-                active_streak_points_total = 0
-
-        current_hp_round_difficulty_config = None  # Reset to show main menu for next HP game
+        if game_outcome == "win":
+            streak_count += 1
+            streak_points_total += points_this_game
+        elif game_outcome == "loss":
+            _handle_streak_on_loss(player_name, streak_count, streak_points_total)
+            streak_count = 0
+            streak_points_total = 0
 
 
 def main() -> None:
@@ -175,9 +167,9 @@ def main() -> None:
     initial_mode_choice: DifficultyData | None = run_heart_points_menu()
 
     if initial_mode_choice is None:  # User selected Heart Points Mode path
-        _run_hp_session(lexicon_file_p)
+        _run_game_session(lexicon_file_p, None, is_hp_mode=True)
     elif not initial_mode_choice.heart_point_mode:  # User selected No Heart Points Mode
-        _run_nhp_session(lexicon_file_p, NO_HEART_POINTS_SETTINGS)
+        _run_game_session(lexicon_file_p, NO_HEART_POINTS_SETTINGS, is_hp_mode=False)
     else:
         print("Exiting due to initial mode selection outcome.")
 
