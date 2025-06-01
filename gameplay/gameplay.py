@@ -162,24 +162,29 @@ def simplified_end_game_interaction(
     player_name: str | None,
     final_score: int,
 ) -> None:
-    """Handles display and interaction after a game ends in Heart Points mode,
-    including showing the updated streak leaderboard.
+    """Handles display and interaction after a game ends, shows leaderboards,
+    and provides a mode-specific prompt to continue.
     """
+    # Initial pause after game grid is shown
     get_input(current_difficulty_config, "  > Game Over. Press Enter to see summary and leaderboards... ")
     clear_screen()
 
-    name_to_display = player_name if player_name is not None else "Wizard"
+    name_to_display = player_name if player_name is not None else "Wizard"  # "Wizard" for NHP
     print_message(
         current_difficulty_config,
         game_constants.THANKS_MSG.format(name_to_display, final_score),
         border_style=game_constants.FINAL_SCORE_BORDER,
     )
 
-    # Display the streak leaderboard
-    streaks = load_streaks()  # Load the latest streak data
-    print_streak_leaderboard(current_difficulty_config, streaks)  # Display it
+    print_message(current_difficulty_config, "Winning Streaks Leaderboard:", border_style="cyan")
+    streaks = load_streaks()
+    print_streak_leaderboard(current_difficulty_config, streaks)
 
-    get_input(current_difficulty_config, "  > Press Enter to return to the main menu... ")
+    # Conditional prompt based on game mode
+    if current_difficulty_config.heart_point_mode:
+        get_input(current_difficulty_config, "  > Press Enter to return to the main menu... ")
+    else:  # No Heart Points Mode
+        get_input(current_difficulty_config, "  > Press Enter for the next puzzle... ")
 
 
 def run_game(
@@ -190,20 +195,15 @@ def run_game(
     player_name: str | None,
     selected_wizard: WizardData,
 ) -> tuple[str, int]:
-    """Runs the main gameplay loop for a single game instance.
-    Returns the game outcome ("win" or "loss") and the points scored.
-    """
     wizard_color = selected_wizard.color
     game_st: GameStateData = initialize_game_state(
-        final_grid,
-        middle_word,
-        selected_wizard,
-        player_name,
+        final_grid, middle_word, selected_wizard, player_name,
     )
     game_over_status: str = "continue"
 
     while game_over_status == "continue":
         update_display(difficulty_conf, game_st, selected_wizard)
+        print(words_to_find.keys())
         guess = get_guess(difficulty_conf, game_st, selected_wizard)
 
         if guess == game_constants.POWERUP_COMMAND:
@@ -215,15 +215,10 @@ def run_game(
         game_over_status = check_game_over(game_st, words_to_find)
 
     update_game_over_display(
-        difficulty_conf,
-        game_over_status,
-        game_st,
-        final_grid,
-        selected_wizard,
+        difficulty_conf, game_over_status, game_st, final_grid, selected_wizard,
     )
     final_score_this_game: int = game_st.statistics.points
 
-    if difficulty_conf.heart_point_mode:
-        simplified_end_game_interaction(difficulty_conf, player_name, final_score_this_game)
+    simplified_end_game_interaction(difficulty_conf, player_name, final_score_this_game)
 
     return game_over_status, final_score_this_game
