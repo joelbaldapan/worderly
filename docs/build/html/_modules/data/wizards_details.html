@@ -1,0 +1,194 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>data.wizards_details &mdash; Worderly V2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=464bee56"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Worderly
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">worderly</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Worderly</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">data.wizards_details</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for data.wizards_details</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.wizards_art</span><span class="w"> </span><span class="kn">import</span> <span class="n">WIZARDS_ART</span><span class="p">,</span> <span class="n">WIZARDS_ART_SMALL</span>
+
+
+<div class="viewcode-block" id="WizardData">
+<a class="viewcode-back" href="../../data.html#data.wizards_details.WizardData">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">WizardData</span><span class="p">:</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">art</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">small_art</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">color</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">starting_lives</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">combo_requirement</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">powerup_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">powerup_desc</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+
+<span class="n">WIZARDS_DATA</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">WizardData</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">WizardData</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Oldspella&quot;</span><span class="p">,</span>
+        <span class="n">art</span><span class="o">=</span><span class="n">WIZARDS_ART</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">small_art</span><span class="o">=</span><span class="n">WIZARDS_ART_SMALL</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;bright_white&quot;</span><span class="p">,</span>
+        <span class="n">starting_lives</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">combo_requirement</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">powerup_name</span><span class="o">=</span><span class="s2">&quot;I Am Enough&quot;</span><span class="p">,</span>
+        <span class="n">powerup_desc</span><span class="o">=</span><span class="s2">&quot;&lt;No powerup&gt;&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;I am an old soul with the bravado of a new journeyman. Although I may have no powerups, &quot;</span>
+        <span class="s2">&quot;I am familiar with the words of this world, and I prefer to rely solely on my knowledge of the &quot;</span>
+        <span class="s2">&quot;texts to save it.</span><span class="se">\n\n</span><span class="s2">(This wizard contains no power-ups for players who prefer the classic &quot;</span>
+        <span class="s2">&quot;Worderly Place gameplay.)&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">WizardData</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Wizard Dict&quot;</span><span class="p">,</span>
+        <span class="n">art</span><span class="o">=</span><span class="n">WIZARDS_ART</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">small_art</span><span class="o">=</span><span class="n">WIZARDS_ART_SMALL</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;magenta&quot;</span><span class="p">,</span>
+        <span class="n">starting_lives</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">combo_requirement</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">powerup_name</span><span class="o">=</span><span class="s2">&quot;Hardbound Dict&quot;</span><span class="p">,</span>
+        <span class="n">powerup_desc</span><span class="o">=</span><span class="s2">&quot;Immune to damage from incorrect guesses for the next 2 turns.&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Yes... the rumors are indeed true. I used to be a dictionary, but a wizard turned me &quot;</span>
+        <span class="s2">&quot;into a human. Words are literally and figuratively inside me... so it&#39;ll take a lot more to get &quot;</span>
+        <span class="s2">&quot;me down.</span><span class="se">\n\n</span><span class="s2">(This wizard is a bit more tough so he can defend himself from life reduction for &quot;</span>
+        <span class="s2">&quot;one turn. Being a dictionary in your former life gives you a lot of pages to rip.)&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">WizardData</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Streambinder&quot;</span><span class="p">,</span>
+        <span class="n">art</span><span class="o">=</span><span class="n">WIZARDS_ART</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">small_art</span><span class="o">=</span><span class="n">WIZARDS_ART_SMALL</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+        <span class="n">starting_lives</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">combo_requirement</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">powerup_name</span><span class="o">=</span><span class="s2">&quot;Tide of Renewal&quot;</span><span class="p">,</span>
+        <span class="n">powerup_desc</span><span class="o">=</span><span class="s2">&quot;Restore +1 Life.&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Greetings, traveler! I am a wizard devoted to healing the sick. With each cure I &quot;</span>
+        <span class="s2">&quot;master, I edge closer to mending myself from this grueling ordeal.</span><span class="se">\n\n</span><span class="s2">(This wizard has the option &quot;</span>
+        <span class="s2">&quot;to heal himself but starts with less life since. He&#39;s cared so much for others, he had forgotten to &quot;</span>
+        <span class="s2">&quot;care for himself...)&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">WizardData</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Fyaspella&quot;</span><span class="p">,</span>
+        <span class="n">art</span><span class="o">=</span><span class="n">WIZARDS_ART</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+        <span class="n">small_art</span><span class="o">=</span><span class="n">WIZARDS_ART_SMALL</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+        <span class="n">starting_lives</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">combo_requirement</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">powerup_name</span><span class="o">=</span><span class="s2">&quot;Blazing Glyphs&quot;</span><span class="p">,</span>
+        <span class="n">powerup_desc</span><span class="o">=</span><span class="s2">&quot;Reveal 1 random word on the board.&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;RAHHHH! I am a young and upcoming top student of the fya arts, and I&#39;ve been &quot;</span>
+        <span class="s2">&quot;quite the blaze! Gettin&#39; rewarded for consistently stoking the flames, always, always, &quot;</span>
+        <span class="s2">&quot;always!</span><span class="se">\n\n</span><span class="s2">(This wizard is for those who prefer the pressure of consistently getting &quot;</span>
+        <span class="s2">&quot;it right in order to get a big pay-off. Being a young wizard, you start with less health.)&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">WizardData</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Lettraseeker&quot;</span><span class="p">,</span>
+        <span class="n">art</span><span class="o">=</span><span class="n">WIZARDS_ART</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span>
+        <span class="n">small_art</span><span class="o">=</span><span class="n">WIZARDS_ART_SMALL</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span>
+        <span class="n">starting_lives</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">combo_requirement</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">powerup_name</span><span class="o">=</span><span class="s2">&quot;Wildgrowth&quot;</span><span class="p">,</span>
+        <span class="n">powerup_desc</span><span class="o">=</span><span class="s2">&quot;Reveal 5-8 letters on the board.&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Ah, the garden of words bloom my curiosity. I am a wizard obsessed with the pieces of the puzzle, &quot;</span>
+        <span class="s2">&quot;rather than the puzzle itself. Each letter is a mystical seed I&#39;ve sown, scattering them across the soil of &quot;</span>
+        <span class="s2">&quot;thought to let this garden grow.</span><span class="se">\n\n</span><span class="s2">(This wizard is for those who prefer to compound a lead with a potential &quot;</span>
+        <span class="s2">&quot;powerup. However, the dedication to such powerful magic makes you start with less life.)&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joel Angelo Baldapan &amp; Alvin Dela Fuente.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

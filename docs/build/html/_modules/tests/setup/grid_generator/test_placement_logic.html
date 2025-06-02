@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tests.setup.grid_generator.test_placement_logic &mdash; Worderly V2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=464bee56"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Worderly
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">worderly</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Worderly</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">tests.setup.grid_generator.test_placement_logic</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for tests.setup.grid_generator.test_placement_logic</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">patch</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">setup.grid_generator</span><span class="w"> </span><span class="kn">import</span> <span class="n">placement_logic</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">setup.grid_generator.board_state</span><span class="w"> </span><span class="kn">import</span> <span class="n">BoardGenerationState</span><span class="p">,</span> <span class="n">PlacementDetail</span>
+
+
+<span class="c1"># ************************************************</span>
+<span class="c1"># Tests for: Placement Finding and Selection</span>
+<span class="c1"># ************************************************</span>
+<div class="viewcode-block" id="test_find_possible_placements">
+<a class="viewcode-back" href="../../../../tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_logic.test_find_possible_placements">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;setup.grid_generator.placement_logic.is_valid_placement&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_find_possible_placements</span><span class="p">(</span><span class="n">mock_is_valid</span><span class="p">:</span> <span class="n">patch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find potential placements by checking intersections.&quot;&quot;&quot;</span>
+    <span class="n">grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">word</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;NEW&quot;</span>
+    <span class="n">words_to_place</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;OLD&quot;</span><span class="p">}</span>
+    <span class="n">placed_letter_coords</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;O&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span>
+        <span class="s2">&quot;L&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span>
+        <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)],</span>
+        <span class="s2">&quot;E&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)],</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">valid_side_effect</span><span class="p">(</span>
+        <span class="n">grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span>
+        <span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">words_to_place_set</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">intersection_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+        <span class="n">orientation</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Simulate placement validity for test.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if placement is valid, False otherwise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">r</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">intersection_info</span><span class="p">[</span><span class="s2">&quot;row&quot;</span><span class="p">]</span>
+        <span class="n">c</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">intersection_info</span><span class="p">[</span><span class="s2">&quot;col&quot;</span><span class="p">]</span>
+        <span class="n">i</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">intersection_info</span><span class="p">[</span><span class="s2">&quot;idx&quot;</span><span class="p">]</span>
+        <span class="c1"># Simulate only placing &#39;NEW&#39; vertically at E(1,1) idx 1 is valid</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="o">==</span> <span class="s2">&quot;NEW&quot;</span> <span class="ow">and</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">orientation</span> <span class="o">==</span> <span class="s2">&quot;V&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="c1"># Simulate only placing &#39;NEW&#39; horizontally at E(3,3) idx 1 is valid</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">word</span> <span class="o">==</span> <span class="s2">&quot;NEW&quot;</span> <span class="ow">and</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">orientation</span> <span class="o">==</span> <span class="s2">&quot;H&quot;</span><span class="p">)</span>
+
+    <span class="n">mock_is_valid</span><span class="o">.</span><span class="n">side_effect</span> <span class="o">=</span> <span class="n">valid_side_effect</span>
+
+    <span class="n">placements</span> <span class="o">=</span> <span class="n">placement_logic</span><span class="o">.</span><span class="n">find_possible_placements</span><span class="p">(</span>
+        <span class="n">grid</span><span class="p">,</span>
+        <span class="n">word</span><span class="p">,</span>
+        <span class="n">words_to_place</span><span class="p">,</span>
+        <span class="n">placed_letter_coords</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">expected_placements</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">PlacementDetail</span><span class="p">(</span><span class="s2">&quot;NEW&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;V&quot;</span><span class="p">),</span>
+        <span class="n">PlacementDetail</span><span class="p">(</span><span class="s2">&quot;NEW&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">placements</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">expected_placements</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">expected_placements</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">word</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">coord</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">idx</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">orientation</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">word</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">coord</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">idx</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">orientation</span><span class="p">)</span> <span class="k">for</span> <span class="n">pl</span> <span class="ow">in</span> <span class="n">placements</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_categorize_placement">
+<a class="viewcode-back" href="../../../../tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_logic.test_categorize_placement">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_categorize_placement</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Categorize placements based on middle word intersection.&quot;&quot;&quot;</span>
+    <span class="n">placements</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">PlacementDetail</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">PlacementDetail</span><span class="p">(</span><span class="s2">&quot;WA&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">),</span>  <span class="c1"># Is middle, unused</span>
+        <span class="n">PlacementDetail</span><span class="p">(</span><span class="s2">&quot;WB&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">),</span>  <span class="c1"># Not middle</span>
+        <span class="n">PlacementDetail</span><span class="p">(</span><span class="s2">&quot;WC&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">),</span>  <span class="c1"># Is middle, used</span>
+        <span class="n">PlacementDetail</span><span class="p">(</span><span class="s2">&quot;WD&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">),</span>  <span class="c1"># Is middle, unused</span>
+        <span class="n">PlacementDetail</span><span class="p">(</span><span class="s2">&quot;WE&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">),</span>  <span class="c1"># Not middle</span>
+    <span class="p">]</span>
+    <span class="n">middle_coords</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)}</span>
+    <span class="n">used_middle_coords</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)}</span>
+
+    <span class="n">priority</span><span class="p">,</span> <span class="n">other</span> <span class="o">=</span> <span class="n">placement_logic</span><span class="o">.</span><span class="n">categorize_placement</span><span class="p">(</span>
+        <span class="n">placements</span><span class="p">,</span>
+        <span class="n">middle_coords</span><span class="p">,</span>
+        <span class="n">used_middle_coords</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Check priority placements</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">priority</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="k">assert</span> <span class="n">priority</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">word</span> <span class="o">==</span> <span class="s2">&quot;WA&quot;</span>
+    <span class="k">assert</span> <span class="n">priority</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coord</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">priority</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">word</span> <span class="o">==</span> <span class="s2">&quot;WD&quot;</span>
+    <span class="k">assert</span> <span class="n">priority</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">coord</span> <span class="o">==</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+    <span class="c1"># Check other placements</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+    <span class="k">assert</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">word</span> <span class="o">==</span> <span class="s2">&quot;WB&quot;</span>
+    <span class="k">assert</span> <span class="n">other</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">coord</span> <span class="o">==</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">other</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">word</span> <span class="o">==</span> <span class="s2">&quot;WC&quot;</span>
+    <span class="k">assert</span> <span class="n">other</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">coord</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">other</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">word</span> <span class="o">==</span> <span class="s2">&quot;WE&quot;</span>
+    <span class="k">assert</span> <span class="n">other</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">coord</span> <span class="o">==</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_select_random_placement">
+<a class="viewcode-back" href="../../../../tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_logic.test_select_random_placement">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;setup.grid_generator.placement_logic.random.choice&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_select_random_placement</span><span class="p">(</span><span class="n">mock_random_choice</span><span class="p">:</span> <span class="n">patch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Select a placement, prioritizing unused middle coords.&quot;&quot;&quot;</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="n">PlacementDetail</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">)</span>
+    <span class="n">p2</span> <span class="o">=</span> <span class="n">PlacementDetail</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">)</span>
+    <span class="n">o1</span> <span class="o">=</span> <span class="n">PlacementDetail</span><span class="p">(</span><span class="s2">&quot;O&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">)</span>
+    <span class="n">o2</span> <span class="o">=</span> <span class="n">PlacementDetail</span><span class="p">(</span><span class="s2">&quot;O&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">)</span>
+    <span class="n">priority</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">PlacementDetail</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">]</span>
+    <span class="n">other</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">PlacementDetail</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">]</span>
+
+    <span class="c1"># 1.) Priority list has items</span>
+    <span class="n">mock_random_choice</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">p1</span>
+    <span class="n">selected</span> <span class="o">=</span> <span class="n">placement_logic</span><span class="o">.</span><span class="n">select_random_placement</span><span class="p">(</span><span class="n">priority</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">selected</span> <span class="o">==</span> <span class="n">p1</span>
+    <span class="n">mock_random_choice</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="n">priority</span><span class="p">)</span>
+
+    <span class="c1"># 2.) Priority list empty, other list has items</span>
+    <span class="n">mock_random_choice</span><span class="o">.</span><span class="n">reset_mock</span><span class="p">()</span>
+    <span class="n">mock_random_choice</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">o2</span>
+    <span class="n">selected</span> <span class="o">=</span> <span class="n">placement_logic</span><span class="o">.</span><span class="n">select_random_placement</span><span class="p">([],</span> <span class="n">other</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">selected</span> <span class="o">==</span> <span class="n">o2</span>
+    <span class="n">mock_random_choice</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="c1"># 3.) Both lists empty</span>
+    <span class="n">mock_random_choice</span><span class="o">.</span><span class="n">reset_mock</span><span class="p">()</span>
+    <span class="n">selected</span> <span class="o">=</span> <span class="n">placement_logic</span><span class="o">.</span><span class="n">select_random_placement</span><span class="p">([],</span> <span class="p">[])</span>
+    <span class="k">assert</span> <span class="n">selected</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="n">mock_random_choice</span><span class="o">.</span><span class="n">assert_not_called</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="test_apply_placement">
+<a class="viewcode-back" href="../../../../tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_logic.test_apply_placement">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;setup.grid_generator.placement_logic.calculate_straight_word_placement_coords&quot;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;setup.grid_generator.placement_logic.update_placed_letter_coords&quot;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;setup.grid_generator.placement_logic.update_placed_word_coords&quot;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;setup.grid_generator.placement_logic.place_letters_on_grid&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_apply_placement</span><span class="p">(</span>
+    <span class="n">mock_place_letters</span><span class="p">:</span> <span class="n">patch</span><span class="p">,</span>
+    <span class="n">mock_update_word</span><span class="p">:</span> <span class="n">patch</span><span class="p">,</span>
+    <span class="n">mock_update_letter</span><span class="p">:</span> <span class="n">patch</span><span class="p">,</span>
+    <span class="n">mock_calc_coords</span><span class="p">:</span> <span class="n">patch</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Call helper functions correctly for apply_placement.&quot;&quot;&quot;</span>
+    <span class="n">state</span><span class="p">:</span> <span class="n">BoardGenerationState</span> <span class="o">=</span> <span class="n">BoardGenerationState</span><span class="p">(</span>
+        <span class="n">grid</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">placed_words_coords</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">placed_letter_coords</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">used_middle_word_coords</span><span class="o">=</span><span class="nb">set</span><span class="p">(),</span>
+        <span class="n">middle_word_coords</span><span class="o">=</span><span class="nb">set</span><span class="p">(),</span>
+    <span class="p">)</span>
+    <span class="n">chosen</span><span class="p">:</span> <span class="n">PlacementDetail</span> <span class="o">=</span> <span class="n">PlacementDetail</span><span class="p">(</span><span class="s2">&quot;APPLY&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">)</span>
+    <span class="n">calculated_coords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+    <span class="n">mock_calc_coords</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">calculated_coords</span>
+
+    <span class="n">placement_logic</span><span class="o">.</span><span class="n">apply_placement</span><span class="p">(</span>
+        <span class="n">state</span><span class="p">,</span>
+        <span class="n">chosen</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">mock_calc_coords</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="n">chosen</span><span class="p">)</span>
+    <span class="n">mock_update_letter</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span>
+        <span class="n">state</span><span class="p">,</span>
+        <span class="s2">&quot;APPLY&quot;</span><span class="p">,</span>
+        <span class="n">calculated_coords</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mock_update_word</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span>
+        <span class="n">chosen</span><span class="p">,</span>
+        <span class="n">calculated_coords</span><span class="p">,</span>
+        <span class="n">state</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mock_place_letters</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">grid</span><span class="p">,</span> <span class="s2">&quot;APPLY&quot;</span><span class="p">,</span> <span class="n">calculated_coords</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joel Angelo Baldapan &amp; Alvin Dela Fuente.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

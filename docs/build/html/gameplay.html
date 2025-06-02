@@ -1,0 +1,651 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>gameplay package &mdash; Worderly V2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=464bee56"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="leaderboard package" href="leaderboard.html" />
+    <link rel="prev" title="display package" href="display.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Worderly
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">worderly</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html">display package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">gameplay package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-gameplay.game_constants">gameplay.game_constants module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-gameplay.game_state_handler">gameplay.game_state_handler module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.game_state_handler.GameStateData"><code class="docutils literal notranslate"><span class="pre">GameStateData</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.game_state_handler.GameStatisticsData"><code class="docutils literal notranslate"><span class="pre">GameStatisticsData</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.game_state_handler.apply_coordinate_reveal"><code class="docutils literal notranslate"><span class="pre">apply_coordinate_reveal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.game_state_handler.check_for_completed_words"><code class="docutils literal notranslate"><span class="pre">check_for_completed_words()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.game_state_handler.check_game_over"><code class="docutils literal notranslate"><span class="pre">check_game_over()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.game_state_handler.create_hidden_grid"><code class="docutils literal notranslate"><span class="pre">create_hidden_grid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.game_state_handler.get_all_letter_coords"><code class="docutils literal notranslate"><span class="pre">get_all_letter_coords()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.game_state_handler.initialize_game_state"><code class="docutils literal notranslate"><span class="pre">initialize_game_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.game_state_handler.process_guess"><code class="docutils literal notranslate"><span class="pre">process_guess()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.game_state_handler.reveal_coords_in_hidden_grid"><code class="docutils literal notranslate"><span class="pre">reveal_coords_in_hidden_grid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.game_state_handler.shuffle_letters_statistic"><code class="docutils literal notranslate"><span class="pre">shuffle_letters_statistic()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-gameplay.gameplay">gameplay.gameplay module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.gameplay.GameConfig"><code class="docutils literal notranslate"><span class="pre">GameConfig</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.gameplay.end_game"><code class="docutils literal notranslate"><span class="pre">end_game()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.gameplay.get_guess"><code class="docutils literal notranslate"><span class="pre">get_guess()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.gameplay.run_game"><code class="docutils literal notranslate"><span class="pre">run_game()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.gameplay.update_display"><code class="docutils literal notranslate"><span class="pre">update_display()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.gameplay.update_game_over_display"><code class="docutils literal notranslate"><span class="pre">update_game_over_display()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-gameplay.powerup_handler">gameplay.powerup_handler module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.powerup_handler.check_power_point_increment"><code class="docutils literal notranslate"><span class="pre">check_power_point_increment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.powerup_handler.get_coords_for_random_reveal"><code class="docutils literal notranslate"><span class="pre">get_coords_for_random_reveal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.powerup_handler.get_coords_for_word_reveal"><code class="docutils literal notranslate"><span class="pre">get_coords_for_word_reveal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.powerup_handler.update_power_points"><code class="docutils literal notranslate"><span class="pre">update_power_points()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gameplay.powerup_handler.use_powerup"><code class="docutils literal notranslate"><span class="pre">use_powerup()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-gameplay">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="leaderboard.html">leaderboard package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="worderly.html">worderly module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Worderly</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">worderly</a></li>
+      <li class="breadcrumb-item active">gameplay package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/gameplay.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gameplay-package">
+<h1>gameplay package<a class="headerlink" href="#gameplay-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-gameplay.game_constants">
+<span id="gameplay-game-constants-module"></span><h2>gameplay.game_constants module<a class="headerlink" href="#module-gameplay.game_constants" title="Link to this heading"></a></h2>
+</section>
+<section id="module-gameplay.game_state_handler">
+<span id="gameplay-game-state-handler-module"></span><h2>gameplay.game_state_handler module<a class="headerlink" href="#module-gameplay.game_state_handler" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStateData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gameplay.game_state_handler.</span></span><span class="sig-name descname"><span class="pre">GameStateData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">player_name:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None,</span> <span class="pre">statistics:</span> <span class="pre">gameplay.game_state_handler.GameStatisticsData,</span> <span class="pre">hidden_grid:</span> <span class="pre">list[list[str</span> <span class="pre">|</span> <span class="pre">None]],</span> <span class="pre">next_message:</span> <span class="pre">str,</span> <span class="pre">next_message_color:</span> <span class="pre">str,</span> <span class="pre">last_guess_coords:</span> <span class="pre">list[tuple[int,</span> <span class="pre">int]]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">correctly_guessed_words:</span> <span class="pre">set[str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">hidden_letter_coords:</span> <span class="pre">set[tuple[int,</span> <span class="pre">int]]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;,</span> <span class="pre">found_letter_coords:</span> <span class="pre">set[tuple[int,</span> <span class="pre">int]]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gameplay/game_state_handler.html#GameStateData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.game_state_handler.GameStateData" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStateData.correctly_guessed_words">
+<span class="sig-name descname"><span class="pre">correctly_guessed_words</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#gameplay.game_state_handler.GameStateData.correctly_guessed_words" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStateData.found_letter_coords">
+<span class="sig-name descname"><span class="pre">found_letter_coords</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#gameplay.game_state_handler.GameStateData.found_letter_coords" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStateData.hidden_grid">
+<span class="sig-name descname"><span class="pre">hidden_grid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#gameplay.game_state_handler.GameStateData.hidden_grid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStateData.hidden_letter_coords">
+<span class="sig-name descname"><span class="pre">hidden_letter_coords</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#gameplay.game_state_handler.GameStateData.hidden_letter_coords" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStateData.last_guess_coords">
+<span class="sig-name descname"><span class="pre">last_guess_coords</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#gameplay.game_state_handler.GameStateData.last_guess_coords" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStateData.next_message">
+<span class="sig-name descname"><span class="pre">next_message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#gameplay.game_state_handler.GameStateData.next_message" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStateData.next_message_color">
+<span class="sig-name descname"><span class="pre">next_message_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#gameplay.game_state_handler.GameStateData.next_message_color" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStateData.player_name">
+<span class="sig-name descname"><span class="pre">player_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#gameplay.game_state_handler.GameStateData.player_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStateData.statistics">
+<span class="sig-name descname"><span class="pre">statistics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#gameplay.game_state_handler.GameStatisticsData" title="gameplay.game_state_handler.GameStatisticsData"><span class="pre">GameStatisticsData</span></a></em><a class="headerlink" href="#gameplay.game_state_handler.GameStateData.statistics" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStatisticsData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gameplay.game_state_handler.</span></span><span class="sig-name descname"><span class="pre">GameStatisticsData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">letters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lives_left</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_guess</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">combo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">power_points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shield_turns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gameplay/game_state_handler.html#GameStatisticsData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.game_state_handler.GameStatisticsData" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStatisticsData.combo">
+<span class="sig-name descname"><span class="pre">combo</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#gameplay.game_state_handler.GameStatisticsData.combo" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStatisticsData.last_guess">
+<span class="sig-name descname"><span class="pre">last_guess</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#gameplay.game_state_handler.GameStatisticsData.last_guess" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStatisticsData.letters">
+<span class="sig-name descname"><span class="pre">letters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#gameplay.game_state_handler.GameStatisticsData.letters" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStatisticsData.lives_left">
+<span class="sig-name descname"><span class="pre">lives_left</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#gameplay.game_state_handler.GameStatisticsData.lives_left" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStatisticsData.points">
+<span class="sig-name descname"><span class="pre">points</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#gameplay.game_state_handler.GameStatisticsData.points" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStatisticsData.power_points">
+<span class="sig-name descname"><span class="pre">power_points</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#gameplay.game_state_handler.GameStatisticsData.power_points" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.GameStatisticsData.shield_turns">
+<span class="sig-name descname"><span class="pre">shield_turns</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#gameplay.game_state_handler.GameStatisticsData.shield_turns" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.apply_coordinate_reveal">
+<span class="sig-prename descclassname"><span class="pre">gameplay.game_state_handler.</span></span><span class="sig-name descname"><span class="pre">apply_coordinate_reveal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coords_to_reveal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/gameplay/game_state_handler.html#apply_coordinate_reveal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.game_state_handler.apply_coordinate_reveal" title="Link to this definition"></a></dt>
+<dd><p>Reveal the specified coordinates in the game state and update points and found letters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>game_state</strong> (<a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><em>GameStateData</em></a>) – The current game state.</p></li>
+<li><p><strong>final_grid</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em> | </em><em>None</em><em>]</em><em>]</em>) – The solution grid.</p></li>
+<li><p><strong>coords_to_reveal</strong> (<em>Iterable</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>]</em>) – Coordinates to reveal.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.check_for_completed_words">
+<span class="sig-prename descclassname"><span class="pre">gameplay.game_state_handler.</span></span><span class="sig-name descname"><span class="pre">check_for_completed_words</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/gameplay/game_state_handler.html#check_for_completed_words"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.game_state_handler.check_for_completed_words" title="Link to this definition"></a></dt>
+<dd><p>Check for words that have been completed by the last reveal but not explicitly guessed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>game_state</strong> (<a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><em>GameStateData</em></a>) – The current game state.</p></li>
+<li><p><strong>words_to_find</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>]</em><em>]</em>) – Words and their coordinates.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of newly completed words.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.check_game_over">
+<span class="sig-prename descclassname"><span class="pre">gameplay.game_state_handler.</span></span><span class="sig-name descname"><span class="pre">check_game_over</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/gameplay/game_state_handler.html#check_game_over"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.game_state_handler.check_game_over" title="Link to this definition"></a></dt>
+<dd><p>Determine if the game is over due to win or loss conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>game_state</strong> (<a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><em>GameStateData</em></a>) – The current game state.</p></li>
+<li><p><strong>words_to_find</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>]</em><em>]</em>) – Words and their coordinates.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>“win” if all words found, “loss” if out of lives, “continue” otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.create_hidden_grid">
+<span class="sig-prename descclassname"><span class="pre">gameplay.game_state_handler.</span></span><span class="sig-name descname"><span class="pre">create_hidden_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/gameplay/game_state_handler.html#create_hidden_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.game_state_handler.create_hidden_grid" title="Link to this definition"></a></dt>
+<dd><p>Create a hidden grid for the player, masking all letters with ‘#’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>final_grid</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em> | </em><em>None</em><em>]</em><em>]</em>) – The solution grid.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The hidden grid with masked letters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[list[str | None]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.get_all_letter_coords">
+<span class="sig-prename descclassname"><span class="pre">gameplay.game_state_handler.</span></span><span class="sig-name descname"><span class="pre">get_all_letter_coords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/gameplay/game_state_handler.html#get_all_letter_coords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.game_state_handler.get_all_letter_coords" title="Link to this definition"></a></dt>
+<dd><p>Get all coordinates in the grid that contain a letter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>final_grid</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em> | </em><em>None</em><em>]</em><em>]</em>) – The solution grid.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Set of coordinates containing letters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>set[tuple[int, int]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.initialize_game_state">
+<span class="sig-prename descclassname"><span class="pre">gameplay.game_state_handler.</span></span><span class="sig-name descname"><span class="pre">initialize_game_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">middle_word</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><span class="pre">WizardData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">player_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></span><a class="reference internal" href="_modules/gameplay/game_state_handler.html#initialize_game_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.game_state_handler.initialize_game_state" title="Link to this definition"></a></dt>
+<dd><p>Initialize and return a new GameStateData object for a new game round.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>final_grid</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em> | </em><em>None</em><em>]</em><em>]</em>) – The solution grid.</p></li>
+<li><p><strong>middle_word</strong> (<em>str</em>) – The central word for the round.</p></li>
+<li><p><strong>selected_wizard</strong> (<a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><em>WizardData</em></a>) – The selected wizard’s data.</p></li>
+<li><p><strong>player_name</strong> (<em>str</em><em> | </em><em>None</em>) – The player’s name.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The initialized game state.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData">GameStateData</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.process_guess">
+<span class="sig-prename descclassname"><span class="pre">gameplay.game_state_handler.</span></span><span class="sig-name descname"><span class="pre">process_guess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">guess</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wizard_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/gameplay/game_state_handler.html#process_guess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.game_state_handler.process_guess" title="Link to this definition"></a></dt>
+<dd><p>Process a player’s guess, update the game state, and handle scoring and messages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>guess</strong> (<em>str</em>) – The player’s guessed word.</p></li>
+<li><p><strong>game_state</strong> (<a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><em>GameStateData</em></a>) – The current game state.</p></li>
+<li><p><strong>words_to_find</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>]</em><em>]</em>) – Words and their coordinates.</p></li>
+<li><p><strong>final_grid</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em> | </em><em>None</em><em>]</em><em>]</em>) – The solution grid.</p></li>
+<li><p><strong>wizard_color</strong> (<em>str</em>) – The color associated with the wizard.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.reveal_coords_in_hidden_grid">
+<span class="sig-prename descclassname"><span class="pre">gameplay.game_state_handler.</span></span><span class="sig-name descname"><span class="pre">reveal_coords_in_hidden_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/gameplay/game_state_handler.html#reveal_coords_in_hidden_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.game_state_handler.reveal_coords_in_hidden_grid" title="Link to this definition"></a></dt>
+<dd><p>Reveal specific coordinates in the hidden grid by copying values from the final grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>final_grid</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em> | </em><em>None</em><em>]</em><em>]</em>) – The solution grid.</p></li>
+<li><p><strong>hidden_grid</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em> | </em><em>None</em><em>]</em><em>]</em>) – The player’s hidden grid.</p></li>
+<li><p><strong>coords</strong> (<em>Iterable</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>]</em>) – Coordinates to reveal.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.game_state_handler.shuffle_letters_statistic">
+<span class="sig-prename descclassname"><span class="pre">gameplay.game_state_handler.</span></span><span class="sig-name descname"><span class="pre">shuffle_letters_statistic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">middle_word</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/gameplay/game_state_handler.html#shuffle_letters_statistic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.game_state_handler.shuffle_letters_statistic" title="Link to this definition"></a></dt>
+<dd><p>Shuffle the letters of the given word and return them as a space-separated string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>middle_word</strong> (<em>str</em>) – The word whose letters will be shuffled.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The shuffled letters as a space-separated string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-gameplay.gameplay">
+<span id="gameplay-gameplay-module"></span><h2>gameplay.gameplay module<a class="headerlink" href="#module-gameplay.gameplay" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="gameplay.gameplay.GameConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gameplay.gameplay.</span></span><span class="sig-name descname"><span class="pre">GameConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">difficulty_conf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">middle_word</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><span class="pre">WizardData</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gameplay/gameplay.html#GameConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.gameplay.GameConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>configuration object holding all relevant game configuration and state.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.gameplay.GameConfig.difficulty_conf">
+<span class="sig-name descname"><span class="pre">difficulty_conf</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a></em><a class="headerlink" href="#gameplay.gameplay.GameConfig.difficulty_conf" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.gameplay.GameConfig.final_grid">
+<span class="sig-name descname"><span class="pre">final_grid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#gameplay.gameplay.GameConfig.final_grid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.gameplay.GameConfig.middle_word">
+<span class="sig-name descname"><span class="pre">middle_word</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#gameplay.gameplay.GameConfig.middle_word" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.gameplay.GameConfig.player_name">
+<span class="sig-name descname"><span class="pre">player_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#gameplay.gameplay.GameConfig.player_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.gameplay.GameConfig.selected_wizard">
+<span class="sig-name descname"><span class="pre">selected_wizard</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><span class="pre">WizardData</span></a></em><a class="headerlink" href="#gameplay.gameplay.GameConfig.selected_wizard" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gameplay.gameplay.GameConfig.words_to_find">
+<span class="sig-name descname"><span class="pre">words_to_find</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#gameplay.gameplay.GameConfig.words_to_find" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.gameplay.end_game">
+<span class="sig-prename descclassname"><span class="pre">gameplay.gameplay.</span></span><span class="sig-name descname"><span class="pre">end_game</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">game_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gameplay.gameplay.GameConfig" title="gameplay.gameplay.GameConfig"><span class="pre">GameConfig</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/gameplay/gameplay.html#end_game"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.gameplay.end_game" title="Link to this definition"></a></dt>
+<dd><p>Handle display and interaction after a game ends, show leaderboards.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>game_config</strong> (<a class="reference internal" href="#gameplay.gameplay.GameConfig" title="gameplay.gameplay.GameConfig"><em>GameConfig</em></a>) – The current game configuration.</p></li>
+<li><p><strong>final_score</strong> (<em>int</em>) – The final score achieved in the game.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.gameplay.get_guess">
+<span class="sig-prename descclassname"><span class="pre">gameplay.gameplay.</span></span><span class="sig-name descname"><span class="pre">get_guess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">game_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gameplay.gameplay.GameConfig" title="gameplay.gameplay.GameConfig"><span class="pre">GameConfig</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">game_st</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/gameplay/gameplay.html#get_guess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.gameplay.get_guess" title="Link to this definition"></a></dt>
+<dd><p>Prompt the player for input and validate it as a guess or powerup command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>game_config</strong> (<a class="reference internal" href="#gameplay.gameplay.GameConfig" title="gameplay.gameplay.GameConfig"><em>GameConfig</em></a>) – The current game configuration.</p></li>
+<li><p><strong>game_st</strong> (<a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><em>GameStateData</em></a>) – The current game state.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The validated guess or powerup command.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.gameplay.run_game">
+<span class="sig-prename descclassname"><span class="pre">gameplay.gameplay.</span></span><span class="sig-name descname"><span class="pre">run_game</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">game_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gameplay.gameplay.GameConfig" title="gameplay.gameplay.GameConfig"><span class="pre">GameConfig</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/gameplay/gameplay.html#run_game"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.gameplay.run_game" title="Link to this definition"></a></dt>
+<dd><p>Run the main game loop for a single game session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>game_config</strong> (<a class="reference internal" href="#gameplay.gameplay.GameConfig" title="gameplay.gameplay.GameConfig"><em>GameConfig</em></a>) – The current game configuration.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing the game over status (“win” or “loss”)</dt><dd><p>and the final score for this game.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[str, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.gameplay.update_display">
+<span class="sig-prename descclassname"><span class="pre">gameplay.gameplay.</span></span><span class="sig-name descname"><span class="pre">update_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">game_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gameplay.gameplay.GameConfig" title="gameplay.gameplay.GameConfig"><span class="pre">GameConfig</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">game_st</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/gameplay/gameplay.html#update_display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.gameplay.update_display" title="Link to this definition"></a></dt>
+<dd><p>Update the entire game display for the current turn.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>game_config</strong> (<a class="reference internal" href="#gameplay.gameplay.GameConfig" title="gameplay.gameplay.GameConfig"><em>GameConfig</em></a>) – The current game configuration.</p></li>
+<li><p><strong>game_st</strong> (<a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><em>GameStateData</em></a>) – The current game state.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.gameplay.update_game_over_display">
+<span class="sig-prename descclassname"><span class="pre">gameplay.gameplay.</span></span><span class="sig-name descname"><span class="pre">update_game_over_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">game_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gameplay.gameplay.GameConfig" title="gameplay.gameplay.GameConfig"><span class="pre">GameConfig</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">game_over_status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">game_st</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/gameplay/gameplay.html#update_game_over_display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.gameplay.update_game_over_display" title="Link to this definition"></a></dt>
+<dd><p>Update the display to show the final game state after game over.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>game_config</strong> (<a class="reference internal" href="#gameplay.gameplay.GameConfig" title="gameplay.gameplay.GameConfig"><em>GameConfig</em></a>) – The current game configuration.</p></li>
+<li><p><strong>game_over_status</strong> (<em>str</em>) – The status of the game (“win” or “loss”).</p></li>
+<li><p><strong>game_st</strong> (<a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><em>GameStateData</em></a>) – The current game state.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-gameplay.powerup_handler">
+<span id="gameplay-powerup-handler-module"></span><h2>gameplay.powerup_handler module<a class="headerlink" href="#module-gameplay.powerup_handler" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.powerup_handler.check_power_point_increment">
+<span class="sig-prename descclassname"><span class="pre">gameplay.powerup_handler.</span></span><span class="sig-name descname"><span class="pre">check_power_point_increment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">combo_req</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statistics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gameplay.game_state_handler.GameStatisticsData" title="gameplay.game_state_handler.GameStatisticsData"><span class="pre">GameStatisticsData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/gameplay/powerup_handler.html#check_power_point_increment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.powerup_handler.check_power_point_increment" title="Link to this definition"></a></dt>
+<dd><p>Determine if the player’s combo count meets the requirement to increment power points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>combo_req</strong> (<em>int</em><em> | </em><em>None</em>) – The combo requirement for earning a power point, or None if not applicable.</p></li>
+<li><p><strong>statistics</strong> (<a class="reference internal" href="#gameplay.game_state_handler.GameStatisticsData" title="gameplay.game_state_handler.GameStatisticsData"><em>GameStatisticsData</em></a>) – The current game statistics.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the combo requirement is met and a power point should be awarded, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.powerup_handler.get_coords_for_random_reveal">
+<span class="sig-prename descclassname"><span class="pre">gameplay.powerup_handler.</span></span><span class="sig-name descname"><span class="pre">get_coords_for_random_reveal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hidden_letter_coords_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_reveal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_reveal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/gameplay/powerup_handler.html#get_coords_for_random_reveal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.powerup_handler.get_coords_for_random_reveal" title="Link to this definition"></a></dt>
+<dd><p>Select a random subset of hidden letter coordinates to reveal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hidden_letter_coords_set</strong> (<em>set</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>]</em>) – Set of coordinates for hidden letters.</p></li>
+<li><p><strong>min_reveal</strong> (<em>int</em>) – Minimum number of coordinates to reveal.</p></li>
+<li><p><strong>max_reveal</strong> (<em>int</em>) – Maximum number of coordinates to reveal.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of randomly selected coordinates to reveal.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[tuple[int, int]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.powerup_handler.get_coords_for_word_reveal">
+<span class="sig-prename descclassname"><span class="pre">gameplay.powerup_handler.</span></span><span class="sig-name descname"><span class="pre">get_coords_for_word_reveal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correct_guesses_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/gameplay/powerup_handler.html#get_coords_for_word_reveal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.powerup_handler.get_coords_for_word_reveal" title="Link to this definition"></a></dt>
+<dd><p>Select the coordinates of a random word that has not yet been guessed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>words_to_find</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>]</em><em>]</em>) – Dictionary mapping words to their letter coordinates.</p></li>
+<li><p><strong>correct_guesses_set</strong> (<em>set</em><em>[</em><em>str</em><em>]</em>) – Set of words that have already been guessed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A list of coordinates for a randomly chosen unrevealed word,</dt><dd><p>or an empty list if all words are revealed.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[tuple[int, int]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.powerup_handler.update_power_points">
+<span class="sig-prename descclassname"><span class="pre">gameplay.powerup_handler.</span></span><span class="sig-name descname"><span class="pre">update_power_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">game_st</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_selected_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><span class="pre">WizardData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/gameplay/powerup_handler.html#update_power_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.powerup_handler.update_power_points" title="Link to this definition"></a></dt>
+<dd><p>Increment the player’s power points if the combo requirement for the selected wizard is met.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>game_st</strong> (<a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><em>GameStateData</em></a>) – The current game state.</p></li>
+<li><p><strong>current_selected_wizard</strong> (<a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><em>WizardData</em></a>) – The wizard currently selected by the player.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gameplay.powerup_handler.use_powerup">
+<span class="sig-prename descclassname"><span class="pre">gameplay.powerup_handler.</span></span><span class="sig-name descname"><span class="pre">use_powerup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">game_st</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_selected_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><span class="pre">WizardData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/gameplay/powerup_handler.html#use_powerup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gameplay.powerup_handler.use_powerup" title="Link to this definition"></a></dt>
+<dd><p>Activate the selected wizard’s power-up and update the game state accordingly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>game_st</strong> (<a class="reference internal" href="#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><em>GameStateData</em></a>) – The current game state.</p></li>
+<li><p><strong>current_selected_wizard</strong> (<a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><em>WizardData</em></a>) – The wizard whose power-up is being used.</p></li>
+<li><p><strong>words_to_find</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>]</em><em>]</em>) – Dictionary of words to find and their coordinates.</p></li>
+<li><p><strong>final_grid</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em> | </em><em>None</em><em>]</em><em>]</em>) – The final grid of letters for the game.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-gameplay">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-gameplay" title="Link to this heading"></a></h2>
+<p>Gameplay package for Worderly.</p>
+<p>This package contains modules responsible for the core game logic, state management,
+powerup handling, and gameplay constants.</p>
+<dl class="simple">
+<dt>Modules:</dt><dd><p>game_constants: Constants used throughout the gameplay.
+game_state_handler: Functions and classes for managing game state and statistics.
+gameplay: Main gameplay loop and related utilities.
+powerup_handler: Logic for handling powerups and their effects.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="display.html" class="btn btn-neutral float-left" title="display package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="leaderboard.html" class="btn btn-neutral float-right" title="leaderboard package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joel Angelo Baldapan &amp; Alvin Dela Fuente.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

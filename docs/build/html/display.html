@@ -1,0 +1,595 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>display package &mdash; Worderly V2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=464bee56"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="gameplay package" href="gameplay.html" />
+    <link rel="prev" title="data package" href="data.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Worderly
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">worderly</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="data.html">data package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">display package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-display.display">display.display module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#display.display.display_menu_options"><code class="docutils literal notranslate"><span class="pre">display_menu_options()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display.display_wizard_art"><code class="docutils literal notranslate"><span class="pre">display_wizard_art()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display.display_wizard_selection"><code class="docutils literal notranslate"><span class="pre">display_wizard_selection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display.get_input"><code class="docutils literal notranslate"><span class="pre">get_input()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display.print_grid"><code class="docutils literal notranslate"><span class="pre">print_grid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display.print_message"><code class="docutils literal notranslate"><span class="pre">print_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display.print_statistics"><code class="docutils literal notranslate"><span class="pre">print_statistics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display.print_streak_leaderboard"><code class="docutils literal notranslate"><span class="pre">print_streak_leaderboard()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-display.display_basic">display.display_basic module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_basic.basic_display_menu_options"><code class="docutils literal notranslate"><span class="pre">basic_display_menu_options()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_basic.basic_display_wizard_art"><code class="docutils literal notranslate"><span class="pre">basic_display_wizard_art()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_basic.basic_display_wizard_selection"><code class="docutils literal notranslate"><span class="pre">basic_display_wizard_selection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_basic.basic_get_input"><code class="docutils literal notranslate"><span class="pre">basic_get_input()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_basic.basic_print_grid"><code class="docutils literal notranslate"><span class="pre">basic_print_grid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_basic.basic_print_leaderboard"><code class="docutils literal notranslate"><span class="pre">basic_print_leaderboard()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_basic.basic_print_message"><code class="docutils literal notranslate"><span class="pre">basic_print_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_basic.basic_print_statistics"><code class="docutils literal notranslate"><span class="pre">basic_print_statistics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_basic.basic_print_streak_leaderboard"><code class="docutils literal notranslate"><span class="pre">basic_print_streak_leaderboard()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-display.display_rich">display.display_rich module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_rich.rich_display_menu_options"><code class="docutils literal notranslate"><span class="pre">rich_display_menu_options()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_rich.rich_display_wizard_art"><code class="docutils literal notranslate"><span class="pre">rich_display_wizard_art()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_rich.rich_display_wizard_selection"><code class="docutils literal notranslate"><span class="pre">rich_display_wizard_selection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_rich.rich_get_input"><code class="docutils literal notranslate"><span class="pre">rich_get_input()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_rich.rich_print_grid"><code class="docutils literal notranslate"><span class="pre">rich_print_grid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_rich.rich_print_leaderboard"><code class="docutils literal notranslate"><span class="pre">rich_print_leaderboard()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_rich.rich_print_message"><code class="docutils literal notranslate"><span class="pre">rich_print_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_rich.rich_print_statistics"><code class="docutils literal notranslate"><span class="pre">rich_print_statistics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_rich.rich_print_streak_leaderboard"><code class="docutils literal notranslate"><span class="pre">rich_print_streak_leaderboard()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-display.display_utils">display.display_utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#display.display_utils.clear_screen"><code class="docutils literal notranslate"><span class="pre">clear_screen()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-display">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gameplay.html">gameplay package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="leaderboard.html">leaderboard package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="worderly.html">worderly module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Worderly</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">worderly</a></li>
+      <li class="breadcrumb-item active">display package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/display.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="display-package">
+<h1>display package<a class="headerlink" href="#display-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-display.display">
+<span id="display-display-module"></span><h2>display.display module<a class="headerlink" href="#module-display.display" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display.display_menu_options">
+<span class="sig-prename descclassname"><span class="pre">display.display.</span></span><span class="sig-name descname"><span class="pre">display_menu_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display.html#display_menu_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display.display_menu_options" title="Link to this definition"></a></dt>
+<dd><p>Display menu options using either rich or basic formatting based on settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><em>DifficultyData</em></a><em> | </em><em>None</em>) – The current difficulty settings, or None.</p></li>
+<li><p><strong>options</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of menu options.</p></li>
+<li><p><strong>current_index</strong> (<em>int</em>) – The index of the currently selected option.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – Title for the menu.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display.display_wizard_art">
+<span class="sig-prename descclassname"><span class="pre">display.display.</span></span><span class="sig-name descname"><span class="pre">display_wizard_art</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><span class="pre">WizardData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display.html#display_wizard_art"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display.display_wizard_art" title="Link to this definition"></a></dt>
+<dd><p>Display wizard art using either rich or basic formatting based on settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><em>DifficultyData</em></a><em> | </em><em>None</em>) – The current difficulty settings, or None.</p></li>
+<li><p><strong>wizard</strong> (<a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><em>WizardData</em></a>) – The wizard data to display.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display.display_wizard_selection">
+<span class="sig-prename descclassname"><span class="pre">display.display.</span></span><span class="sig-name descname"><span class="pre">display_wizard_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><span class="pre">WizardData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">wizard_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display.html#display_wizard_selection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display.display_wizard_selection" title="Link to this definition"></a></dt>
+<dd><p>Display wizard selection using either rich or basic formatting based on settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><em>DifficultyData</em></a><em> | </em><em>None</em>) – The current difficulty settings, or None.</p></li>
+<li><p><strong>wizard</strong> (<a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><em>WizardData</em></a>) – The wizard data to display.</p></li>
+<li><p><strong>wizard_index</strong> (<em>int</em>) – The index of the wizard.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display.get_input">
+<span class="sig-prename descclassname"><span class="pre">display.display.</span></span><span class="sig-name descname"><span class="pre">get_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Enter</span> <span class="pre">Guess'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/display/display.html#get_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display.get_input" title="Link to this definition"></a></dt>
+<dd><p>Get user input using either rich or basic input based on settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><em>DifficultyData</em></a><em> | </em><em>None</em>) – The current difficulty settings, or None.</p></li>
+<li><p><strong>prompt_message</strong> (<em>str</em>) – The prompt message to display to the user.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The user’s input.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display.print_grid">
+<span class="sig-prename descclassname"><span class="pre">display.display.</span></span><span class="sig-name descname"><span class="pre">print_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">highlighted_coords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">highlight_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">letters_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'black'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'THE</span> <span class="pre">WIZARDS</span> <span class="pre">OF</span> <span class="pre">WORDERLY</span> <span class="pre">PLACE'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'bright_cyan'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display.html#print_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display.print_grid" title="Link to this definition"></a></dt>
+<dd><p>Print the game grid using either rich or basic formatting based on settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><em>DifficultyData</em></a><em> | </em><em>None</em>) – The current difficulty settings, or None.</p></li>
+<li><p><strong>grid</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em> | </em><em>None</em><em>]</em><em>] </em><em>| </em><em>None</em>) – The grid to display.</p></li>
+<li><p><strong>highlighted_coords</strong> (<em>set</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>] </em><em>| </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>] </em><em>| </em><em>None</em>) – Coordinates to highlight.</p></li>
+<li><p><strong>highlight_color</strong> (<em>str</em><em> | </em><em>None</em>) – Color for highlights.</p></li>
+<li><p><strong>letters_color</strong> (<em>str</em>) – Color for letters.</p></li>
+<li><p><strong>hidden_color</strong> (<em>str</em>) – Color for hidden cells.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – Title for the grid display.</p></li>
+<li><p><strong>border_style</strong> (<em>str</em>) – Style for the border.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display.print_message">
+<span class="sig-prename descclassname"><span class="pre">display.display.</span></span><span class="sig-name descname"><span class="pre">print_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'bright_cyan'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_align</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'left'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expand</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">justify</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'left'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display.html#print_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display.print_message" title="Link to this definition"></a></dt>
+<dd><p>Print a message using either rich or basic formatting based on settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><em>DifficultyData</em></a><em> | </em><em>None</em>) – The current difficulty settings, or None.</p></li>
+<li><p><strong>message</strong> (<em>str</em>) – The message to display.</p></li>
+<li><p><strong>style</strong> (<em>str</em><em> | </em><em>None</em>) – The style to apply to the message.</p></li>
+<li><p><strong>border_style</strong> (<em>str</em>) – Style for the border.</p></li>
+<li><p><strong>title</strong> (<em>str</em><em> | </em><em>None</em>) – Title for the message box.</p></li>
+<li><p><strong>title_align</strong> (<em>str</em>) – Alignment for the title.</p></li>
+<li><p><strong>expand</strong> (<em>bool</em>) – Whether to expand the message box.</p></li>
+<li><p><strong>width</strong> (<em>int</em><em> | </em><em>None</em>) – Width of the message box.</p></li>
+<li><p><strong>justify</strong> (<em>str</em>) – Justification for the message text.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display.print_statistics">
+<span class="sig-prename descclassname"><span class="pre">display.display.</span></span><span class="sig-name descname"><span class="pre">print_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statistics_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStatisticsData" title="gameplay.game_state_handler.GameStatisticsData"><span class="pre">GameStatisticsData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><span class="pre">WizardData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">game_st</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display.html#print_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display.print_statistics" title="Link to this definition"></a></dt>
+<dd><p>Print game statistics using either rich or basic formatting based on settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><em>DifficultyData</em></a><em> | </em><em>None</em>) – The current difficulty settings, or None.</p></li>
+<li><p><strong>statistics_obj</strong> (<a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStatisticsData" title="gameplay.game_state_handler.GameStatisticsData"><em>GameStatisticsData</em></a>) – The statistics object to display.</p></li>
+<li><p><strong>border_style</strong> (<em>str</em>) – Style for the border.</p></li>
+<li><p><strong>grid</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em> | </em><em>None</em><em>]</em><em>] </em><em>| </em><em>None</em>) – The grid to display.</p></li>
+<li><p><strong>selected_wizard</strong> (<a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><em>WizardData</em></a>) – The selected wizard.</p></li>
+<li><p><strong>game_st</strong> (<a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><em>GameStateData</em></a>) – The current game state.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display.print_streak_leaderboard">
+<span class="sig-prename descclassname"><span class="pre">display.display.</span></span><span class="sig-name descname"><span class="pre">print_streak_leaderboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">streaks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="leaderboard.html#leaderboard.streak_handler.StreakEntry" title="leaderboard.streak_handler.StreakEntry"><span class="pre">StreakEntry</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display.html#print_streak_leaderboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display.print_streak_leaderboard" title="Link to this definition"></a></dt>
+<dd><p>Display the winning streak leaderboard using rich or basic formatting.</p>
+<p>If settings are not provided or if heart_point_mode is True, it defaults to the rich display.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><em>DifficultyData</em></a><em> | </em><em>None</em>) – The current difficulty settings, or None.</p></li>
+<li><p><strong>streaks</strong> (<em>list</em><em>[</em><a class="reference internal" href="leaderboard.html#leaderboard.streak_handler.StreakEntry" title="leaderboard.streak_handler.StreakEntry"><em>StreakEntry</em></a><em>]</em>) – List of streak entries to display.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-display.display_basic">
+<span id="display-display-basic-module"></span><h2>display.display_basic module<a class="headerlink" href="#module-display.display_basic" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_basic.basic_display_menu_options">
+<span class="sig-prename descclassname"><span class="pre">display.display_basic.</span></span><span class="sig-name descname"><span class="pre">basic_display_menu_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_basic.html#basic_display_menu_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_basic.basic_display_menu_options" title="Link to this definition"></a></dt>
+<dd><p>Display a basic text-based vertical menu with selection indicator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>options</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – A list of strings representing the menu options.</p></li>
+<li><p><strong>current_index</strong> (<em>int</em>) – The index of the currently selected option.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – The title to display above the menu.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_basic.basic_display_wizard_art">
+<span class="sig-prename descclassname"><span class="pre">display.display_basic.</span></span><span class="sig-name descname"><span class="pre">basic_display_wizard_art</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><span class="pre">WizardData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_basic.html#basic_display_wizard_art"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_basic.basic_display_wizard_art" title="Link to this definition"></a></dt>
+<dd><p>Print the basic ASCII art for a given wizard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><em>DifficultyData</em></a><em> | </em><em>None</em>) – Game settings (passed by dispatcher, maybe unused).</p></li>
+<li><p><strong>wizard</strong> (<a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><em>WizardData</em></a>) – The WizardData object containing the art.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_basic.basic_display_wizard_selection">
+<span class="sig-prename descclassname"><span class="pre">display.display_basic.</span></span><span class="sig-name descname"><span class="pre">basic_display_wizard_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><span class="pre">WizardData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">wizard_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_basic.html#basic_display_wizard_selection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_basic.basic_display_wizard_selection" title="Link to this definition"></a></dt>
+<dd><p>Display basic text information about the currently selected wizard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><em>DifficultyData</em></a><em> | </em><em>None</em>) – Game settings (passed by dispatcher, maybe unused).</p></li>
+<li><p><strong>wizard</strong> (<a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><em>WizardData</em></a>) – The WizardData object to display.</p></li>
+<li><p><strong>wizard_index</strong> (<em>int</em>) – The index of the wizard (passed by dispatcher, maybe unused).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_basic.basic_get_input">
+<span class="sig-prename descclassname"><span class="pre">display.display_basic.</span></span><span class="sig-name descname"><span class="pre">basic_get_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/display/display_basic.html#basic_get_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_basic.basic_get_input" title="Link to this definition"></a></dt>
+<dd><p>Get input from the user via the console.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>prompt_message</strong> (<em>str</em>) – The prompt message to display to the user.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The user’s input as a string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_basic.basic_print_grid">
+<span class="sig-prename descclassname"><span class="pre">display.display_basic.</span></span><span class="sig-name descname"><span class="pre">basic_print_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_basic.html#basic_print_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_basic.basic_print_grid" title="Link to this definition"></a></dt>
+<dd><p>Print a basic text representation of the game grid to the console.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>grid</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em> | </em><em>None</em><em>]</em><em>] </em><em>| </em><em>None</em>) – The 2D list representing the game grid. None represents empty cells.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_basic.basic_print_leaderboard">
+<span class="sig-prename descclassname"><span class="pre">display.display_basic.</span></span><span class="sig-name descname"><span class="pre">basic_print_leaderboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">leaderboard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_basic.html#basic_print_leaderboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_basic.basic_print_leaderboard" title="Link to this definition"></a></dt>
+<dd><p>Print a basic text representation of the leaderboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>leaderboard</strong> (<em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – A list of score dictionaries, already sorted.
+Each dict should have ‘name’ and ‘score’ keys.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_basic.basic_print_message">
+<span class="sig-prename descclassname"><span class="pre">display.display_basic.</span></span><span class="sig-name descname"><span class="pre">basic_print_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_basic.html#basic_print_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_basic.basic_print_message" title="Link to this definition"></a></dt>
+<dd><p>Print a simple message string to the console.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>message</strong> (<em>str</em>) – The message to print.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_basic.basic_print_statistics">
+<span class="sig-prename descclassname"><span class="pre">display.display_basic.</span></span><span class="sig-name descname"><span class="pre">basic_print_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statistics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStatisticsData" title="gameplay.game_state_handler.GameStatisticsData"><span class="pre">GameStatisticsData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_basic.html#basic_print_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_basic.basic_print_statistics" title="Link to this definition"></a></dt>
+<dd><p>Print basic game statistics to the console.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>statistics</strong> (<a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStatisticsData" title="gameplay.game_state_handler.GameStatisticsData"><em>GameStatisticsData</em></a>) – An object containing game stats like letters, lives_left, points, last_guess.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_basic.basic_print_streak_leaderboard">
+<span class="sig-prename descclassname"><span class="pre">display.display_basic.</span></span><span class="sig-name descname"><span class="pre">basic_print_streak_leaderboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">streaks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="leaderboard.html#leaderboard.streak_handler.StreakEntry" title="leaderboard.streak_handler.StreakEntry"><span class="pre">StreakEntry</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_basic.html#basic_print_streak_leaderboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_basic.basic_print_streak_leaderboard" title="Link to this definition"></a></dt>
+<dd><p>Print a basic text representation of the winning streak leaderboard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>streaks</strong> (<em>list</em><em>[</em><a class="reference internal" href="leaderboard.html#leaderboard.streak_handler.StreakEntry" title="leaderboard.streak_handler.StreakEntry"><em>StreakEntry</em></a><em>]</em>) – A list of StreakEntry objects representing player streaks.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-display.display_rich">
+<span id="display-display-rich-module"></span><h2>display.display_rich module<a class="headerlink" href="#module-display.display_rich" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_rich.rich_display_menu_options">
+<span class="sig-prename descclassname"><span class="pre">display.display_rich.</span></span><span class="sig-name descname"><span class="pre">rich_display_menu_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_rich.html#rich_display_menu_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_rich.rich_display_menu_options" title="Link to this definition"></a></dt>
+<dd><p>Display vertical menu options using Rich, highlighting the current selection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><em>DifficultyData</em></a><em> | </em><em>None</em>) – The current difficulty settings.</p></li>
+<li><p><strong>options</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – The list of menu options.</p></li>
+<li><p><strong>current_index</strong> (<em>int</em>) – The index of the currently selected option.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – The title for the menu panel.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_rich.rich_display_wizard_art">
+<span class="sig-prename descclassname"><span class="pre">display.display_rich.</span></span><span class="sig-name descname"><span class="pre">rich_display_wizard_art</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><span class="pre">WizardData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_rich.html#rich_display_wizard_art"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_rich.rich_display_wizard_art" title="Link to this definition"></a></dt>
+<dd><p>Display only the ASCII art for a given wizard in a Rich Panel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><em>DifficultyData</em></a><em> | </em><em>None</em>) – The current difficulty settings.</p></li>
+<li><p><strong>wizard</strong> (<a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><em>WizardData</em></a>) – The wizard to display.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_rich.rich_display_wizard_selection">
+<span class="sig-prename descclassname"><span class="pre">display.display_rich.</span></span><span class="sig-name descname"><span class="pre">rich_display_wizard_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><span class="pre">WizardData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">wizard_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_rich.html#rich_display_wizard_selection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_rich.rich_display_wizard_selection" title="Link to this definition"></a></dt>
+<dd><p>Display the wizard selection interface using Rich Panels and Columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>settings</strong> (<a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><em>DifficultyData</em></a><em> | </em><em>None</em>) – The current difficulty settings.</p></li>
+<li><p><strong>wizard</strong> (<a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><em>WizardData</em></a>) – The wizard to display.</p></li>
+<li><p><strong>wizard_index</strong> (<em>int</em>) – The index of the wizard.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_rich.rich_get_input">
+<span class="sig-prename descclassname"><span class="pre">display.display_rich.</span></span><span class="sig-name descname"><span class="pre">rich_get_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/display/display_rich.html#rich_get_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_rich.rich_get_input" title="Link to this definition"></a></dt>
+<dd><p>Get user input using the standard input() function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>prompt_message</strong> (<em>str</em>) – The prompt message to display.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The user input.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_rich.rich_print_grid">
+<span class="sig-prename descclassname"><span class="pre">display.display_rich.</span></span><span class="sig-name descname"><span class="pre">rich_print_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">highlighted_coords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">highlight_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">letters_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_rich.html#rich_print_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_rich.rich_print_grid" title="Link to this definition"></a></dt>
+<dd><p>Print the game grid using Rich library for prettier formatting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em> | </em><em>None</em><em>]</em><em>] </em><em>| </em><em>None</em>) – The game grid.</p></li>
+<li><p><strong>highlighted_coords</strong> (<em>set</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>] </em><em>| </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em><em>]</em>) – Coordinates to highlight.</p></li>
+<li><p><strong>highlight_color</strong> (<em>str</em>) – The color for highlighted cells.</p></li>
+<li><p><strong>letters_color</strong> (<em>str</em>) – The color for letter cells.</p></li>
+<li><p><strong>hidden_color</strong> (<em>str</em>) – The color for hidden cells.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – The title for the grid panel.</p></li>
+<li><p><strong>border_style</strong> (<em>str</em>) – The border style for the panel.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_rich.rich_print_leaderboard">
+<span class="sig-prename descclassname"><span class="pre">display.display_rich.</span></span><span class="sig-name descname"><span class="pre">rich_print_leaderboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">leaderboard_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_entries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_rich.html#rich_print_leaderboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_rich.rich_print_leaderboard" title="Link to this definition"></a></dt>
+<dd><p>Print the leaderboard data in a formatted Rich Table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>leaderboard_data</strong> (<em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – The leaderboard data.</p></li>
+<li><p><strong>max_entries</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum number of entries to display.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_rich.rich_print_message">
+<span class="sig-prename descclassname"><span class="pre">display.display_rich.</span></span><span class="sig-name descname"><span class="pre">rich_print_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'bright_cyan'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_align</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'left'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expand</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">justify</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'left'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_rich.html#rich_print_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_rich.rich_print_message" title="Link to this definition"></a></dt>
+<dd><p>Print a message string wrapped in a Rich Panel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<em>str</em>) – The message to print.</p></li>
+<li><p><strong>style</strong> (<em>str</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – The style for the message text.</p></li>
+<li><p><strong>border_style</strong> (<em>str</em><em>, </em><em>optional</em>) – The border style for the panel.</p></li>
+<li><p><strong>title</strong> (<em>str</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – The title for the panel.</p></li>
+<li><p><strong>title_align</strong> (<em>str</em><em>, </em><em>optional</em>) – The alignment for the title.</p></li>
+<li><p><strong>expand</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether the panel should expand.</p></li>
+<li><p><strong>width</strong> (<em>int</em><em> | </em><em>None</em><em>, </em><em>optional</em>) – The width of the panel.</p></li>
+<li><p><strong>justify</strong> (<em>str</em><em>, </em><em>optional</em>) – The justification for the text.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_rich.rich_print_statistics">
+<span class="sig-prename descclassname"><span class="pre">display.display_rich.</span></span><span class="sig-name descname"><span class="pre">rich_print_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statistics</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStatisticsData" title="gameplay.game_state_handler.GameStatisticsData"><span class="pre">GameStatisticsData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">border_style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><span class="pre">WizardData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">game_st</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_rich.html#rich_print_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_rich.rich_print_statistics" title="Link to this definition"></a></dt>
+<dd><p>Print the formatted statistics panel using Rich Columns and Panels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>statistics</strong> (<a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStatisticsData" title="gameplay.game_state_handler.GameStatisticsData"><em>GameStatisticsData</em></a>) – The current game statistics.</p></li>
+<li><p><strong>border_style</strong> (<em>str</em>) – The border style for the panels.</p></li>
+<li><p><strong>grid</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em> | </em><em>None</em><em>]</em><em>] </em><em>| </em><em>None</em>) – The game grid.</p></li>
+<li><p><strong>selected_wizard</strong> (<a class="reference internal" href="data.html#data.wizards_details.WizardData" title="data.wizards_details.WizardData"><em>WizardData</em></a>) – The selected wizard data.</p></li>
+<li><p><strong>game_st</strong> (<a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><em>GameStateData</em></a>) – The current game state.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_rich.rich_print_streak_leaderboard">
+<span class="sig-prename descclassname"><span class="pre">display.display_rich.</span></span><span class="sig-name descname"><span class="pre">rich_print_streak_leaderboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">streaks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="leaderboard.html#leaderboard.streak_handler.StreakEntry" title="leaderboard.streak_handler.StreakEntry"><span class="pre">StreakEntry</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_rich.html#rich_print_streak_leaderboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_rich.rich_print_streak_leaderboard" title="Link to this definition"></a></dt>
+<dd><p>Print the winning streak leaderboard data in a formatted Rich Table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>streaks</strong> (<em>list</em><em>[</em><a class="reference internal" href="leaderboard.html#leaderboard.streak_handler.StreakEntry" title="leaderboard.streak_handler.StreakEntry"><em>StreakEntry</em></a><em>]</em>) – The list of streak entries.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-display.display_utils">
+<span id="display-display-utils-module"></span><h2>display.display_utils module<a class="headerlink" href="#module-display.display_utils" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="display.display_utils.clear_screen">
+<span class="sig-prename descclassname"><span class="pre">display.display_utils.</span></span><span class="sig-name descname"><span class="pre">clear_screen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/display/display_utils.html#clear_screen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#display.display_utils.clear_screen" title="Link to this definition"></a></dt>
+<dd><p>Clear the terminal screen, if any.</p>
+</dd></dl>
+
+</section>
+<section id="module-display">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-display" title="Link to this heading"></a></h2>
+<p>Display package for Worderly.</p>
+<p>This package provides modules for displaying game information, menus, and statistics
+using both basic console output and enhanced Rich formatting.</p>
+<dl class="simple">
+<dt>Modules:</dt><dd><p>display_basic: Basic text-based display functions.
+display_rich: Rich-formatted display functions using the Rich library.
+display_utils: Utility functions for display operations.
+display: Dispatcher functions to select display mode based on settings.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="data.html" class="btn btn-neutral float-left" title="data package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gameplay.html" class="btn btn-neutral float-right" title="gameplay package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joel Angelo Baldapan &amp; Alvin Dela Fuente.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

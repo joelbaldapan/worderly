@@ -1,0 +1,703 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tests.gameplay.test_gameplay &mdash; Worderly V2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=464bee56"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Worderly
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">worderly</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Worderly</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">tests.gameplay.test_gameplay</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for tests.gameplay.test_gameplay</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">MagicMock</span><span class="p">,</span> <span class="n">patch</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">gameplay</span><span class="w"> </span><span class="kn">import</span> <span class="n">game_constants</span><span class="p">,</span> <span class="n">gameplay</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gameplay.game_state_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">GameStateData</span><span class="p">,</span> <span class="n">GameStatisticsData</span>
+
+<span class="c1"># ************************************************</span>
+<span class="c1"># Fixtures</span>
+<span class="c1"># ************************************************</span>
+
+
+<div class="viewcode-block" id="sample_settings">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.sample_settings">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_settings</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create sample settings.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object: Dummy settings object with heart_point_mode True.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">DummySettings</span><span class="p">:</span>
+        <span class="n">heart_point_mode</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="n">DummySettings</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="sample_settings_no_hp">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.sample_settings_no_hp">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_settings_no_hp</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create sample settings with heart_point_mode set to False.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object: Dummy settings object with heart_point_mode False.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">DummySettings</span><span class="p">:</span>
+        <span class="n">heart_point_mode</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="n">DummySettings</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="sample_wizard">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.sample_wizard">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_wizard</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create sample wizard data.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object: Dummy wizard object.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">DummyWizard</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Mock Wizard&quot;</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;cyan&quot;</span>
+        <span class="n">starting_lives</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="n">combo_requirement</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="n">small_art</span> <span class="o">=</span> <span class="s2">&quot;artplaceholdere&quot;</span>
+    <span class="k">return</span> <span class="n">DummyWizard</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="sample_game_state">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.sample_game_state">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_game_state</span><span class="p">(</span><span class="n">sample_wizard</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GameStateData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a basic game state object.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sample_wizard (object): The wizard object.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        GameStateData: The sample game state.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">GameStatisticsData</span><span class="p">(</span>
+        <span class="n">letters</span><span class="o">=</span><span class="s2">&quot;A B C&quot;</span><span class="p">,</span>
+        <span class="n">lives_left</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">points</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">last_guess</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">combo</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">power_points</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">shield_turns</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">GameStateData</span><span class="p">(</span>
+        <span class="n">player_name</span><span class="o">=</span><span class="s2">&quot;Tester&quot;</span><span class="p">,</span>
+        <span class="n">statistics</span><span class="o">=</span><span class="n">stats</span><span class="p">,</span>
+        <span class="n">hidden_grid</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;#&quot;</span><span class="p">]],</span>
+        <span class="n">last_guess_coords</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">correctly_guessed_words</span><span class="o">=</span><span class="nb">set</span><span class="p">(),</span>
+        <span class="n">hidden_letter_coords</span><span class="o">=</span><span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)},</span>
+        <span class="n">found_letter_coords</span><span class="o">=</span><span class="nb">set</span><span class="p">(),</span>
+        <span class="n">next_message</span><span class="o">=</span><span class="s2">&quot;Welcome&quot;</span><span class="p">,</span>
+        <span class="n">next_message_color</span><span class="o">=</span><span class="n">sample_wizard</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="sample_final_grid">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.sample_final_grid">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_final_grid</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a sample minimal final grid.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list[list[str]]: A 1x1 grid with &quot;A&quot;.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[[</span><span class="s2">&quot;A&quot;</span><span class="p">]]</span></div>
+
+
+
+<div class="viewcode-block" id="sample_words_to_find">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.sample_words_to_find">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_words_to_find</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a sample minimal words_to_find.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict[str, list[tuple[int, int]]]: Mapping of word to coordinates.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]}</span></div>
+
+
+<span class="c1"># ************************************************</span>
+<span class="c1"># Helper for GameConfig</span>
+<span class="c1"># ************************************************</span>
+
+
+<div class="viewcode-block" id="DummyGameConfig">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.DummyGameConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DummyGameConfig</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">difficulty_conf</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+        <span class="n">selected_wizard</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+        <span class="n">final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">words_to_find</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">middle_word</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">player_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize DummyGameConfig.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            difficulty_conf (object): The difficulty configuration.</span>
+<span class="sd">            selected_wizard (object): The selected wizard.</span>
+<span class="sd">            final_grid (Optional[list[list[str]]], optional): The final grid.</span>
+<span class="sd">            words_to_find (Optional[dict[str, list[tuple[int, int]]]], optional): Words to find.</span>
+<span class="sd">            middle_word (Optional[str], optional): The middle word.</span>
+<span class="sd">            player_name (Optional[str], optional): The player name.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">difficulty_conf</span> <span class="o">=</span> <span class="n">difficulty_conf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_wizard</span> <span class="o">=</span> <span class="n">selected_wizard</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_grid</span> <span class="o">=</span> <span class="n">final_grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">words_to_find</span> <span class="o">=</span> <span class="n">words_to_find</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">middle_word</span> <span class="o">=</span> <span class="n">middle_word</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">player_name</span> <span class="o">=</span> <span class="n">player_name</span></div>
+
+
+<span class="c1"># ************************************************</span>
+<span class="c1"># Paths For Convenience</span>
+<span class="c1"># ************************************************</span>
+
+
+<span class="n">PATCH_PRINT_GRID</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.print_grid&quot;</span>
+<span class="n">PATCH_PRINT_STATS</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.print_statistics&quot;</span>
+<span class="n">PATCH_PRINT_MSG</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.print_message&quot;</span>
+<span class="n">PATCH_PRINT_LB</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.print_streak_leaderboard&quot;</span>
+<span class="n">PATCH_GET_INPUT</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.get_input&quot;</span>
+<span class="n">PATCH_GET_GUESS</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.get_guess&quot;</span>
+<span class="n">PATCH_CLEAR_SCREEN</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.clear_screen&quot;</span>
+<span class="n">PATCH_INIT_STATE</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.initialize_game_state&quot;</span>
+<span class="n">PATCH_PROC_GUESS</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.process_guess&quot;</span>
+<span class="n">PATCH_CHECK_GO</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.check_game_over&quot;</span>
+<span class="n">PATCH_UPDATE_PP</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.update_power_points&quot;</span>
+<span class="n">PATCH_USE_PU</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.use_powerup&quot;</span>
+<span class="n">PATCH_LOAD_LB</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.load_streaks&quot;</span>
+<span class="n">PATCH_UPDATE_DISPLAY</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.update_display&quot;</span>
+<span class="n">PATCH_UPDATE_GO_DISPLAY</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.update_game_over_display&quot;</span>
+<span class="n">PATCH_UPDATE_END_DISPLAY</span> <span class="o">=</span> <span class="s2">&quot;gameplay.gameplay.end_game&quot;</span>
+
+<span class="c1"># ************************************************</span>
+<span class="c1"># Tests for: Update Displays</span>
+<span class="c1"># ************************************************</span>
+
+
+<div class="viewcode-block" id="test_update_display">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.test_update_display">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_CLEAR_SCREEN</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_PRINT_GRID</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_PRINT_STATS</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_PRINT_MSG</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_update_display</span><span class="p">(</span>
+    <span class="n">mock_print_msg</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_print_stats</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_print_grid</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_clear</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">sample_settings</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_game_state</span><span class="p">:</span> <span class="n">GameStateData</span><span class="p">,</span>
+    <span class="n">sample_wizard</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that update_display calls all the necessary display functions.&quot;&quot;&quot;</span>
+    <span class="n">game_config</span> <span class="o">=</span> <span class="n">DummyGameConfig</span><span class="p">(</span>
+        <span class="n">difficulty_conf</span><span class="o">=</span><span class="n">sample_settings</span><span class="p">,</span>
+        <span class="n">selected_wizard</span><span class="o">=</span><span class="n">sample_wizard</span><span class="p">,</span>
+        <span class="n">final_grid</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;A&quot;</span><span class="p">]],</span>
+    <span class="p">)</span>
+    <span class="n">gameplay</span><span class="o">.</span><span class="n">update_display</span><span class="p">(</span><span class="n">game_config</span><span class="p">,</span> <span class="n">sample_game_state</span><span class="p">)</span>
+    <span class="n">mock_clear</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span>
+    <span class="n">mock_print_grid</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span>
+    <span class="n">mock_print_stats</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span>
+    <span class="n">mock_print_msg</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="test_update_end_game_display">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.test_update_end_game_display">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_GET_INPUT</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_CLEAR_SCREEN</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_LOAD_LB</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_PRINT_LB</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_PRINT_MSG</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_update_end_game_display</span><span class="p">(</span>
+    <span class="n">mock_print_msg</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_print_lb</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_load_lb</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_clear</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_get_input</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">sample_settings</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test the sequence of actions in the end game display.&quot;&quot;&quot;</span>
+    <span class="n">game_config</span> <span class="o">=</span> <span class="n">DummyGameConfig</span><span class="p">(</span>
+        <span class="n">difficulty_conf</span><span class="o">=</span><span class="n">sample_settings</span><span class="p">,</span>
+        <span class="n">selected_wizard</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">final_grid</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;A&quot;</span><span class="p">]],</span>
+        <span class="n">player_name</span><span class="o">=</span><span class="s2">&quot;WINNAHHH&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">final_score</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">mock_leaderboard_data</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;WINNAHHH&quot;</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}]</span>
+    <span class="n">mock_load_lb</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">mock_leaderboard_data</span>
+
+    <span class="n">gameplay</span><span class="o">.</span><span class="n">end_game</span><span class="p">(</span><span class="n">game_config</span><span class="p">,</span> <span class="n">final_score</span><span class="p">)</span>
+
+    <span class="n">mock_clear</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span>
+    <span class="n">mock_load_lb</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span>
+    <span class="n">mock_print_lb</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="n">sample_settings</span><span class="p">,</span> <span class="n">mock_leaderboard_data</span><span class="p">)</span></div>
+
+
+<span class="c1"># ************************************************</span>
+<span class="c1"># Tests for: Getting Guesses</span>
+<span class="c1"># ************************************************</span>
+
+
+<div class="viewcode-block" id="test_get_guess_valid_word">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.test_get_guess_valid_word">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_GET_INPUT</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_DISPLAY</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_get_guess_valid_word</span><span class="p">(</span>
+    <span class="n">mock_update_disp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_get_input</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">sample_settings</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_game_state</span><span class="p">:</span> <span class="n">GameStateData</span><span class="p">,</span>
+    <span class="n">sample_wizard</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test get_guess returns a valid word input.&quot;&quot;&quot;</span>
+    <span class="n">mock_get_input</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="s2">&quot;  VALID  &quot;</span>
+    <span class="n">expected_guess</span> <span class="o">=</span> <span class="s2">&quot;valid&quot;</span>
+    <span class="n">game_config</span> <span class="o">=</span> <span class="n">DummyGameConfig</span><span class="p">(</span>
+        <span class="n">difficulty_conf</span><span class="o">=</span><span class="n">sample_settings</span><span class="p">,</span>
+        <span class="n">selected_wizard</span><span class="o">=</span><span class="n">sample_wizard</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">guess</span> <span class="o">=</span> <span class="n">gameplay</span><span class="o">.</span><span class="n">get_guess</span><span class="p">(</span><span class="n">game_config</span><span class="p">,</span> <span class="n">sample_game_state</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">guess</span> <span class="o">==</span> <span class="n">expected_guess</span>
+    <span class="n">mock_get_input</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span>
+    <span class="n">mock_update_disp</span><span class="o">.</span><span class="n">assert_not_called</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="test_get_guess_invalid_then_valid">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.test_get_guess_invalid_then_valid">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_GET_INPUT</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_DISPLAY</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_get_guess_invalid_then_valid</span><span class="p">(</span>
+    <span class="n">mock_update_disp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_get_input</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">sample_settings</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_game_state</span><span class="p">:</span> <span class="n">GameStateData</span><span class="p">,</span>
+    <span class="n">sample_wizard</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test get_guess handles invalid input then accepts valid input.&quot;&quot;&quot;</span>
+    <span class="n">mock_get_input</span><span class="o">.</span><span class="n">side_effect</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;123&quot;</span><span class="p">,</span> <span class="s2">&quot;GOOD&quot;</span><span class="p">]</span>
+    <span class="n">expected_guess</span> <span class="o">=</span> <span class="s2">&quot;good&quot;</span>
+    <span class="n">game_config</span> <span class="o">=</span> <span class="n">DummyGameConfig</span><span class="p">(</span>
+        <span class="n">difficulty_conf</span><span class="o">=</span><span class="n">sample_settings</span><span class="p">,</span>
+        <span class="n">selected_wizard</span><span class="o">=</span><span class="n">sample_wizard</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">guess</span> <span class="o">=</span> <span class="n">gameplay</span><span class="o">.</span><span class="n">get_guess</span><span class="p">(</span><span class="n">game_config</span><span class="p">,</span> <span class="n">sample_game_state</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">guess</span> <span class="o">==</span> <span class="n">expected_guess</span></div>
+
+
+
+<div class="viewcode-block" id="test_get_guess_powerup_command_valid">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.test_get_guess_powerup_command_valid">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_GET_INPUT</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_DISPLAY</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_get_guess_powerup_command_valid</span><span class="p">(</span>
+    <span class="n">mock_update_disp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_get_input</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">sample_settings</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_game_state</span><span class="p">:</span> <span class="n">GameStateData</span><span class="p">,</span>
+    <span class="n">sample_wizard</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test get_guess returns the powerup command when valid.&quot;&quot;&quot;</span>
+    <span class="n">wizard</span> <span class="o">=</span> <span class="n">sample_wizard</span>
+    <span class="n">wizard</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">sample_game_state</span><span class="p">)</span>
+    <span class="n">state</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">power_points</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">game_config</span> <span class="o">=</span> <span class="n">DummyGameConfig</span><span class="p">(</span>
+        <span class="n">difficulty_conf</span><span class="o">=</span><span class="n">sample_settings</span><span class="p">,</span>
+        <span class="n">selected_wizard</span><span class="o">=</span><span class="n">wizard</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mock_get_input</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">game_constants</span><span class="o">.</span><span class="n">POWERUP_COMMAND</span>
+    <span class="n">guess</span> <span class="o">=</span> <span class="n">gameplay</span><span class="o">.</span><span class="n">get_guess</span><span class="p">(</span><span class="n">game_config</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">guess</span> <span class="o">==</span> <span class="n">game_constants</span><span class="o">.</span><span class="n">POWERUP_COMMAND</span>
+    <span class="n">mock_get_input</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span>
+    <span class="n">mock_update_disp</span><span class="o">.</span><span class="n">assert_not_called</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="test_get_guess_powerup_command_invalid_wizard">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.test_get_guess_powerup_command_invalid_wizard">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_GET_INPUT</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_DISPLAY</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_get_guess_powerup_command_invalid_wizard</span><span class="p">(</span>
+    <span class="n">mock_update_disp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_get_input</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">sample_settings</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_game_state</span><span class="p">:</span> <span class="n">GameStateData</span><span class="p">,</span>
+    <span class="n">sample_wizard</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test get_guess handles powerup attempt with white wizard.&quot;&quot;&quot;</span>
+    <span class="n">wizard_white</span> <span class="o">=</span> <span class="n">sample_wizard</span>
+    <span class="n">wizard_white</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;bright_white&quot;</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">sample_game_state</span><span class="p">)</span>
+    <span class="n">state</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">power_points</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">game_config</span> <span class="o">=</span> <span class="n">DummyGameConfig</span><span class="p">(</span>
+        <span class="n">difficulty_conf</span><span class="o">=</span><span class="n">sample_settings</span><span class="p">,</span>
+        <span class="n">selected_wizard</span><span class="o">=</span><span class="n">wizard_white</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mock_get_input</span><span class="o">.</span><span class="n">side_effect</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">game_constants</span><span class="o">.</span><span class="n">POWERUP_COMMAND</span><span class="p">,</span>
+        <span class="s2">&quot;valid&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">guess</span> <span class="o">=</span> <span class="n">gameplay</span><span class="o">.</span><span class="n">get_guess</span><span class="p">(</span><span class="n">game_config</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">guess</span> <span class="o">==</span> <span class="s2">&quot;valid&quot;</span>
+    <span class="k">assert</span> <span class="n">mock_update_disp</span><span class="o">.</span><span class="n">call_count</span> <span class="o">==</span> <span class="mi">1</span></div>
+
+
+
+<div class="viewcode-block" id="test_get_guess_powerup_command_invalid_points">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.test_get_guess_powerup_command_invalid_points">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_GET_INPUT</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_DISPLAY</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_get_guess_powerup_command_invalid_points</span><span class="p">(</span>
+    <span class="n">mock_update_disp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_get_input</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">sample_settings</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_game_state</span><span class="p">:</span> <span class="n">GameStateData</span><span class="p">,</span>
+    <span class="n">sample_wizard</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test get_guess handles powerup attempt with insufficient points.&quot;&quot;&quot;</span>
+    <span class="n">wizard_red</span> <span class="o">=</span> <span class="n">sample_wizard</span>
+    <span class="n">wizard_red</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">sample_game_state</span><span class="p">)</span>
+    <span class="n">state</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">power_points</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">game_config</span> <span class="o">=</span> <span class="n">DummyGameConfig</span><span class="p">(</span>
+        <span class="n">difficulty_conf</span><span class="o">=</span><span class="n">sample_settings</span><span class="p">,</span>
+        <span class="n">selected_wizard</span><span class="o">=</span><span class="n">wizard_red</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mock_get_input</span><span class="o">.</span><span class="n">side_effect</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">game_constants</span><span class="o">.</span><span class="n">POWERUP_COMMAND</span><span class="p">,</span>
+        <span class="s2">&quot;valid&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">guess</span> <span class="o">=</span> <span class="n">gameplay</span><span class="o">.</span><span class="n">get_guess</span><span class="p">(</span><span class="n">game_config</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">guess</span> <span class="o">==</span> <span class="s2">&quot;valid&quot;</span>
+    <span class="k">assert</span> <span class="n">mock_update_disp</span><span class="o">.</span><span class="n">call_count</span> <span class="o">==</span> <span class="mi">1</span></div>
+
+
+<span class="c1"># ************************************************</span>
+<span class="c1"># Tests for: Running Game</span>
+<span class="c1"># We will see if the flow is accurate</span>
+<span class="c1"># ************************************************</span>
+
+
+<div class="viewcode-block" id="test_run_game_win_hp_mode">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.test_run_game_win_hp_mode">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_INIT_STATE</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_DISPLAY</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_GET_GUESS</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_PROC_GUESS</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_PP</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_USE_PU</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_CHECK_GO</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_GO_DISPLAY</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_END_DISPLAY</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_run_game_win_hp_mode</span><span class="p">(</span>
+    <span class="n">mock_end_disp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_go_disp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_check_go</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_use_pu</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_update_pp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_proc_guess</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_get_guess_func</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_update_disp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_init_state</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">sample_settings</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+    <span class="n">sample_words_to_find</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]],</span>
+    <span class="n">sample_wizard</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test a winning game flow in Heart Point mode.&quot;&quot;&quot;</span>
+    <span class="n">player_name</span> <span class="o">=</span> <span class="s2">&quot;Player1&quot;</span>
+    <span class="n">middle_word</span> <span class="o">=</span> <span class="s2">&quot;MIDDLE&quot;</span>
+    <span class="n">game_config</span> <span class="o">=</span> <span class="n">DummyGameConfig</span><span class="p">(</span>
+        <span class="n">difficulty_conf</span><span class="o">=</span><span class="n">sample_settings</span><span class="p">,</span>
+        <span class="n">selected_wizard</span><span class="o">=</span><span class="n">sample_wizard</span><span class="p">,</span>
+        <span class="n">final_grid</span><span class="o">=</span><span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">words_to_find</span><span class="o">=</span><span class="n">sample_words_to_find</span><span class="p">,</span>
+        <span class="n">middle_word</span><span class="o">=</span><span class="n">middle_word</span><span class="p">,</span>
+        <span class="n">player_name</span><span class="o">=</span><span class="n">player_name</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">DummyStats</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Initialize DummyStats.&quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="mi">50</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">DummyGameState</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Initialize DummyGameState.&quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">statistics</span> <span class="o">=</span> <span class="n">DummyStats</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">player_name</span> <span class="o">=</span> <span class="n">player_name</span>
+
+    <span class="n">mock_init_state</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">DummyGameState</span><span class="p">()</span>
+    <span class="n">mock_get_guess_func</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="s2">&quot;goodguess&quot;</span>
+    <span class="n">mock_check_go</span><span class="o">.</span><span class="n">side_effect</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;continue&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;win&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">gameplay</span><span class="o">.</span><span class="n">run_game</span><span class="p">(</span><span class="n">game_config</span><span class="p">)</span>
+    <span class="n">mock_init_state</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">middle_word</span><span class="p">,</span>
+        <span class="n">sample_wizard</span><span class="p">,</span>
+        <span class="n">player_name</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mock_update_disp</span><span class="o">.</span><span class="n">assert_called</span><span class="p">()</span>
+    <span class="n">mock_get_guess_func</span><span class="o">.</span><span class="n">assert_called</span><span class="p">()</span>
+    <span class="n">mock_proc_guess</span><span class="o">.</span><span class="n">assert_called</span><span class="p">()</span>
+    <span class="n">mock_update_pp</span><span class="o">.</span><span class="n">assert_called</span><span class="p">()</span>
+    <span class="n">mock_use_pu</span><span class="o">.</span><span class="n">assert_not_called</span><span class="p">()</span>
+    <span class="n">mock_go_disp</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span>
+    <span class="n">mock_end_disp</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="test_run_game_loss_no_hp_mode">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.test_run_game_loss_no_hp_mode">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_INIT_STATE</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_DISPLAY</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_GET_GUESS</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_PROC_GUESS</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_PP</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_USE_PU</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_CHECK_GO</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_GO_DISPLAY</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_END_DISPLAY</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_run_game_loss_no_hp_mode</span><span class="p">(</span>
+    <span class="n">mock_end_disp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_go_disp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_check_go</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_use_pu</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_update_pp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_proc_guess</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_get_guess_func</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_update_disp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_init_state</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">sample_settings_no_hp</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+    <span class="n">sample_words_to_find</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]],</span>
+    <span class="n">sample_wizard</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test a losing game flow NOT in Heart Point mode.&quot;&quot;&quot;</span>
+    <span class="n">player_name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">middle_word</span> <span class="o">=</span> <span class="s2">&quot;MIDDLE&quot;</span>
+    <span class="n">game_config</span> <span class="o">=</span> <span class="n">DummyGameConfig</span><span class="p">(</span>
+        <span class="n">difficulty_conf</span><span class="o">=</span><span class="n">sample_settings_no_hp</span><span class="p">,</span>
+        <span class="n">selected_wizard</span><span class="o">=</span><span class="n">sample_wizard</span><span class="p">,</span>
+        <span class="n">final_grid</span><span class="o">=</span><span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">words_to_find</span><span class="o">=</span><span class="n">sample_words_to_find</span><span class="p">,</span>
+        <span class="n">middle_word</span><span class="o">=</span><span class="n">middle_word</span><span class="p">,</span>
+        <span class="n">player_name</span><span class="o">=</span><span class="n">player_name</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">DummyStats</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Initialize DummyStats.&quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="mi">10</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">DummyGameState</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Initialize DummyGameState.&quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">statistics</span> <span class="o">=</span> <span class="n">DummyStats</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">player_name</span> <span class="o">=</span> <span class="n">player_name</span>
+
+    <span class="n">mock_init_state</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">DummyGameState</span><span class="p">()</span>
+    <span class="n">mock_get_guess_func</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="s2">&quot;badguess&quot;</span>
+    <span class="n">mock_check_go</span><span class="o">.</span><span class="n">side_effect</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;continue&quot;</span><span class="p">,</span> <span class="s2">&quot;loss&quot;</span><span class="p">]</span>
+
+    <span class="n">gameplay</span><span class="o">.</span><span class="n">run_game</span><span class="p">(</span><span class="n">game_config</span><span class="p">)</span>
+    <span class="n">mock_init_state</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">middle_word</span><span class="p">,</span>
+        <span class="n">sample_wizard</span><span class="p">,</span>
+        <span class="n">player_name</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mock_update_disp</span><span class="o">.</span><span class="n">assert_called</span><span class="p">()</span>
+    <span class="n">mock_get_guess_func</span><span class="o">.</span><span class="n">assert_called</span><span class="p">()</span>
+    <span class="n">mock_proc_guess</span><span class="o">.</span><span class="n">assert_called</span><span class="p">()</span>
+    <span class="n">mock_update_pp</span><span class="o">.</span><span class="n">assert_called</span><span class="p">()</span>
+    <span class="n">mock_use_pu</span><span class="o">.</span><span class="n">assert_not_called</span><span class="p">()</span>
+    <span class="n">mock_go_disp</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="test_run_game_uses_powerup">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_gameplay.test_run_game_uses_powerup">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_INIT_STATE</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_DISPLAY</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.gameplay.get_guess&quot;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_PROC_GUESS</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_PP</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_USE_PU</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_CHECK_GO</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_GO_DISPLAY</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="n">PATCH_UPDATE_END_DISPLAY</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_run_game_uses_powerup</span><span class="p">(</span>
+    <span class="n">mock_end_disp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_go_disp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_check_go</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_use_pu</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_update_pp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_proc_guess</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_get_guess_func</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_update_disp</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">mock_init_state</span><span class="p">:</span> <span class="n">MagicMock</span><span class="p">,</span>
+    <span class="n">sample_settings</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+    <span class="n">sample_words_to_find</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]],</span>
+    <span class="n">sample_wizard</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test game flow when a powerup is used.&quot;&quot;&quot;</span>
+    <span class="n">player_name</span> <span class="o">=</span> <span class="s2">&quot;PlayerPU&quot;</span>
+    <span class="n">middle_word</span> <span class="o">=</span> <span class="s2">&quot;MIDDLE&quot;</span>
+    <span class="n">game_config</span> <span class="o">=</span> <span class="n">DummyGameConfig</span><span class="p">(</span>
+        <span class="n">difficulty_conf</span><span class="o">=</span><span class="n">sample_settings</span><span class="p">,</span>
+        <span class="n">selected_wizard</span><span class="o">=</span><span class="n">sample_wizard</span><span class="p">,</span>
+        <span class="n">final_grid</span><span class="o">=</span><span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">words_to_find</span><span class="o">=</span><span class="n">sample_words_to_find</span><span class="p">,</span>
+        <span class="n">middle_word</span><span class="o">=</span><span class="n">middle_word</span><span class="p">,</span>
+        <span class="n">player_name</span><span class="o">=</span><span class="n">player_name</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">DummyStats</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Initialize DummyStats.&quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">DummyGameState</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Initialize DummyGameState.&quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">statistics</span> <span class="o">=</span> <span class="n">DummyStats</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">player_name</span> <span class="o">=</span> <span class="n">player_name</span>
+
+    <span class="n">mock_init_state</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">DummyGameState</span><span class="p">()</span>
+    <span class="n">mock_get_guess_func</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">game_constants</span><span class="o">.</span><span class="n">POWERUP_COMMAND</span>
+    <span class="n">mock_check_go</span><span class="o">.</span><span class="n">side_effect</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;continue&quot;</span><span class="p">,</span> <span class="s2">&quot;win&quot;</span><span class="p">]</span>
+    <span class="n">gameplay</span><span class="o">.</span><span class="n">run_game</span><span class="p">(</span><span class="n">game_config</span><span class="p">)</span>
+    <span class="n">mock_init_state</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span>
+    <span class="n">mock_update_disp</span><span class="o">.</span><span class="n">assert_called</span><span class="p">()</span>
+    <span class="n">mock_get_guess_func</span><span class="o">.</span><span class="n">assert_called</span><span class="p">()</span>
+    <span class="n">mock_use_pu</span><span class="o">.</span><span class="n">assert_called</span><span class="p">()</span>
+    <span class="n">mock_proc_guess</span><span class="o">.</span><span class="n">assert_not_called</span><span class="p">()</span>
+    <span class="n">mock_update_pp</span><span class="o">.</span><span class="n">assert_not_called</span><span class="p">()</span>
+    <span class="n">mock_go_disp</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span>
+    <span class="n">mock_end_disp</span><span class="o">.</span><span class="n">assert_called_once</span><span class="p">()</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joel Angelo Baldapan &amp; Alvin Dela Fuente.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

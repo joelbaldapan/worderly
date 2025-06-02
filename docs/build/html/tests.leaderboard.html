@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tests.leaderboard package &mdash; Worderly V2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=464bee56"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="tests.setup package" href="tests.setup.html" />
+    <link rel="prev" title="tests.gameplay package" href="tests.gameplay.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Worderly
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">worderly</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html">display package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gameplay.html">gameplay package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="leaderboard.html">leaderboard package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="tests.html">tests package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="tests.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="tests.gameplay.html">tests.gameplay package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">tests.leaderboard package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.setup.html">tests.setup package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#module-tests.test_worderly">tests.test_worderly module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#module-tests">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="worderly.html">worderly module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Worderly</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">worderly</a></li>
+          <li class="breadcrumb-item"><a href="tests.html">tests package</a></li>
+      <li class="breadcrumb-item active">tests.leaderboard package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tests.leaderboard.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tests-leaderboard-package">
+<h1>tests.leaderboard package<a class="headerlink" href="#tests-leaderboard-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-tests.leaderboard.test_streak_handler">
+<span id="tests-leaderboard-test-streak-handler-module"></span><h2>tests.leaderboard.test_streak_handler module<a class="headerlink" href="#module-tests.leaderboard.test_streak_handler" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.leaderboard.test_streak_handler.sample_streak_dicts">
+<span class="sig-prename descclassname"><span class="pre">tests.leaderboard.test_streak_handler.</span></span><span class="sig-name descname"><span class="pre">sample_streak_dicts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/leaderboard/test_streak_handler.html#sample_streak_dicts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.leaderboard.test_streak_handler.sample_streak_dicts" title="Link to this definition"></a></dt>
+<dd><p>Create sample list of dicts representing streak entries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of dictionaries representing streak entries.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.leaderboard.test_streak_handler.sample_streak_entries">
+<span class="sig-prename descclassname"><span class="pre">tests.leaderboard.test_streak_handler.</span></span><span class="sig-name descname"><span class="pre">sample_streak_entries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="leaderboard.html#leaderboard.streak_handler.StreakEntry" title="leaderboard.streak_handler.StreakEntry"><span class="pre">StreakEntry</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/leaderboard/test_streak_handler.html#sample_streak_entries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.leaderboard.test_streak_handler.sample_streak_entries" title="Link to this definition"></a></dt>
+<dd><p>Create sample list of StreakEntry objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of sample streak entries.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[<a class="reference internal" href="leaderboard.html#leaderboard.streak_handler.StreakEntry" title="leaderboard.streak_handler.StreakEntry">StreakEntry</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.leaderboard.test_streak_handler.streak_file_path">
+<span class="sig-prename descclassname"><span class="pre">tests.leaderboard.test_streak_handler.</span></span><span class="sig-name descname"><span class="pre">streak_file_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Path</span></span></span><a class="reference internal" href="_modules/tests/leaderboard/test_streak_handler.html#streak_file_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.leaderboard.test_streak_handler.streak_file_path" title="Link to this definition"></a></dt>
+<dd><p>Provide temporary file path for streaks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Temporary file path for streaks.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.leaderboard.test_streak_handler.test_add_streak_entry_limit">
+<span class="sig-prename descclassname"><span class="pre">tests.leaderboard.test_streak_handler.</span></span><span class="sig-name descname"><span class="pre">test_add_streak_entry_limit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_streak_entries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="leaderboard.html#leaderboard.streak_handler.StreakEntry" title="leaderboard.streak_handler.StreakEntry"><span class="pre">StreakEntry</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/leaderboard/test_streak_handler.html#test_add_streak_entry_limit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.leaderboard.test_streak_handler.test_add_streak_entry_limit" title="Link to this definition"></a></dt>
+<dd><p>Test that add_streak_entry enforces max_entries limit and sorts.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.leaderboard.test_streak_handler.test_add_streak_entry_new_file">
+<span class="sig-prename descclassname"><span class="pre">tests.leaderboard.test_streak_handler.</span></span><span class="sig-name descname"><span class="pre">test_add_streak_entry_new_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/leaderboard/test_streak_handler.html#test_add_streak_entry_new_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.leaderboard.test_streak_handler.test_add_streak_entry_new_file" title="Link to this definition"></a></dt>
+<dd><p>Test adding a streak entry to a new file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.leaderboard.test_streak_handler.test_add_streak_entry_sorting">
+<span class="sig-prename descclassname"><span class="pre">tests.leaderboard.test_streak_handler.</span></span><span class="sig-name descname"><span class="pre">test_add_streak_entry_sorting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/leaderboard/test_streak_handler.html#test_add_streak_entry_sorting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.leaderboard.test_streak_handler.test_add_streak_entry_sorting" title="Link to this definition"></a></dt>
+<dd><p>Test that add_streak_entry sorts by streak_count then total_points_in_streak.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.leaderboard.test_streak_handler.test_load_streaks_empty_file">
+<span class="sig-prename descclassname"><span class="pre">tests.leaderboard.test_streak_handler.</span></span><span class="sig-name descname"><span class="pre">test_load_streaks_empty_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/leaderboard/test_streak_handler.html#test_load_streaks_empty_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.leaderboard.test_streak_handler.test_load_streaks_empty_file" title="Link to this definition"></a></dt>
+<dd><p>Test loading streaks from an empty file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.leaderboard.test_streak_handler.test_load_streaks_file_not_exist">
+<span class="sig-prename descclassname"><span class="pre">tests.leaderboard.test_streak_handler.</span></span><span class="sig-name descname"><span class="pre">test_load_streaks_file_not_exist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">monkeypatch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MonkeyPatch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/leaderboard/test_streak_handler.html#test_load_streaks_file_not_exist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.leaderboard.test_streak_handler.test_load_streaks_file_not_exist" title="Link to this definition"></a></dt>
+<dd><p>Test loading streaks when file does not exist.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.leaderboard.test_streak_handler.test_load_streaks_invalid_entries">
+<span class="sig-prename descclassname"><span class="pre">tests.leaderboard.test_streak_handler.</span></span><span class="sig-name descname"><span class="pre">test_load_streaks_invalid_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/leaderboard/test_streak_handler.html#test_load_streaks_invalid_entries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.leaderboard.test_streak_handler.test_load_streaks_invalid_entries" title="Link to this definition"></a></dt>
+<dd><p>Test loading streaks with some invalid entries in file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.leaderboard.test_streak_handler.test_load_streaks_invalid_json">
+<span class="sig-prename descclassname"><span class="pre">tests.leaderboard.test_streak_handler.</span></span><span class="sig-name descname"><span class="pre">test_load_streaks_invalid_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/leaderboard/test_streak_handler.html#test_load_streaks_invalid_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.leaderboard.test_streak_handler.test_load_streaks_invalid_json" title="Link to this definition"></a></dt>
+<dd><p>Test loading streaks with invalid JSON in file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.leaderboard.test_streak_handler.test_load_streaks_io_error">
+<span class="sig-prename descclassname"><span class="pre">tests.leaderboard.test_streak_handler.</span></span><span class="sig-name descname"><span class="pre">test_load_streaks_io_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">monkeypatch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MonkeyPatch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/leaderboard/test_streak_handler.html#test_load_streaks_io_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.leaderboard.test_streak_handler.test_load_streaks_io_error" title="Link to this definition"></a></dt>
+<dd><p>Test loading streaks with IOError.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.leaderboard.test_streak_handler.test_load_streaks_valid_data">
+<span class="sig-prename descclassname"><span class="pre">tests.leaderboard.test_streak_handler.</span></span><span class="sig-name descname"><span class="pre">test_load_streaks_valid_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_streak_dicts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/leaderboard/test_streak_handler.html#test_load_streaks_valid_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.leaderboard.test_streak_handler.test_load_streaks_valid_data" title="Link to this definition"></a></dt>
+<dd><p>Test loading valid streak data from file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.leaderboard.test_streak_handler.testsave_streaks_to_file">
+<span class="sig-prename descclassname"><span class="pre">tests.leaderboard.test_streak_handler.</span></span><span class="sig-name descname"><span class="pre">testsave_streaks_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_streak_entries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="leaderboard.html#leaderboard.streak_handler.StreakEntry" title="leaderboard.streak_handler.StreakEntry"><span class="pre">StreakEntry</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/leaderboard/test_streak_handler.html#testsave_streaks_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.leaderboard.test_streak_handler.testsave_streaks_to_file" title="Link to this definition"></a></dt>
+<dd><p>Test saving streaks to file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.leaderboard.test_streak_handler.testsave_streaks_to_file_io_error">
+<span class="sig-prename descclassname"><span class="pre">tests.leaderboard.test_streak_handler.</span></span><span class="sig-name descname"><span class="pre">testsave_streaks_to_file_io_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">monkeypatch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MonkeyPatch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_streak_entries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="leaderboard.html#leaderboard.streak_handler.StreakEntry" title="leaderboard.streak_handler.StreakEntry"><span class="pre">StreakEntry</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/leaderboard/test_streak_handler.html#testsave_streaks_to_file_io_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.leaderboard.test_streak_handler.testsave_streaks_to_file_io_error" title="Link to this definition"></a></dt>
+<dd><p>Test IOError during saving streaks to file.</p>
+</dd></dl>
+
+</section>
+<section id="module-tests.leaderboard">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tests.leaderboard" title="Link to this heading"></a></h2>
+<p>Test package for leaderboard module in Worderly.</p>
+<p>This package contains unit tests for leaderboard logic and streak handling.</p>
+<dl class="simple">
+<dt>Modules:</dt><dd><p>test_streak_handler: Tests for functions and classes managing streaks and leaderboard statistics.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tests.gameplay.html" class="btn btn-neutral float-left" title="tests.gameplay package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tests.setup.html" class="btn btn-neutral float-right" title="tests.setup package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joel Angelo Baldapan &amp; Alvin Dela Fuente.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

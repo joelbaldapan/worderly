@@ -1,0 +1,546 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tests.gameplay package &mdash; Worderly V2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=464bee56"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="tests.leaderboard package" href="tests.leaderboard.html" />
+    <link rel="prev" title="tests package" href="tests.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Worderly
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">worderly</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html">display package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gameplay.html">gameplay package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="leaderboard.html">leaderboard package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="tests.html">tests package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="tests.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">tests.gameplay package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.leaderboard.html">tests.leaderboard package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.setup.html">tests.setup package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#module-tests.test_worderly">tests.test_worderly module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#module-tests">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="worderly.html">worderly module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Worderly</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">worderly</a></li>
+          <li class="breadcrumb-item"><a href="tests.html">tests package</a></li>
+      <li class="breadcrumb-item active">tests.gameplay package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tests.gameplay.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tests-gameplay-package">
+<h1>tests.gameplay package<a class="headerlink" href="#tests-gameplay-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-tests.gameplay.test_game_state_handler">
+<span id="tests-gameplay-test-game-state-handler-module"></span><h2>tests.gameplay.test_game_state_handler module<a class="headerlink" href="#module-tests.gameplay.test_game_state_handler" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.sample_final_grid">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">sample_final_grid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#sample_final_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.sample_final_grid" title="Link to this definition"></a></dt>
+<dd><p>Create a simple 3x5 final grid for testing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The sample grid.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[list[str | None]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.sample_initial_game_state">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">sample_initial_game_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_wizard_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#sample_initial_game_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.sample_initial_game_state" title="Link to this definition"></a></dt>
+<dd><p>Create a basic initial game state for modification in tests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dummy game state.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.sample_wizard_data">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">sample_wizard_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#sample_wizard_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.sample_wizard_data" title="Link to this definition"></a></dt>
+<dd><p>Create sample wizard data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dummy wizard data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.sample_words_to_find">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">sample_words_to_find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#sample_words_to_find"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.sample_words_to_find" title="Link to this definition"></a></dt>
+<dd><p>Create a sample words_to_find dictionary matching the grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The sample words-to-coords mapping.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, list[tuple[int, int]]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.test_apply_coordinate_reveal">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">test_apply_coordinate_reveal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_reveal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_initial_game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#test_apply_coordinate_reveal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.test_apply_coordinate_reveal" title="Link to this definition"></a></dt>
+<dd><p>Test applying coordinate reveals and updating game state.</p>
+<p>Assert that points and tracking sets are updated correctly.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.test_check_for_completed_words">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">test_check_for_completed_words</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#test_check_for_completed_words"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.test_check_for_completed_words" title="Link to this definition"></a></dt>
+<dd><p>Test identifying words completed implicitly by revealed letters.</p>
+<p>Assert that implicitly completed words are detected.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.test_check_game_over">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">test_check_game_over</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#test_check_game_over"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.test_check_game_over" title="Link to this definition"></a></dt>
+<dd><p>Test the game over condition checks.</p>
+<p>Assert that win, loss, and continue conditions are detected.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.test_create_hidden_grid">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">test_create_hidden_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#test_create_hidden_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.test_create_hidden_grid" title="Link to this definition"></a></dt>
+<dd><p>Test creating the hidden grid to be displayed to the player.</p>
+<p>Assert that the hidden grid matches expected structure and values.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.test_get_all_letter_coords">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">test_get_all_letter_coords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#test_get_all_letter_coords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.test_get_all_letter_coords" title="Link to this definition"></a></dt>
+<dd><p>Test getting the set of all non-None coordinates.</p>
+<p>Assert that all letter coordinates are found.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.test_initialize_game_state">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">test_initialize_game_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_get_coords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_create_hidden</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_shuffle_letters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_wizard_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#test_initialize_game_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.test_initialize_game_state" title="Link to this definition"></a></dt>
+<dd><p>Test the initialization of the main game state dictionary.</p>
+<p>Assert that all fields are initialized as expected.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.test_process_guess_correct_implicit_completion">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">test_process_guess_correct_implicit_completion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_check_completed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_apply_reveal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_initial_game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#test_process_guess_correct_implicit_completion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.test_process_guess_correct_implicit_completion" title="Link to this definition"></a></dt>
+<dd><p>Test correct guess that implicitly completes another word.</p>
+<p>Assert that both guessed and implicitly completed words are added.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.test_process_guess_correct_no_shield">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">test_process_guess_correct_no_shield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_check_completed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_apply_reveal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_initial_game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#test_process_guess_correct_no_shield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.test_process_guess_correct_no_shield" title="Link to this definition"></a></dt>
+<dd><p>Test processing a correct guess when shield is off.</p>
+<p>Assert that stats and state are updated for a correct guess.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.test_process_guess_correct_with_shield">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">test_process_guess_correct_with_shield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_check_completed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_apply_reveal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_initial_game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#test_process_guess_correct_with_shield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.test_process_guess_correct_with_shield" title="Link to this definition"></a></dt>
+<dd><p>Test processing a correct guess when shield is active.</p>
+<p>Assert that shield turns decrease and stats update for correct guess.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.test_process_guess_duplicate_no_shield">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">test_process_guess_duplicate_no_shield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_check_completed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_apply_reveal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_initial_game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#test_process_guess_duplicate_no_shield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.test_process_guess_duplicate_no_shield" title="Link to this definition"></a></dt>
+<dd><p>Test processing a duplicate guess when shield is off.</p>
+<p>Assert that lives are decremented and duplicate word is not added.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.test_process_guess_wrong_no_shield">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">test_process_guess_wrong_no_shield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_check_completed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_apply_reveal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_initial_game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#test_process_guess_wrong_no_shield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.test_process_guess_wrong_no_shield" title="Link to this definition"></a></dt>
+<dd><p>Test processing a wrong guess when shield is off.</p>
+<p>Assert that lives are decremented and no words are added.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.test_process_guess_wrong_with_shield">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">test_process_guess_wrong_with_shield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_check_completed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_apply_reveal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_initial_game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#test_process_guess_wrong_with_shield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.test_process_guess_wrong_with_shield" title="Link to this definition"></a></dt>
+<dd><p>Test processing a wrong guess when shield is active.</p>
+<p>Assert that lives are not decremented and shield turns decrease.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.test_reveal_coords_in_hidden_grid">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">test_reveal_coords_in_hidden_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#test_reveal_coords_in_hidden_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.test_reveal_coords_in_hidden_grid" title="Link to this definition"></a></dt>
+<dd><p>Test revealing specific coordinates in the hidden grid.</p>
+<p>Assert that only specified coordinates are revealed.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_game_state_handler.test_shuffle_letters_statistic">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_game_state_handler.</span></span><span class="sig-name descname"><span class="pre">test_shuffle_letters_statistic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_shuffle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_game_state_handler.html#test_shuffle_letters_statistic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_game_state_handler.test_shuffle_letters_statistic" title="Link to this definition"></a></dt>
+<dd><p>Test shuffling letters of the middle word.</p>
+<p>Check that shuffle is called and output is as expected.</p>
+</dd></dl>
+
+</section>
+<section id="module-tests.gameplay.test_gameplay">
+<span id="tests-gameplay-test-gameplay-module"></span><h2>tests.gameplay.test_gameplay module<a class="headerlink" href="#module-tests.gameplay.test_gameplay" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.DummyGameConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">DummyGameConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">difficulty_conf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">middle_word</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#DummyGameConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.DummyGameConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.sample_final_grid">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">sample_final_grid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#sample_final_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.sample_final_grid" title="Link to this definition"></a></dt>
+<dd><p>Create a sample minimal final grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A 1x1 grid with “A”.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[list[str]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.sample_game_state">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">sample_game_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#sample_game_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.sample_game_state" title="Link to this definition"></a></dt>
+<dd><p>Create a basic game state object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sample_wizard</strong> (<em>object</em>) – The wizard object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The sample game state.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData">GameStateData</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.sample_settings">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">sample_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#sample_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.sample_settings" title="Link to this definition"></a></dt>
+<dd><p>Create sample settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dummy settings object with heart_point_mode True.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.sample_settings_no_hp">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">sample_settings_no_hp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#sample_settings_no_hp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.sample_settings_no_hp" title="Link to this definition"></a></dt>
+<dd><p>Create sample settings with heart_point_mode set to False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dummy settings object with heart_point_mode False.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.sample_wizard">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">sample_wizard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">object</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#sample_wizard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.sample_wizard" title="Link to this definition"></a></dt>
+<dd><p>Create sample wizard data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dummy wizard object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.sample_words_to_find">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">sample_words_to_find</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#sample_words_to_find"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.sample_words_to_find" title="Link to this definition"></a></dt>
+<dd><p>Create a sample minimal words_to_find.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Mapping of word to coordinates.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, list[tuple[int, int]]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.test_get_guess_invalid_then_valid">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">test_get_guess_invalid_then_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_update_disp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_get_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#test_get_guess_invalid_then_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.test_get_guess_invalid_then_valid" title="Link to this definition"></a></dt>
+<dd><p>Test get_guess handles invalid input then accepts valid input.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.test_get_guess_powerup_command_invalid_points">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">test_get_guess_powerup_command_invalid_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_update_disp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_get_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#test_get_guess_powerup_command_invalid_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.test_get_guess_powerup_command_invalid_points" title="Link to this definition"></a></dt>
+<dd><p>Test get_guess handles powerup attempt with insufficient points.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.test_get_guess_powerup_command_invalid_wizard">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">test_get_guess_powerup_command_invalid_wizard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_update_disp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_get_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#test_get_guess_powerup_command_invalid_wizard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.test_get_guess_powerup_command_invalid_wizard" title="Link to this definition"></a></dt>
+<dd><p>Test get_guess handles powerup attempt with white wizard.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.test_get_guess_powerup_command_valid">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">test_get_guess_powerup_command_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_update_disp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_get_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#test_get_guess_powerup_command_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.test_get_guess_powerup_command_valid" title="Link to this definition"></a></dt>
+<dd><p>Test get_guess returns the powerup command when valid.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.test_get_guess_valid_word">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">test_get_guess_valid_word</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_update_disp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_get_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#test_get_guess_valid_word"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.test_get_guess_valid_word" title="Link to this definition"></a></dt>
+<dd><p>Test get_guess returns a valid word input.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.test_run_game_loss_no_hp_mode">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">test_run_game_loss_no_hp_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_end_disp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_go_disp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_check_go</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_use_pu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_update_pp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_proc_guess</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_get_guess_func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_update_disp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_init_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings_no_hp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#test_run_game_loss_no_hp_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.test_run_game_loss_no_hp_mode" title="Link to this definition"></a></dt>
+<dd><p>Test a losing game flow NOT in Heart Point mode.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.test_run_game_uses_powerup">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">test_run_game_uses_powerup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_end_disp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_go_disp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_check_go</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_use_pu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_update_pp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_proc_guess</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_get_guess_func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_update_disp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_init_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#test_run_game_uses_powerup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.test_run_game_uses_powerup" title="Link to this definition"></a></dt>
+<dd><p>Test game flow when a powerup is used.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.test_run_game_win_hp_mode">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">test_run_game_win_hp_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_end_disp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_go_disp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_check_go</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_use_pu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_update_pp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_proc_guess</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_get_guess_func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_update_disp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_init_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_final_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_words_to_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#test_run_game_win_hp_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.test_run_game_win_hp_mode" title="Link to this definition"></a></dt>
+<dd><p>Test a winning game flow in Heart Point mode.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.test_update_display">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">test_update_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_print_msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_print_stats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_print_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_clear</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_game_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_wizard</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#test_update_display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.test_update_display" title="Link to this definition"></a></dt>
+<dd><p>Test that update_display calls all the necessary display functions.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_gameplay.test_update_end_game_display">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_gameplay.</span></span><span class="sig-name descname"><span class="pre">test_update_end_game_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_print_msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_print_lb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_load_lb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_clear</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_get_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MagicMock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_gameplay.html#test_update_end_game_display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_gameplay.test_update_end_game_display" title="Link to this definition"></a></dt>
+<dd><p>Test the sequence of actions in the end game display.</p>
+</dd></dl>
+
+</section>
+<section id="module-tests.gameplay.test_powerup_handler">
+<span id="tests-gameplay-test-powerup-handler-module"></span><h2>tests.gameplay.test_powerup_handler module<a class="headerlink" href="#module-tests.gameplay.test_powerup_handler" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_powerup_handler.power_point_update_data">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_powerup_handler.</span></span><span class="sig-name descname"><span class="pre">power_point_update_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">FixtureRequest</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">object</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_powerup_handler.html#power_point_update_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_powerup_handler.power_point_update_data" title="Link to this definition"></a></dt>
+<dd><p>Provide data for testing update_power_points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wizard, initial combo, and expected increment.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[object, int, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_powerup_handler.sample_final_grid_fixture">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_powerup_handler.</span></span><span class="sig-name descname"><span class="pre">sample_final_grid_fixture</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_powerup_handler.html#sample_final_grid_fixture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_powerup_handler.sample_final_grid_fixture" title="Link to this definition"></a></dt>
+<dd><p>Provide sample final grid for powerup tests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sample final grid.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[list[str | None]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_powerup_handler.sample_game_state_fixture">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_powerup_handler.</span></span><span class="sig-name descname"><span class="pre">sample_game_state_fixture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_statistics_fixture</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStatisticsData" title="gameplay.game_state_handler.GameStatisticsData"><span class="pre">GameStatisticsData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData"><span class="pre">GameStateData</span></a></span></span><a class="reference internal" href="_modules/tests/gameplay/test_powerup_handler.html#sample_game_state_fixture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_powerup_handler.sample_game_state_fixture" title="Link to this definition"></a></dt>
+<dd><p>Create a sample game state object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sample game state object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStateData" title="gameplay.game_state_handler.GameStateData">GameStateData</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_powerup_handler.sample_statistics_fixture">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_powerup_handler.</span></span><span class="sig-name descname"><span class="pre">sample_statistics_fixture</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStatisticsData" title="gameplay.game_state_handler.GameStatisticsData"><span class="pre">GameStatisticsData</span></a></span></span><a class="reference internal" href="_modules/tests/gameplay/test_powerup_handler.html#sample_statistics_fixture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_powerup_handler.sample_statistics_fixture" title="Link to this definition"></a></dt>
+<dd><p>Create a sample statistics object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sample statistics object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="gameplay.html#gameplay.game_state_handler.GameStatisticsData" title="gameplay.game_state_handler.GameStatisticsData">GameStatisticsData</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_powerup_handler.sample_words_to_find_fixture">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_powerup_handler.</span></span><span class="sig-name descname"><span class="pre">sample_words_to_find_fixture</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_powerup_handler.html#sample_words_to_find_fixture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_powerup_handler.sample_words_to_find_fixture" title="Link to this definition"></a></dt>
+<dd><p>Provide sample words_to_find for powerup tests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sample words to find.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, list[tuple[int, int]]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.gameplay.test_powerup_handler.use_powerup_data">
+<span class="sig-prename descclassname"><span class="pre">tests.gameplay.test_powerup_handler.</span></span><span class="sig-name descname"><span class="pre">use_powerup_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">FixtureRequest</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/gameplay/test_powerup_handler.html#use_powerup_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.gameplay.test_powerup_handler.use_powerup_data" title="Link to this definition"></a></dt>
+<dd><p>Provide data for testing use_powerup based on wizard color.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Wizard color and expected action/result.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[str, str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-tests.gameplay">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tests.gameplay" title="Link to this heading"></a></h2>
+<p>Test package for gameplay module in Worderly.</p>
+<p>This package contains unit tests for the core gameplay logic, state management,
+powerup handling, and gameplay constants.</p>
+<dl class="simple">
+<dt>Modules:</dt><dd><p>test_gameplay: Tests for the main gameplay loop and related utilities.
+test_game_state_handler: Tests for functions and classes managing game state and statistics.
+test_powerup_handler: Tests for logic handling powerups and their effects.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tests.html" class="btn btn-neutral float-left" title="tests package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tests.leaderboard.html" class="btn btn-neutral float-right" title="tests.leaderboard package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joel Angelo Baldapan &amp; Alvin Dela Fuente.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

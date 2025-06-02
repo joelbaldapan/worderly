@@ -1,0 +1,402 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tests.setup.grid_generator package &mdash; Worderly V2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=464bee56"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="worderly module" href="worderly.html" />
+    <link rel="prev" title="tests.setup package" href="tests.setup.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Worderly
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">worderly</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html">display package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gameplay.html">gameplay package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="leaderboard.html">leaderboard package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="tests.html">tests package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="tests.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="tests.gameplay.html">tests.gameplay package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.leaderboard.html">tests.leaderboard package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="tests.setup.html">tests.setup package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#module-tests.test_worderly">tests.test_worderly module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#module-tests">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="worderly.html">worderly module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Worderly</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">worderly</a></li>
+          <li class="breadcrumb-item"><a href="tests.html">tests package</a></li>
+          <li class="breadcrumb-item"><a href="tests.setup.html">tests.setup package</a></li>
+      <li class="breadcrumb-item active">tests.setup.grid_generator package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tests.setup.grid_generator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tests-setup-grid-generator-package">
+<h1>tests.setup.grid_generator package<a class="headerlink" href="#tests-setup-grid-generator-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-tests.setup.grid_generator.test_board_state">
+<span id="tests-setup-grid-generator-test-board-state-module"></span><h2>tests.setup.grid_generator.test_board_state module<a class="headerlink" href="#module-tests.setup.grid_generator.test_board_state" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_board_state.empty_grid_3x4">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_board_state.</span></span><span class="sig-name descname"><span class="pre">empty_grid_3x4</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_board_state.html#empty_grid_3x4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_board_state.empty_grid_3x4" title="Link to this definition"></a></dt>
+<dd><p>Create a 3x4 empty grid (filled with None).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A 3x4 grid filled with None.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[list[None]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_board_state.sample_grid_5x5">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_board_state.</span></span><span class="sig-name descname"><span class="pre">sample_grid_5x5</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_board_state.html#sample_grid_5x5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_board_state.sample_grid_5x5" title="Link to this definition"></a></dt>
+<dd><p>Create a 5x5 grid with a word placed for testing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A 5x5 grid with “TEST” placed horizontally at (1, 1).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[list[str | None]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_board_state.sample_state_data">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_board_state.</span></span><span class="sig-name descname"><span class="pre">sample_state_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">object</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_board_state.html#sample_state_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_board_state.sample_state_data" title="Link to this definition"></a></dt>
+<dd><p>Create sample data of coordinates used by imperative functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sample state data for testing.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, object]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-tests.setup.grid_generator.test_main_generator">
+<span id="tests-setup-grid-generator-test-main-generator-module"></span><h2>tests.setup.grid_generator.test_main_generator module<a class="headerlink" href="#module-tests.setup.grid_generator.test_main_generator" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_main_generator.initial_board_state_fixture">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_main_generator.</span></span><span class="sig-name descname"><span class="pre">initial_board_state_fixture</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="setup.grid_generator.html#setup.grid_generator.board_state.BoardGenerationState" title="setup.grid_generator.board_state.BoardGenerationState"><span class="pre">BoardGenerationState</span></a></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_main_generator.html#initial_board_state_fixture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_main_generator.initial_board_state_fixture" title="Link to this definition"></a></dt>
+<dd><p>Create a clean initial board state object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new board state with empty grid and sets.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="setup.grid_generator.html#setup.grid_generator.board_state.BoardGenerationState" title="setup.grid_generator.board_state.BoardGenerationState">BoardGenerationState</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_main_generator.test_capitalize_middle_word_appearance">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_main_generator.</span></span><span class="sig-name descname"><span class="pre">test_capitalize_middle_word_appearance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_place_letters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_main_generator.html#test_capitalize_middle_word_appearance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_main_generator.test_capitalize_middle_word_appearance" title="Link to this definition"></a></dt>
+<dd><p>Capitalize the middle word on the grid.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_main_generator.test_initialize_board_state">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_main_generator.</span></span><span class="sig-name descname"><span class="pre">test_initialize_board_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_create_empty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_main_generator.html#test_initialize_board_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_main_generator.test_initialize_board_state" title="Link to this definition"></a></dt>
+<dd><p>Test initialization of the board state dictionary.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_main_generator.test_place_middle_word_fail_no_coords">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_main_generator.</span></span><span class="sig-name descname"><span class="pre">test_place_middle_word_fail_no_coords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_update_letters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_place_letters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_calc_placement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_board_state_fixture</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="setup.grid_generator.html#setup.grid_generator.board_state.BoardGenerationState" title="setup.grid_generator.board_state.BoardGenerationState"><span class="pre">BoardGenerationState</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_main_generator.html#test_place_middle_word_fail_no_coords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_main_generator.test_place_middle_word_fail_no_coords" title="Link to this definition"></a></dt>
+<dd><p>Test placing middle word when coordinate calculation fails.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_main_generator.test_place_middle_word_success">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_main_generator.</span></span><span class="sig-name descname"><span class="pre">test_place_middle_word_success</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_update_letters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_place_letters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_calc_placement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_board_state_fixture</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="setup.grid_generator.html#setup.grid_generator.board_state.BoardGenerationState" title="setup.grid_generator.board_state.BoardGenerationState"><span class="pre">BoardGenerationState</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_main_generator.html#test_place_middle_word_success"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_main_generator.test_place_middle_word_success" title="Link to this definition"></a></dt>
+<dd><p>Test placing middle word successfully.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_main_generator.test_place_other_words_reach_max">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_main_generator.</span></span><span class="sig-name descname"><span class="pre">test_place_other_words_reach_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_apply</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_select</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_shuffle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_board_state_fixture</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="setup.grid_generator.html#setup.grid_generator.board_state.BoardGenerationState" title="setup.grid_generator.board_state.BoardGenerationState"><span class="pre">BoardGenerationState</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_main_generator.html#test_place_other_words_reach_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_main_generator.test_place_other_words_reach_max" title="Link to this definition"></a></dt>
+<dd><p>Test the basic loop and placement attempt logic reaching the max words limit.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_main_generator.test_place_other_words_success">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_main_generator.</span></span><span class="sig-name descname"><span class="pre">test_place_other_words_success</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_apply</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_select</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_shuffle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_board_state_fixture</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="setup.grid_generator.html#setup.grid_generator.board_state.BoardGenerationState" title="setup.grid_generator.board_state.BoardGenerationState"><span class="pre">BoardGenerationState</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_main_generator.html#test_place_other_words_success"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_main_generator.test_place_other_words_success" title="Link to this definition"></a></dt>
+<dd><p>Test the basic loop and placement attempt logic.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_main_generator.test_validate_final_grid">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_main_generator.</span></span><span class="sig-name descname"><span class="pre">test_validate_final_grid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_main_generator.html#test_validate_final_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_main_generator.test_validate_final_grid" title="Link to this definition"></a></dt>
+<dd><p>Validate the final grid logic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the grid is valid, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-tests.setup.grid_generator.test_placement_logic">
+<span id="tests-setup-grid-generator-test-placement-logic-module"></span><h2>tests.setup.grid_generator.test_placement_logic module<a class="headerlink" href="#module-tests.setup.grid_generator.test_placement_logic" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_logic.test_apply_placement">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_logic.</span></span><span class="sig-name descname"><span class="pre">test_apply_placement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_place_letters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">patch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_update_word</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">patch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_update_letter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">patch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_calc_coords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">patch</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_logic.html#test_apply_placement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_logic.test_apply_placement" title="Link to this definition"></a></dt>
+<dd><p>Call helper functions correctly for apply_placement.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_logic.test_categorize_placement">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_logic.</span></span><span class="sig-name descname"><span class="pre">test_categorize_placement</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_logic.html#test_categorize_placement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_logic.test_categorize_placement" title="Link to this definition"></a></dt>
+<dd><p>Categorize placements based on middle word intersection.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_logic.test_find_possible_placements">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_logic.</span></span><span class="sig-name descname"><span class="pre">test_find_possible_placements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_is_valid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">patch</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_logic.html#test_find_possible_placements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_logic.test_find_possible_placements" title="Link to this definition"></a></dt>
+<dd><p>Find potential placements by checking intersections.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_logic.test_select_random_placement">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_logic.</span></span><span class="sig-name descname"><span class="pre">test_select_random_placement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_random_choice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">patch</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_logic.html#test_select_random_placement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_logic.test_select_random_placement" title="Link to this definition"></a></dt>
+<dd><p>Select a placement, prioritizing unused middle coords.</p>
+</dd></dl>
+
+</section>
+<section id="module-tests.setup.grid_generator.test_placement_rules">
+<span id="tests-setup-grid-generator-test-placement-rules-module"></span><h2>tests.setup.grid_generator.test_placement_rules module<a class="headerlink" href="#module-tests.setup.grid_generator.test_placement_rules" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_rules.empty_grid_3x4">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_rules.</span></span><span class="sig-name descname"><span class="pre">empty_grid_3x4</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_rules.html#empty_grid_3x4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_rules.empty_grid_3x4" title="Link to this definition"></a></dt>
+<dd><p>Create a 3x4 empty grid filled with None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The empty grid.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[list[None]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_rules.sample_grid_5x5">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_rules.</span></span><span class="sig-name descname"><span class="pre">sample_grid_5x5</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_rules.html#sample_grid_5x5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_rules.sample_grid_5x5" title="Link to this definition"></a></dt>
+<dd><p>Create a 5x5 grid with a word placed for testing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The sample grid.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[list[str | None]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_rules.sample_state_data">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_rules.</span></span><span class="sig-name descname"><span class="pre">sample_state_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_rules.html#sample_state_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_rules.sample_state_data" title="Link to this definition"></a></dt>
+<dd><p>Create sample data of coordinates used by imperative functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sample state data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_rules.test_calculate_middle_word_placement_coords">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_rules.</span></span><span class="sig-name descname"><span class="pre">test_calculate_middle_word_placement_coords</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_rules.html#test_calculate_middle_word_placement_coords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_rules.test_calculate_middle_word_placement_coords" title="Link to this definition"></a></dt>
+<dd><p>Test calculating diagonal coordinates for the middle word.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_rules.test_is_valid_placement_scenarios">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_rules.</span></span><span class="sig-name descname"><span class="pre">test_is_valid_placement_scenarios</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validation_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_rules.html#test_is_valid_placement_scenarios"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_rules.test_is_valid_placement_scenarios" title="Link to this definition"></a></dt>
+<dd><p>Test is_valid_placement for bounds, adjacent, and letter checks.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_rules.test_update_placed_letter_coords">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_rules.</span></span><span class="sig-name descname"><span class="pre">test_update_placed_letter_coords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_state_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_rules.html#test_update_placed_letter_coords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_rules.test_update_placed_letter_coords" title="Link to this definition"></a></dt>
+<dd><p>Test updating the dictionary tracking letters and their coordinates.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_rules.test_update_placed_word_coords">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_rules.</span></span><span class="sig-name descname"><span class="pre">test_update_placed_word_coords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_state_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_rules.html#test_update_placed_word_coords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_rules.test_update_placed_word_coords" title="Link to this definition"></a></dt>
+<dd><p>Test updating the dictionary tracking placed words and their coords.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_rules.testcheck_adjacent_after_end">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_rules.</span></span><span class="sig-name descname"><span class="pre">testcheck_adjacent_after_end</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validation_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_rules.html#testcheck_adjacent_after_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_rules.testcheck_adjacent_after_end" title="Link to this definition"></a></dt>
+<dd><p>Test check_adjacent_after_end to check cell after word end.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_rules.testcheck_adjacent_before_start">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_rules.</span></span><span class="sig-name descname"><span class="pre">testcheck_adjacent_before_start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validation_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_rules.html#testcheck_adjacent_before_start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_rules.testcheck_adjacent_before_start" title="Link to this definition"></a></dt>
+<dd><p>Test check_adjacent_before_start to check cell before word start.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_rules.testcheck_for_all_letters">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_rules.</span></span><span class="sig-name descname"><span class="pre">testcheck_for_all_letters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validation_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_rules.html#testcheck_for_all_letters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_rules.testcheck_for_all_letters" title="Link to this definition"></a></dt>
+<dd><p>Test check_for_all_letters for letter conflicts and placement rules.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_rules.testcheck_parallel_cells">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_rules.</span></span><span class="sig-name descname"><span class="pre">testcheck_parallel_cells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validation_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_rules.html#testcheck_parallel_cells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_rules.testcheck_parallel_cells" title="Link to this definition"></a></dt>
+<dd><p>Test check_parallel_cells to check parallel neighbors.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_rules.testis_within_bounds">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_rules.</span></span><span class="sig-name descname"><span class="pre">testis_within_bounds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_rules.html#testis_within_bounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_rules.testis_within_bounds" title="Link to this definition"></a></dt>
+<dd><p>Test boundary checking function.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.grid_generator.test_placement_rules.validation_grid">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.grid_generator.test_placement_rules.</span></span><span class="sig-name descname"><span class="pre">validation_grid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/setup/grid_generator/test_placement_rules.html#validation_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.grid_generator.test_placement_rules.validation_grid" title="Link to this definition"></a></dt>
+<dd><p>Provide a grid for validation tests with TEST and SAIL placed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The validation grid.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[list[str | None]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-tests.setup.grid_generator">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tests.setup.grid_generator" title="Link to this heading"></a></h2>
+<p>Test package for grid generator setup module in Worderly.</p>
+<p>This package contains unit tests for the grid generation logic, board state management,
+placement logic, placement rules, and word selection.</p>
+<dl class="simple">
+<dt>Modules:</dt><dd><p>test_board_state: Tests for board state and grid utilities.
+test_main_generator: Tests for main board setup functions.
+test_placement_logic: Tests for placement finding and selection logic.
+test_placement_rules: Tests for grid validation and placement rules.
+test_word_selector: Tests for word selection logic.
+test_menus: Tests for menu-related utilities.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tests.setup.html" class="btn btn-neutral float-left" title="tests.setup package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="worderly.html" class="btn btn-neutral float-right" title="worderly module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joel Angelo Baldapan &amp; Alvin Dela Fuente.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

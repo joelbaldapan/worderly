@@ -1,0 +1,753 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tests.gameplay.test_game_state_handler &mdash; Worderly V2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=464bee56"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Worderly
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">worderly</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Worderly</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">tests.gameplay.test_game_state_handler</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for tests.gameplay.test_game_state_handler</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">unittest.mock</span><span class="w"> </span><span class="kn">import</span> <span class="n">patch</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">gameplay</span><span class="w"> </span><span class="kn">import</span> <span class="n">game_constants</span><span class="p">,</span> <span class="n">game_state_handler</span>
+
+
+<div class="viewcode-block" id="sample_final_grid">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.sample_final_grid">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_final_grid</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a simple 3x5 final grid for testing.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list[list[str | None]]: The sample grid.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="p">[[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="mi">5</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+    <span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;H&quot;</span>
+    <span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;I&quot;</span>
+    <span class="n">grid</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;A&quot;</span>
+    <span class="n">grid</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;T&quot;</span>
+    <span class="k">return</span> <span class="n">grid</span></div>
+
+
+
+<div class="viewcode-block" id="sample_words_to_find">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.sample_words_to_find">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_words_to_find</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a sample words_to_find dictionary matching the grid.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict[str, list[tuple[int, int]]]: The sample words-to-coords mapping.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;HI&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)],</span>
+        <span class="s2">&quot;HAT&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span>
+        <span class="s2">&quot;AT&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="sample_wizard_data">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.sample_wizard_data">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_wizard_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create sample wizard data.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object: Dummy wizard data.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">DummyWizard</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;JOEL THE GOD OF CODE&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">starting_lives</span> <span class="o">=</span> <span class="mi">3</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span>
+
+    <span class="k">return</span> <span class="n">DummyWizard</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="sample_initial_game_state">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.sample_initial_game_state">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_initial_game_state</span><span class="p">(</span>
+    <span class="n">sample_final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span>
+    <span class="n">sample_wizard_data</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a basic initial game state for modification in tests.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object: Dummy game state.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">all_coords</span> <span class="o">=</span> <span class="n">game_state_handler</span><span class="o">.</span><span class="n">get_all_letter_coords</span><span class="p">(</span><span class="n">sample_final_grid</span><span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">DummyStats</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">letters</span> <span class="o">=</span> <span class="s2">&quot;A H I T&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lives_left</span> <span class="o">=</span> <span class="n">sample_wizard_data</span><span class="o">.</span><span class="n">starting_lives</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_guess</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">combo</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">power_points</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shield_turns</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">DummyGameState</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">player_name</span> <span class="o">=</span> <span class="s2">&quot;Tester&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">statistics</span> <span class="o">=</span> <span class="n">DummyStats</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hidden_grid</span> <span class="o">=</span> <span class="n">game_state_handler</span><span class="o">.</span><span class="n">create_hidden_grid</span><span class="p">(</span><span class="n">sample_final_grid</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_guess_coords</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">correctly_guessed_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hidden_letter_coords</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">all_coords</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">found_letter_coords</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">next_message</span> <span class="o">=</span> <span class="n">game_constants</span><span class="o">.</span><span class="n">WELCOME_MSG</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">next_message_color</span> <span class="o">=</span> <span class="n">sample_wizard_data</span><span class="o">.</span><span class="n">color</span>
+
+    <span class="k">return</span> <span class="n">DummyGameState</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="test_shuffle_letters_statistic">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.test_shuffle_letters_statistic">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;random.shuffle&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_shuffle_letters_statistic</span><span class="p">(</span>
+    <span class="n">mock_shuffle</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test shuffling letters of the middle word.</span>
+
+<span class="sd">    Check that shuffle is called and output is as expected.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">middle_word</span> <span class="o">=</span> <span class="s2">&quot;WORD&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">mock_shuffle_side_effect</span><span class="p">(</span><span class="n">letters</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">letters</span>
+
+    <span class="n">mock_shuffle</span><span class="o">.</span><span class="n">side_effect</span> <span class="o">=</span> <span class="n">mock_shuffle_side_effect</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">game_state_handler</span><span class="o">.</span><span class="n">shuffle_letters_statistic</span><span class="p">(</span><span class="n">middle_word</span><span class="p">)</span>
+
+    <span class="n">mock_shuffle</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">([</span><span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="s2">&quot;O&quot;</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="s2">&quot;W O R D&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="test_create_hidden_grid">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.test_create_hidden_grid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_create_hidden_grid</span><span class="p">(</span>
+    <span class="n">sample_final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test creating the hidden grid to be displayed to the player.</span>
+
+<span class="sd">    Assert that the hidden grid matches expected structure and values.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hidden</span> <span class="o">=</span> <span class="n">game_state_handler</span><span class="o">.</span><span class="n">create_hidden_grid</span><span class="p">(</span><span class="n">sample_final_grid</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">hidden</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_final_grid</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">hidden</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_final_grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">hidden</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">hidden</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span>
+    <span class="k">assert</span> <span class="n">hidden</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span>
+    <span class="k">assert</span> <span class="n">hidden</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">hidden</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span>
+    <span class="k">assert</span> <span class="n">hidden</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span>
+    <span class="k">assert</span> <span class="n">hidden</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="test_reveal_coords_in_hidden_grid">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.test_reveal_coords_in_hidden_grid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_reveal_coords_in_hidden_grid</span><span class="p">(</span>
+    <span class="n">sample_final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test revealing specific coordinates in the hidden grid.</span>
+
+<span class="sd">    Assert that only specified coordinates are revealed.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hidden</span> <span class="o">=</span> <span class="n">game_state_handler</span><span class="o">.</span><span class="n">create_hidden_grid</span><span class="p">(</span><span class="n">sample_final_grid</span><span class="p">)</span>
+    <span class="n">coords_to_reveal</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="n">game_state_handler</span><span class="o">.</span><span class="n">reveal_coords_in_hidden_grid</span><span class="p">(</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">hidden</span><span class="p">,</span>
+        <span class="n">coords_to_reveal</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">hidden</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;H&quot;</span>
+    <span class="k">assert</span> <span class="n">hidden</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;T&quot;</span>
+    <span class="k">assert</span> <span class="n">hidden</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span>
+    <span class="k">assert</span> <span class="n">hidden</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span>
+
+    <span class="n">coords_to_reveal2</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+    <span class="n">game_state_handler</span><span class="o">.</span><span class="n">reveal_coords_in_hidden_grid</span><span class="p">(</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">hidden</span><span class="p">,</span>
+        <span class="n">coords_to_reveal2</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">hidden</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="test_get_all_letter_coords">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.test_get_all_letter_coords">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_get_all_letter_coords</span><span class="p">(</span>
+    <span class="n">sample_final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test getting the set of all non-None coordinates.</span>
+
+<span class="sd">    Assert that all letter coordinates are found.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">expected_coords</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)}</span>
+    <span class="n">actual_coords</span> <span class="o">=</span> <span class="n">game_state_handler</span><span class="o">.</span><span class="n">get_all_letter_coords</span><span class="p">(</span><span class="n">sample_final_grid</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">actual_coords</span> <span class="o">==</span> <span class="n">expected_coords</span></div>
+
+
+
+<div class="viewcode-block" id="test_apply_coordinate_reveal">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.test_apply_coordinate_reveal">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.reveal_coords_in_hidden_grid&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_apply_coordinate_reveal</span><span class="p">(</span>
+    <span class="n">mock_reveal</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span>
+    <span class="n">sample_initial_game_state</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test applying coordinate reveals and updating game state.</span>
+
+<span class="sd">    Assert that points and tracking sets are updated correctly.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">game_state</span> <span class="o">=</span> <span class="n">sample_initial_game_state</span>
+
+    <span class="n">coords_to_reveal</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="n">initial_hidden_coords</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">game_state</span><span class="o">.</span><span class="n">hidden_letter_coords</span><span class="p">)</span>
+    <span class="n">initial_points</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">points</span>
+
+    <span class="n">game_state_handler</span><span class="o">.</span><span class="n">apply_coordinate_reveal</span><span class="p">(</span>
+        <span class="n">game_state</span><span class="p">,</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">coords_to_reveal</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">mock_reveal</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">game_state</span><span class="o">.</span><span class="n">hidden_grid</span><span class="p">,</span>
+        <span class="nb">set</span><span class="p">(</span><span class="n">coords_to_reveal</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">points</span> <span class="o">==</span> <span class="n">initial_points</span> <span class="o">+</span> <span class="mi">2</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">found_letter_coords</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="n">coords_to_reveal</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">last_guess_coords</span> <span class="o">==</span> <span class="nb">list</span><span class="p">(</span><span class="n">coords_to_reveal</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">hidden_letter_coords</span> <span class="o">==</span> <span class="n">initial_hidden_coords</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">coords_to_reveal</span><span class="p">)</span>
+
+    <span class="n">coords_to_reveal_2</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="n">game_state_handler</span><span class="o">.</span><span class="n">apply_coordinate_reveal</span><span class="p">(</span>
+        <span class="n">game_state</span><span class="p">,</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">coords_to_reveal_2</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">points</span> <span class="o">==</span> <span class="n">initial_points</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">found_letter_coords</span> <span class="o">==</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)}</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">last_guess_coords</span> <span class="o">==</span> <span class="nb">list</span><span class="p">(</span><span class="n">coords_to_reveal_2</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">hidden_letter_coords</span> <span class="o">==</span> <span class="n">initial_hidden_coords</span> <span class="o">-</span> <span class="p">{</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="test_initialize_game_state">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.test_initialize_game_state">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.shuffle_letters_statistic&quot;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.create_hidden_grid&quot;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.get_all_letter_coords&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_initialize_game_state</span><span class="p">(</span>
+    <span class="n">mock_get_coords</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">mock_create_hidden</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">mock_shuffle_letters</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span>
+    <span class="n">sample_wizard_data</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test the initialization of the main game state dictionary.</span>
+
+<span class="sd">    Assert that all fields are initialized as expected.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">middle_word</span> <span class="o">=</span> <span class="s2">&quot;TEST&quot;</span>
+    <span class="n">player_name</span> <span class="o">=</span> <span class="s2">&quot;Hero&quot;</span>
+
+    <span class="n">mock_shuffled</span> <span class="o">=</span> <span class="s2">&quot;E S T T&quot;</span>
+    <span class="n">mock_hidden_grid</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+    <span class="p">]</span>
+    <span class="n">mock_all_coords</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)}</span>
+    <span class="n">mock_shuffle_letters</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">mock_shuffled</span>
+    <span class="n">mock_create_hidden</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">mock_hidden_grid</span>
+    <span class="n">mock_get_coords</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="n">mock_all_coords</span>
+
+    <span class="n">game_state</span> <span class="o">=</span> <span class="n">game_state_handler</span><span class="o">.</span><span class="n">initialize_game_state</span><span class="p">(</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">middle_word</span><span class="p">,</span>
+        <span class="n">sample_wizard_data</span><span class="p">,</span>
+        <span class="n">player_name</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">mock_create_hidden</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="n">sample_final_grid</span><span class="p">)</span>
+    <span class="n">mock_shuffle_letters</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="n">middle_word</span><span class="p">)</span>
+    <span class="n">mock_get_coords</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="n">sample_final_grid</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">player_name</span> <span class="o">==</span> <span class="n">player_name</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">hidden_grid</span> <span class="o">==</span> <span class="n">mock_hidden_grid</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">last_guess_coords</span> <span class="o">==</span> <span class="p">[]</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">correctly_guessed_words</span> <span class="o">==</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">hidden_letter_coords</span> <span class="o">==</span> <span class="n">mock_all_coords</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">found_letter_coords</span> <span class="o">==</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message</span> <span class="o">==</span> <span class="n">game_constants</span><span class="o">.</span><span class="n">WELCOME_MSG</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message_color</span> <span class="o">==</span> <span class="n">sample_wizard_data</span><span class="o">.</span><span class="n">color</span>
+
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">letters</span> <span class="o">==</span> <span class="n">mock_shuffled</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">lives_left</span> <span class="o">==</span> <span class="n">sample_wizard_data</span><span class="o">.</span><span class="n">starting_lives</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">points</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">last_guess</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">combo</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">power_points</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">shield_turns</span> <span class="o">==</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="test_process_guess_correct_no_shield">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.test_process_guess_correct_no_shield">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.apply_coordinate_reveal&quot;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.check_for_completed_words&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_process_guess_correct_no_shield</span><span class="p">(</span>
+    <span class="n">mock_check_completed</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">mock_apply_reveal</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_initial_game_state</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_words_to_find</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]],</span>
+    <span class="n">sample_final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test processing a correct guess when shield is off.</span>
+
+<span class="sd">    Assert that stats and state are updated for a correct guess.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">game_state</span> <span class="o">=</span> <span class="n">sample_initial_game_state</span>
+    <span class="n">guess</span> <span class="o">=</span> <span class="s2">&quot;HI&quot;</span>
+    <span class="n">wizard_color</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message_color</span>
+    <span class="n">initial_lives</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">lives_left</span>
+    <span class="n">initial_combo</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">combo</span>
+    <span class="n">coords_for_hi</span> <span class="o">=</span> <span class="n">sample_words_to_find</span><span class="p">[</span><span class="n">guess</span><span class="p">]</span>
+    <span class="n">mock_check_completed</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">game_state_handler</span><span class="o">.</span><span class="n">process_guess</span><span class="p">(</span>
+        <span class="n">guess</span><span class="p">,</span>
+        <span class="n">game_state</span><span class="p">,</span>
+        <span class="n">sample_words_to_find</span><span class="p">,</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">wizard_color</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">last_guess</span> <span class="o">==</span> <span class="n">guess</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">correctly_guessed_words</span> <span class="o">==</span> <span class="p">{</span><span class="n">guess</span><span class="p">}</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">combo</span> <span class="o">==</span> <span class="n">initial_combo</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">lives_left</span> <span class="o">==</span> <span class="n">initial_lives</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message</span> <span class="o">==</span> <span class="n">game_constants</span><span class="o">.</span><span class="n">CORRECT_GUESS_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message_color</span> <span class="o">==</span> <span class="n">wizard_color</span>
+
+    <span class="n">mock_apply_reveal</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span>
+        <span class="n">game_state</span><span class="p">,</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">coords_for_hi</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mock_check_completed</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="n">game_state</span><span class="p">,</span> <span class="n">sample_words_to_find</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_process_guess_correct_implicit_completion">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.test_process_guess_correct_implicit_completion">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.apply_coordinate_reveal&quot;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.check_for_completed_words&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_process_guess_correct_implicit_completion</span><span class="p">(</span>
+    <span class="n">mock_check_completed</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">mock_apply_reveal</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_initial_game_state</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_words_to_find</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]],</span>
+    <span class="n">sample_final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test correct guess that implicitly completes another word.</span>
+
+<span class="sd">    Assert that both guessed and implicitly completed words are added.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">game_state</span> <span class="o">=</span> <span class="n">sample_initial_game_state</span>
+    <span class="n">guess</span> <span class="o">=</span> <span class="s2">&quot;HAT&quot;</span>
+    <span class="n">wizard_color</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message_color</span>
+    <span class="n">coords_for_hat</span> <span class="o">=</span> <span class="n">sample_words_to_find</span><span class="p">[</span><span class="n">guess</span><span class="p">]</span>
+    <span class="n">mock_check_completed</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AT&quot;</span><span class="p">]</span>
+
+    <span class="n">game_state_handler</span><span class="o">.</span><span class="n">process_guess</span><span class="p">(</span>
+        <span class="n">guess</span><span class="p">,</span>
+        <span class="n">game_state</span><span class="p">,</span>
+        <span class="n">sample_words_to_find</span><span class="p">,</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">wizard_color</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">correctly_guessed_words</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;HAT&quot;</span><span class="p">,</span> <span class="s2">&quot;AT&quot;</span><span class="p">}</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">combo</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">game_constants</span><span class="o">.</span><span class="n">CORRECT_GUESS_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span> <span class="ow">in</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message</span>
+    <span class="k">assert</span> <span class="s2">&quot;Also completed: AT&quot;</span> <span class="ow">in</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message</span>
+
+    <span class="n">mock_apply_reveal</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span>
+        <span class="n">game_state</span><span class="p">,</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">coords_for_hat</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mock_check_completed</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="n">game_state</span><span class="p">,</span> <span class="n">sample_words_to_find</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_process_guess_wrong_no_shield">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.test_process_guess_wrong_no_shield">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.apply_coordinate_reveal&quot;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.check_for_completed_words&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_process_guess_wrong_no_shield</span><span class="p">(</span>
+    <span class="n">mock_check_completed</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">mock_apply_reveal</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_initial_game_state</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_words_to_find</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]],</span>
+    <span class="n">sample_final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test processing a wrong guess when shield is off.</span>
+
+<span class="sd">    Assert that lives are decremented and no words are added.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">game_state</span> <span class="o">=</span> <span class="n">sample_initial_game_state</span>
+    <span class="n">guess</span> <span class="o">=</span> <span class="s2">&quot;WRONG&quot;</span>
+    <span class="n">wizard_color</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message_color</span>
+    <span class="n">initial_lives</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">lives_left</span>
+
+    <span class="n">game_state_handler</span><span class="o">.</span><span class="n">process_guess</span><span class="p">(</span>
+        <span class="n">guess</span><span class="p">,</span>
+        <span class="n">game_state</span><span class="p">,</span>
+        <span class="n">sample_words_to_find</span><span class="p">,</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">wizard_color</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">last_guess</span> <span class="o">==</span> <span class="n">guess</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">correctly_guessed_words</span> <span class="o">==</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">combo</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">lives_left</span> <span class="o">==</span> <span class="n">initial_lives</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message</span> <span class="o">==</span> <span class="n">game_constants</span><span class="o">.</span><span class="n">NOT_A_WORD_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message_color</span> <span class="o">==</span> <span class="n">game_constants</span><span class="o">.</span><span class="n">ERROR_COLOR</span>
+
+    <span class="n">mock_apply_reveal</span><span class="o">.</span><span class="n">assert_not_called</span><span class="p">()</span>
+    <span class="n">mock_check_completed</span><span class="o">.</span><span class="n">assert_not_called</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="test_process_guess_duplicate_no_shield">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.test_process_guess_duplicate_no_shield">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.apply_coordinate_reveal&quot;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.check_for_completed_words&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_process_guess_duplicate_no_shield</span><span class="p">(</span>
+    <span class="n">mock_check_completed</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">mock_apply_reveal</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_initial_game_state</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_words_to_find</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]],</span>
+    <span class="n">sample_final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test processing a duplicate guess when shield is off.</span>
+
+<span class="sd">    Assert that lives are decremented and duplicate word is not added.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">game_state</span> <span class="o">=</span> <span class="n">sample_initial_game_state</span>
+    <span class="n">guess</span> <span class="o">=</span> <span class="s2">&quot;HI&quot;</span>
+    <span class="n">game_state</span><span class="o">.</span><span class="n">correctly_guessed_words</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+    <span class="n">wizard_color</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message_color</span>
+    <span class="n">initial_lives</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">lives_left</span>
+
+    <span class="n">game_state_handler</span><span class="o">.</span><span class="n">process_guess</span><span class="p">(</span>
+        <span class="n">guess</span><span class="p">,</span>
+        <span class="n">game_state</span><span class="p">,</span>
+        <span class="n">sample_words_to_find</span><span class="p">,</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">wizard_color</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">last_guess</span> <span class="o">==</span> <span class="n">guess</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">correctly_guessed_words</span> <span class="o">==</span> <span class="p">{</span><span class="n">guess</span><span class="p">}</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">combo</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">lives_left</span> <span class="o">==</span> <span class="n">initial_lives</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message</span> <span class="o">==</span> <span class="n">game_constants</span><span class="o">.</span><span class="n">ALREADY_FOUND_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message_color</span> <span class="o">==</span> <span class="n">game_constants</span><span class="o">.</span><span class="n">ERROR_COLOR</span>
+
+    <span class="n">mock_apply_reveal</span><span class="o">.</span><span class="n">assert_not_called</span><span class="p">()</span>
+    <span class="n">mock_check_completed</span><span class="o">.</span><span class="n">assert_not_called</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="test_process_guess_wrong_with_shield">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.test_process_guess_wrong_with_shield">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.apply_coordinate_reveal&quot;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.check_for_completed_words&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_process_guess_wrong_with_shield</span><span class="p">(</span>
+    <span class="n">mock_check_completed</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">mock_apply_reveal</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_initial_game_state</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_words_to_find</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]],</span>
+    <span class="n">sample_final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test processing a wrong guess when shield is active.</span>
+
+<span class="sd">    Assert that lives are not decremented and shield turns decrease.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">game_state</span> <span class="o">=</span> <span class="n">sample_initial_game_state</span>
+    <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">shield_turns</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">guess</span> <span class="o">=</span> <span class="s2">&quot;WRONG&quot;</span>
+    <span class="n">wizard_color</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message_color</span>
+    <span class="n">initial_lives</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">lives_left</span>
+
+    <span class="n">game_state_handler</span><span class="o">.</span><span class="n">process_guess</span><span class="p">(</span>
+        <span class="n">guess</span><span class="p">,</span>
+        <span class="n">game_state</span><span class="p">,</span>
+        <span class="n">sample_words_to_find</span><span class="p">,</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">wizard_color</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">lives_left</span> <span class="o">==</span> <span class="n">initial_lives</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">shield_turns</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">combo</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message</span> <span class="o">==</span> <span class="n">game_constants</span><span class="o">.</span><span class="n">NOT_A_WORD_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+
+    <span class="n">mock_apply_reveal</span><span class="o">.</span><span class="n">assert_not_called</span><span class="p">()</span>
+    <span class="n">mock_check_completed</span><span class="o">.</span><span class="n">assert_not_called</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="test_process_guess_correct_with_shield">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.test_process_guess_correct_with_shield">[docs]</a>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.apply_coordinate_reveal&quot;</span><span class="p">)</span>
+<span class="nd">@patch</span><span class="p">(</span><span class="s2">&quot;gameplay.game_state_handler.check_for_completed_words&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_process_guess_correct_with_shield</span><span class="p">(</span>
+    <span class="n">mock_check_completed</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">mock_apply_reveal</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_initial_game_state</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+    <span class="n">sample_words_to_find</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]],</span>
+    <span class="n">sample_final_grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test processing a correct guess when shield is active.</span>
+
+<span class="sd">    Assert that shield turns decrease and stats update for correct guess.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">game_state</span> <span class="o">=</span> <span class="n">sample_initial_game_state</span>
+    <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">shield_turns</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">guess</span> <span class="o">=</span> <span class="s2">&quot;HI&quot;</span>
+    <span class="n">wizard_color</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message_color</span>
+    <span class="n">initial_lives</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span><span class="o">.</span><span class="n">lives_left</span>
+    <span class="n">coords_for_hi</span> <span class="o">=</span> <span class="n">sample_words_to_find</span><span class="p">[</span><span class="n">guess</span><span class="p">]</span>
+    <span class="n">mock_check_completed</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">game_state_handler</span><span class="o">.</span><span class="n">process_guess</span><span class="p">(</span>
+        <span class="n">guess</span><span class="p">,</span>
+        <span class="n">game_state</span><span class="p">,</span>
+        <span class="n">sample_words_to_find</span><span class="p">,</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">wizard_color</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">game_state</span><span class="o">.</span><span class="n">statistics</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">lives_left</span> <span class="o">==</span> <span class="n">initial_lives</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">shield_turns</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">stats</span><span class="o">.</span><span class="n">combo</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">game_state</span><span class="o">.</span><span class="n">next_message</span> <span class="o">==</span> <span class="n">game_constants</span><span class="o">.</span><span class="n">CORRECT_GUESS_MSG</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+
+    <span class="n">mock_apply_reveal</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span>
+        <span class="n">game_state</span><span class="p">,</span>
+        <span class="n">sample_final_grid</span><span class="p">,</span>
+        <span class="n">coords_for_hi</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mock_check_completed</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="n">game_state</span><span class="p">,</span> <span class="n">sample_words_to_find</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_check_for_completed_words">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.test_check_for_completed_words">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_check_for_completed_words</span><span class="p">(</span>
+    <span class="n">sample_words_to_find</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test identifying words completed implicitly by revealed letters.</span>
+
+<span class="sd">    Assert that implicitly completed words are detected.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">DummyGameState</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="n">game_state</span> <span class="o">=</span> <span class="n">DummyGameState</span><span class="p">()</span>
+    <span class="n">game_state</span><span class="o">.</span><span class="n">correctly_guessed_words</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;HAT&quot;</span><span class="p">}</span>
+    <span class="n">game_state</span><span class="o">.</span><span class="n">hidden_letter_coords</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)}</span>
+    <span class="n">game_state</span><span class="o">.</span><span class="n">found_letter_coords</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)}</span>
+    <span class="n">newly_found</span> <span class="o">=</span> <span class="n">game_state_handler</span><span class="o">.</span><span class="n">check_for_completed_words</span><span class="p">(</span>
+        <span class="n">game_state</span><span class="p">,</span>
+        <span class="n">sample_words_to_find</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="n">newly_found</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;AT&quot;</span><span class="p">]</span>
+
+    <span class="n">game_state_all_revealed</span> <span class="o">=</span> <span class="n">DummyGameState</span><span class="p">()</span>
+    <span class="n">game_state_all_revealed</span><span class="o">.</span><span class="n">correctly_guessed_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">game_state_all_revealed</span><span class="o">.</span><span class="n">hidden_letter_coords</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">game_state_all_revealed</span><span class="o">.</span><span class="n">found_letter_coords</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)}</span>
+    <span class="n">newly_found_all</span> <span class="o">=</span> <span class="n">game_state_handler</span><span class="o">.</span><span class="n">check_for_completed_words</span><span class="p">(</span>
+        <span class="n">game_state_all_revealed</span><span class="p">,</span>
+        <span class="n">sample_words_to_find</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">newly_found_all</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;HI&quot;</span><span class="p">,</span> <span class="s2">&quot;HAT&quot;</span><span class="p">,</span> <span class="s2">&quot;AT&quot;</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="test_check_game_over">
+<a class="viewcode-back" href="../../../tests.gameplay.html#tests.gameplay.test_game_state_handler.test_check_game_over">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_check_game_over</span><span class="p">(</span>
+    <span class="n">sample_words_to_find</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test the game over condition checks.</span>
+
+<span class="sd">    Assert that win, loss, and continue conditions are detected.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">DummyStats</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lives_left</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lives_left</span> <span class="o">=</span> <span class="n">lives_left</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">DummyGameState</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">guessed</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">lives_left</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">correctly_guessed_words</span> <span class="o">=</span> <span class="n">guessed</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">statistics</span> <span class="o">=</span> <span class="n">DummyStats</span><span class="p">(</span><span class="n">lives_left</span><span class="p">)</span>
+
+    <span class="n">game_state_win</span> <span class="o">=</span> <span class="n">DummyGameState</span><span class="p">({</span><span class="s2">&quot;HI&quot;</span><span class="p">,</span> <span class="s2">&quot;HAT&quot;</span><span class="p">,</span> <span class="s2">&quot;AT&quot;</span><span class="p">},</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">game_state_handler</span><span class="o">.</span><span class="n">check_game_over</span><span class="p">(</span><span class="n">game_state_win</span><span class="p">,</span> <span class="n">sample_words_to_find</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;win&quot;</span>
+
+    <span class="n">game_state_loss_0</span> <span class="o">=</span> <span class="n">DummyGameState</span><span class="p">({</span><span class="s2">&quot;HI&quot;</span><span class="p">},</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">game_state_handler</span><span class="o">.</span><span class="n">check_game_over</span><span class="p">(</span><span class="n">game_state_loss_0</span><span class="p">,</span> <span class="n">sample_words_to_find</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;loss&quot;</span>
+
+    <span class="n">game_state_loss_neg</span> <span class="o">=</span> <span class="n">DummyGameState</span><span class="p">({</span><span class="s2">&quot;HI&quot;</span><span class="p">},</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">game_state_handler</span><span class="o">.</span><span class="n">check_game_over</span><span class="p">(</span><span class="n">game_state_loss_neg</span><span class="p">,</span> <span class="n">sample_words_to_find</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;loss&quot;</span>
+
+    <span class="n">game_state_continue</span> <span class="o">=</span> <span class="n">DummyGameState</span><span class="p">({</span><span class="s2">&quot;HI&quot;</span><span class="p">},</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">game_state_handler</span><span class="o">.</span><span class="n">check_game_over</span><span class="p">(</span><span class="n">game_state_continue</span><span class="p">,</span> <span class="n">sample_words_to_find</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;continue&quot;</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joel Angelo Baldapan &amp; Alvin Dela Fuente.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

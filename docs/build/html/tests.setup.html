@@ -1,0 +1,383 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tests.setup package &mdash; Worderly V2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=464bee56"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="tests.setup.grid_generator package" href="tests.setup.grid_generator.html" />
+    <link rel="prev" title="tests.leaderboard package" href="tests.leaderboard.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Worderly
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">worderly</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html">display package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gameplay.html">gameplay package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="leaderboard.html">leaderboard package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="tests.html">tests package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="tests.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="tests.gameplay.html">tests.gameplay package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tests.leaderboard.html">tests.leaderboard package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">tests.setup package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#module-tests.test_worderly">tests.test_worderly module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.html#module-tests">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="worderly.html">worderly module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Worderly</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">worderly</a></li>
+          <li class="breadcrumb-item"><a href="tests.html">tests package</a></li>
+      <li class="breadcrumb-item active">tests.setup package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tests.setup.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tests-setup-package">
+<h1>tests.setup package<a class="headerlink" href="#tests-setup-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tests.setup.grid_generator.html">tests.setup.grid_generator package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tests.setup.grid_generator.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.setup.grid_generator.html#module-tests.setup.grid_generator.test_board_state">tests.setup.grid_generator.test_board_state module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_board_state.empty_grid_3x4"><code class="docutils literal notranslate"><span class="pre">empty_grid_3x4()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_board_state.sample_grid_5x5"><code class="docutils literal notranslate"><span class="pre">sample_grid_5x5()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_board_state.sample_state_data"><code class="docutils literal notranslate"><span class="pre">sample_state_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.setup.grid_generator.html#module-tests.setup.grid_generator.test_main_generator">tests.setup.grid_generator.test_main_generator module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_main_generator.initial_board_state_fixture"><code class="docutils literal notranslate"><span class="pre">initial_board_state_fixture()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_main_generator.test_capitalize_middle_word_appearance"><code class="docutils literal notranslate"><span class="pre">test_capitalize_middle_word_appearance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_main_generator.test_initialize_board_state"><code class="docutils literal notranslate"><span class="pre">test_initialize_board_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_main_generator.test_place_middle_word_fail_no_coords"><code class="docutils literal notranslate"><span class="pre">test_place_middle_word_fail_no_coords()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_main_generator.test_place_middle_word_success"><code class="docutils literal notranslate"><span class="pre">test_place_middle_word_success()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_main_generator.test_place_other_words_reach_max"><code class="docutils literal notranslate"><span class="pre">test_place_other_words_reach_max()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_main_generator.test_place_other_words_success"><code class="docutils literal notranslate"><span class="pre">test_place_other_words_success()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_main_generator.test_validate_final_grid"><code class="docutils literal notranslate"><span class="pre">test_validate_final_grid()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.setup.grid_generator.html#module-tests.setup.grid_generator.test_placement_logic">tests.setup.grid_generator.test_placement_logic module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_logic.test_apply_placement"><code class="docutils literal notranslate"><span class="pre">test_apply_placement()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_logic.test_categorize_placement"><code class="docutils literal notranslate"><span class="pre">test_categorize_placement()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_logic.test_find_possible_placements"><code class="docutils literal notranslate"><span class="pre">test_find_possible_placements()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_logic.test_select_random_placement"><code class="docutils literal notranslate"><span class="pre">test_select_random_placement()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.setup.grid_generator.html#module-tests.setup.grid_generator.test_placement_rules">tests.setup.grid_generator.test_placement_rules module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_rules.empty_grid_3x4"><code class="docutils literal notranslate"><span class="pre">empty_grid_3x4()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_rules.sample_grid_5x5"><code class="docutils literal notranslate"><span class="pre">sample_grid_5x5()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_rules.sample_state_data"><code class="docutils literal notranslate"><span class="pre">sample_state_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_rules.test_calculate_middle_word_placement_coords"><code class="docutils literal notranslate"><span class="pre">test_calculate_middle_word_placement_coords()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_rules.test_is_valid_placement_scenarios"><code class="docutils literal notranslate"><span class="pre">test_is_valid_placement_scenarios()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_rules.test_update_placed_letter_coords"><code class="docutils literal notranslate"><span class="pre">test_update_placed_letter_coords()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_rules.test_update_placed_word_coords"><code class="docutils literal notranslate"><span class="pre">test_update_placed_word_coords()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_rules.testcheck_adjacent_after_end"><code class="docutils literal notranslate"><span class="pre">testcheck_adjacent_after_end()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_rules.testcheck_adjacent_before_start"><code class="docutils literal notranslate"><span class="pre">testcheck_adjacent_before_start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_rules.testcheck_for_all_letters"><code class="docutils literal notranslate"><span class="pre">testcheck_for_all_letters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_rules.testcheck_parallel_cells"><code class="docutils literal notranslate"><span class="pre">testcheck_parallel_cells()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_rules.testis_within_bounds"><code class="docutils literal notranslate"><span class="pre">testis_within_bounds()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tests.setup.grid_generator.html#tests.setup.grid_generator.test_placement_rules.validation_grid"><code class="docutils literal notranslate"><span class="pre">validation_grid()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tests.setup.grid_generator.html#module-tests.setup.grid_generator">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-tests.setup.test_menus">
+<span id="tests-setup-test-menus-module"></span><h2>tests.setup.test_menus module<a class="headerlink" href="#module-tests.setup.test_menus" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_menus.sample_settings_hp">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_menus.</span></span><span class="sig-name descname"><span class="pre">sample_settings_hp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/tests/setup/test_menus.html#sample_settings_hp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_menus.sample_settings_hp" title="Link to this definition"></a></dt>
+<dd><p>Provide sample settings with heart_point_mode enabled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Settings with heart_point_mode set to True.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_menus.sample_settings_no_hp">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_menus.</span></span><span class="sig-name descname"><span class="pre">sample_settings_no_hp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/tests/setup/test_menus.html#sample_settings_no_hp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_menus.sample_settings_no_hp" title="Link to this definition"></a></dt>
+<dd><p>Provide sample settings with heart_point_mode disabled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Settings with heart_point_mode set to False.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_menus.sample_wizard">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_menus.</span></span><span class="sig-name descname"><span class="pre">sample_wizard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/tests/setup/test_menus.html#sample_wizard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_menus.sample_wizard" title="Link to this definition"></a></dt>
+<dd><p>Return sample wizard data (first one).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A copy of the first wizard’s data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_menus.test_run_heart_points_menu">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_menus.</span></span><span class="sig-name descname"><span class="pre">test_run_heart_points_menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_select</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_menus.html#test_run_heart_points_menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_menus.test_run_heart_points_menu" title="Link to this definition"></a></dt>
+<dd><p>Test that the first menu returns correct settings or None.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_menus.test_select_character_menu">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_menus.</span></span><span class="sig-name descname"><span class="pre">test_select_character_menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_disp_wiz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_getkey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings_hp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_menus.html#test_select_character_menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_menus.test_select_character_menu" title="Link to this definition"></a></dt>
+<dd><p>Test that character selection navigation returns the correct wizard.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_menus.test_select_from_menu">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_menus.</span></span><span class="sig-name descname"><span class="pre">test_select_from_menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_print_msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_disp_opts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_clear</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_getkey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_menus.html#test_select_from_menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_menus.test_select_from_menu" title="Link to this definition"></a></dt>
+<dd><p>Test that menu navigation returns the correct selected option.</p>
+</dd></dl>
+
+</section>
+<section id="module-tests.setup.test_word_selector">
+<span id="tests-setup-test-word-selector-module"></span><h2>tests.setup.test_word_selector module<a class="headerlink" href="#module-tests.setup.test_word_selector" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.sample_settings">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">sample_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#sample_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.sample_settings" title="Link to this definition"></a></dt>
+<dd><p>Create a sample DifficultyData object for tests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A sample settings object for testing.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData">DifficultyData</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.simple_word_list">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">simple_word_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#simple_word_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.simple_word_list" title="Link to this definition"></a></dt>
+<dd><p>Create a simple list of words for filtering tests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of sample words.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.streak_word_set">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">streak_word_set</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#streak_word_set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.streak_word_set" title="Link to this definition"></a></dt>
+<dd><p>Create the specific set of words related to ‘streak’ from the CS11 specs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Set of valid subwords for ‘streak’.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>set[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.test_filter_exact_length_words">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">test_filter_exact_length_words</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simple_word_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#test_filter_exact_length_words"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.test_filter_exact_length_words" title="Link to this definition"></a></dt>
+<dd><p>Filter words to find only those of an exact length.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.test_filter_words_up_to_max_length">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">test_filter_words_up_to_max_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simple_word_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#test_filter_words_up_to_max_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.test_filter_words_up_to_max_length" title="Link to this definition"></a></dt>
+<dd><p>Filter words to find those up to a maximum length.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.test_find_valid_word_with_subwords_fail">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">test_find_valid_word_with_subwords_fail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_shuffle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_get_subwords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">streak_word_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#test_find_valid_word_with_subwords_fail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.test_find_valid_word_with_subwords_fail" title="Link to this definition"></a></dt>
+<dd><p>Test that no candidate middle word yields enough subwords.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.test_find_valid_word_with_subwords_success">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">test_find_valid_word_with_subwords_success</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_shuffle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_get_subwords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">streak_word_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#test_find_valid_word_with_subwords_success"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.test_find_valid_word_with_subwords_success" title="Link to this definition"></a></dt>
+<dd><p>Find a middle word that meets the subword count requirement.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.test_generate_word_list_find_fail">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">test_generate_word_list_find_fail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_rnd_shuffle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_print</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_clear</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_read</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">streak_word_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#test_generate_word_list_find_fail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.test_generate_word_list_find_fail" title="Link to this definition"></a></dt>
+<dd><p>Test that generate_word_list returns None when finding a suitable middle word fails.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.test_generate_word_list_read_fail">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">test_generate_word_list_read_fail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_print</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_clear</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_read</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#test_generate_word_list_read_fail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.test_generate_word_list_read_fail" title="Link to this definition"></a></dt>
+<dd><p>Test that generate_word_list returns None when reading the lexicon fails.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.test_generate_word_list_success">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">test_generate_word_list_success</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mock_rnd_shuffle_exact</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_print</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_clear</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_find</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mock_read</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">streak_word_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#test_generate_word_list_success"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.test_generate_word_list_success" title="Link to this definition"></a></dt>
+<dd><p>Test that generate_word_list successfully finds words.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.test_get_valid_word_subwords_found">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">test_get_valid_word_subwords_found</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">streak_word_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#test_get_valid_word_subwords_found"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.test_get_valid_word_subwords_found" title="Link to this definition"></a></dt>
+<dd><p>Find valid subwords from a given word and valid set.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.test_get_valid_word_subwords_none_found">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">test_get_valid_word_subwords_none_found</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">streak_word_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#test_get_valid_word_subwords_none_found"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.test_get_valid_word_subwords_none_found" title="Link to this definition"></a></dt>
+<dd><p>Test that no valid subwords are found when none exist.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.test_read_word_file_empty">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">test_read_word_file_empty</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#test_read_word_file_empty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.test_read_word_file_empty" title="Link to this definition"></a></dt>
+<dd><p>Test that read_word_file returns [] for an empty file.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.test_read_word_file_io_error">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">test_read_word_file_io_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#test_read_word_file_io_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.test_read_word_file_io_error" title="Link to this definition"></a></dt>
+<dd><p>Test that read_word_file returns [] and prints error on IOError.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.test_read_word_file_not_found">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">test_read_word_file_not_found</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#test_read_word_file_not_found"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.test_read_word_file_not_found" title="Link to this definition"></a></dt>
+<dd><p>Test that read_word_file returns [] and prints error when file is missing.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tests.setup.test_word_selector.test_read_word_file_valid">
+<span class="sig-prename descclassname"><span class="pre">tests.setup.test_word_selector.</span></span><span class="sig-name descname"><span class="pre">test_read_word_file_valid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/tests/setup/test_word_selector.html#test_read_word_file_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tests.setup.test_word_selector.test_read_word_file_valid" title="Link to this definition"></a></dt>
+<dd><p>Test that read_word_file cleans and processes valid file content.</p>
+</dd></dl>
+
+</section>
+<section id="module-tests.setup">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tests.setup" title="Link to this heading"></a></h2>
+<p>Test package for setup module in Worderly.</p>
+<p>This package contains unit tests for the setup logic, including grid generation,
+menu utilities, and word selection.</p>
+<dl class="simple">
+<dt>Modules:</dt><dd><p>test_menus: Tests for menu-related utilities.
+test_word_selector: Tests for word selection logic.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tests.leaderboard.html" class="btn btn-neutral float-left" title="tests.leaderboard package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tests.setup.grid_generator.html" class="btn btn-neutral float-right" title="tests.setup.grid_generator package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joel Angelo Baldapan &amp; Alvin Dela Fuente.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

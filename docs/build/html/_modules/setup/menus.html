@@ -1,0 +1,381 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>setup.menus &mdash; Worderly V2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=464bee56"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Worderly
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">worderly</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Worderly</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">setup.menus</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for setup.menus</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">getkey</span><span class="w"> </span><span class="kn">import</span> <span class="n">getkey</span><span class="p">,</span> <span class="n">keys</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">data.settings_details</span><span class="w"> </span><span class="kn">import</span> <span class="n">HEART_POINTS_SETTINGS</span><span class="p">,</span> <span class="n">NO_HEART_POINTS_SETTINGS</span><span class="p">,</span> <span class="n">DifficultyData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">data.wizards_details</span><span class="w"> </span><span class="kn">import</span> <span class="n">WIZARDS_DATA</span><span class="p">,</span> <span class="n">WizardData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">display.display</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">display_menu_options</span><span class="p">,</span>
+    <span class="n">display_wizard_art</span><span class="p">,</span>
+    <span class="n">display_wizard_selection</span><span class="p">,</span>
+    <span class="n">get_input</span><span class="p">,</span>
+    <span class="n">print_message</span><span class="p">,</span>
+    <span class="n">print_streak_leaderboard</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">display.display_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">clear_screen</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">leaderboard.streak_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_streaks</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.menu_constants</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">EXIT_GAME_MARKER</span><span class="p">,</span>
+    <span class="n">MAIN_TITLE</span><span class="p">,</span>
+    <span class="n">MENU1_OPTIONS</span><span class="p">,</span>
+    <span class="n">MENU2_OPTIONS</span><span class="p">,</span>
+    <span class="n">MENU3_OPTIONS</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">MAX_NAME_LENGTH</span> <span class="o">=</span> <span class="mi">10</span>
+
+
+<div class="viewcode-block" id="select_from_menu">
+<a class="viewcode-back" href="../../setup.html#setup.menus.select_from_menu">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_from_menu</span><span class="p">(</span>
+    <span class="n">options</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;+.+.+.+ Menu +.+.+.+&quot;</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">show_main_title</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Display a vertical text-based menu and handle user navigation and selection.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        options (list[str]): List of menu option strings.</span>
+<span class="sd">        title (str, optional): Title to display above the menu. Defaults to &quot;+.+.+.+ Menu +.+.+.+&quot;.</span>
+<span class="sd">        show_main_title (bool, optional): Whether to display the main game title. Defaults to False.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The selected menu option.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">current_index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">clear_screen</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">show_main_title</span><span class="p">:</span>
+            <span class="n">print_message</span><span class="p">(</span>
+                <span class="n">settings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">message</span><span class="o">=</span><span class="n">MAIN_TITLE</span><span class="p">,</span>
+                <span class="n">style</span><span class="o">=</span><span class="s2">&quot;magenta&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">display_menu_options</span><span class="p">(</span>
+            <span class="n">settings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+            <span class="n">current_index</span><span class="o">=</span><span class="n">current_index</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">key</span> <span class="o">=</span> <span class="n">getkey</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">keys</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span>
+            <span class="n">current_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="n">keys</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span>
+            <span class="n">current_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">{</span><span class="n">keys</span><span class="o">.</span><span class="n">ENTER</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">}:</span>
+            <span class="k">return</span> <span class="n">options</span><span class="p">[</span><span class="n">current_index</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="select_character_menu">
+<a class="viewcode-back" href="../../setup.html#setup.menus.select_character_menu">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_character_menu</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">DifficultyData</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WizardData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Display the character selection menu and handle user navigation and selection.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        settings (DifficultyData | None): Game settings, possibly None or DifficultyData.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        WizardData: The selected wizard&#39;s data object.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">current_index</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">num_wizards</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">WIZARDS_DATA</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">display_wizard_selection</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">WIZARDS_DATA</span><span class="p">[</span><span class="n">current_index</span><span class="p">],</span> <span class="n">current_index</span><span class="p">)</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">getkey</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">keys</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span>
+                <span class="n">current_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">num_wizards</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="n">keys</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span>
+                <span class="n">current_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">num_wizards</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">{</span><span class="n">keys</span><span class="o">.</span><span class="n">ENTER</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">}:</span>
+                <span class="k">return</span> <span class="n">WIZARDS_DATA</span><span class="p">[</span><span class="n">current_index</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">clear_screen</span><span class="p">()</span>
+            <span class="n">print_message</span><span class="p">(</span>
+                <span class="n">settings</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;An error occurred during character selection. Normal class will be chosen:</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">get_input</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s2">&quot;  &gt; Press Enter to continue... &quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">WIZARDS_DATA</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="get_player_name">
+<a class="viewcode-back" href="../../setup.html#setup.menus.get_player_name">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_player_name</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">DifficultyData</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">selected_wizard</span><span class="p">:</span> <span class="n">WizardData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prompt the player to enter their name and validate the input.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        settings (DifficultyData | None): Game settings, used for display mode.</span>
+<span class="sd">        selected_wizard (WizardData): The data object for the selected wizard.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The validated player name.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">clear_screen</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">heart_point_mode</span><span class="p">:</span>
+        <span class="n">display_wizard_art</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">selected_wizard</span><span class="p">)</span>
+
+    <span class="n">print_message</span><span class="p">(</span>
+        <span class="n">settings</span><span class="p">,</span>
+        <span class="s2">&quot;Mighty wizard, please enter your name!&quot;</span><span class="p">,</span>
+        <span class="n">border_style</span><span class="o">=</span><span class="n">selected_wizard</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Input&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">get_input</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s2">&quot;  &gt; Name: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">clear_screen</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">heart_point_mode</span><span class="p">:</span>
+            <span class="n">display_wizard_art</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">selected_wizard</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
+            <span class="n">print_message</span><span class="p">(</span>
+                <span class="n">settings</span><span class="p">,</span>
+                <span class="s2">&quot;Name cannot be empty. Please try again.&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Input&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">isalpha</span><span class="p">():</span>
+            <span class="n">print_message</span><span class="p">(</span>
+                <span class="n">settings</span><span class="p">,</span>
+                <span class="s2">&quot;Name must only contain letters! Please try again.&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Input&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MAX_NAME_LENGTH</span><span class="p">:</span>
+            <span class="n">print_message</span><span class="p">(</span>
+                <span class="n">settings</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;Name cannot be longer than </span><span class="si">{</span><span class="n">MAX_NAME_LENGTH</span><span class="si">}</span><span class="s2"> characters. Please try again.&quot;</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Input&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">name</span></div>
+
+
+
+<div class="viewcode-block" id="initialize_player_info">
+<a class="viewcode-back" href="../../setup.html#setup.menus.initialize_player_info">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">initialize_player_info</span><span class="p">(</span>
+    <span class="n">settings</span><span class="p">:</span> <span class="n">DifficultyData</span><span class="p">,</span>
+    <span class="n">current_session_player_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">WizardData</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize player name and selected wizard based on game mode.</span>
+
+<span class="sd">    In Heart Points mode, allows wizard selection.</span>
+<span class="sd">    In No Heart Points mode, uses a default wizard.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        settings (DifficultyData): Game settings.</span>
+<span class="sd">        current_session_player_name (str | None): Player name from current session, if any.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple[str, WizardData]: Player name and selected wizard.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">player_name_to_use</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">selected_wizard_for_game</span><span class="p">:</span> <span class="n">WizardData</span>
+
+    <span class="n">clear_screen</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">heart_point_mode</span><span class="p">:</span>
+        <span class="n">selected_wizard_for_game</span> <span class="o">=</span> <span class="n">select_character_menu</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+        <span class="n">clear_screen</span><span class="p">()</span>
+        <span class="n">display_wizard_art</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">selected_wizard_for_game</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">selected_wizard_for_game</span> <span class="o">=</span> <span class="n">WIZARDS_DATA</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">current_session_player_name</span><span class="p">:</span>
+        <span class="n">player_name_to_use</span> <span class="o">=</span> <span class="n">current_session_player_name</span>
+        <span class="n">print_message</span><span class="p">(</span>
+            <span class="n">settings</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Continuing streak as </span><span class="si">{</span><span class="n">player_name_to_use</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">,</span>
+            <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">get_input</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s2">&quot;  &gt; Press Enter to begin...&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">player_name_to_use</span> <span class="o">=</span> <span class="n">get_player_name</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">selected_wizard_for_game</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">player_name_to_use</span><span class="p">,</span> <span class="n">selected_wizard_for_game</span></div>
+
+
+
+<div class="viewcode-block" id="run_heart_points_menu">
+<a class="viewcode-back" href="../../setup.html#setup.menus.run_heart_points_menu">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_heart_points_menu</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">DifficultyData</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Display the initial menu to select the game mode (Heart Points or No Heart Points).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        DifficultyData | None: DifficultyData for No Heart Points mode, or None for HP mode.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">selected_option</span> <span class="o">=</span> <span class="n">select_from_menu</span><span class="p">(</span>
+        <span class="n">MENU1_OPTIONS</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;+.+.+.+ Select Heart Points Mode +.+.+.+&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">&quot;&lt;/3 No Heart Points&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">NO_HEART_POINTS_SETTINGS</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">&quot;♥♥♥ Heart Points&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="run_main_menu">
+<a class="viewcode-back" href="../../setup.html#setup.menus.run_main_menu">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_main_menu</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">DifficultyData</span> <span class="o">|</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the main menu loop for Heart Points mode.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        DifficultyData | str: DifficultyData if &quot;Start Game&quot; is chosen,</span>
+<span class="sd">        EXIT_GAME_MARKER if &quot;Exit Game&quot;, otherwise loops for leaderboards.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;+.+.+.+ Main Menu +.+.+.+&quot;</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">selected_option</span> <span class="o">=</span> <span class="n">select_from_menu</span><span class="p">(</span>
+            <span class="n">MENU2_OPTIONS</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+            <span class="n">show_main_title</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">&quot;Start Game&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">run_difficulty_menu</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">&quot;Check Leaderboards&quot;</span><span class="p">:</span>
+            <span class="n">clear_screen</span><span class="p">()</span>
+            <span class="n">streaks</span> <span class="o">=</span> <span class="n">load_streaks</span><span class="p">()</span>
+            <span class="n">print_streak_leaderboard</span><span class="p">(</span><span class="n">settings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">streaks</span><span class="o">=</span><span class="n">streaks</span><span class="p">)</span>
+            <span class="n">get_input</span><span class="p">(</span>
+                <span class="n">settings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">prompt_message</span><span class="o">=</span><span class="s2">&quot;  &gt; Press Enter to continue... &quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">&quot;Exit Game&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">EXIT_GAME_MARKER</span></div>
+
+
+
+<div class="viewcode-block" id="run_difficulty_menu">
+<a class="viewcode-back" href="../../setup.html#setup.menus.run_difficulty_menu">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_difficulty_menu</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">DifficultyData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Display the difficulty selection menu and return the chosen difficulty settings.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        DifficultyData: A DifficultyData object for the chosen difficulty.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;+.+.+.+ Select Difficulty / Book +.+.+.+&quot;</span>
+    <span class="n">selected_option</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">select_from_menu</span><span class="p">(</span><span class="n">MENU3_OPTIONS</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">show_main_title</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">HEART_POINTS_SETTINGS</span><span class="p">[</span><span class="n">selected_option</span><span class="p">]</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joel Angelo Baldapan &amp; Alvin Dela Fuente.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

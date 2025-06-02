@@ -1,0 +1,286 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>setup.grid_generator.board_state &mdash; Worderly V2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=464bee56"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Worderly
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">worderly</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Worderly</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">setup.grid_generator.board_state</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for setup.grid_generator.board_state</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+
+
+<div class="viewcode-block" id="PlacementDetail">
+<a class="viewcode-back" href="../../../setup.grid_generator.html#setup.grid_generator.board_state.PlacementDetail">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PlacementDetail</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the details of a potential or chosen word placement.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        word (str): The word to be placed.</span>
+<span class="sd">        coord (tuple[int, int]): Intersection coordinate on the grid.</span>
+<span class="sd">        idx (int): Index in &#39;word&#39; that matches the letter at &#39;coord&#39;.</span>
+<span class="sd">        orientation (str): &quot;V&quot; for vertical, &quot;H&quot; for horizontal.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">word</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">coord</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+    <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">orientation</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+
+<div class="viewcode-block" id="BoardGenerationState">
+<a class="viewcode-back" href="../../../setup.grid_generator.html#setup.grid_generator.board_state.BoardGenerationState">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BoardGenerationState</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Holds the mutable state during the board generation process.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        grid (list[list[str | None]]): The 2D grid representing the board.</span>
+<span class="sd">        placed_words_coords (dict[str, list[tuple[int, int]]]): Mapping of words to their placed coordinates.</span>
+<span class="sd">        placed_letter_coords (dict[str, list[tuple[int, int]]]): Mapping of letters to their placed coordinates.</span>
+<span class="sd">        used_middle_word_coords (set[tuple[int, int]]): Set of coordinates used for the middle word.</span>
+<span class="sd">        middle_word_coords (set[tuple[int, int]]): Set of coordinates for the middle word.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]]</span>
+    <span class="n">placed_words_coords</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">placed_letter_coords</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">used_middle_word_coords</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">set</span><span class="p">)</span>
+    <span class="n">middle_word_coords</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">set</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="create_empty_grid">
+<a class="viewcode-back" href="../../../setup.grid_generator.html#setup.grid_generator.board_state.create_empty_grid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_empty_grid</span><span class="p">(</span><span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a 2D list representing an empty grid filled with None.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        height (int): The number of rows in the grid.</span>
+<span class="sd">        width (int): The number of columns in the grid.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list[list[str | None]]: A 2D list of shape (height, width) filled with None.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">width</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">)]</span></div>
+
+
+
+<div class="viewcode-block" id="place_letters_on_grid">
+<a class="viewcode-back" href="../../../setup.grid_generator.html#setup.grid_generator.board_state.place_letters_on_grid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">place_letters_on_grid</span><span class="p">(</span>
+    <span class="n">grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span>
+    <span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">coords_to_place</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Place the letters of a word onto the grid at specified coordinates.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        grid (list[list[str | None]]): The 2D grid to place letters on.</span>
+<span class="sd">        word (str): The word whose letters are to be placed.</span>
+<span class="sd">        coords_to_place (list[tuple[int, int]]): List of (row, col) coordinates for each letter in the word.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">coord_pair</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coords_to_place</span><span class="p">):</span>
+        <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">coord_pair</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">col</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">grid</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">word</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="initialize_board_state">
+<a class="viewcode-back" href="../../../setup.grid_generator.html#setup.grid_generator.board_state.initialize_board_state">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">initialize_board_state</span><span class="p">(</span><span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BoardGenerationState</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the state object required for board generation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        height (int): The number of rows in the grid.</span>
+<span class="sd">        width (int): The number of columns in the grid.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BoardGenerationState: An instance of BoardGenerationState with an empty grid.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">BoardGenerationState</span><span class="p">(</span><span class="n">grid</span><span class="o">=</span><span class="n">create_empty_grid</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">))</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_calculate_middle_word_start</span><span class="p">(</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">word_len</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the starting (top-left) coordinate for diagonal middle word.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        height (int): The number of rows in the grid.</span>
+<span class="sd">        width (int): The number of columns in the grid.</span>
+<span class="sd">        word_len (int): The length of the word to be placed diagonally.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple[int, int] | None: The (row, col) coordinate to start placing the word, or None if it doesn&#39;t fit.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">diag_space</span> <span class="o">=</span> <span class="n">word_len</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">start_row</span> <span class="o">=</span> <span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">diag_space</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">start_col</span> <span class="o">=</span> <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">diag_space</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">if</span> <span class="n">start_row</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">start_col</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">start_row</span> <span class="o">+</span> <span class="n">diag_space</span> <span class="o">&gt;</span> <span class="n">height</span> <span class="ow">or</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">diag_space</span> <span class="o">&gt;</span> <span class="n">width</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">start_row</span><span class="p">,</span> <span class="n">start_col</span>
+
+
+<div class="viewcode-block" id="calculate_middle_word_placement_coords">
+<a class="viewcode-back" href="../../../setup.grid_generator.html#setup.grid_generator.board_state.calculate_middle_word_placement_coords">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_middle_word_placement_coords</span><span class="p">(</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">middle_word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the list of diagonal coordinates for the middle word.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        height (int): The number of rows in the grid.</span>
+<span class="sd">        width (int): The number of columns in the grid.</span>
+<span class="sd">        middle_word (str): The word to be placed diagonally.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list[tuple[int, int]] | None: A list of (row, col) coordinates for each letter in the word,</span>
+<span class="sd">            or None if it doesn&#39;t fit.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">start_coords</span> <span class="o">=</span> <span class="n">_calculate_middle_word_start</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">middle_word</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">start_coords</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">start_row</span><span class="p">,</span> <span class="n">start_col</span> <span class="o">=</span> <span class="n">start_coords</span>
+    <span class="n">coords_to_place</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">current_row</span><span class="p">,</span> <span class="n">current_col</span> <span class="o">=</span> <span class="n">start_row</span><span class="p">,</span> <span class="n">start_col</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">middle_word</span><span class="p">:</span>
+        <span class="n">coords_to_place</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">current_row</span><span class="p">,</span> <span class="n">current_col</span><span class="p">))</span>
+        <span class="n">current_row</span> <span class="o">+=</span> <span class="mi">2</span>
+        <span class="n">current_col</span> <span class="o">+=</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">coords_to_place</span></div>
+
+
+
+<div class="viewcode-block" id="calculate_straight_word_placement_coords">
+<a class="viewcode-back" href="../../../setup.grid_generator.html#setup.grid_generator.board_state.calculate_straight_word_placement_coords">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_straight_word_placement_coords</span><span class="p">(</span>
+    <span class="n">chosen_placement</span><span class="p">:</span> <span class="n">PlacementDetail</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the list of coordinates for a straight (horizontal or vertical) word placement.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        chosen_placement (PlacementDetail):</span>
+<span class="sd">            PlacementDetail object describing the word, its orientation, and intersection.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list[tuple[int, int]]: A list of (row, col) coordinates for each letter in the word.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">word_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chosen_placement</span><span class="o">.</span><span class="n">word</span><span class="p">)</span>
+    <span class="n">dr</span><span class="p">,</span> <span class="n">dc</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">chosen_placement</span><span class="o">.</span><span class="n">orientation</span> <span class="o">==</span> <span class="s2">&quot;V&quot;</span> <span class="k">else</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">start_row</span> <span class="o">=</span> <span class="n">chosen_placement</span><span class="o">.</span><span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">chosen_placement</span><span class="o">.</span><span class="n">idx</span> <span class="o">*</span> <span class="n">dr</span>
+    <span class="n">start_col</span> <span class="o">=</span> <span class="n">chosen_placement</span><span class="o">.</span><span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">chosen_placement</span><span class="o">.</span><span class="n">idx</span> <span class="o">*</span> <span class="n">dc</span>
+
+    <span class="n">coords_to_place</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[(</span><span class="n">start_row</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">dr</span><span class="p">,</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">dc</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">word_len</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">coords_to_place</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joel Angelo Baldapan &amp; Alvin Dela Fuente.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,757 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>display.display_rich &mdash; Worderly V2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=464bee56"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Worderly
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">worderly</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Worderly</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">display.display_rich</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for display.display_rich</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.columns</span><span class="w"> </span><span class="kn">import</span> <span class="n">Columns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.console</span><span class="w"> </span><span class="kn">import</span> <span class="n">Console</span><span class="p">,</span> <span class="n">Group</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.panel</span><span class="w"> </span><span class="kn">import</span> <span class="n">Panel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.progress</span><span class="w"> </span><span class="kn">import</span> <span class="n">BarColumn</span><span class="p">,</span> <span class="n">Progress</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">Text</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">data.settings_details</span><span class="w"> </span><span class="kn">import</span> <span class="n">HEART_POINTS_SETTINGS</span><span class="p">,</span> <span class="n">DifficultyData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">data.wizards_details</span><span class="w"> </span><span class="kn">import</span> <span class="n">WizardData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gameplay.game_state_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">GameStateData</span><span class="p">,</span> <span class="n">GameStatisticsData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">leaderboard.streak_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">StreakEntry</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.display_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">clear_screen</span>
+
+<span class="n">DEFAULT_BORDER_STYLE</span> <span class="o">=</span> <span class="s2">&quot;bright_cyan&quot;</span>
+<span class="n">DETAILS_PANEL_WIDTH</span> <span class="o">=</span> <span class="mi">40</span>
+
+<span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_print_empty_grid_message</span><span class="p">(</span><span class="n">grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print a message indicating that the provided grid is empty.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        grid (list[list[str | None]]): The grid to check.</span>
+<span class="sd">        title (str): The title for the panel.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;[yellow]Empty grid provided.[/yellow]&quot;</span>
+    <span class="k">if</span> <span class="n">grid</span> <span class="o">==</span> <span class="p">[[]]:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;[yellow]Grid contains an empty row.[/yellow]&quot;</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">Panel</span><span class="p">(</span><span class="n">Text</span><span class="o">.</span><span class="n">from_markup</span><span class="p">(</span><span class="n">message</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_print_no_columns_message</span><span class="p">(</span><span class="n">grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]],</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print a message indicating that the grid has rows but no columns.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        grid (list[list[str | None]]): The grid to check.</span>
+<span class="sd">        title (str): The title for the panel.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">grid</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="p">(</span>
+                <span class="n">Text</span><span class="o">.</span><span class="n">from_markup</span><span class="p">(</span><span class="s2">&quot;[yellow]Grid has rows but no columns.[/yellow]&quot;</span><span class="p">),</span>
+                <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+            <span class="n">Panel</span><span class="p">(</span>
+                <span class="n">Text</span><span class="o">.</span><span class="n">from_markup</span><span class="p">(</span><span class="s2">&quot;[yellow]Empty grid provided (no columns).[/yellow]&quot;</span><span class="p">),</span>
+                <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_num_cols</span><span class="p">(</span><span class="n">grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the maximum number of columns in the grid.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        grid (list[list[str | None]]): The grid to check.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: The maximum number of columns.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">grid</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">grid</span> <span class="k">if</span> <span class="n">row</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_append_combo_stats</span><span class="p">(</span>
+    <span class="n">statistics</span><span class="p">:</span> <span class="n">GameStatisticsData</span><span class="p">,</span>
+    <span class="n">selected_wizard</span><span class="p">:</span> <span class="n">WizardData</span><span class="p">,</span>
+    <span class="n">powerup_parts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Append combo meter Text and Progress bar to the powerup_parts list.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        statistics (GameStatisticsData): The current game statistics.</span>
+<span class="sd">        selected_wizard (WizardData): The selected wizard data.</span>
+<span class="sd">        powerup_parts (list[Any]): The list to append combo stats to.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wizard_color</span> <span class="o">=</span> <span class="n">selected_wizard</span><span class="o">.</span><span class="n">color</span>
+    <span class="n">combo</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">combo</span>
+    <span class="n">combo_req</span> <span class="o">=</span> <span class="n">selected_wizard</span><span class="o">.</span><span class="n">combo_requirement</span>
+
+    <span class="k">if</span> <span class="n">combo_req</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">combo_req</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">curr_combo</span> <span class="o">=</span> <span class="n">combo</span> <span class="o">%</span> <span class="n">combo_req</span>
+        <span class="k">if</span> <span class="n">combo</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">curr_combo</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">curr_combo</span> <span class="o">=</span> <span class="n">combo_req</span>
+
+        <span class="n">powerup_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">Text</span><span class="o">.</span><span class="n">assemble</span><span class="p">(</span>
+                <span class="p">(</span><span class="s2">&quot;Combo Meter:  &quot;</span><span class="p">,</span> <span class="s2">&quot;bold cyan&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">curr_combo</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">combo_req</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">combo_progress</span> <span class="o">=</span> <span class="n">Progress</span><span class="p">(</span>
+            <span class="n">BarColumn</span><span class="p">(</span>
+                <span class="n">bar_width</span><span class="o">=</span><span class="mi">27</span><span class="p">,</span>
+                <span class="n">style</span><span class="o">=</span><span class="s2">&quot;dim white&quot;</span><span class="p">,</span>
+                <span class="n">complete_style</span><span class="o">=</span><span class="s2">&quot;bright_white&quot;</span><span class="p">,</span>
+                <span class="n">finished_style</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;bold </span><span class="si">{</span><span class="n">wizard_color</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">combo_progress</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="s2">&quot;combo&quot;</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="n">combo_req</span><span class="p">,</span> <span class="n">completed</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">curr_combo</span><span class="p">,</span> <span class="n">combo_req</span><span class="p">))</span>
+        <span class="n">powerup_parts</span><span class="o">.</span><span class="n">extend</span><span class="p">((</span><span class="n">combo_progress</span><span class="p">,</span> <span class="n">Text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_wizard_panel</span><span class="p">(</span>
+    <span class="n">selected_wizard</span><span class="p">:</span> <span class="n">WizardData</span><span class="p">,</span>
+    <span class="n">game_st</span><span class="p">:</span> <span class="n">GameStateData</span><span class="p">,</span>
+    <span class="n">border_style</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">wizard_panel_width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">panels_height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Panel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a Rich Panel displaying the selected wizard&#39;s art and player name.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        selected_wizard (WizardData): The selected wizard data.</span>
+<span class="sd">        game_st (GameStateData): The current game state.</span>
+<span class="sd">        border_style (str): The border style for the panel.</span>
+<span class="sd">        wizard_panel_width (int): The width of the panel.</span>
+<span class="sd">        panels_height (int): The height of the panel.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Panel: The constructed wizard panel.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wizard_color</span> <span class="o">=</span> <span class="n">selected_wizard</span><span class="o">.</span><span class="n">color</span>
+    <span class="n">small_wizard_art</span> <span class="o">=</span> <span class="n">selected_wizard</span><span class="o">.</span><span class="n">small_art</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">player_name_display</span> <span class="o">=</span> <span class="n">game_st</span><span class="o">.</span><span class="n">player_name</span> <span class="k">if</span> <span class="n">game_st</span><span class="o">.</span><span class="n">player_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;Player&quot;</span>
+    <span class="n">art_text</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">small_wizard_art</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">wizard_color</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+    <span class="n">name_text</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;--- </span><span class="si">{</span><span class="n">player_name_display</span><span class="si">}</span><span class="s2"> ---&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">wizard_color</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+    <span class="n">wizard_panel_content</span> <span class="o">=</span> <span class="n">Group</span><span class="p">(</span><span class="n">art_text</span><span class="p">,</span> <span class="n">name_text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Panel</span><span class="p">(</span>
+        <span class="n">wizard_panel_content</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Your Wizard&quot;</span><span class="p">,</span>
+        <span class="n">border_style</span><span class="o">=</span><span class="n">border_style</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="n">wizard_color</span><span class="p">,</span>
+        <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="n">wizard_panel_width</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">panels_height</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_player_stats_panel</span><span class="p">(</span>
+    <span class="n">statistics</span><span class="p">:</span> <span class="n">GameStatisticsData</span><span class="p">,</span>
+    <span class="n">border_style</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">stats_panel_width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">stats_height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Panel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a Rich Panel displaying the player&#39;s game statistics.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        statistics (GameStatisticsData): The current game statistics.</span>
+<span class="sd">        border_style (str): The border style for the panel.</span>
+<span class="sd">        stats_panel_width (int): The width of the panel.</span>
+<span class="sd">        stats_height (int): The height of the panel.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Panel: The constructed player stats panel.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">player_stats_content</span> <span class="o">=</span> <span class="n">Text</span><span class="o">.</span><span class="n">assemble</span><span class="p">(</span>
+        <span class="p">(</span><span class="s2">&quot;Letters:    &quot;</span><span class="p">,</span> <span class="s2">&quot;bold cyan&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">statistics</span><span class="o">.</span><span class="n">letters</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Lives left: &quot;</span><span class="p">,</span> <span class="s2">&quot;bold green&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">statistics</span><span class="o">.</span><span class="n">lives_left</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Points:     &quot;</span><span class="p">,</span> <span class="s2">&quot;bold yellow&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">statistics</span><span class="o">.</span><span class="n">points</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Last Guess: &quot;</span><span class="p">,</span> <span class="s2">&quot;bold magenta&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">statistics</span><span class="o">.</span><span class="n">last_guess</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">statistics</span><span class="o">.</span><span class="n">last_guess</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;None&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">Panel</span><span class="p">(</span>
+        <span class="n">player_stats_content</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Game Stats&quot;</span><span class="p">,</span>
+        <span class="n">title_align</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+        <span class="n">border_style</span><span class="o">=</span><span class="n">border_style</span><span class="p">,</span>
+        <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="n">stats_panel_width</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">stats_height</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_powerup_stats_panel</span><span class="p">(</span>
+    <span class="n">statistics</span><span class="p">:</span> <span class="n">GameStatisticsData</span><span class="p">,</span>
+    <span class="n">selected_wizard</span><span class="p">:</span> <span class="n">WizardData</span><span class="p">,</span>
+    <span class="n">border_style</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">stats_panel_width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">powerup_stats_height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Panel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a Rich Panel displaying the player&#39;s powerup statistics.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        statistics (GameStatisticsData): The current game statistics.</span>
+<span class="sd">        selected_wizard (WizardData): The selected wizard data.</span>
+<span class="sd">        border_style (str): The border style for the panel.</span>
+<span class="sd">        stats_panel_width (int): The width of the panel.</span>
+<span class="sd">        powerup_stats_height (int): The height of the panel.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Panel: The constructed powerup stats panel.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wizard_color</span> <span class="o">=</span> <span class="n">selected_wizard</span><span class="o">.</span><span class="n">color</span>
+    <span class="n">powerup_parts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">powerup_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Text</span><span class="o">.</span><span class="n">assemble</span><span class="p">((</span><span class="s2">&quot;Combo:        &quot;</span><span class="p">,</span> <span class="s2">&quot;bold cyan&quot;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">statistics</span><span class="o">.</span><span class="n">combo</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)))</span>
+
+    <span class="n">shield_turns</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">shield_turns</span>
+    <span class="k">if</span> <span class="n">shield_turns</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">wizard_color</span> <span class="o">!=</span> <span class="s2">&quot;bright_white&quot;</span> <span class="ow">and</span> <span class="n">selected_wizard</span><span class="o">.</span><span class="n">combo_requirement</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">powerup_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Text</span><span class="o">.</span><span class="n">assemble</span><span class="p">((</span><span class="s2">&quot;Shield Turns: &quot;</span><span class="p">,</span> <span class="s2">&quot;bold blue&quot;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">shield_turns</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)))</span>
+
+    <span class="k">if</span> <span class="n">wizard_color</span> <span class="o">!=</span> <span class="s2">&quot;bright_white&quot;</span><span class="p">:</span>
+        <span class="n">powerup_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Text</span><span class="o">.</span><span class="n">assemble</span><span class="p">((</span><span class="s2">&quot;Power Points: &quot;</span><span class="p">,</span> <span class="s2">&quot;bold cyan&quot;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">statistics</span><span class="o">.</span><span class="n">power_points</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)))</span>
+        <span class="n">_append_combo_stats</span><span class="p">(</span><span class="n">statistics</span><span class="p">,</span> <span class="n">selected_wizard</span><span class="p">,</span> <span class="n">powerup_parts</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">powerup_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Note: White wizards have no powerups!&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;bright_white&quot;</span><span class="p">))</span>
+
+    <span class="n">powerup_stats_content</span> <span class="o">=</span> <span class="n">Group</span><span class="p">(</span><span class="o">*</span><span class="n">powerup_parts</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Panel</span><span class="p">(</span>
+        <span class="n">powerup_stats_content</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Powerup Stats&quot;</span><span class="p">,</span>
+        <span class="n">title_align</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+        <span class="n">border_style</span><span class="o">=</span><span class="n">border_style</span><span class="p">,</span>
+        <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="n">stats_panel_width</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">powerup_stats_height</span><span class="p">),</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="rich_print_statistics">
+<a class="viewcode-back" href="../../display.html#display.display_rich.rich_print_statistics">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rich_print_statistics</span><span class="p">(</span>
+    <span class="n">statistics</span><span class="p">:</span> <span class="n">GameStatisticsData</span><span class="p">,</span>
+    <span class="n">border_style</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">selected_wizard</span><span class="p">:</span> <span class="n">WizardData</span><span class="p">,</span>
+    <span class="n">game_st</span><span class="p">:</span> <span class="n">GameStateData</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print the formatted statistics panel using Rich Columns and Panels.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        statistics (GameStatisticsData): The current game statistics.</span>
+<span class="sd">        border_style (str): The border style for the panels.</span>
+<span class="sd">        grid (list[list[str | None]] | None): The game grid.</span>
+<span class="sd">        selected_wizard (WizardData): The selected wizard data.</span>
+<span class="sd">        game_st (GameStateData): The current game state.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wizard_panel_width</span> <span class="o">=</span> <span class="mi">23</span>
+    <span class="n">panels_height</span> <span class="o">=</span> <span class="mi">15</span>
+    <span class="n">stats_height</span> <span class="o">=</span> <span class="mi">6</span>
+
+    <span class="n">grid_actual_width</span> <span class="o">=</span> <span class="n">wizard_panel_width</span> <span class="o">+</span> <span class="mi">30</span>
+    <span class="k">if</span> <span class="n">grid</span> <span class="ow">and</span> <span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">grid_actual_width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span>
+
+    <span class="n">stats_panel_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">grid_actual_width</span> <span class="o">-</span> <span class="n">wizard_panel_width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">powerup_stats_height</span> <span class="o">=</span> <span class="n">panels_height</span> <span class="o">-</span> <span class="n">stats_height</span>
+
+    <span class="n">wizard_panel</span> <span class="o">=</span> <span class="n">_make_wizard_panel</span><span class="p">(</span><span class="n">selected_wizard</span><span class="p">,</span> <span class="n">game_st</span><span class="p">,</span> <span class="n">border_style</span><span class="p">,</span> <span class="n">wizard_panel_width</span><span class="p">,</span> <span class="n">panels_height</span><span class="p">)</span>
+    <span class="n">player_stats_panel</span> <span class="o">=</span> <span class="n">_make_player_stats_panel</span><span class="p">(</span><span class="n">statistics</span><span class="p">,</span> <span class="n">border_style</span><span class="p">,</span> <span class="n">stats_panel_width</span><span class="p">,</span> <span class="n">stats_height</span><span class="p">)</span>
+    <span class="n">powerup_stats_panel</span> <span class="o">=</span> <span class="n">_make_powerup_stats_panel</span><span class="p">(</span>
+        <span class="n">statistics</span><span class="p">,</span>
+        <span class="n">selected_wizard</span><span class="p">,</span>
+        <span class="n">border_style</span><span class="p">,</span>
+        <span class="n">stats_panel_width</span><span class="p">,</span>
+        <span class="n">powerup_stats_height</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">stats_group</span> <span class="o">=</span> <span class="n">Group</span><span class="p">(</span><span class="n">player_stats_panel</span><span class="p">,</span> <span class="n">powerup_stats_panel</span><span class="p">)</span>
+    <span class="n">full_panel</span> <span class="o">=</span> <span class="n">Columns</span><span class="p">([</span><span class="n">wizard_panel</span><span class="p">,</span> <span class="n">stats_group</span><span class="p">],</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">full_panel</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_styled_row_items</span><span class="p">(</span>  <span class="c1"># noqa: PLR0913, PLR0917</span>
+    <span class="n">row_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">row_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">],</span>
+    <span class="n">num_cols</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">highlighted_coords</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span>
+    <span class="n">highlight_color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">letters_color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">hidden_color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Text</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a list of styled Text objects for a row in the grid.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        row_idx (int): The index of the row.</span>
+<span class="sd">        row_data (list[str | None]): The data for the row.</span>
+<span class="sd">        num_cols (int): The number of columns in the grid.</span>
+<span class="sd">        highlighted_coords (set[tuple[int, int]] | list[tuple[int, int]]): Coordinates to highlight.</span>
+<span class="sd">        highlight_color (str): The color for highlighted cells.</span>
+<span class="sd">        letters_color (str): The color for letter cells.</span>
+<span class="sd">        hidden_color (str): The color for hidden cells.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list[Text]: The styled row items.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">styled_row_items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Text</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">col_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_cols</span><span class="p">):</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+        <span class="n">current_style</span> <span class="o">=</span> <span class="s2">&quot;dim&quot;</span>
+        <span class="n">cell_value</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">row_data</span> <span class="ow">and</span> <span class="n">col_idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">row_data</span><span class="p">):</span>
+            <span class="n">cell_value</span> <span class="o">=</span> <span class="n">row_data</span><span class="p">[</span><span class="n">col_idx</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">cell_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">cell_value</span>
+            <span class="n">coord</span> <span class="o">=</span> <span class="p">(</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">highlighted_coords</span><span class="p">:</span>
+                <span class="n">current_style</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;bold </span><span class="si">{</span><span class="n">highlight_color</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">elif</span> <span class="n">cell_value</span> <span class="o">==</span> <span class="s2">&quot;#&quot;</span><span class="p">:</span>
+                <span class="n">current_style</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;dim </span><span class="si">{</span><span class="n">hidden_color</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">current_style</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;bold </span><span class="si">{</span><span class="n">letters_color</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="n">separator</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="k">if</span> <span class="n">col_idx</span> <span class="o">&lt;</span> <span class="n">num_cols</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">styled_row_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Text</span><span class="p">(</span><span class="n">content</span> <span class="o">+</span> <span class="n">separator</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">current_style</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">styled_row_items</span>
+
+
+<div class="viewcode-block" id="rich_print_grid">
+<a class="viewcode-back" href="../../display.html#display.display_rich.rich_print_grid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rich_print_grid</span><span class="p">(</span>  <span class="c1"># noqa: PLR0913, PLR0917</span>
+    <span class="n">grid</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">highlighted_coords</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span>
+    <span class="n">highlight_color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">letters_color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">hidden_color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">border_style</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print the game grid using Rich library for prettier formatting.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        grid (list[list[str | None]] | None): The game grid.</span>
+<span class="sd">        highlighted_coords (set[tuple[int, int]] | list[tuple[int, int]]): Coordinates to highlight.</span>
+<span class="sd">        highlight_color (str): The color for highlighted cells.</span>
+<span class="sd">        letters_color (str): The color for letter cells.</span>
+<span class="sd">        hidden_color (str): The color for hidden cells.</span>
+<span class="sd">        title (str): The title for the grid panel.</span>
+<span class="sd">        border_style (str): The border style for the panel.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">grid</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span>
+        <span class="n">_print_empty_grid_message</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">show_header</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">box</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">num_cols</span> <span class="o">=</span> <span class="n">_get_num_cols</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">num_cols</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">_print_no_columns_message</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_cols</span><span class="p">):</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">justify</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">no_wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">row_data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">grid</span><span class="p">):</span>
+        <span class="n">styled_row_items</span> <span class="o">=</span> <span class="n">_get_styled_row_items</span><span class="p">(</span>
+            <span class="n">row_idx</span><span class="p">,</span>
+            <span class="n">row_data</span><span class="p">,</span>
+            <span class="n">num_cols</span><span class="p">,</span>
+            <span class="n">highlighted_coords</span><span class="p">,</span>
+            <span class="n">highlight_color</span><span class="p">,</span>
+            <span class="n">letters_color</span><span class="p">,</span>
+            <span class="n">hidden_color</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="o">*</span><span class="n">styled_row_items</span><span class="p">)</span>
+
+    <span class="n">grid_panel</span> <span class="o">=</span> <span class="n">Panel</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="n">border_style</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">grid_panel</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="rich_print_message">
+<a class="viewcode-back" href="../../display.html#display.display_rich.rich_print_message">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rich_print_message</span><span class="p">(</span>  <span class="c1"># noqa: PLR0913</span>
+    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">border_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_BORDER_STYLE</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">title_align</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">expand</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">justify</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print a message string wrapped in a Rich Panel.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        message (str): The message to print.</span>
+<span class="sd">        style (str | None, optional): The style for the message text.</span>
+<span class="sd">        border_style (str, optional): The border style for the panel.</span>
+<span class="sd">        title (str | None, optional): The title for the panel.</span>
+<span class="sd">        title_align (str, optional): The alignment for the title.</span>
+<span class="sd">        expand (bool, optional): Whether the panel should expand.</span>
+<span class="sd">        width (int | None, optional): The width of the panel.</span>
+<span class="sd">        justify (str, optional): The justification for the text.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">text_content</span> <span class="o">=</span> <span class="n">Text</span><span class="o">.</span><span class="n">from_markup</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="n">justify</span><span class="p">)</span>
+    <span class="n">panel</span> <span class="o">=</span> <span class="n">Panel</span><span class="p">(</span>
+        <span class="n">text_content</span><span class="p">,</span>
+        <span class="n">border_style</span><span class="o">=</span><span class="n">border_style</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+        <span class="n">title_align</span><span class="o">=</span><span class="n">title_align</span><span class="p">,</span>
+        <span class="n">expand</span><span class="o">=</span><span class="n">expand</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="rich_get_input">
+<a class="viewcode-back" href="../../display.html#display.display_rich.rich_get_input">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rich_get_input</span><span class="p">(</span><span class="n">prompt_message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get user input using the standard input() function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        prompt_message (str): The prompt message to display.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The user input.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">input</span><span class="p">(</span><span class="n">prompt_message</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="rich_print_leaderboard">
+<a class="viewcode-back" href="../../display.html#display.display_rich.rich_print_leaderboard">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rich_print_leaderboard</span><span class="p">(</span><span class="n">leaderboard_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="n">max_entries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print the leaderboard data in a formatted Rich Table.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        leaderboard_data (list[dict[str, Any]]): The leaderboard data.</span>
+<span class="sd">        max_entries (int, optional): The maximum number of entries to display.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">leaderboard_data</span><span class="p">:</span>
+        <span class="n">rich_print_message</span><span class="p">(</span><span class="s2">&quot;The leaderboard is empty!&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Leaderboard&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;dim&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;🏆 Leaderboard 🏆&quot;</span><span class="p">,</span> <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;bold yellow&quot;</span><span class="p">,</span> <span class="n">show_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header_style</span><span class="o">=</span><span class="s2">&quot;bold yellow&quot;</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Rank&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="n">min_width</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Score&quot;</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">min_width</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">entry</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">leaderboard_data</span><span class="p">[:</span><span class="n">max_entries</span><span class="p">]):</span>
+        <span class="n">rank</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;N/A&quot;</span><span class="p">))</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;score&quot;</span><span class="p">,</span> <span class="s2">&quot;N/A&quot;</span><span class="p">))</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">score</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="rich_display_wizard_selection">
+<a class="viewcode-back" href="../../display.html#display.display_rich.rich_display_wizard_selection">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rich_display_wizard_selection</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">DifficultyData</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">wizard</span><span class="p">:</span> <span class="n">WizardData</span><span class="p">,</span> <span class="n">wizard_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Display the wizard selection interface using Rich Panels and Columns.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        settings (DifficultyData | None): The current difficulty settings.</span>
+<span class="sd">        wizard (WizardData): The wizard to display.</span>
+<span class="sd">        wizard_index (int): The index of the wizard.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">clear_screen</span><span class="p">()</span>
+
+    <span class="n">art_content_str</span> <span class="o">=</span> <span class="n">wizard</span><span class="o">.</span><span class="n">art</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">num_art_lines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">art_content_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span>
+    <span class="n">target_panel_height</span> <span class="o">=</span> <span class="n">num_art_lines</span> <span class="o">+</span> <span class="mi">4</span>
+
+    <span class="n">art_text</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="n">art_content_str</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;bold </span><span class="si">{</span><span class="n">wizard</span><span class="o">.</span><span class="n">color</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">art_panel</span> <span class="o">=</span> <span class="n">Panel</span><span class="p">(</span>
+        <span class="n">art_text</span><span class="p">,</span>
+        <span class="n">border_style</span><span class="o">=</span><span class="n">wizard</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Wizard&quot;</span><span class="p">,</span>
+        <span class="n">title_align</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+        <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">target_panel_height</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">info_text</span> <span class="o">=</span> <span class="n">Text</span><span class="o">.</span><span class="n">assemble</span><span class="p">(</span>
+        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">wizard</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;bold </span><span class="si">{</span><span class="n">wizard</span><span class="o">.</span><span class="n">color</span><span class="si">}</span><span class="s2"> underline&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Starting Lives: &quot;</span><span class="p">,</span> <span class="s2">&quot;bold cyan&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">wizard</span><span class="o">.</span><span class="n">starting_lives</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Powerup: </span><span class="si">{</span><span class="n">wizard</span><span class="o">.</span><span class="n">powerup_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;bold yellow&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">wizard</span><span class="o">.</span><span class="n">powerup_desc</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Powerup Combo Requirement: &quot;</span><span class="p">,</span> <span class="s2">&quot;bold yellow&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">wizard</span><span class="o">.</span><span class="n">combo_requirement</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">wizard</span><span class="o">.</span><span class="n">combo_requirement</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;bold yellow&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Description:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;bold white&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">wizard</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="n">no_wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">info_panel</span> <span class="o">=</span> <span class="n">Panel</span><span class="p">(</span>
+        <span class="n">info_text</span><span class="p">,</span>
+        <span class="n">border_style</span><span class="o">=</span><span class="n">wizard</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Details&quot;</span><span class="p">,</span>
+        <span class="n">title_align</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+        <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="n">width</span><span class="o">=</span><span class="n">DETAILS_PANEL_WIDTH</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="n">target_panel_height</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">wizard_row</span> <span class="o">=</span> <span class="n">Columns</span><span class="p">([</span><span class="n">art_panel</span><span class="p">,</span> <span class="n">info_panel</span><span class="p">],</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">wizard_row</span><span class="p">)</span>
+    <span class="n">rich_print_message</span><span class="p">(</span>
+        <span class="s2">&quot;Use (◀) Left / Right (▶) arrow keys to select. Press Enter to confirm.&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Input&quot;</span><span class="p">,</span>
+        <span class="n">border_style</span><span class="o">=</span><span class="n">wizard</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="rich_display_wizard_art">
+<a class="viewcode-back" href="../../display.html#display.display_rich.rich_display_wizard_art">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rich_display_wizard_art</span><span class="p">(</span>
+    <span class="n">settings</span><span class="p">:</span> <span class="n">DifficultyData</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">wizard</span><span class="p">:</span> <span class="n">WizardData</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Display only the ASCII art for a given wizard in a Rich Panel.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        settings (DifficultyData | None): The current difficulty settings.</span>
+<span class="sd">        wizard (WizardData): The wizard to display.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">art_content_str</span> <span class="o">=</span> <span class="n">wizard</span><span class="o">.</span><span class="n">art</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">wizard_color</span> <span class="o">=</span> <span class="n">wizard</span><span class="o">.</span><span class="n">color</span>
+
+    <span class="n">art_text</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="n">art_content_str</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;bold </span><span class="si">{</span><span class="n">wizard_color</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">art_panel</span> <span class="o">=</span> <span class="n">Panel</span><span class="p">(</span>
+        <span class="n">art_text</span><span class="p">,</span>
+        <span class="n">border_style</span><span class="o">=</span><span class="n">wizard_color</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Wizard&quot;</span><span class="p">,</span>
+        <span class="n">title_align</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+        <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">art_panel</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="rich_display_menu_options">
+<a class="viewcode-back" href="../../display.html#display.display_rich.rich_display_menu_options">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rich_display_menu_options</span><span class="p">(</span>
+    <span class="n">settings</span><span class="p">:</span> <span class="n">DifficultyData</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">options</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">current_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Display vertical menu options using Rich, highlighting the current selection.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        settings (DifficultyData | None): The current difficulty settings.</span>
+<span class="sd">        options (list[str]): The list of menu options.</span>
+<span class="sd">        current_index (int): The index of the currently selected option.</span>
+<span class="sd">        title (str): The title for the menu panel.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">options_texts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">option_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">options</span><span class="p">):</span>
+        <span class="n">detailed_prefix</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">option_name</span> <span class="ow">in</span> <span class="n">HEART_POINTS_SETTINGS</span><span class="p">:</span>
+            <span class="n">difficulty_details</span><span class="p">:</span> <span class="n">DifficultyData</span> <span class="o">=</span> <span class="n">HEART_POINTS_SETTINGS</span><span class="p">[</span><span class="n">option_name</span><span class="p">]</span>
+
+            <span class="n">height</span> <span class="o">=</span> <span class="n">difficulty_details</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">height</span>
+            <span class="n">width</span> <span class="o">=</span> <span class="n">difficulty_details</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">width</span>
+            <span class="n">min_words_needed</span> <span class="o">=</span> <span class="n">difficulty_details</span><span class="o">.</span><span class="n">words_on_board_needed</span><span class="o">.</span><span class="n">minimum</span>
+            <span class="n">max_words_needed</span> <span class="o">=</span> <span class="n">difficulty_details</span><span class="o">.</span><span class="n">words_on_board_needed</span><span class="o">.</span><span class="n">maximum</span>
+            <span class="n">detailed_prefix</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">height</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">min_words_needed</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">max_words_needed</span><span class="si">}</span><span class="s2"> words&quot;</span>
+            <span class="n">detailed_prefix</span> <span class="o">=</span> <span class="n">detailed_prefix</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
+
+        <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;-&gt; &quot;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">current_index</span> <span class="k">else</span> <span class="s2">&quot;   &quot;</span>
+        <span class="n">line_style</span> <span class="o">=</span> <span class="s2">&quot;[yellow]&quot;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">current_index</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">end_line_style</span> <span class="o">=</span> <span class="s2">&quot;[/yellow]&quot;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">current_index</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="n">options_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">line_style</span><span class="si">}{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">detailed_prefix</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">option_name</span><span class="si">}{</span><span class="n">end_line_style</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">options_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">options_texts</span><span class="p">)</span>
+    <span class="n">rich_print_message</span><span class="p">(</span>
+        <span class="n">message</span><span class="o">=</span><span class="n">options_str</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="s2">&quot;bright_white&quot;</span><span class="p">,</span>
+        <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;bold magenta&quot;</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="mi">71</span><span class="p">,</span>
+        <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">rich_print_message</span><span class="p">(</span>
+        <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Use (▲) Up / Down (▼) arrow keys to select. Press Enter to confirm.&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Input&quot;</span><span class="p">,</span>
+        <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;magenta&quot;</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="rich_print_streak_leaderboard">
+<a class="viewcode-back" href="../../display.html#display.display_rich.rich_print_streak_leaderboard">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">rich_print_streak_leaderboard</span><span class="p">(</span><span class="n">streaks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">StreakEntry</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print the winning streak leaderboard data in a formatted Rich Table.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        streaks (list[StreakEntry]): The list of streak entries.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">streaks</span><span class="p">:</span>
+        <span class="n">rich_print_message</span><span class="p">(</span>
+            <span class="s2">&quot;Winning streak leaderboard is empty!&quot;</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;🏆 Winning Streaks 🏆&quot;</span><span class="p">,</span>
+            <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;dim&quot;</span><span class="p">,</span>
+            <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;🏆 Winning Streaks Leaderboard 🏆&quot;</span><span class="p">,</span>
+        <span class="n">border_style</span><span class="o">=</span><span class="s2">&quot;bold yellow&quot;</span><span class="p">,</span>
+        <span class="n">show_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">header_style</span><span class="o">=</span><span class="s2">&quot;bold yellow&quot;</span><span class="p">,</span>
+        <span class="n">min_width</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Rank&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Player Name&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;magenta&quot;</span><span class="p">,</span> <span class="n">min_width</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">overflow</span><span class="o">=</span><span class="s2">&quot;ellipsis&quot;</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Streak&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">min_width</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Total Points&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">min_width</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">entry</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">streaks</span><span class="p">):</span>
+        <span class="n">rank</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">player_name</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">player_name</span>
+        <span class="n">streak_count</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">streak_count</span><span class="p">)</span>
+        <span class="n">total_points</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">total_points_in_streak</span><span class="p">)</span>
+
+        <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">player_name</span><span class="p">,</span> <span class="n">streak_count</span><span class="p">,</span> <span class="n">total_points</span><span class="p">)</span>
+
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joel Angelo Baldapan &amp; Alvin Dela Fuente.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

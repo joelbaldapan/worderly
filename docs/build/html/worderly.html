@@ -1,0 +1,208 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>worderly module &mdash; Worderly V2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=464bee56"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="tests.setup.grid_generator package" href="tests.setup.grid_generator.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Worderly
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">worderly</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html">display package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gameplay.html">gameplay package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="leaderboard.html">leaderboard package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tests.html">tests package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">worderly module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#worderly.SessionStreakState"><code class="docutils literal notranslate"><span class="pre">SessionStreakState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#worderly.SessionStreakState.count"><code class="docutils literal notranslate"><span class="pre">SessionStreakState.count</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#worderly.SessionStreakState.full_reset"><code class="docutils literal notranslate"><span class="pre">SessionStreakState.full_reset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#worderly.SessionStreakState.player_name"><code class="docutils literal notranslate"><span class="pre">SessionStreakState.player_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#worderly.SessionStreakState.points_total"><code class="docutils literal notranslate"><span class="pre">SessionStreakState.points_total</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#worderly.SessionStreakState.reset_streak_counters"><code class="docutils literal notranslate"><span class="pre">SessionStreakState.reset_streak_counters()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#worderly.get_lexicon_file"><code class="docutils literal notranslate"><span class="pre">get_lexicon_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#worderly.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#worderly.run_setup"><code class="docutils literal notranslate"><span class="pre">run_setup()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Worderly</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">worderly</a></li>
+      <li class="breadcrumb-item active">worderly module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/worderly.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-worderly">
+<span id="worderly-module"></span><h1>worderly module<a class="headerlink" href="#module-worderly" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="worderly.SessionStreakState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">worderly.</span></span><span class="sig-name descname"><span class="pre">SessionStreakState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points_total</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/worderly.html#SessionStreakState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#worderly.SessionStreakState" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="worderly.SessionStreakState.count">
+<span class="sig-name descname"><span class="pre">count</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#worderly.SessionStreakState.count" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="worderly.SessionStreakState.full_reset">
+<span class="sig-name descname"><span class="pre">full_reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/worderly.html#SessionStreakState.full_reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#worderly.SessionStreakState.full_reset" title="Link to this definition"></a></dt>
+<dd><p>Completely reset the session streak state.</p>
+<p>This method resets the player name, win count, and points total to their initial values.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="worderly.SessionStreakState.player_name">
+<span class="sig-name descname"><span class="pre">player_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#worderly.SessionStreakState.player_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="worderly.SessionStreakState.points_total">
+<span class="sig-name descname"><span class="pre">points_total</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#worderly.SessionStreakState.points_total" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="worderly.SessionStreakState.reset_streak_counters">
+<span class="sig-name descname"><span class="pre">reset_streak_counters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/worderly.html#SessionStreakState.reset_streak_counters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#worderly.SessionStreakState.reset_streak_counters" title="Link to this definition"></a></dt>
+<dd><p>Reset the streak counters for the current session.</p>
+<p>This method sets both the win count and points total to zero,
+but retains the current player name for the session.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="worderly.get_lexicon_file">
+<span class="sig-prename descclassname"><span class="pre">worderly.</span></span><span class="sig-name descname"><span class="pre">get_lexicon_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/worderly.html#get_lexicon_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#worderly.get_lexicon_file" title="Link to this definition"></a></dt>
+<dd><p>Retrieve and validate the lexicon file path from command-line arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The path to the lexicon file if valid, otherwise None.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="worderly.main">
+<span class="sig-prename descclassname"><span class="pre">worderly.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/worderly.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#worderly.main" title="Link to this definition"></a></dt>
+<dd><p>Run the Worderly game.</p>
+<p>This function initializes the game, handles mode selection, and starts the main game session.
+It also resets the session streak state at the start.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="worderly.run_setup">
+<span class="sig-prename descclassname"><span class="pre">worderly.</span></span><span class="sig-name descname"><span class="pre">run_setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">difficulty_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><span class="pre">DifficultyData</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lexicon_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/worderly.html#run_setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#worderly.run_setup" title="Link to this definition"></a></dt>
+<dd><p>Attempt to generate a valid word list and game board.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>difficulty_config</strong> (<a class="reference internal" href="data.html#data.settings_details.DifficultyData" title="data.settings_details.DifficultyData"><em>DifficultyData</em></a>) – The difficulty settings for the game.</p></li>
+<li><p><strong>lexicon_file_path</strong> (<em>str</em>) – The path to the lexicon file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(middle_word, words_to_find, final_grid) on success, None on failure.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[str, dict, list] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tests.setup.grid_generator.html" class="btn btn-neutral float-left" title="tests.setup.grid_generator package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joel Angelo Baldapan &amp; Alvin Dela Fuente.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

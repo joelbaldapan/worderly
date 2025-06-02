@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tests.leaderboard.test_streak_handler &mdash; Worderly V2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=464bee56"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Worderly
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">worderly</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Worderly</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">tests.leaderboard.test_streak_handler</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for tests.leaderboard.test_streak_handler</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">leaderboard</span><span class="w"> </span><span class="kn">import</span> <span class="n">streak_handler</span>
+
+<span class="c1"># ************************************************</span>
+<span class="c1"># Fixtures</span>
+<span class="c1"># ************************************************</span>
+
+
+<div class="viewcode-block" id="sample_streak_entries">
+<a class="viewcode-back" href="../../../tests.leaderboard.html#tests.leaderboard.test_streak_handler.sample_streak_entries">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_streak_entries</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">streak_handler</span><span class="o">.</span><span class="n">StreakEntry</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create sample list of StreakEntry objects.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list[StreakEntry]: List of sample streak entries.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">streak_handler</span><span class="o">.</span><span class="n">StreakEntry</span><span class="p">(</span><span class="n">player_name</span><span class="o">=</span><span class="s2">&quot;Joel&quot;</span><span class="p">,</span> <span class="n">streak_count</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">total_points_in_streak</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
+        <span class="n">streak_handler</span><span class="o">.</span><span class="n">StreakEntry</span><span class="p">(</span><span class="n">player_name</span><span class="o">=</span><span class="s2">&quot;Angelo&quot;</span><span class="p">,</span> <span class="n">streak_count</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">total_points_in_streak</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span>
+        <span class="n">streak_handler</span><span class="o">.</span><span class="n">StreakEntry</span><span class="p">(</span><span class="n">player_name</span><span class="o">=</span><span class="s2">&quot;Baldapan&quot;</span><span class="p">,</span> <span class="n">streak_count</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">total_points_in_streak</span><span class="o">=</span><span class="mi">150</span><span class="p">),</span>
+    <span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="sample_streak_dicts">
+<a class="viewcode-back" href="../../../tests.leaderboard.html#tests.leaderboard.test_streak_handler.sample_streak_dicts">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_streak_dicts</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create sample list of dicts representing streak entries.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list[dict]: List of dictionaries representing streak entries.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;player_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Joel&quot;</span><span class="p">,</span> <span class="s2">&quot;streak_count&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;total_points_in_streak&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;player_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Angelo&quot;</span><span class="p">,</span> <span class="s2">&quot;streak_count&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;total_points_in_streak&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;player_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Baldapan&quot;</span><span class="p">,</span> <span class="s2">&quot;streak_count&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;total_points_in_streak&quot;</span><span class="p">:</span> <span class="mi">150</span><span class="p">},</span>
+    <span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="streak_file_path">
+<a class="viewcode-back" href="../../../tests.leaderboard.html#tests.leaderboard.test_streak_handler.streak_file_path">[docs]</a>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">streak_file_path</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Provide temporary file path for streaks.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Path: Temporary file path for streaks.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;winning_streaks.json&quot;</span></div>
+
+
+
+<span class="c1"># ************************************************</span>
+<span class="c1"># Tests for: load_streaks</span>
+<span class="c1"># ************************************************</span>
+
+
+<div class="viewcode-block" id="test_load_streaks_file_not_exist">
+<a class="viewcode-back" href="../../../tests.leaderboard.html#tests.leaderboard.test_streak_handler.test_load_streaks_file_not_exist">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_load_streaks_file_not_exist</span><span class="p">(</span><span class="n">monkeypatch</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">MonkeyPatch</span><span class="p">,</span> <span class="n">tmp_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test loading streaks when file does not exist.&quot;&quot;&quot;</span>
+    <span class="c1"># Make Path.exists to always return False</span>
+    <span class="n">monkeypatch</span><span class="o">.</span><span class="n">setattr</span><span class="p">(</span><span class="s2">&quot;pathlib.Path.exists&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">streak_handler</span><span class="o">.</span><span class="n">load_streaks</span><span class="p">(</span><span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;i_do_not_exist_mwahahaha.json&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="p">[]</span></div>
+
+
+
+<div class="viewcode-block" id="test_load_streaks_empty_file">
+<a class="viewcode-back" href="../../../tests.leaderboard.html#tests.leaderboard.test_streak_handler.test_load_streaks_empty_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_load_streaks_empty_file</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test loading streaks from an empty file.&quot;&quot;&quot;</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;empty.json&quot;</span>
+    <span class="n">file_path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">streak_handler</span><span class="o">.</span><span class="n">load_streaks</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="p">[]</span></div>
+
+
+
+<div class="viewcode-block" id="test_load_streaks_valid_data">
+<a class="viewcode-back" href="../../../tests.leaderboard.html#tests.leaderboard.test_streak_handler.test_load_streaks_valid_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_load_streaks_valid_data</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">sample_streak_dicts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test loading valid streak data from file.&quot;&quot;&quot;</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;valid.json&quot;</span>
+    <span class="n">file_path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">sample_streak_dicts</span><span class="p">))</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">streak_handler</span><span class="o">.</span><span class="n">load_streaks</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+    <span class="c1"># Should return list of StreakEntry objects</span>
+    <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">streak_handler</span><span class="o">.</span><span class="n">StreakEntry</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">{</span><span class="n">e</span><span class="o">.</span><span class="n">player_name</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">result</span><span class="p">}</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;Joel&quot;</span><span class="p">,</span> <span class="s2">&quot;Angelo&quot;</span><span class="p">,</span> <span class="s2">&quot;Baldapan&quot;</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="test_load_streaks_invalid_json">
+<a class="viewcode-back" href="../../../tests.leaderboard.html#tests.leaderboard.test_streak_handler.test_load_streaks_invalid_json">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_load_streaks_invalid_json</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test loading streaks with invalid JSON in file.&quot;&quot;&quot;</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;bad.json&quot;</span>
+    <span class="n">file_path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">&quot;{not valid json&quot;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">streak_handler</span><span class="o">.</span><span class="n">load_streaks</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="p">[]</span></div>
+
+
+
+<div class="viewcode-block" id="test_load_streaks_invalid_entries">
+<a class="viewcode-back" href="../../../tests.leaderboard.html#tests.leaderboard.test_streak_handler.test_load_streaks_invalid_entries">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_load_streaks_invalid_entries</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test loading streaks with some invalid entries in file.&quot;&quot;&quot;</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;malformed.json&quot;</span>
+    <span class="c1"># One valid, one missing keys, one not a dict</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;player_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Joel&quot;</span><span class="p">,</span> <span class="s2">&quot;streak_count&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;total_points_in_streak&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;player_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Bad&quot;</span><span class="p">},</span>  <span class="c1"># Missing keys</span>
+        <span class="s2">&quot;notadict&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">file_path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">streak_handler</span><span class="o">.</span><span class="n">load_streaks</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+    <span class="c1"># Only valid and extra (extra keys are ignored)</span>
+    <span class="k">assert</span> <span class="nb">any</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">player_name</span> <span class="o">==</span> <span class="s2">&quot;Joel&quot;</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">result</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>  <span class="c1"># Only Joel should be loaded</span></div>
+
+
+
+<div class="viewcode-block" id="test_load_streaks_io_error">
+<a class="viewcode-back" href="../../../tests.leaderboard.html#tests.leaderboard.test_streak_handler.test_load_streaks_io_error">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_load_streaks_io_error</span><span class="p">(</span><span class="n">monkeypatch</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">MonkeyPatch</span><span class="p">,</span> <span class="n">tmp_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test loading streaks with IOError.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_raise_ioerror</span><span class="p">(</span><span class="o">*</span><span class="n">_args</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">OSError</span>
+
+    <span class="n">monkeypatch</span><span class="o">.</span><span class="n">setattr</span><span class="p">(</span><span class="s2">&quot;pathlib.Path.open&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">_a</span><span class="p">,</span> <span class="o">**</span><span class="n">_k</span><span class="p">:</span> <span class="n">_raise_ioerror</span><span class="p">())</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;ioerror.json&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">streak_handler</span><span class="o">.</span><span class="n">load_streaks</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="p">[]</span></div>
+
+
+
+<span class="c1"># ************************************************</span>
+<span class="c1"># Tests for: save_streaks_to_file</span>
+<span class="c1"># ************************************************</span>
+
+
+<div class="viewcode-block" id="testsave_streaks_to_file">
+<a class="viewcode-back" href="../../../tests.leaderboard.html#tests.leaderboard.test_streak_handler.testsave_streaks_to_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">testsave_streaks_to_file</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">sample_streak_entries</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">streak_handler</span><span class="o">.</span><span class="n">StreakEntry</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test saving streaks to file.&quot;&quot;&quot;</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;save.json&quot;</span>
+    <span class="n">streak_handler</span><span class="o">.</span><span class="n">save_streaks_to_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">sample_streak_entries</span><span class="p">)</span>
+
+    <span class="c1"># File should exist and contain valid JSON</span>
+    <span class="k">assert</span> <span class="n">file_path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">any</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;player_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Joel&quot;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="testsave_streaks_to_file_io_error">
+<a class="viewcode-back" href="../../../tests.leaderboard.html#tests.leaderboard.test_streak_handler.testsave_streaks_to_file_io_error">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">testsave_streaks_to_file_io_error</span><span class="p">(</span>
+    <span class="n">monkeypatch</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">MonkeyPatch</span><span class="p">,</span>
+    <span class="n">sample_streak_entries</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">streak_handler</span><span class="o">.</span><span class="n">StreakEntry</span><span class="p">],</span>
+    <span class="n">tmp_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test IOError during saving streaks to file.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_raise_ioerror</span><span class="p">(</span><span class="o">*</span><span class="n">_args</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">OSError</span>
+
+    <span class="n">monkeypatch</span><span class="o">.</span><span class="n">setattr</span><span class="p">(</span><span class="s2">&quot;pathlib.Path.open&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">_a</span><span class="p">,</span> <span class="o">**</span><span class="n">_k</span><span class="p">:</span> <span class="n">_raise_ioerror</span><span class="p">())</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;ioerror_save.json&quot;</span>
+    <span class="c1"># Should not raise</span>
+    <span class="n">streak_handler</span><span class="o">.</span><span class="n">save_streaks_to_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">sample_streak_entries</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ************************************************</span>
+<span class="c1"># Tests for: add_streak_entry</span>
+<span class="c1"># ************************************************</span>
+
+
+<div class="viewcode-block" id="test_add_streak_entry_new_file">
+<a class="viewcode-back" href="../../../tests.leaderboard.html#tests.leaderboard.test_streak_handler.test_add_streak_entry_new_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_add_streak_entry_new_file</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test adding a streak entry to a new file.&quot;&quot;&quot;</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;add.json&quot;</span>
+    <span class="n">entry</span> <span class="o">=</span> <span class="n">streak_handler</span><span class="o">.</span><span class="n">StreakEntry</span><span class="p">(</span><span class="s2">&quot;Joel&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">streak_handler</span><span class="o">.</span><span class="n">add_streak_entry</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">max_entries</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">loaded</span> <span class="o">=</span> <span class="n">streak_handler</span><span class="o">.</span><span class="n">load_streaks</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">any</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">player_name</span> <span class="o">==</span> <span class="s2">&quot;Joel&quot;</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">loaded</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="test_add_streak_entry_limit">
+<a class="viewcode-back" href="../../../tests.leaderboard.html#tests.leaderboard.test_streak_handler.test_add_streak_entry_limit">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_add_streak_entry_limit</span><span class="p">(</span>
+    <span class="n">tmp_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">sample_streak_entries</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">streak_handler</span><span class="o">.</span><span class="n">StreakEntry</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that add_streak_entry enforces max_entries limit and sorts.&quot;&quot;&quot;</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;limit.json&quot;</span>
+
+    <span class="c1"># Save initial entries</span>
+    <span class="n">streak_handler</span><span class="o">.</span><span class="n">save_streaks_to_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">sample_streak_entries</span><span class="p">)</span>
+
+    <span class="c1"># Add a new entry with high streak/points</span>
+    <span class="n">new_entry</span> <span class="o">=</span> <span class="n">streak_handler</span><span class="o">.</span><span class="n">StreakEntry</span><span class="p">(</span><span class="s2">&quot;Top&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">999</span><span class="p">)</span>
+    <span class="n">streak_handler</span><span class="o">.</span><span class="n">add_streak_entry</span><span class="p">(</span><span class="n">new_entry</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">max_entries</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">loaded</span> <span class="o">=</span> <span class="n">streak_handler</span><span class="o">.</span><span class="n">load_streaks</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+    <span class="c1"># Should only keep 3, and &quot;Top&quot; should be first</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">loaded</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+    <span class="k">assert</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">player_name</span> <span class="o">==</span> <span class="s2">&quot;Top&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="test_add_streak_entry_sorting">
+<a class="viewcode-back" href="../../../tests.leaderboard.html#tests.leaderboard.test_streak_handler.test_add_streak_entry_sorting">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_add_streak_entry_sorting</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test that add_streak_entry sorts by streak_count then total_points_in_streak.&quot;&quot;&quot;</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;sort.json&quot;</span>
+    <span class="n">entries</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">streak_handler</span><span class="o">.</span><span class="n">StreakEntry</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+        <span class="n">streak_handler</span><span class="o">.</span><span class="n">StreakEntry</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+        <span class="n">streak_handler</span><span class="o">.</span><span class="n">StreakEntry</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">:</span>
+        <span class="n">streak_handler</span><span class="o">.</span><span class="n">add_streak_entry</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">max_entries</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">loaded</span> <span class="o">=</span> <span class="n">streak_handler</span><span class="o">.</span><span class="n">load_streaks</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+    <span class="c1"># C (5,200) is greater than B (5,50) then A (2,100)</span>
+    <span class="k">assert</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">player_name</span> <span class="o">==</span> <span class="s2">&quot;C&quot;</span>
+    <span class="k">assert</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">player_name</span> <span class="o">==</span> <span class="s2">&quot;B&quot;</span>
+    <span class="k">assert</span> <span class="n">loaded</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">player_name</span> <span class="o">==</span> <span class="s2">&quot;A&quot;</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Joel Angelo Baldapan &amp; Alvin Dela Fuente.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
