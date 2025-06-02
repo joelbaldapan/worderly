@@ -11,6 +11,7 @@ setup.grid\_generator.board\_state module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 setup.grid\_generator.main\_generator module
 --------------------------------------------
