@@ -12,35 +12,15 @@ from display.display import (
 )
 from display.display_utils import clear_screen
 from leaderboard.streak_handler import load_streaks
-
-EXIT_GAME_SENTINEL = "##EXIT_GAME_SENTINEL##"
+from .menu_constants import (
+    MAIN_TITLE,
+    MENU1_OPTIONS,
+    MENU2_OPTIONS,
+    MENU3_OPTIONS,
+    EXIT_GAME_SENTINEL,
+)
 
 MAX_NAME_LENGTH = 10
-MAIN_TITLE = """
- .+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.
-(                                                                                 )
- )                                                                               (
-(    ██╗    ██╗██╗███████╗ █████╗ ██████╗ ██████╗ ███████╗     ██████╗ ███████╗   )
- )   ██║    ██║██║╚══███╔╝██╔══██╗██╔══██╗██╔══██╗██╔════╝    ██╔═══██╗██╔════╝  (
-(    ██║ █╗ ██║██║  ███╔╝ ███████║██████╔╝██║  ██║███████╗    ██║   ██║█████╗     )
- )   ██║███╗██║██║ ███╔╝  ██╔══██║██╔══██╗██║  ██║╚════██║    ██║   ██║██╔══╝    (
-(    ╚███╔███╔╝██║███████╗██║  ██║██║  ██║██████╔╝███████║    ╚██████╔╝██║        )
- )    ╚══╝╚══╝ ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝     ╚═════╝ ╚═╝       (
-(        ██╗    ██╗ ██████╗ ██████╗ ██████╗ ███████╗██████╗ ██╗  ██╗   ██╗        )
- )       ██║    ██║██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██║  ╚██╗ ██╔╝       (
-(        ██║ █╗ ██║██║   ██║██████╔╝██║  ██║█████╗  ██████╔╝██║   ╚████╔╝         )
- )       ██║███╗██║██║   ██║██╔══██╗██║  ██║██╔══╝  ██╔══██╗██║    ╚██╔╝         (
-(        ╚███╔███╔╝╚██████╔╝██║  ██║██████╔╝███████╗██║  ██║███████╗██║           )
- )        ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝          (
-(                   ██████╗ ██╗      █████╗  ██████╗███████╗██╗                   )
- )                  ██╔══██╗██║     ██╔══██╗██╔════╝██╔════╝██║                  (
-(                   ██████╔╝██║     ███████║██║     █████╗  ██║                   )
- )                  ██╔═══╝ ██║     ██╔══██║██║     ██╔══╝  ╚═╝                  (
-(                   ██║     ███████╗██║  ██║╚██████╗███████╗██╗                   )
- )                  ╚═╝     ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝                  (
-(                                                                                 )
- "+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"+.+"
-"""
 
 
 def select_from_menu(options: list[str], title: str = "+.+.+.+ Menu +.+.+.+", *, show_main_title: bool = False) -> str:
@@ -208,26 +188,6 @@ def initialize_player_info(
         player_name_to_use = get_player_name(settings, selected_wizard_for_game)
 
     return player_name_to_use, selected_wizard_for_game
-
-
-MENU1_OPTIONS: list[str] = [
-    "</3 No Heart Points",
-    "♥♥♥ Heart Points",
-]
-
-MENU2_OPTIONS: list[str] = [
-    "Start Game",
-    "Check Leaderboards",
-    "Exit Game",
-]
-
-MENU3_OPTIONS: list[str] = [
-    "Simple Scroll",
-    "Spellbook",
-    "Grand Tome",
-    "Arcane Codex",
-    "The Great Bibliotheca",
-]
 
 
 def run_heart_points_menu() -> DifficultyData | None:
