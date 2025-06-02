@@ -1,27 +1,12 @@
 [
     {
-        "player_name": "s",
-        "streak_count": 2,
-        "total_points_in_streak": 128
+        "player_name": "JOEL",
+        "streak_count": 3,
+        "total_points_in_streak": 369
     },
     {
-        "player_name": "A",
-        "streak_count": 1,
-        "total_points_in_streak": 69
-    },
-    {
-        "player_name": "B",
-        "streak_count": 1,
-        "total_points_in_streak": 61
-    },
-    {
-        "player_name": "C",
-        "streak_count": 1,
-        "total_points_in_streak": 60
-    },
-    {
-        "player_name": "D",
-        "streak_count": 1,
-        "total_points_in_streak": 54
+        "player_name": "ALVIN",
+        "streak_count": 4,
+        "total_points_in_streak": 420
     }
 ]
