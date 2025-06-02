@@ -3,40 +3,39 @@ from unittest.mock import patch
 
 from gameplay import powerup_handler
 from gameplay import game_constants
+from gameplay.game_state_handler import GameStatisticsData, GameStateData
 
 
 @pytest.fixture
 def sample_statistics_fixture():
-    """Creates a sample statistics dictionary."""
-    return {
-        "letters": "A B C",
-        "lives_left": 3,
-        "points": 10,
-        "last_guess": None,
-        "combo": 0,
-        "power_points": 1,  # Start with 1 power point for easier testing of use_powerup
-        "shield_turns": 0,
-    }
+    """Creates a sample statistics object."""
+    return GameStatisticsData(
+        letters="A B C",
+        lives_left=3,
+        points=10,
+        last_guess=None,
+        combo=0,
+        power_points=1,
+        shield_turns=0,
+    )
 
 
 @pytest.fixture
 def sample_game_state_fixture(sample_statistics_fixture):
-    """Creates a sample game state dictionary."""
-    # Example coordinates for a simple grid
+    """Creates a sample game state object."""
     hidden_coords = {(0, 0), (0, 1), (1, 0), (1, 1), (2, 0), (2, 1)}
-    found_coords = {(0, 0)}  # Simulate one letter found
-    return {
-        "player_name": "Power Tester",
-        "statistics": sample_statistics_fixture,
-        "hidden_grid": [["#"] * 2 for _ in range(3)],  # Dummy 3x2 grid
-        "last_guess_coords": [],
-        "correctly_guessed_words": set(),
-        "hidden_letter_coords": hidden_coords
-        - found_coords,  # {(0,1), (1,0), (1,1), (2,0), (2,1)}
-        "found_letter_coords": found_coords.copy(),
-        "next_message": "",
-        "next_message_color": "white",
-    }
+    found_coords = {(0, 0)}
+    return GameStateData(
+        player_name="Power Tester",
+        statistics=sample_statistics_fixture,
+        hidden_grid=[["#"] * 2 for _ in range(3)],
+        last_guess_coords=[],
+        correctly_guessed_words=set(),
+        hidden_letter_coords=hidden_coords - found_coords,
+        found_letter_coords=found_coords.copy(),
+        next_message="",
+        next_message_color="white",
+    )
 
 
 @pytest.fixture(
@@ -52,7 +51,14 @@ def sample_game_state_fixture(sample_statistics_fixture):
 )
 def power_point_update_data(request):
     """Creates data for testing update_power_points."""
-    return request.param
+    # Convert dict to a dummy object with attributes for compatibility
+    wizard_dict, initial_combo, expected_increment = request.param
+    class DummyWizard:
+        pass
+    dummy = DummyWizard()
+    for k, v in wizard_dict.items():
+        setattr(dummy, k, v)
+    return dummy, initial_combo, expected_increment
 
 
 @pytest.fixture(
@@ -75,7 +81,7 @@ def sample_words_to_find_fixture():
     return {
         "ONE": [(0, 0), (0, 1)],
         "TWO": [(1, 0), (1, 1)],
-        "TEN": [(2, 0), (0, 0), (1, 0)],  # Shares letters with ONE and TWO
+        "TEN": [(2, 0), (0, 0), (1, 0)],
     }
 
 
@@ -88,7 +94,6 @@ def sample_final_grid_fixture():
     grid[1][0] = "T"
     grid[1][1] = "W"
     grid[2][0] = "E"
-    # grid[2][1] = None # Example setup
     return grid
 
 
@@ -100,27 +105,27 @@ def sample_final_grid_fixture():
 def test_check_power_point_increment():
     """Test the logic for checking if power points should increment."""
     # 1.) Meets requirement
-    stats1 = {"combo": 3}
+    stats1 = GameStatisticsData(combo=3)
     assert powerup_handler.check_power_point_increment(3, stats1) is True
 
     # 2.) Combo is multiple of requirement
-    stats2 = {"combo": 6}
+    stats2 = GameStatisticsData(combo=6)
     assert powerup_handler.check_power_point_increment(3, stats2) is True
 
     # 3.) Combo less than requirement
-    stats3 = {"combo": 2}
+    stats3 = GameStatisticsData(combo=2)
     assert powerup_handler.check_power_point_increment(3, stats3) is False
 
     # 4.) Combo greater but not multiple
-    stats4 = {"combo": 4}
+    stats4 = GameStatisticsData(combo=4)
     assert powerup_handler.check_power_point_increment(3, stats4) is False
 
     # 5.) Combo is zero
-    stats5 = {"combo": 0}
+    stats5 = GameStatisticsData(combo=0)
     assert powerup_handler.check_power_point_increment(3, stats5) is False
 
     # 6.) No combo requirement
-    stats6 = {"combo": 5}
+    stats6 = GameStatisticsData(combo=5)
     assert powerup_handler.check_power_point_increment(None, stats6) is False
 
 
@@ -128,13 +133,13 @@ def test_update_power_points(power_point_update_data, sample_game_state_fixture)
     """Test updating power points based on combo and wizard requirement."""
     wizard, initial_combo, expected_increment = power_point_update_data
     game_state = sample_game_state_fixture
-    game_state["statistics"]["combo"] = initial_combo
-    init_powerpoints = game_state["statistics"]["power_points"]
+    game_state.statistics.combo = initial_combo
+    init_powerpoints = game_state.statistics.power_points
 
     powerup_handler.update_power_points(game_state, wizard)
 
     assert (
-        game_state["statistics"]["power_points"]
+        game_state.statistics.power_points
         == init_powerpoints + expected_increment
     )
 
@@ -206,7 +211,6 @@ def test_get_coords_for_random_reveal_less_available(mock_sample, mock_randint):
 def test_get_coords_for_word_reveal(mock_choice, sample_words_to_find_fixture):
     """Test selecting coordinates for a random unrevealed word."""
     words_to_find = sample_words_to_find_fixture
-    # Simulate "HELLO" is already guessed
     correct_guesses = {"ONE"}
 
     # Simulate random.choice picking "TEN"
@@ -239,10 +243,9 @@ def test_use_powerup_reveal_completes_words(
     """Test reveal powerup message when words are implicitly completed."""
     wizard_color = "red"  # Example: Random word reveal powerup
     game_state = sample_game_state_fixture
-    selected_wizard = {"color": wizard_color, "combo_requirement": 3}
-    initial_guessed_words = game_state["correctly_guessed_words"].copy()
+    selected_wizard = type("Wizard", (), {"color": wizard_color, "combo_requirement": 3})()
+    initial_guessed_words = game_state.correctly_guessed_words.copy()
 
-    # Mock Functionss
     coords_revealed = [(1, 0), (1, 1)]  # Coords for "TWO"
     mock_word_reveal.return_value = coords_revealed
     completed = ["TWO"]  # Simulate "TWO" being completed by the reveal
@@ -265,9 +268,9 @@ def test_use_powerup_reveal_completes_words(
     )
 
     # Check message indicates completed words and correctly_guessed_words set was updated
-    assert game_state["next_message"] == game_constants.POWERUP_REVEAL_WORDS_MSG.format(
+    assert game_state.next_message == game_constants.POWERUP_REVEAL_WORDS_MSG.format(
         ", ".join(completed)
     )
-    assert game_state["correctly_guessed_words"] == initial_guessed_words.union(
+    assert game_state.correctly_guessed_words == initial_guessed_words.union(
         set(completed)
     )
