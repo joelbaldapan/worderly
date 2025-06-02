@@ -47,17 +47,17 @@ def _check_for_all_letters(
     grid: list[list[str | None]],
     word: str,
     words_to_place_set: set[str],
-    word_len: int,
-    start_row: int,
-    start_col: int,
-    dr: int,
-    dc: int,
+    start: tuple[int, int],
+    direction: tuple[int, int],
 ) -> bool:
     """Check conditions along the entire path of a potential word placement."""
     placed_new_letter = False
     checked_letters = ""
     grid_height = len(grid)
     grid_width = len(grid[0]) if grid_height > 0 else 0
+    word_len = len(word)
+    start_row, start_col = start
+    dr, dc = direction
 
     for i in range(word_len):
         current_row = start_row + i * dr
@@ -79,9 +79,10 @@ def _check_for_all_letters(
 
         # Prevents placing a word that forms an existing word by only using already placed letters
         # Trying to place "ABC" over "ABC"
-        if len(checked_letters) > 1 and checked_letters.lower() in words_to_place_set:
-            if len(checked_letters) == word_len and not placed_new_letter:
-                return False
+        if (len(checked_letters) > 1 and checked_letters.lower() in words_to_place_set) and (
+            len(checked_letters) == word_len and not placed_new_letter
+        ):
+            return False
 
     return placed_new_letter  # Must place at least one new letter
 
@@ -90,15 +91,17 @@ def is_valid_placement(
     grid: list[list[str | None]],
     word: str,
     words_to_place_set: set[str],  # All words that could be on the board
-    intersect_row: int,
-    intersect_col: int,
-    intersect_idx: int,
+    intersection_info: dict,  # Contains 'row', 'col', 'idx'
     orientation: str,  # "V" or "H"
 ) -> bool:
     """Determine if placing a word at a specific intersection is valid."""
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
     word_len = len(word)
+
+    intersect_row = intersection_info["row"]
+    intersect_col = intersection_info["col"]
+    intersect_idx = intersection_info["idx"]
 
     dr, dc = (1, 0) if orientation == "V" else (0, 1)
     start_row = intersect_row - intersect_idx * dr
@@ -117,4 +120,4 @@ def is_valid_placement(
     ):
         return False
 
-    return _check_for_all_letters(grid, word, words_to_place_set, word_len, start_row, start_col, dr, dc)
+    return _check_for_all_letters(grid, word, words_to_place_set, (start_row, start_col), (dr, dc))

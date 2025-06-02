@@ -6,7 +6,7 @@ from dataclasses import dataclass
 
 from data.settings_details import NO_HEART_POINTS_SETTINGS, DifficultyData
 from display.display_utils import clear_screen
-from gameplay.gameplay import run_game
+from gameplay.gameplay import GameContext, run_game
 from leaderboard.streak_handler import StreakEntry, add_streak_entry
 from setup.grid_generator.main_generator import generate_board
 from setup.menus import (
@@ -112,7 +112,7 @@ def _handle_fatal_setup_error() -> None:
         print(f"Saved active streak for {CURRENT_SESSION_STREAK.player_name} due to setup error.")
 
 
-def _save_streak():
+def _save_streak() -> None:
     """Save the current streak if it exists and player name is set."""
     if CURRENT_SESSION_STREAK.count > 0 and CURRENT_SESSION_STREAK.player_name:
         entry = StreakEntry(
@@ -123,7 +123,7 @@ def _save_streak():
         add_streak_entry(entry)
 
 
-def _update_player_name(player_name_from_init: str | None):
+def _update_player_name(player_name_from_init: str | None) -> None:
     """Update the player name in the streak state, saving old streak if needed."""
     if CURRENT_SESSION_STREAK.player_name != player_name_from_init:
         if CURRENT_SESSION_STREAK.player_name is not None and CURRENT_SESSION_STREAK.count > 0:
@@ -178,14 +178,15 @@ def _run_game_session(
 
         middle_word, words_to_find, final_grid = setup_result
 
-        game_outcome, points_this_game = run_game(
-            difficulty_config_this_round,
-            final_grid,
-            words_to_find,
-            middle_word,
-            CURRENT_SESSION_STREAK.player_name,
-            selected_wizard,
+        game_ctx = GameContext(
+            difficulty_conf=difficulty_config_this_round,
+            final_grid=final_grid,
+            words_to_find=words_to_find,
+            middle_word=middle_word,
+            player_name=CURRENT_SESSION_STREAK.player_name,
+            selected_wizard=selected_wizard,
         )
+        game_outcome, points_this_game = run_game(game_ctx)
 
         if CURRENT_SESSION_STREAK.player_name:
             if game_outcome == "win":

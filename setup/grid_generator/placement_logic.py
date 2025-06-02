@@ -22,11 +22,16 @@ def find_possible_placements(
             continue
         for intersect_coord in placed_letter_coords[letter_in_word]:
             intersect_row, intersect_col = intersect_coord
+            intersection_info: dict = {
+                "row": intersect_row,
+                "col": intersect_col,
+                "idx": idx,
+            }
             # Check VERTICAL placement
-            if is_valid_placement(grid, word, words_to_place_set, intersect_row, intersect_col, idx, "V"):
+            if is_valid_placement(grid, word, words_to_place_set, intersection_info, "V"):
                 possible_placements.append(PlacementDetail(word=word, coord=intersect_coord, idx=idx, orientation="V"))
             # Check HORIZONTAL placement
-            if is_valid_placement(grid, word, words_to_place_set, intersect_row, intersect_col, idx, "H"):
+            if is_valid_placement(grid, word, words_to_place_set, intersection_info, "H"):
                 possible_placements.append(PlacementDetail(word=word, coord=intersect_coord, idx=idx, orientation="H"))
     return possible_placements
 

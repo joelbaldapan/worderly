@@ -167,15 +167,15 @@ def rich_print_statistics(
     name_text = Text(f"--- {player_name_display} ---", style=wizard_color, justify="center")
     wizard_panel_content = Group(art_text, name_text)
 
-    PANELS_HEIGHT = 15
-    STATS_HEIGHT = 6
-    WIZARD_PANEL_WIDTH = 23
+    panels_height = 15
+    stats_height = 6
+    wizard_panel_width = 23
 
-    grid_actual_width = WIZARD_PANEL_WIDTH + 30
+    grid_actual_width = wizard_panel_width + 30
     if grid and grid[0]:
         grid_actual_width = len(grid[0]) * 2 + 3
 
-    stats_panel_width = max(10, grid_actual_width - WIZARD_PANEL_WIDTH - 1)
+    stats_panel_width = max(10, grid_actual_width - wizard_panel_width - 1)
 
     wizard_panel = Panel(
         wizard_panel_content,
@@ -184,8 +184,8 @@ def rich_print_statistics(
         style=wizard_color,
         padding=(0, 1),
         expand=False,
-        width=WIZARD_PANEL_WIDTH,
-        height=PANELS_HEIGHT,
+        width=wizard_panel_width,
+        height=panels_height,
     )
     player_stats_panel = Panel(
         player_stats_content,
@@ -194,9 +194,9 @@ def rich_print_statistics(
         border_style=border_style,
         expand=True,
         width=stats_panel_width,
-        height=STATS_HEIGHT,
+        height=stats_height,
     )
-    powerup_stats_height = PANELS_HEIGHT - STATS_HEIGHT
+    powerup_stats_height = panels_height - stats_height
     powerup_stats_panel = Panel(
         powerup_stats_content,
         title="Powerup Stats",

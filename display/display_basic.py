@@ -142,12 +142,12 @@ def basic_print_streak_leaderboard(streaks: list[StreakEntry]) -> None:
         print("---------------------------------")
         return
 
-    MAX_NAME_LEN = 15  # Default/max width for player name
+    max_name_len = 15  # Default/max width for player name
     if streaks:
         pass
 
     # Header
-    header = f"{'Rank':<5} | {'Player Name':<{MAX_NAME_LEN}} | {'Streak':>7} | {'Total Points':>12}"
+    header = f"{'Rank':<5} | {'Player Name':<{max_name_len}} | {'Streak':>7} | {'Total Points':>12}"
     print(header)
     print("-" * len(header))
 
@@ -157,8 +157,8 @@ def basic_print_streak_leaderboard(streaks: list[StreakEntry]) -> None:
         streak = str(entry.streak_count)
         points = str(entry.total_points_in_streak)
 
-        display_name = (name[: MAX_NAME_LEN - 3] + "...") if len(name) > MAX_NAME_LEN else name
+        display_name = (name[: max_name_len - 3] + "...") if len(name) > max_name_len else name
 
-        print(f"{rank:<5} | {display_name:<{MAX_NAME_LEN}} | {streak:>7} | {points:>12}")
+        print(f"{rank:<5} | {display_name:<{max_name_len}} | {streak:>7} | {points:>12}")
 
     print("---------------------------------")

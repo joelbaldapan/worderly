@@ -82,8 +82,8 @@ WIZARDS_DATA: list[WizardData] = [
         combo_requirement=4,
         powerup_name="Wildgrowth",
         powerup_desc="Reveal 5-8 letters on the board.",
-        description="Ah, the garden of words bloom my curiosity. I am a wizard obsessed with the pieces of the puzzle, rather "
-        "than the puzzle itself. Each letter is a mystical seed I've sown, scattering them across the soil of thought "
+        description="Ah, the garden of words bloom my curiosity. I am a wizard obsessed with the pieces of the puzzle, "
+        "rather than the puzzle itself. Each letter is a mystical seed I've sown, scattering them across the soil of thought "
         "to let this garden grow.\n\n(This wizard is for those who prefer to compound a lead with a potential powerup. "
         "However, the dedication to such powerful magic makes you start with less life.)",
     ),
