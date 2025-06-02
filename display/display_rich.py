@@ -55,7 +55,7 @@ def _get_num_cols(grid: list[list[str | None]]) -> int:
         return 0
 
 
-def _get_styled_row_items(
+def _get_styled_row_items(  # noqa: PLR0913, PLR0917
     row_idx: int,
     row_data: list[str | None],
     num_cols: int,
@@ -87,7 +87,7 @@ def _get_styled_row_items(
     return styled_row_items
 
 
-def rich_print_grid(
+def rich_print_grid(  # noqa: PLR0913, PLR0917
     grid: list[list[str | None]] | None,
     highlighted_coords: set[tuple[int, int]] | list[tuple[int, int]],
     highlight_color: str,
@@ -265,7 +265,7 @@ def rich_print_statistics(
     console.print(full_panel)
 
 
-def rich_print_message(
+def rich_print_message(  # noqa: PLR0913
     message: str,
     style: str | None = None,
     border_style: str = DEFAULT_BORDER_STYLE,

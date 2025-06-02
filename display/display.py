@@ -26,7 +26,7 @@ from leaderboard.streak_handler import StreakEntry
 DEFAULT_BORDER_STYLE = "bright_cyan"
 
 
-def print_grid(
+def print_grid(  # noqa: PLR0913, PLR0917
     settings: DifficultyData | None,
     grid: list[list[str | None]] | None,
     highlighted_coords: set[tuple[int, int]] | list[tuple[int, int]] | None = None,
@@ -54,7 +54,7 @@ def print_grid(
         basic_print_grid(grid)
 
 
-def print_statistics(
+def print_statistics(  # noqa: PLR0913, PLR0917
     settings: DifficultyData | None,
     statistics_obj: GameStatisticsData,
     border_style: str,
@@ -75,7 +75,7 @@ def print_statistics(
         basic_print_statistics(statistics_obj)
 
 
-def print_message(
+def print_message(  # noqa: PLR0913, PLR0917
     settings: DifficultyData | None,
     message: str,
     style: str | None = None,
