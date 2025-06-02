@@ -97,8 +97,12 @@ def update_game_over_display(
     stats = game_st.statistics
     wizard_color = current_selected_wizard.color
 
-    final_message = game_constants.WIN_MSG if game_over_status == "win" else game_constants.LOSE_MSG
-    letters_display_color = game_constants.WIN_COLOR if game_over_status == "win" else game_constants.LOSE_COLOR
+    if game_over_status == "win":
+        final_message = game_constants.WIN_MSG
+        letters_display_color = game_constants.WIN_COLOR
+    else:
+        final_message = game_constants.LOSE_MSG
+        letters_display_color = game_constants.LOSE_COLOR
 
     grid_to_show = final_grid
     highlight_coords_on_loss = game_st.found_letter_coords if game_over_status == "loss" else []
@@ -157,7 +161,7 @@ def update_game_over_display(
     print_message(current_difficulty_config, final_message, border_style=wizard_color)
 
 
-def simplified_end_game_interaction(
+def end_game(
     current_difficulty_config: DifficultyData,
     player_name: str | None,
     final_score: int,
@@ -165,14 +169,13 @@ def simplified_end_game_interaction(
     """Handles display and interaction after a game ends, shows leaderboards,
     and provides a mode-specific prompt to continue.
     """
-    # Initial pause after game grid is shown
     get_input(current_difficulty_config, "  > Game Over. Press Enter to see summary and leaderboards... ")
     clear_screen()
 
-    name_to_display = player_name if player_name is not None else "Wizard"  # "Wizard" for NHP
+    player_name
     print_message(
         current_difficulty_config,
-        game_constants.THANKS_MSG.format(name_to_display, final_score),
+        game_constants.THANKS_MSG.format(player_name, final_score),
         border_style=game_constants.FINAL_SCORE_BORDER,
     )
 
@@ -226,6 +229,6 @@ def run_game(
     )
     final_score_this_game: int = game_st.statistics.points
 
-    simplified_end_game_interaction(difficulty_conf, player_name, final_score_this_game)
+    end_game(difficulty_conf, player_name, final_score_this_game)
 
     return game_over_status, final_score_this_game

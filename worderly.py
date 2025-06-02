@@ -2,20 +2,41 @@
 # MAIN LOGIC
 # ****************
 import sys
+from dataclasses import dataclass
 
-from data.settings_details import NO_HEART_POINTS_SETTINGS, DifficultyData  # Import NHP settings
+from data.settings_details import NO_HEART_POINTS_SETTINGS, DifficultyData
 from display.display_utils import clear_screen
-from gameplay.gameplay import run_game  # Returns Tuple[str, int]
+from gameplay.gameplay import run_game
 from leaderboard.streak_handler import StreakEntry, add_streak_entry
 from setup.grid_generator.main_generator import generate_board
 from setup.menus import (
-    EXIT_GAME_SENTINEL,  # Import the sentinel
+    EXIT_GAME_SENTINEL,
     initialize_player_info,
     run_heart_points_menu,
     run_main_menu,
 )
 from setup.word_selector import generate_word_list, read_word_file
 
+
+@dataclass
+class SessionStreakState:
+    player_name: str | None = None
+    count: int = 0
+    points_total: int = 0
+
+    def reset_streak_counters(self) -> None:
+        """Reset count and points, keeps player name for the session."""
+        self.count = 0
+        self.points_total = 0
+
+    def full_reset(self) -> None:
+        """Reset all streak information, including player name."""
+        self.player_name = None
+        self.count = 0
+        self.points_total = 0
+
+
+CURRENT_SESSION_STREAK = SessionStreakState()
 MAX_SETUP_RETRIES = 5  # Maximum number of attempts to generate words and board
 MAX_GRID_SETUP_RETRIES = 5  # Maximum number of attempts to generate board
 
@@ -70,12 +91,8 @@ def run_setup(difficulty_config: DifficultyData, lexicon_file_path: str):
     return None
 
 
-def _handle_fatal_setup_error(
-    is_hp_session: bool,
-    active_player_name: str | None,
-    active_streak_count: int,
-    active_streak_points_total: int,
-) -> None:
+def _handle_fatal_setup_error() -> None:
+    """Handle fatal setup error, prints message, and saves active streak."""
     clear_screen()
     print("\n" + "=" * 50)
     print(f"FATAL ERROR: Failed to set up game after {MAX_SETUP_RETRIES} attempts.")
@@ -85,93 +102,116 @@ def _handle_fatal_setup_error(
     print("Please check your settings, lexicon file, or try again.")
     print("Exiting program.")
     print("=" * 50 + "\n")
-    if is_hp_session and active_streak_count > 0 and active_player_name:
-        entry = StreakEntry(active_player_name, active_streak_count, active_streak_points_total)
+    if CURRENT_SESSION_STREAK.count > 0 and CURRENT_SESSION_STREAK.player_name:
+        entry = StreakEntry(
+            CURRENT_SESSION_STREAK.player_name,
+            CURRENT_SESSION_STREAK.count,
+            CURRENT_SESSION_STREAK.points_total,
+        )
+        add_streak_entry(entry)
+        print(f"Saved active streak for {CURRENT_SESSION_STREAK.player_name} due to setup error.")
+
+
+def _save_streak():
+    """Save the current streak if it exists and player name is set."""
+    if CURRENT_SESSION_STREAK.count > 0 and CURRENT_SESSION_STREAK.player_name:
+        entry = StreakEntry(
+            CURRENT_SESSION_STREAK.player_name,
+            CURRENT_SESSION_STREAK.count,
+            CURRENT_SESSION_STREAK.points_total,
+        )
         add_streak_entry(entry)
 
 
-def _handle_streak_on_loss(player_name: str | None, streak_count: int, streak_points: int) -> None:
-    """Adds a streak entry if the streak is active and player name is set."""
-    if player_name and streak_count > 0:
-        entry = StreakEntry(player_name, streak_count, streak_points)
-        add_streak_entry(entry)
+def _update_player_name(player_name_from_init: str | None):
+    """Update the player name in the streak state, saving old streak if needed."""
+    if CURRENT_SESSION_STREAK.player_name != player_name_from_init:
+        if CURRENT_SESSION_STREAK.player_name is not None and CURRENT_SESSION_STREAK.count > 0:
+            _save_streak()
+        CURRENT_SESSION_STREAK.player_name = player_name_from_init
+        CURRENT_SESSION_STREAK.reset_streak_counters()
+    elif CURRENT_SESSION_STREAK.player_name is None and player_name_from_init:
+        CURRENT_SESSION_STREAK.player_name = player_name_from_init
+        CURRENT_SESSION_STREAK.reset_streak_counters()
 
 
 def _run_game_session(
     lexicon_file_p: str,
-    initial_difficulty_config: DifficultyData | None,
-    is_hp_mode: bool,
+    initial_difficulty_config_for_nhp: DifficultyData | None,
+    is_hp_mode_session: bool,
 ) -> None:
-    """Runs the game session loop for either HP or NHP mode."""
-    player_name: str | None = None
-    streak_count: int = 0
-    streak_points_total: int = 0
-
+    """Run the game session loop for either HP or NHP mode, using global streak state."""
     while True:
-        # For HP mode, get difficulty from menu each round; for NHP, use fixed config
-        if is_hp_mode:
+        # Select difficulty config for this round
+        if is_hp_mode_session:
             menu_result = run_main_menu()
             if menu_result == EXIT_GAME_SENTINEL:
-                _handle_streak_on_loss(player_name, streak_count, streak_points_total)
+                _save_streak()
                 print("\nThanks for your bravery, Wizard! Exiting Worderly Place.")
                 return
-            difficulty_config = menu_result
+            difficulty_config_this_round = menu_result
         else:
-            difficulty_config = initial_difficulty_config
+            if initial_difficulty_config_for_nhp is None:
+                print("Error: NHP settings missing.")
+                return
+            difficulty_config_this_round = initial_difficulty_config_for_nhp
 
-        # Pass player name if streak is active, else None
-        name_for_init = player_name if streak_count > 0 else None
-        player_name_for_this_game, selected_wizard = initialize_player_info(
-            difficulty_config,
-            name_for_init,
+        # Determine player name to pass to init
+        name_to_pass_to_init: str | None = (
+            CURRENT_SESSION_STREAK.player_name
+            if (CURRENT_SESSION_STREAK.count > 0 and CURRENT_SESSION_STREAK.player_name)
+            or (not is_hp_mode_session and CURRENT_SESSION_STREAK.player_name)
+            else None
         )
 
-        player_name = player_name_for_this_game
+        player_name_from_init, selected_wizard = initialize_player_info(
+            difficulty_config_this_round,
+            name_to_pass_to_init,
+        )
 
-        setup_result = run_setup(difficulty_config, lexicon_file_p)
+        _update_player_name(player_name_from_init)
+
+        setup_result = run_setup(difficulty_config_this_round, lexicon_file_p)
         if not setup_result:
-            _handle_fatal_setup_error(
-                is_hp_mode,
-                player_name,
-                streak_count,
-                streak_points_total,
-            )
+            _handle_fatal_setup_error()
             return
 
         middle_word, words_to_find, final_grid = setup_result
 
         game_outcome, points_this_game = run_game(
-            difficulty_config,
+            difficulty_config_this_round,
             final_grid,
             words_to_find,
             middle_word,
-            player_name,
+            CURRENT_SESSION_STREAK.player_name,
             selected_wizard,
         )
 
-        if game_outcome == "win":
-            streak_count += 1
-            streak_points_total += points_this_game
-        elif game_outcome == "loss":
-            _handle_streak_on_loss(player_name, streak_count, streak_points_total)
-            streak_count = 0
-            streak_points_total = 0
+        if CURRENT_SESSION_STREAK.player_name:
+            if game_outcome == "win":
+                CURRENT_SESSION_STREAK.count += 1
+                CURRENT_SESSION_STREAK.points_total += points_this_game
+            elif game_outcome == "loss":
+                _save_streak()
+                CURRENT_SESSION_STREAK.reset_streak_counters()
 
 
 def main() -> None:
-    """Main function to run the Worderly game."""
+    """Run the Worderly game."""
     lexicon_file_p: str | None = get_lexicon_file()
     if not lexicon_file_p:
         return
 
     initial_mode_choice: DifficultyData | None = run_heart_points_menu()
 
-    if initial_mode_choice is None:  # User selected Heart Points Mode path
-        _run_game_session(lexicon_file_p, None, is_hp_mode=True)
-    elif not initial_mode_choice.heart_point_mode:  # User selected No Heart Points Mode
-        _run_game_session(lexicon_file_p, NO_HEART_POINTS_SETTINGS, is_hp_mode=False)
+    CURRENT_SESSION_STREAK.full_reset()
+
+    if initial_mode_choice is None:
+        _run_game_session(lexicon_file_p, None, is_hp_mode_session=True)
+    elif not initial_mode_choice.heart_point_mode:
+        _run_game_session(lexicon_file_p, NO_HEART_POINTS_SETTINGS, is_hp_mode_session=False)
     else:
-        print("Exiting due to initial mode selection outcome.")
+        print("Exiting due to an unexpected initial mode selection outcome.")
 
 
 if __name__ == "__main__":
@@ -179,7 +219,17 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         clear_screen()
+        if CURRENT_SESSION_STREAK.count > 0 and CURRENT_SESSION_STREAK.player_name:
+            print("\nInterrupt detected. Saving current streak...")
+            _save_streak()
+            print(
+                f"Streak for {CURRENT_SESSION_STREAK.player_name} saved: "
+                f"{CURRENT_SESSION_STREAK.count} wins, {CURRENT_SESSION_STREAK.points_total} pts.",
+            )
+        else:
+            print("\nInterrupt detected. No active streak to save or player name not set.")
+
         print("\n" + "=" * 40)
-        print("\nExiting game (Keyboard Interrupt)...")
+        print("Exiting game (Keyboard Interrupt)...")
         print("I bid you adieu, wandwork wizard!")
-        print("\n" + "=" * 40)
+        print("=" * 40)

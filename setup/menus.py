@@ -189,6 +189,7 @@ def initialize_player_info(
     if settings.heart_point_mode:
         # Heart Points Mode
         selected_wizard_for_game = select_character_menu(settings)  # Player chooses wizard
+        clear_screen()
         display_wizard_art(settings, selected_wizard_for_game)
     else:
         # No Heart Points Mode
@@ -196,7 +197,6 @@ def initialize_player_info(
 
     # Re-use name if in a current streak session
     if current_session_player_name:
-        clear_screen()
         player_name_to_use = current_session_player_name
         print_message(settings, f"Continuing streak as {player_name_to_use}!", border_style="green")
         get_input(settings, "  > Press Enter to begin...")
