@@ -1,4 +1,3 @@
-
 import pytest
 
 from gameplay.game_state_handler import GameStateData, GameStatisticsData

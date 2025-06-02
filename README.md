@@ -25,8 +25,7 @@
         * [Meet the Wizards](#combos-and-pps)
     * [Leaderboards](#leaderboards) 
 * [Code Documentation](#code-documentation)
-    * [Documentation with Sphinx](#documentation-with-sphinx)
-    * [How to Document with Sphinx](#how-to-document-with-sphinx)
+    * [Generating and Viewing Sphinx Documentation](#documentation-with-sphinx)
 * [Unit Tests](#unit-tests)
     * [Running Tests](#running-tests)
     * [Test Structure and Thoroughness](#test-structure-and-thoroughness)
@@ -268,8 +267,6 @@ Here are the wizards available in Worderly Place and their unique attributes:
 See how your wizarding consistency stacks up! The Winning Streak Leaderboard tracks the longest chains of consecutive game victories achieved in Worderly Place.
 
 * **Active in All Modes:** The winning streak leaderboard is active when you play with a named player in both **💖 Heart Points Mode** and **🔴 No Heart Points Mode**.
-    * In Heart Points mode, you provide a name, which is reused if your streak continues.
-    * In No Heart Points mode, you are asked for a name once at the beginning of your session, and this name is used for tracking your streaks during that session.
 * **Automatic Streak Saving:** When a winning streak ends (e.g., due to a loss, or by exiting Heart Points mode while on a streak, or if the game is interrupted via Ctrl+C with an active streak), your player name, the number of consecutive wins (Streak Count), and the total points accumulated *during that specific streak* are automatically recorded.
 * **Viewing the Top Streaks:** You can check the current top streaks in two ways:
     1.  Select the **"Check Leaderboards"** option from the main menu (when in Heart Points mode).
@@ -308,49 +305,6 @@ xdg-open build/html/index.html  # Linux
 open build/html/index.html       # macOS
 start build\html\index.html      # Windows PowerShell
 ```
-
-<a id="how-to-document-with-sphinx"></a>
-## 📃 How to Document with Sphinx
-**Reference: [Official Sphinx Documentation](https://www.sphinx-doc.org/en/master/tutorial/getting-started.html)**
-
-First, ensure you have installed all dependencies from `requirements.txt` (which includes `pytest`):
-    
-    ```
-    pip install -r requirements.txt
-    ```
-
-From the command line, run the following command:
-`sphinx-quickstart docs`
-This will present to you a series of questions required to create the basic directory and configuration layout for your project inside the docs folder. To proceed, answer each question as follows:
-
-* Separate source and build directories (y/n) [n]: Write `y` and press Enter.
-* Project name: Write `Your Project Name` and press Enter.
-* Author name(s): Write `Your Author Name` and press Enter.
-* Project release []: Write `Version` and press Enter.
-* Project language [en]: Write `Your Language` or leave it empty (the default, English) and press Enter.
-
-After the last question, you will see the new docs directory with the following content.
-```
-docs
-├── build
-├── make.bat
-├── Makefile
-└── source
-   ├── conf.py
-   ├── index.rst
-   ├── _static
-   └── _templates
-```
-The purpose of each of these files is:
-
-* `build/`: An empty directory (for now) that will hold the rendered documentation.
-* `make.bat` and `Makefile`: Convenience scripts to simplify some common Sphinx operations, such as rendering the content.
-* `source/conf.py`: A Python script holding the configuration of the Sphinx project. It contains the project name and release you specified to sphinx-quickstart, as well as some extra configuration keys.
-* `source/index.rst`: The root document of the project, which serves as welcome page and contains the root of the “table of contents tree” (or toctree).
-
-Thanks to this bootstrapping step, you already have everything needed to render the documentation as HTML for the first time. To do that, run this command:
-
-`sphinx-build -M html docs/source/ docs/build/`
 
 
 <a id="unit-tests"></a>
@@ -395,14 +349,13 @@ Unit tests are included in the `tests/` directory to help ensure the correctness
 
 -   **Structure:** Tests are organized within the `tests/` directory, *mirroring the main project structure*
     - Each module file of the program begins with `test_`, followed by the module's name.
-        - For example:  `tests/test_setup/`, `tests/test_gameplay/`
-    - The same is true witih functions, each function from the core program files begin with `test_`, followed by the function name, and what the unit test does.
+        - For example:  `tests/setup/test_word_selector.py`
+    - The same is true with functions, each function from the core program files begin with `test_`, followed by the function name, and what the unit test does.
         - For example: `def check_game_over` and `def test_check_game_over_win`
 -   **Coverage:** Reasonably thorough tests would aim to cover:
-    -   **`setup`:** Grid generation rules, coordinate calculations, word selection logic, file reading. As well as Menu navigation logic, input validation (where applicable without testing direct 
+    -   **`setup`:** Grid generation rules, coordinate calculations, word selection logic, file reading. As well as Menu navigation logic and input validation.
     -   **`gameplay`:** State updates, guess processing outcomes, game over conditions, powerup logic.
     -   **`leaderboard`:** Leaderboard loading/saving, parsing, sorting.
-    -   **`display`/`menus`:** terminal output/input capture).
     -   **Edge Cases:** Empty inputs, invalid inputs, restrictive settings, boundary conditions.
 -   **Mocking:** Testing involves mocking external dependencies and interactions.
     - This includes:
@@ -458,6 +411,9 @@ Unit tests are included in the `tests/` directory to help ensure the correctness
 
 **Command Line Tools**
 -   [tree Command in Linux with Examples | GeeksforGeeks](https://www.geeksforgeeks.org/tree-command-unixlinux/)
+
+**Sphinx Documentation**
+- [Sphinx Documentation Website](https://www.sphinx-doc.org/en/master/index.html)
 
 **Markdown Documentation**
 - **Markdown for `README.md` visualized through:** [StackEdit](https://stackedit.io/)

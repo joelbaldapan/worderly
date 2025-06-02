@@ -1,12 +1,12 @@
 [
     {
-        "player_name": "JOEL",
-        "streak_count": 3,
-        "total_points_in_streak": 369
-    },
-    {
         "player_name": "ALVIN",
         "streak_count": 4,
         "total_points_in_streak": 420
+    },
+    {
+        "player_name": "JOEL",
+        "streak_count": 3,
+        "total_points_in_streak": 369
     }
 ]

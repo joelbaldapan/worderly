@@ -46,8 +46,10 @@ def streak_word_set() -> set[str]:
         set[str]: Set of valid subwords for 'streak'.
 
     """
-    words_streak = "STREAK rat stare arks rate stark ear rest steak east sat " \
-    "take era sear takes erst seat tar est skate tears eta stake teas treks"  # noqa: ISC002
+    words_streak = (
+        "STREAK rat stare arks rate stark ear rest steak east sat "
+        "take era sear takes erst seat tar est skate tears eta stake teas treks"
+    )
     return set(words_streak.lower().split())
 
 

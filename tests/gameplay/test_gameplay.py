@@ -19,8 +19,10 @@ def sample_settings() -> object:
         object: Dummy settings object with heart_point_mode True.
 
     """
+
     class DummySettings:
         heart_point_mode = True
+
     return DummySettings()
 
 
@@ -32,8 +34,10 @@ def sample_settings_no_hp() -> object:
         object: Dummy settings object with heart_point_mode False.
 
     """
+
     class DummySettings:
         heart_point_mode = False
+
     return DummySettings()
 
 
@@ -45,12 +49,14 @@ def sample_wizard() -> object:
         object: Dummy wizard object.
 
     """
+
     class DummyWizard:
         name = "Mock Wizard"
         color = "cyan"
         starting_lives = 3
         combo_requirement = 3
         small_art = "artplaceholdere"
+
     return DummyWizard()
 
 
@@ -108,6 +114,7 @@ def sample_words_to_find() -> dict[str, list[tuple[int, int]]]:
     """
     return {"A": [(0, 0)]}
 
+
 # ************************************************
 # Helper for GameConfig
 # ************************************************
@@ -140,6 +147,7 @@ class DummyGameConfig:
         self.words_to_find = words_to_find
         self.middle_word = middle_word
         self.player_name = player_name
+
 
 # ************************************************
 # Paths For Convenience
@@ -223,6 +231,7 @@ def test_update_end_game_display(  # noqa: PLR0913, PLR0917
     mock_clear.assert_called_once()
     mock_load_lb.assert_called_once()
     mock_print_lb.assert_called_once_with(sample_settings, mock_leaderboard_data)
+
 
 # ************************************************
 # Tests for: Getting Guesses
@@ -348,6 +357,7 @@ def test_get_guess_powerup_command_invalid_points(
     guess = gameplay.get_guess(game_config, state)
     assert guess == "valid"
     assert mock_update_disp.call_count == 1
+
 
 # ************************************************
 # Tests for: Running Game

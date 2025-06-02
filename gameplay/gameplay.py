@@ -179,7 +179,11 @@ def end_game(
         border_style=game_constants.FINAL_SCORE_BORDER,
     )
 
-    print_message(game_config.difficulty_conf, "Winning Streaks Leaderboard:", border_style="cyan")
+    print_message(
+        game_config.difficulty_conf,
+        "Winning Streaks Leaderboard (New Scores will be updated after streak is broken, or the user exits!):",
+        border_style="cyan",
+    )
     streaks = load_streaks()
     print_streak_leaderboard(game_config.difficulty_conf, streaks)
 
