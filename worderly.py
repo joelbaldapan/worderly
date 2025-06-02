@@ -6,11 +6,11 @@ from dataclasses import dataclass
 
 from data.settings_details import NO_HEART_POINTS_SETTINGS, DifficultyData
 from display.display_utils import clear_screen
-from gameplay.gameplay import GameContext, run_game
+from gameplay.gameplay import GameConfig, run_game
 from leaderboard.streak_handler import StreakEntry, add_streak_entry
 from setup.grid_generator.main_generator import generate_board
+from setup.menu_constants import EXIT_GAME_MARKER
 from setup.menus import (
-    EXIT_GAME_SENTINEL,
     initialize_player_info,
     run_heart_points_menu,
     run_main_menu,
@@ -25,12 +25,19 @@ class SessionStreakState:
     points_total: int = 0
 
     def reset_streak_counters(self) -> None:
-        """Reset count and points, keeps player name for the session."""
+        """Reset the streak counters for the current session.
+
+        This method sets both the win count and points total to zero,
+        but retains the current player name for the session.
+        """
         self.count = 0
         self.points_total = 0
 
     def full_reset(self) -> None:
-        """Reset all streak information, including player name."""
+        """Completely reset the session streak state.
+
+        This method resets the player name, win count, and points total to their initial values.
+        """
         self.player_name = None
         self.count = 0
         self.points_total = 0
@@ -42,7 +49,12 @@ MAX_GRID_SETUP_RETRIES = 5  # Maximum number of attempts to generate board
 
 
 def get_lexicon_file() -> str | None:
-    """Retrieve and validates the lexicon file path from command-line arguments."""
+    """Retrieve and validate the lexicon file path from command-line arguments.
+
+    Returns:
+        str | None: The path to the lexicon file if valid, otherwise None.
+
+    """
     if len(sys.argv) < 2:
         print("The game requires a lexicon file to start!", file=sys.stderr)
         print("Please input the correct format.", file=sys.stderr)
@@ -68,8 +80,7 @@ def run_setup(
         lexicon_file_path (str): The path to the lexicon file.
 
     Returns:
-        Optional[Tuple[str, Dict[str, List[Tuple[int, int]]], List[List[Optional[str]]]]]:
-            (middle_word, words_to_find, final_grid) on success, None on failure.
+        tuple[str, dict, list] | None: (middle_word, words_to_find, final_grid) on success, None on failure.
 
     """
     setup_attempts = 0
@@ -95,7 +106,11 @@ def run_setup(
 
 
 def _handle_fatal_setup_error() -> None:
-    """Handle fatal setup error, prints message, and saves active streak."""
+    """Handle a fatal setup error by printing an error message and saving the active streak.
+
+    This function is called when the game setup fails after the maximum allowed retries.
+    It informs the user of possible causes and saves the current streak if one exists.
+    """
     clear_screen()
     print("\n" + "=" * 50)
     print(f"FATAL ERROR: Failed to set up game after {MAX_SETUP_RETRIES} attempts.")
@@ -116,7 +131,11 @@ def _handle_fatal_setup_error() -> None:
 
 
 def _save_streak() -> None:
-    """Save the current streak if it exists and player name is set."""
+    """Save the current streak if it exists and the player name is set.
+
+    This function creates a StreakEntry and adds it to the leaderboard if the current
+    session streak has a nonzero count and a valid player name.
+    """
     if CURRENT_SESSION_STREAK.count > 0 and CURRENT_SESSION_STREAK.player_name:
         entry = StreakEntry(
             CURRENT_SESSION_STREAK.player_name,
@@ -127,7 +146,15 @@ def _save_streak() -> None:
 
 
 def _update_player_name(player_name_from_init: str | None) -> None:
-    """Update the player name in the streak state, saving old streak if needed."""
+    """Update the player name in the session streak state.
+
+    If the player name has changed, save the old streak (if any), update the player name,
+    and reset the streak counters for the new player.
+
+    Args:
+        player_name_from_init (str | None): The new player name to set.
+
+    """
     if CURRENT_SESSION_STREAK.player_name != player_name_from_init:
         if CURRENT_SESSION_STREAK.player_name is not None and CURRENT_SESSION_STREAK.count > 0:
             _save_streak()
@@ -141,12 +168,22 @@ def _run_game_session(
     *,
     is_hp_mode_session: bool,
 ) -> None:
-    """Run the game session loop for either HP or NHP mode, using global streak state."""
+    """Run the game session loop for either HP or NHP mode, using the global streak state.
+
+    This function manages the main game loop, handling player info, setup, and game execution.
+    It updates the session streak state based on game outcomes.
+
+    Args:
+        lexicon_file_p (str): The path to the lexicon file.
+        initial_difficulty_config_for_nhp (DifficultyData | None): The difficulty config for NHP mode.
+        is_hp_mode_session (bool): Whether the session is in HP mode.
+
+    """
     while True:
         # Select difficulty config for this round
         if is_hp_mode_session:
             menu_result = run_main_menu()
-            if menu_result == EXIT_GAME_SENTINEL:
+            if menu_result == EXIT_GAME_MARKER:
                 _save_streak()
                 print("\nThanks for your bravery, Wizard! Exiting Worderly Place.")
                 return
@@ -179,7 +216,7 @@ def _run_game_session(
 
         middle_word, words_to_find, final_grid = setup_result
 
-        game_ctx = GameContext(
+        game_ctx = GameConfig(
             difficulty_conf=difficulty_config_this_round,
             final_grid=final_grid,
             words_to_find=words_to_find,
@@ -199,7 +236,11 @@ def _run_game_session(
 
 
 def main() -> None:
-    """Run the Worderly game."""
+    """Run the Worderly game.
+
+    This function initializes the game, handles mode selection, and starts the main game session.
+    It also resets the session streak state at the start.
+    """
     lexicon_file_p: str | None = get_lexicon_file()
     if not lexicon_file_p:
         return

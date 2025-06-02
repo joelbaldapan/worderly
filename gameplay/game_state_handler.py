@@ -31,14 +31,30 @@ class GameStateData:
 
 
 def shuffle_letters_statistic(middle_word: str) -> str:
-    """Shuffles the letters of the middle word for display in statistics."""
+    """Shuffle the letters of the given word and return them as a space-separated string.
+
+    Args:
+        middle_word (str): The word whose letters will be shuffled.
+
+    Returns:
+        str: The shuffled letters as a space-separated string.
+
+    """
     letters_list = list(str(middle_word).upper())
     random.shuffle(letters_list)
     return " ".join(letters_list)
 
 
 def create_hidden_grid(final_grid: list[list[str | None]]) -> list[list[str | None]]:
-    """Create the initial hidden grid for the player."""
+    """Create a hidden grid for the player, masking all letters with '#'.
+
+    Args:
+        final_grid (list[list[str | None]]): The solution grid.
+
+    Returns:
+        list[list[str | None]]: The hidden grid with masked letters.
+
+    """
     return [["#" if col else None for col in row] for row in final_grid]
 
 
@@ -47,14 +63,29 @@ def reveal_coords_in_hidden_grid(
     hidden_grid: list[list[str | None]],
     coords: Iterable[tuple[int, int]],
 ) -> None:
-    """Reveals specific coordinates on the hidden grid."""
+    """Reveal specific coordinates in the hidden grid by copying values from the final grid.
+
+    Args:
+        final_grid (list[list[str | None]]): The solution grid.
+        hidden_grid (list[list[str | None]]): The player's hidden grid.
+        coords (Iterable[tuple[int, int]]): Coordinates to reveal.
+
+    """
     for r, c in coords:
         if 0 <= r < len(hidden_grid) and 0 <= c < len(hidden_grid[0]):
             hidden_grid[r][c] = final_grid[r][c]
 
 
 def get_all_letter_coords(final_grid: list[list[str | None]]) -> set[tuple[int, int]]:
-    """Get the set of all coordinates containing letters on the final grid."""
+    """Get all coordinates in the grid that contain a letter.
+
+    Args:
+        final_grid (list[list[str | None]]): The solution grid.
+
+    Returns:
+        set[tuple[int, int]]: Set of coordinates containing letters.
+
+    """
     all_coords: set[tuple[int, int]] = set()
     height = len(final_grid)
     width = len(final_grid[0]) if height > 0 else 0
@@ -70,7 +101,14 @@ def apply_coordinate_reveal(
     final_grid: list[list[str | None]],
     coords_to_reveal: Iterable[tuple[int, int]],
 ) -> None:
-    """Apply the effects of revealing coordinates to the game state."""
+    """Reveal the specified coordinates in the game state and update points and found letters.
+
+    Args:
+        game_state (GameStateData): The current game state.
+        final_grid (list[list[str | None]]): The solution grid.
+        coords_to_reveal (Iterable[tuple[int, int]]): Coordinates to reveal.
+
+    """
     coords_set = set(coords_to_reveal)
 
     reveal_coords_in_hidden_grid(final_grid, game_state.hidden_grid, coords_set)
@@ -90,7 +128,18 @@ def initialize_game_state(
     selected_wizard: WizardData,
     player_name: str | None,
 ) -> GameStateData:
-    """Initialize the game state object for a new game round."""
+    """Initialize and return a new GameStateData object for a new game round.
+
+    Args:
+        final_grid (list[list[str | None]]): The solution grid.
+        middle_word (str): The central word for the round.
+        selected_wizard (WizardData): The selected wizard's data.
+        player_name (str | None): The player's name.
+
+    Returns:
+        GameStateData: The initialized game state.
+
+    """
     stats = GameStatisticsData(
         letters=shuffle_letters_statistic(middle_word),
         lives_left=selected_wizard.starting_lives,
@@ -124,7 +173,16 @@ def process_guess(
     final_grid: list[list[str | None]],
     wizard_color: str,
 ) -> None:
-    """Process a player's word guess and updates the game state."""
+    """Process a player's guess, update the game state, and handle scoring and messages.
+
+    Args:
+        guess (str): The player's guessed word.
+        game_state (GameStateData): The current game state.
+        words_to_find (dict[str, list[tuple[int, int]]]): Words and their coordinates.
+        final_grid (list[list[str | None]]): The solution grid.
+        wizard_color (str): The color associated with the wizard.
+
+    """
     stats = game_state.statistics
 
     stats.last_guess = guess
@@ -162,8 +220,20 @@ def process_guess(
         stats.shield_turns -= 1
 
 
-def check_for_completed_words(game_state: GameStateData, words_to_find: dict[str, list[tuple[int, int]]]) -> list[str]:
-    """Check if any words were implicitly completed by the last reveal."""
+def check_for_completed_words(
+    game_state: GameStateData,
+    words_to_find: dict[str, list[tuple[int, int]]],
+) -> list[str]:
+    """Check for words that have been completed by the last reveal but not explicitly guessed.
+
+    Args:
+        game_state (GameStateData): The current game state.
+        words_to_find (dict[str, list[tuple[int, int]]]): Words and their coordinates.
+
+    Returns:
+        list[str]: List of newly completed words.
+
+    """
     newly_found_words: list[str] = []
 
     for word, coords in words_to_find.items():
@@ -174,8 +244,20 @@ def check_for_completed_words(game_state: GameStateData, words_to_find: dict[str
     return newly_found_words
 
 
-def check_game_over(game_state: GameStateData, words_to_find: dict[str, list[tuple[int, int]]]) -> str:
-    """Check if the game has reached a win or loss condition."""
+def check_game_over(
+    game_state: GameStateData,
+    words_to_find: dict[str, list[tuple[int, int]]],
+) -> str:
+    """Determine if the game is over due to win or loss conditions.
+
+    Args:
+        game_state (GameStateData): The current game state.
+        words_to_find (dict[str, list[tuple[int, int]]]): Words and their coordinates.
+
+    Returns:
+        str: "win" if all words found, "loss" if out of lives, "continue" otherwise.
+
+    """
     if len(game_state.correctly_guessed_words) == len(words_to_find):
         return "win"
     elif game_state.statistics.lives_left <= 0:

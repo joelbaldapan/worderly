@@ -11,8 +11,7 @@ def basic_print_grid(grid: list[list[str | None]] | None) -> None:
     """Print a basic text representation of the game grid to the console.
 
     Args:
-        grid (Optional[List[List[Optional[str]]]]):
-            The 2D list representing the game grid. None represents empty cells.
+        grid (list[list[str | None]] | None): The 2D list representing the game grid. None represents empty cells.
 
     """
     if not grid:
@@ -26,9 +25,7 @@ def basic_print_statistics(statistics: GameStatisticsData) -> None:
     """Print basic game statistics to the console.
 
     Args:
-        statistics (GameStatisticsData):
-            An object containing game stats like letters, lives_left,
-            points, last_guess.
+        statistics (GameStatisticsData): An object containing game stats like letters, lives_left, points, last_guess.
 
     """
     print(f"Letters:     {statistics.letters}")
@@ -39,12 +36,27 @@ def basic_print_statistics(statistics: GameStatisticsData) -> None:
 
 
 def basic_print_message(message: str) -> None:
-    """Print a simple message string to the console."""
+    """Print a simple message string to the console.
+
+    Args:
+        message (str): The message to print.
+
+
+
+    """
     print(message)
 
 
 def basic_get_input(prompt_message: str = "") -> str:
-    """Get input from the user via the console."""
+    """Get input from the user via the console.
+
+    Args:
+        prompt_message (str): The prompt message to display to the user.
+
+    Returns:
+        str: The user's input as a string.
+
+    """
     return input(prompt_message)
 
 
@@ -52,8 +64,7 @@ def basic_print_leaderboard(leaderboard: list[dict[str, Any]]) -> None:
     """Print a basic text representation of the leaderboard.
 
     Args:
-        leaderboard (List[Dict[str, Any]]):
-            A list of score dictionaries, already sorted.
+        leaderboard (list[dict[str, Any]]): A list of score dictionaries, already sorted.
             Each dict should have 'name' and 'score' keys.
 
     """
@@ -82,7 +93,7 @@ def basic_display_wizard_selection(
     """Display basic text information about the currently selected wizard.
 
     Args:
-        settings (Optional[DifficultyData]): Game settings (passed by dispatcher, maybe unused).
+        settings (DifficultyData | None): Game settings (passed by dispatcher, maybe unused).
         wizard (WizardData): The WizardData object to display.
         wizard_index (int): The index of the wizard (passed by dispatcher, maybe unused).
 
@@ -110,7 +121,7 @@ def basic_display_wizard_art(
     """Print the basic ASCII art for a given wizard.
 
     Args:
-        settings (Optional[DifficultyData]): Game settings (passed by dispatcher, maybe unused).
+        settings (DifficultyData | None): Game settings (passed by dispatcher, maybe unused).
         wizard (WizardData): The WizardData object containing the art.
 
     """
@@ -121,7 +132,7 @@ def basic_display_menu_options(options: list[str], current_index: int, title: st
     """Display a basic text-based vertical menu with selection indicator.
 
     Args:
-        options (List[str]): A list of strings representing the menu options.
+        options (list[str]): A list of strings representing the menu options.
         current_index (int): The index of the currently selected option.
         title (str): The title to display above the menu.
 
@@ -135,7 +146,12 @@ def basic_display_menu_options(options: list[str], current_index: int, title: st
 
 
 def basic_print_streak_leaderboard(streaks: list[StreakEntry]) -> None:
-    """Prints a basic text representation of the winning streak leaderboard."""
+    """Print a basic text representation of the winning streak leaderboard.
+
+    Args:
+        streaks (list[StreakEntry]): A list of StreakEntry objects representing player streaks.
+
+    """
     print("\n--- Winning Streaks Leaderboard ---")
     if not streaks:
         print("Leaderboard is empty.")
@@ -143,10 +159,7 @@ def basic_print_streak_leaderboard(streaks: list[StreakEntry]) -> None:
         return
 
     max_name_len = 15  # Default/max width for player name
-    if streaks:
-        pass
 
-    # Header
     header = f"{'Rank':<5} | {'Player Name':<{max_name_len}} | {'Streak':>7} | {'Total Points':>12}"
     print(header)
     print("-" * len(header))

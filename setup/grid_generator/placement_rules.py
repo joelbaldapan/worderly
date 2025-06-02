@@ -1,10 +1,39 @@
 def _is_within_bounds(r: int, c: int, height: int, width: int) -> bool:
-    """Check if a given coordinate (r, c) is within the grid boundaries."""
+    """Check if the coordinate (r, c) is within the grid boundaries.
+
+    Args:
+        r (int): Row index of the cell to check.
+        c (int): Column index of the cell to check.
+        height (int): Number of rows in the grid.
+        width (int): Number of columns in the grid.
+
+    Returns:
+        bool: True if (r, c) is within bounds, False otherwise.
+
+    """
     return 0 <= r < height and 0 <= c < width
 
 
-def _check_parallel_cells(grid: list[list[str | None]], r: int, c: int, dr: int, dc: int) -> bool:
-    """Check if cells perpendicular to a given cell along a direction are empty."""
+def _check_parallel_cells(
+    grid: list[list[str | None]],
+    r: int,
+    c: int,
+    dr: int,
+    dc: int,
+) -> bool:
+    """Check if the cells perpendicular to (r, c) along the given direction are empty.
+
+    Args:
+        grid (list[list[str | None]]): 2D list representing the grid.
+        r (int): Row index of the cell to check.
+        c (int): Column index of the cell to check.
+        dr (int): Row direction of the word (1 for vertical, 0 for horizontal).
+        dc (int): Column direction of the word (1 for horizontal, 0 for vertical).
+
+    Returns:
+        bool: True if both perpendicular neighbor cells are empty or out of bounds, False otherwise.
+
+    """
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
     perp_dr, perp_dc = dc, dr
@@ -24,7 +53,19 @@ def _check_adjacent_before_start(
     dr: int,
     dc: int,
 ) -> bool:
-    """Check if the cell immediately before the start of a word path is empty."""
+    """Check if the cell immediately before the start of a word path is empty or out of bounds.
+
+    Args:
+        grid (list[list[str | None]]): 2D list representing the grid.
+        start_row (int): Row index of the word's starting cell.
+        start_col (int): Column index of the word's starting cell.
+        dr (int): Row direction of the word.
+        dc (int): Column direction of the word.
+
+    Returns:
+        bool: True if the cell before the start is empty or out of bounds, False otherwise.
+
+    """
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
     before_r, before_c = start_row - dr, start_col - dc
@@ -33,8 +74,26 @@ def _check_adjacent_before_start(
     return not cell_occupied
 
 
-def _check_adjacent_after_end(grid: list[list[str | None]], end_row: int, end_col: int, dr: int, dc: int) -> bool:
-    """Check if the cell immediately after the end of a word path is empty."""
+def _check_adjacent_after_end(
+    grid: list[list[str | None]],
+    end_row: int,
+    end_col: int,
+    dr: int,
+    dc: int,
+) -> bool:
+    """Check if the cell immediately after the end of a word path is empty or out of bounds.
+
+    Args:
+        grid (list[list[str | None]]): 2D list representing the grid.
+        end_row (int): Row index of the word's ending cell.
+        end_col (int): Column index of the word's ending cell.
+        dr (int): Row direction of the word.
+        dc (int): Column direction of the word.
+
+    Returns:
+        bool: True if the cell after the end is empty or out of bounds, False otherwise.
+
+    """
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
     after_r, after_c = end_row + dr, end_col + dc
@@ -50,7 +109,19 @@ def _check_for_all_letters(
     start: tuple[int, int],
     direction: tuple[int, int],
 ) -> bool:
-    """Check conditions along the entire path of a potential word placement."""
+    """Check if all placement rules are satisfied for the word along the given path.
+
+    Args:
+        grid (list[list[str | None]]): 2D list representing the grid.
+        word (str): The word to place.
+        words_to_place_set (set[str]): Set of all words that could be on the board.
+        start (tuple[int, int]): Tuple (row, col) for the starting cell.
+        direction (tuple[int, int]): Tuple (dr, dc) for the direction (vertical or horizontal).
+
+    Returns:
+        bool: True if placement is valid and at least one new letter is placed, False otherwise.
+
+    """
     placed_new_letter = False
     checked_letters = ""
     grid_height = len(grid)
@@ -71,30 +142,40 @@ def _check_for_all_letters(
         if current_cell:
             checked_letters += current_cell
             if current_cell.lower() != word[i].lower():
-                return False  # Letter conflict
+                return False
         else:
             placed_new_letter = True
             if not _check_parallel_cells(grid, current_row, current_col, dr, dc):
-                return False  # Parallel conflict
+                return False
 
-        # Prevents placing a word that forms an existing word by only using already placed letters
-        # Trying to place "ABC" over "ABC"
         if (len(checked_letters) > 1 and checked_letters.lower() in words_to_place_set) and (
             len(checked_letters) == word_len and not placed_new_letter
         ):
             return False
 
-    return placed_new_letter  # Must place at least one new letter
+    return placed_new_letter
 
 
 def is_valid_placement(
     grid: list[list[str | None]],
     word: str,
-    words_to_place_set: set[str],  # All words that could be on the board
-    intersection_info: dict,  # Contains 'row', 'col', 'idx'
-    orientation: str,  # "V" or "H"
+    words_to_place_set: set[str],
+    intersection_info: dict,
+    orientation: str,
 ) -> bool:
-    """Determine if placing a word at a specific intersection is valid."""
+    """Check if placing the word at the specified intersection and orientation is valid.
+
+    Args:
+        grid (list[list[str | None]]): 2D list representing the grid.
+        word (str): The word to place.
+        words_to_place_set (set[str]): Set of all words that could be on the board.
+        intersection_info (dict): Dict with keys 'row', 'col', 'idx' for intersection details.
+        orientation (str): "V" for vertical or "H" for horizontal.
+
+    Returns:
+        bool: True if the placement is valid, False otherwise.
+
+    """
     height = len(grid)
     width = len(grid[0]) if height > 0 else 0
     word_len = len(word)

@@ -21,6 +21,13 @@ console = Console()
 
 
 def _print_empty_grid_message(grid: list[list[str | None]], title: str) -> None:
+    """Print a message indicating that the provided grid is empty.
+
+    Args:
+        grid (list[list[str | None]]): The grid to check.
+        title (str): The title for the panel.
+
+    """
     message = "[yellow]Empty grid provided.[/yellow]"
     if grid == [[]]:
         message = "[yellow]Grid contains an empty row.[/yellow]"
@@ -28,6 +35,13 @@ def _print_empty_grid_message(grid: list[list[str | None]], title: str) -> None:
 
 
 def _print_no_columns_message(grid: list[list[str | None]], title: str) -> None:
+    """Print a message indicating that the grid has rows but no columns.
+
+    Args:
+        grid (list[list[str | None]]): The grid to check.
+        title (str): The title for the panel.
+
+    """
     if grid:
         console.print(
             Panel(
@@ -47,6 +61,15 @@ def _print_no_columns_message(grid: list[list[str | None]], title: str) -> None:
 
 
 def _get_num_cols(grid: list[list[str | None]]) -> int:
+    """Get the maximum number of columns in the grid.
+
+    Args:
+        grid (list[list[str | None]]): The grid to check.
+
+    Returns:
+        int: The maximum number of columns.
+
+    """
     if not grid:
         return 0
     try:
@@ -55,8 +78,19 @@ def _get_num_cols(grid: list[list[str | None]]) -> int:
         return 0
 
 
-def _append_combo_stats(statistics: GameStatisticsData, selected_wizard: WizardData, powerup_parts: list[Any]) -> None:
-    """Append combo meter Text and Progress bar to the powerup_parts list."""
+def _append_combo_stats(
+    statistics: GameStatisticsData,
+    selected_wizard: WizardData,
+    powerup_parts: list[Any],
+) -> None:
+    """Append combo meter Text and Progress bar to the powerup_parts list.
+
+    Args:
+        statistics (GameStatisticsData): The current game statistics.
+        selected_wizard (WizardData): The selected wizard data.
+        powerup_parts (list[Any]): The list to append combo stats to.
+
+    """
     wizard_color = selected_wizard.color
     combo = statistics.combo
     combo_req = selected_wizard.combo_requirement
@@ -92,6 +126,19 @@ def _make_wizard_panel(
     wizard_panel_width: int,
     panels_height: int,
 ) -> Panel:
+    """Create a Rich Panel displaying the selected wizard's art and player name.
+
+    Args:
+        selected_wizard (WizardData): The selected wizard data.
+        game_st (GameStateData): The current game state.
+        border_style (str): The border style for the panel.
+        wizard_panel_width (int): The width of the panel.
+        panels_height (int): The height of the panel.
+
+    Returns:
+        Panel: The constructed wizard panel.
+
+    """
     wizard_color = selected_wizard.color
     small_wizard_art = selected_wizard.small_art.strip("\n")
     player_name_display = game_st.player_name if game_st.player_name is not None else "Player"
@@ -116,6 +163,18 @@ def _make_player_stats_panel(
     stats_panel_width: int,
     stats_height: int,
 ) -> Panel:
+    """Create a Rich Panel displaying the player's game statistics.
+
+    Args:
+        statistics (GameStatisticsData): The current game statistics.
+        border_style (str): The border style for the panel.
+        stats_panel_width (int): The width of the panel.
+        stats_height (int): The height of the panel.
+
+    Returns:
+        Panel: The constructed player stats panel.
+
+    """
     player_stats_content = Text.assemble(
         ("Letters:    ", "bold cyan"),
         (f"{statistics.letters}\n"),
@@ -144,6 +203,19 @@ def _make_powerup_stats_panel(
     stats_panel_width: int,
     powerup_stats_height: int,
 ) -> Panel:
+    """Create a Rich Panel displaying the player's powerup statistics.
+
+    Args:
+        statistics (GameStatisticsData): The current game statistics.
+        selected_wizard (WizardData): The selected wizard data.
+        border_style (str): The border style for the panel.
+        stats_panel_width (int): The width of the panel.
+        powerup_stats_height (int): The height of the panel.
+
+    Returns:
+        Panel: The constructed powerup stats panel.
+
+    """
     wizard_color = selected_wizard.color
     powerup_parts: list[Any] = []
     powerup_parts.append(Text.assemble(("Combo:        ", "bold cyan"), (f"{statistics.combo}")))
@@ -177,7 +249,16 @@ def rich_print_statistics(
     selected_wizard: WizardData,
     game_st: GameStateData,
 ) -> None:
-    """Print the formatted statistics panel using Rich Columns and Panels."""
+    """Print the formatted statistics panel using Rich Columns and Panels.
+
+    Args:
+        statistics (GameStatisticsData): The current game statistics.
+        border_style (str): The border style for the panels.
+        grid (list[list[str | None]] | None): The game grid.
+        selected_wizard (WizardData): The selected wizard data.
+        game_st (GameStateData): The current game state.
+
+    """
     wizard_panel_width = 23
     panels_height = 15
     stats_height = 6
@@ -213,6 +294,21 @@ def _get_styled_row_items(  # noqa: PLR0913, PLR0917
     letters_color: str,
     hidden_color: str,
 ) -> list[Text]:
+    """Get a list of styled Text objects for a row in the grid.
+
+    Args:
+        row_idx (int): The index of the row.
+        row_data (list[str | None]): The data for the row.
+        num_cols (int): The number of columns in the grid.
+        highlighted_coords (set[tuple[int, int]] | list[tuple[int, int]]): Coordinates to highlight.
+        highlight_color (str): The color for highlighted cells.
+        letters_color (str): The color for letter cells.
+        hidden_color (str): The color for hidden cells.
+
+    Returns:
+        list[Text]: The styled row items.
+
+    """
     styled_row_items: list[Text] = []
     for col_idx in range(num_cols):
         content = "."
@@ -245,7 +341,18 @@ def rich_print_grid(  # noqa: PLR0913, PLR0917
     title: str,
     border_style: str,
 ) -> None:
-    """Print the game grid using Rich library for prettier formatting."""
+    """Print the game grid using Rich library for prettier formatting.
+
+    Args:
+        grid (list[list[str | None]] | None): The game grid.
+        highlighted_coords (set[tuple[int, int]] | list[tuple[int, int]]): Coordinates to highlight.
+        highlight_color (str): The color for highlighted cells.
+        letters_color (str): The color for letter cells.
+        hidden_color (str): The color for hidden cells.
+        title (str): The title for the grid panel.
+        border_style (str): The border style for the panel.
+
+    """
     if not grid or not any(grid):
         _print_empty_grid_message(grid, title)
         return
@@ -287,7 +394,19 @@ def rich_print_message(  # noqa: PLR0913
     width: int | None = None,
     justify: str = "left",
 ) -> None:
-    """Print a message string wrapped in a Rich Panel."""
+    """Print a message string wrapped in a Rich Panel.
+
+    Args:
+        message (str): The message to print.
+        style (str | None, optional): The style for the message text.
+        border_style (str, optional): The border style for the panel.
+        title (str | None, optional): The title for the panel.
+        title_align (str, optional): The alignment for the title.
+        expand (bool, optional): Whether the panel should expand.
+        width (int | None, optional): The width of the panel.
+        justify (str, optional): The justification for the text.
+
+    """
     text_content = Text.from_markup(message, style=style, justify=justify)
     panel = Panel(
         text_content,
@@ -301,12 +420,26 @@ def rich_print_message(  # noqa: PLR0913
 
 
 def rich_get_input(prompt_message: str) -> str:
-    """Get user input using the standard input() function."""
+    """Get user input using the standard input() function.
+
+    Args:
+        prompt_message (str): The prompt message to display.
+
+    Returns:
+        str: The user input.
+
+    """
     return input(prompt_message)
 
 
 def rich_print_leaderboard(leaderboard_data: list[dict[str, Any]], max_entries: int = 10) -> None:
-    """Print the leaderboard data in a formatted Rich Table."""
+    """Print the leaderboard data in a formatted Rich Table.
+
+    Args:
+        leaderboard_data (list[dict[str, Any]]): The leaderboard data.
+        max_entries (int, optional): The maximum number of entries to display.
+
+    """
     if not leaderboard_data:
         rich_print_message("The leaderboard is empty!", title="Leaderboard", border_style="dim")
         return
@@ -325,7 +458,14 @@ def rich_print_leaderboard(leaderboard_data: list[dict[str, Any]], max_entries: 
 
 
 def rich_display_wizard_selection(settings: DifficultyData | None, wizard: WizardData, wizard_index: int) -> None:
-    """Display the wizard selection interface using Rich Panels and Columns."""
+    """Display the wizard selection interface using Rich Panels and Columns.
+
+    Args:
+        settings (DifficultyData | None): The current difficulty settings.
+        wizard (WizardData): The wizard to display.
+        wizard_index (int): The index of the wizard.
+
+    """
     clear_screen()
 
     art_content_str = wizard.art.strip("\n")
@@ -377,7 +517,13 @@ def rich_display_wizard_art(
     settings: DifficultyData | None,
     wizard: WizardData,
 ) -> None:
-    """Display only the ASCII art for a given wizard in a Rich Panel."""
+    """Display only the ASCII art for a given wizard in a Rich Panel.
+
+    Args:
+        settings (DifficultyData | None): The current difficulty settings.
+        wizard (WizardData): The wizard to display.
+
+    """
     art_content_str = wizard.art.strip("\n")
     wizard_color = wizard.color
 
@@ -399,7 +545,15 @@ def rich_display_menu_options(
     current_index: int,
     title: str,
 ) -> None:
-    """Display vertical menu options using Rich, highlighting the current selection."""
+    """Display vertical menu options using Rich, highlighting the current selection.
+
+    Args:
+        settings (DifficultyData | None): The current difficulty settings.
+        options (list[str]): The list of menu options.
+        current_index (int): The index of the currently selected option.
+        title (str): The title for the menu panel.
+
+    """
     options_texts: list[str] = []
     for i, option_name in enumerate(options):
         detailed_prefix = ""
@@ -436,8 +590,11 @@ def rich_display_menu_options(
 
 
 def rich_print_streak_leaderboard(streaks: list[StreakEntry]) -> None:
-    """Prints the winning streak leaderboard data in a formatted Rich Table.
-    Uses styling similar to the old high score leaderboard.
+    """Print the winning streak leaderboard data in a formatted Rich Table.
+
+    Args:
+        streaks (list[StreakEntry]): The list of streak entries.
+
     """
     if not streaks:
         rich_print_message(

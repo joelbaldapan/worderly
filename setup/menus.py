@@ -12,28 +12,33 @@ from display.display import (
 )
 from display.display_utils import clear_screen
 from leaderboard.streak_handler import load_streaks
+
 from .menu_constants import (
+    EXIT_GAME_MARKER,
     MAIN_TITLE,
     MENU1_OPTIONS,
     MENU2_OPTIONS,
     MENU3_OPTIONS,
-    EXIT_GAME_SENTINEL,
 )
 
 MAX_NAME_LENGTH = 10
 
 
-def select_from_menu(options: list[str], title: str = "+.+.+.+ Menu +.+.+.+", *, show_main_title: bool = False) -> str:
-    """Handle navigation and selection for vertical text-based menus.
-    Assume options is not empty and a selection will always be made.
+def select_from_menu(
+    options: list[str],
+    title: str = "+.+.+.+ Menu +.+.+.+",
+    *,
+    show_main_title: bool = False,
+) -> str:
+    """Display a vertical text-based menu and handle user navigation and selection.
 
     Args:
-        options (List[str]): A list of strings representing the menu choices.
-        title (str, optional): The title to display above the menu.
-        show_main_title (bool, optional): Whether to display the main game title.
+        options (list[str]): List of menu option strings.
+        title (str, optional): Title to display above the menu. Defaults to "+.+.+.+ Menu +.+.+.+".
+        show_main_title (bool, optional): Whether to display the main game title. Defaults to False.
 
     Returns:
-        str: The string of the selected option.
+        str: The selected menu option.
 
     """
     current_index = 0
@@ -65,11 +70,10 @@ def select_from_menu(options: list[str], title: str = "+.+.+.+ Menu +.+.+.+", *,
 
 
 def select_character_menu(settings: DifficultyData | None) -> WizardData:
-    """Handle the character selection menu interface.
+    """Display the character selection menu and handle user navigation and selection.
 
     Args:
-        settings (Optional[DifficultyData]): Game settings, possibly None or DifficultyData.
-                                            Used by display functions for mode.
+        settings (DifficultyData | None): Game settings, possibly None or DifficultyData.
 
     Returns:
         WizardData: The selected wizard's data object.
@@ -101,10 +105,10 @@ def select_character_menu(settings: DifficultyData | None) -> WizardData:
 
 
 def get_player_name(settings: DifficultyData | None, selected_wizard: WizardData) -> str:
-    """Prompts the player to enter their name and validates it.
+    """Prompt the player to enter their name and validate the input.
 
     Args:
-        settings (Optional[DifficultyData]): Game settings, used for display mode.
+        settings (DifficultyData | None): Game settings, used for display mode.
         selected_wizard (WizardData): The data object for the selected wizard.
 
     Returns:
@@ -157,25 +161,30 @@ def initialize_player_info(
     settings: DifficultyData,
     current_session_player_name: str | None,
 ) -> tuple[str, WizardData]:
-    """Initializes player name and selected wizard based on game mode.
-    - HP Mode: Allows wizard selection.
-    - NHP Mode: Uses a default wizard.
+    """Initialize player name and selected wizard based on game mode.
+
+    In Heart Points mode, allows wizard selection.
+    In No Heart Points mode, uses a default wizard.
+
+    Args:
+        settings (DifficultyData): Game settings.
+        current_session_player_name (str | None): Player name from current session, if any.
+
+    Returns:
+        tuple[str, WizardData]: Player name and selected wizard.
+
     """
     player_name_to_use: str
     selected_wizard_for_game: WizardData
 
     clear_screen()
-    # Get wizard
     if settings.heart_point_mode:
-        # Heart Points Mode
-        selected_wizard_for_game = select_character_menu(settings)  # Player chooses wizard
+        selected_wizard_for_game = select_character_menu(settings)
         clear_screen()
         display_wizard_art(settings, selected_wizard_for_game)
     else:
-        # No Heart Points Mode
-        selected_wizard_for_game = WIZARDS_DATA[0]  # Default wizard
+        selected_wizard_for_game = WIZARDS_DATA[0]
 
-    # Re-use name if in a current streak session
     if current_session_player_name:
         player_name_to_use = current_session_player_name
         print_message(
@@ -191,10 +200,10 @@ def initialize_player_info(
 
 
 def run_heart_points_menu() -> DifficultyData | None:
-    """Run the initial menu to select the game mode.
+    """Display the initial menu to select the game mode (Heart Points or No Heart Points).
 
     Returns:
-        Optional[DifficultyData]: DifficultyData for No Heart Points mode, or None for HP mode.
+        DifficultyData | None: DifficultyData for No Heart Points mode, or None for HP mode.
 
     """
     selected_option = select_from_menu(
@@ -209,9 +218,12 @@ def run_heart_points_menu() -> DifficultyData | None:
 
 
 def run_main_menu() -> DifficultyData | str:
-    """Runs the main menu loop for Heart Points mode.
-    Returns DifficultyData if "Start Game" is chosen,
-    EXIT_GAME_SENTINEL if "Exit Game", otherwise loops for leaderboards.
+    """Run the main menu loop for Heart Points mode.
+
+    Returns:
+        DifficultyData | str: DifficultyData if "Start Game" is chosen,
+        EXIT_GAME_MARKER if "Exit Game", otherwise loops for leaderboards.
+
     """
     title = "+.+.+.+ Main Menu +.+.+.+"
     while True:
@@ -231,12 +243,11 @@ def run_main_menu() -> DifficultyData | str:
                 prompt_message="  > Press Enter to continue... ",
             )
         elif selected_option == "Exit Game":
-            return EXIT_GAME_SENTINEL
+            return EXIT_GAME_MARKER
 
 
 def run_difficulty_menu() -> DifficultyData:
-    """Run the difficulty selection menu.
-    Assumes the user always makes a valid selection.
+    """Display the difficulty selection menu and return the chosen difficulty settings.
 
     Returns:
         DifficultyData: A DifficultyData object for the chosen difficulty.

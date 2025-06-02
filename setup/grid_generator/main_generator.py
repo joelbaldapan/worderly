@@ -18,7 +18,16 @@ from .placement_logic import (
 
 
 def place_middle_word(state: BoardGenerationState, middle_word: str) -> bool:
-    """Places the initial diagonal middle word onto the grid and updates state."""
+    """Place the initial diagonal middle word onto the grid and update the board state.
+
+    Args:
+        state (BoardGenerationState): The current board generation state.
+        middle_word (str): The word to be placed in the middle of the grid.
+
+    Returns:
+        bool: True if the middle word was successfully placed, False otherwise.
+
+    """
     height = len(state.grid)
     width = len(state.grid[0]) if height > 0 else 0
 
@@ -27,7 +36,6 @@ def place_middle_word(state: BoardGenerationState, middle_word: str) -> bool:
         return False
 
     place_letters_on_grid(state.grid, middle_word, middle_word_coords)
-
     update_placed_letter_coords(state, middle_word, middle_word_coords)
     state.placed_words_coords[middle_word] = middle_word_coords
     state.middle_word_coords = set(middle_word_coords)
@@ -36,22 +44,28 @@ def place_middle_word(state: BoardGenerationState, middle_word: str) -> bool:
 
 def place_other_words(
     state: BoardGenerationState,
-    words_to_place: list[str],  # Sub-words
+    words_to_place: list[str],
     max_total_words: int,
 ) -> None:
-    """Attempt to place the remaining words onto the grid."""
+    """Attempt to place the remaining words onto the grid.
+
+    Args:
+        state (BoardGenerationState): The current board generation state.
+        words_to_place (list[str]): List of sub-words to be placed on the grid.
+        max_total_words (int): Maximum number of words allowed on the board.
+
+
+    """
     all_potential_words_on_board = set(words_to_place)
-    if state.placed_words_coords:  # Check if middle word was placed
-        # The first key is the middle_word if it's the only one placed so far.
+    if state.placed_words_coords:
         middle_word_key = next(iter(state.placed_words_coords))
         all_potential_words_on_board.add(middle_word_key)
 
-    # Shuffle words that we'll attempt to place
     shuffled_subwords = list(words_to_place)
     random.shuffle(shuffled_subwords)
 
     for word in shuffled_subwords:
-        if word in state.placed_words_coords:  # Already placed
+        if word in state.placed_words_coords:
             continue
         if len(state.placed_words_coords) >= max_total_words:
             break
@@ -74,17 +88,30 @@ def place_other_words(
 
 
 def validate_final_grid(state: BoardGenerationState, min_total_words: int) -> bool:
-    """Validate the generated grid against placement requirements."""
+    """Validate the generated grid against placement requirements.
+
+    Args:
+        state (BoardGenerationState): The current board generation state.
+        min_total_words (int): Minimum number of words required on the board.
+
+    Returns:
+        bool: True if the grid meets all requirements, False otherwise.
+
+    """
     total_placed_count = len(state.placed_words_coords)
     if total_placed_count < min_total_words:
         return False
-    # Ensure all letters of the middle word were used as intersection points,
-    # but only if a middle word was actually defined and placed.
     return not (state.middle_word_coords and state.middle_word_coords != state.used_middle_word_coords)
 
 
 def capitalize_middle_word_appearance(state: BoardGenerationState, middle_word: str) -> None:
-    """Capitalizes the letters of the middle word on the final grid."""
+    """Capitalize the letters of the middle word on the final grid.
+
+    Args:
+        state (BoardGenerationState): The current board generation state.
+        middle_word (str): The middle word to capitalize on the grid.
+
+    """
     if middle_word in state.placed_words_coords:
         middle_word_coords_list: list[tuple[int, int]] = state.placed_words_coords[middle_word]
         middle_word_upper = middle_word.upper()
@@ -94,10 +121,20 @@ def capitalize_middle_word_appearance(state: BoardGenerationState, middle_word: 
 def generate_board(
     difficulty_conf: DifficultyData,
     middle_word: str,
-    words_to_place: list[str],  # These are the sub-words
+    words_to_place: list[str],
 ) -> tuple[list[list[str | None]] | None, dict[str, list[tuple[int, int]]] | None]:
     """Generate the final game board and word coordinate data.
-    This is the main public function for this grid generation package.
+
+    Args:
+        difficulty_conf (DifficultyData): Difficulty configuration containing grid and word requirements.
+        middle_word (str): The word to be placed in the middle of the grid.
+        words_to_place (list[str]): List of sub-words to be placed on the grid.
+
+    Returns:
+        tuple[list[list[str | None]] | None, dict[str, list[tuple[int, int]]] | None]:
+            A tuple containing the generated grid and a dictionary of placed word coordinates,
+            or (None, None) if generation fails.
+
     """
     min_total_words = difficulty_conf.words_on_board_needed.minimum
     max_total_words = difficulty_conf.words_on_board_needed.maximum

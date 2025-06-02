@@ -7,7 +7,15 @@ from display.display_utils import clear_screen
 
 
 def read_word_file(word_path: str) -> list[str]:
-    """Read a lexicon file, cleans words, and returns them as a list."""
+    """Read a lexicon file and return a list of cleaned, lowercase words.
+
+    Args:
+        word_path (str): The path to the word file.
+
+    Returns:
+        list[str]: A list of words from the file, cleaned and lowercased.
+
+    """
     try:
         with open(word_path, encoding="utf-8") as file:
             return [word.strip().lower() for word in file if word.strip()]
@@ -20,17 +28,45 @@ def read_word_file(word_path: str) -> list[str]:
 
 
 def filter_exact_length_words(words: list[str], exact_length: int) -> list[str]:
-    """Filter a list of words to include only those of a specific exact length."""
+    """Return a list of words with exactly the specified length.
+
+    Args:
+        words (list[str]): The list of words to filter.
+        exact_length (int): The required word length.
+
+    Returns:
+        list[str]: Words with the exact specified length.
+
+    """
     return [word for word in words if len(word) == exact_length]
 
 
 def filter_words_up_to_max_length(words: list[str], max_length: int) -> set[str]:
-    """Filter a word list to include only words up to a maximum length, returning a set."""
+    """Return a set of words with length less than or equal to max_length.
+
+    Args:
+        words (list[str]): The list of words to filter.
+        max_length (int): The maximum allowed word length.
+
+    Returns:
+        set[str]: Words with length up to max_length.
+
+    """
     return {word for word in words if len(word) <= max_length}
 
 
 def get_valid_word_subwords(word: str, valid_words_set: set[str], min_length: int) -> list[str]:
-    """Find all valid subwords/anagrams of a given word from a valid set."""
+    """Find all valid subwords/anagrams of a word from a set, with minimum length.
+
+    Args:
+        word (str): The word to find subwords for.
+        valid_words_set (set[str]): Set of valid words to check against.
+        min_length (int): Minimum length for subwords.
+
+    Returns:
+        list[str]: List of valid subwords (excluding the original word).
+
+    """
     valid_subwords: set[str] = set()
     for length in range(min_length, len(word) + 1):
         for p in itertools.permutations(word, length):
@@ -46,7 +82,18 @@ def find_valid_word_with_subwords(
     min_subwords_needed: int,
     valid_subword_set: set[str],
 ) -> tuple[str | None, list[str] | None]:
-    """Search for a word of a specific length that has enough valid subwords."""
+    """Find a word of a specific length with enough valid subwords.
+
+    Args:
+        exact_max_length_words (list[str]): Words of the required length.
+        min_subword_length (int): Minimum length for subwords.
+        min_subwords_needed (int): Minimum number of subwords required (including the word itself).
+        valid_subword_set (set[str]): Set of valid words for subword checking.
+
+    Returns:
+        tuple[str | None, list[str] | None]: The chosen word and its subwords, or (None, None) if not found.
+
+    """
     actual_subwords_needed = min_subwords_needed - 1
 
     for chosen_word in exact_max_length_words:
@@ -60,7 +107,7 @@ def find_valid_word_with_subwords(
 
 
 def generate_word_list(difficulty_conf: DifficultyData, lexicon_path: str) -> tuple[str | None, list[str] | None]:
-    """Generate the middle word and the list of words to place on the board.
+    """Generate a middle word and a list of subwords for the game board.
 
     Reads the lexicon, filters words based on settings, finds a suitable
     middle word with enough subwords, and returns them.
@@ -70,9 +117,7 @@ def generate_word_list(difficulty_conf: DifficultyData, lexicon_path: str) -> tu
         lexicon_path (str): Path to the word list file.
 
     Returns:
-        Tuple[Optional[str], Optional[List[str]]]: A tuple containing:
-            - The chosen middle word (str) or None if generation fails.
-            - A list of shuffled subwords (List[str]) for placement or None.
+        tuple[str | None, list[str] | None]: The chosen middle word and a list of subwords, or (None, None) if failed.
 
     """
     max_len = difficulty_conf.max_word_length
@@ -80,8 +125,6 @@ def generate_word_list(difficulty_conf: DifficultyData, lexicon_path: str) -> tu
     min_words_needed = difficulty_conf.words_on_board_needed.minimum
 
     clear_screen()
-    # The print_message function from display.display expects Optional[DifficultyData]
-    # We pass difficulty_conf which is DifficultyData, matching this expectation.
     print_message(
         difficulty_conf,
         "↺ Building board... Hold on, wizard!",

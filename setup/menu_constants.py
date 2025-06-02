@@ -44,4 +44,4 @@ MENU3_OPTIONS: list[str] = [
     "The Great Bibliotheca",
 ]
 
-EXIT_GAME_SENTINEL = "##EXIT_GAME_SENTINEL##"
+EXIT_GAME_MARKER = "##EXIT_GAME_MARKER##"
