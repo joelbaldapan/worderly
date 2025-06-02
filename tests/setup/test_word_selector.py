@@ -11,9 +11,8 @@ from setup import word_selector
 
 
 @pytest.fixture
-def sample_settings():
-    """Creates a sample DifficultyData object for tests."""
-    # The lexicon_path is not part of DifficultyData, so we pass it separately in tests.
+def sample_settings() -> DifficultyData:
+    """Create a sample DifficultyData object for tests."""
     return DifficultyData(
         grid=GridConfigData(height=10, width=10),
         words_on_board_needed=WordsNeededData(minimum=5, maximum=50),
@@ -24,21 +23,20 @@ def sample_settings():
 
 
 @pytest.fixture
-def simple_word_list():
-    """Creates a simple list of words for filtering tests."""
+def simple_word_list() -> list[str]:
+    """Create a simple list of words for filtering tests."""
     return ["a", "be", "cat", "nap", "ohhh", "nooo", "wahhh", "streak"]
 
 
 @pytest.fixture
-def streak_word_set():
-    """Creates the specific set of words related to 'streak'. From the CS11 specs."""
+def streak_word_set() -> set[str]:
+    """Create the specific set of words related to 'streak' from the CS11 specs."""
     words_streak = "STREAK rat stare arks rate stark ear rest steak east sat take era sear takes erst seat tar est skate tears eta stake teas treks"
     return set(words_streak.lower().split())
 
 
-# Tests for: read_word_file
-def test_read_word_file_not_found():
-    """Test read_word_file when the target file doesn't exist."""
+def test_read_word_file_not_found() -> None:
+    """Test that read_word_file returns [] and prints error when file is missing."""
     with (
         patch("setup.word_selector.open", side_effect=FileNotFoundError) as mock_open_func,
         patch("builtins.print") as mock_print,
@@ -50,8 +48,8 @@ def test_read_word_file_not_found():
         assert "Error: File non_existent_file.txt not found." in mock_print.call_args[0][0]
 
 
-def test_read_word_file_io_error():
-    """Test read_word_file when an IOError occurs during reading."""
+def test_read_word_file_io_error() -> None:
+    """Test that read_word_file returns [] and prints error on IOError."""
     with (
         patch("setup.word_selector.open", side_effect=OSError("Permission denied")) as mock_open_func,
         patch("builtins.print") as mock_print,
@@ -63,16 +61,19 @@ def test_read_word_file_io_error():
         assert "Error reading file some_file.txt: Permission denied" in mock_print.call_args[0][0]
 
 
-def test_read_word_file_empty():
-    """Test read_word_file correctly handles an empty file."""
+def test_read_word_file_empty() -> None:
+    """Test that read_word_file returns [] for an empty file."""
     with patch("builtins.open", mock_open(read_data="")) as mock_file:
         result = word_selector.read_word_file("empty.txt")
         assert result == []
         mock_file.assert_called_once_with("empty.txt", encoding="utf-8")
 
 
-def test_read_word_file_valid():
-    """Test read_word_file cleans and processes valid file content."""
+def test_read_word_file_valid() -> None:
+    """Test that read_word_file cleans and processes valid file content.
+
+
+    """
     file_content = " Apple \nbanana\n\nCherry\n   \ndate "
     expected_result = ["apple", "banana", "cherry", "date"]
     with patch("builtins.open", mock_open(read_data=file_content)) as mock_file:
@@ -81,9 +82,13 @@ def test_read_word_file_valid():
         mock_file.assert_called_once_with("valid.txt", encoding="utf-8")
 
 
-# Tests for: filter_exact_length_words
-def test_filter_exact_length_words(simple_word_list):
-    """Test filtering words to find only those of an exact length."""
+def test_filter_exact_length_words(simple_word_list: list[str]) -> None:
+    """Filter words to find only those of an exact length.
+
+    Args:
+        simple_word_list: List of words to filter.
+
+    """
     words = simple_word_list
     assert word_selector.filter_exact_length_words(words, 3) == ["cat", "nap"]
     assert word_selector.filter_exact_length_words(words, 5) == ["wahhh"]
@@ -91,9 +96,13 @@ def test_filter_exact_length_words(simple_word_list):
     assert word_selector.filter_exact_length_words(words, 7) == []
 
 
-# Tests for: filter_words_up_to_max_length (Pure Function)
-def test_filter_words_up_to_max_length(simple_word_list):
-    """Test filtering words to find those up to a maximum length."""
+def test_filter_words_up_to_max_length(simple_word_list: list[str]) -> None:
+    """Filter words to find those up to a maximum length.
+
+    Args:
+        simple_word_list: List of words to filter.
+
+    """
     words = simple_word_list
     expected_max_3 = {"a", "be", "cat", "nap"}
     assert word_selector.filter_words_up_to_max_length(words, 3) == expected_max_3
@@ -103,9 +112,15 @@ def test_filter_words_up_to_max_length(simple_word_list):
     assert word_selector.filter_words_up_to_max_length(words, 10) == expected_max_10
 
 
-# Tests for: get_valid_word_subwords
-def test_get_valid_word_subwords_found(streak_word_set):
-    """Test finding valid subwords from a given word and valid set."""
+def test_get_valid_word_subwords_found(
+    streak_word_set: set[str],
+) -> None:
+    """Find valid subwords from a given word and valid set.
+
+    Args:
+        streak_word_set: Set of valid words.
+
+    """
     word_to_check = "streak"
     valid_set = streak_word_set
     min_len = 3
@@ -125,8 +140,15 @@ def test_get_valid_word_subwords_found(streak_word_set):
     assert word_to_check not in actual_subwords
 
 
-def test_get_valid_word_subwords_none_found(streak_word_set):
-    """Test case where no valid subwords are found."""
+def test_get_valid_word_subwords_none_found(
+    streak_word_set: set[str],
+) -> None:
+    """Test that no valid subwords are found when none exist.
+
+    Args:
+        streak_word_set: Set of valid words.
+
+    """
     word_to_check = "lmnop"
     valid_set = streak_word_set
     min_len = 3
@@ -136,13 +158,15 @@ def test_get_valid_word_subwords_none_found(streak_word_set):
     assert actual_subwords == []
 
 
-# Tests for: find_valid_word_with_subwords
 @patch("setup.word_selector.get_valid_word_subwords")
 @patch("setup.word_selector.random.shuffle")
 def test_find_valid_word_with_subwords_success(
-    mock_shuffle, mock_get_subwords, streak_word_set, sample_settings,
-):
-    """Test finding a middle word that meets the subword count requirement."""
+    mock_shuffle,
+    mock_get_subwords,
+    streak_word_set: set[str],
+    sample_settings: DifficultyData,
+) -> None:
+    """Find a middle word that meets the subword count requirement."""
     candidate_middle_words = ["helloo", "streak", "other"]
     valid_subword_set = streak_word_set
     min_subword_len = sample_settings.min_subword_length
@@ -180,9 +204,12 @@ def test_find_valid_word_with_subwords_success(
 @patch("setup.word_selector.get_valid_word_subwords")
 @patch("setup.word_selector.random.shuffle")
 def test_find_valid_word_with_subwords_fail(
-    mock_shuffle, mock_get_subwords, streak_word_set, sample_settings,
-):
-    """Test when no candidate middle word yields enough subwords."""
+    mock_shuffle,
+    mock_get_subwords,
+    streak_word_set: set[str],
+    sample_settings: DifficultyData,
+) -> None:
+    """Test that no candidate middle word yields enough subwords."""
     candidate_middle_words = ["please", "letme", "sleepp"]
     valid_subword_set = streak_word_set
     min_subword_len = sample_settings.min_subword_length
@@ -199,8 +226,6 @@ def test_find_valid_word_with_subwords_fail(
     mock_shuffle.assert_not_called()
 
 
-# Tests for: generate_word_list
-# we'll check if the logic holds when running this function
 @patch("setup.word_selector.read_word_file")
 @patch("setup.word_selector.find_valid_word_with_subwords")
 @patch("setup.word_selector.clear_screen")
@@ -212,11 +237,11 @@ def test_generate_word_list_success(
     mock_clear,
     mock_find,
     mock_read,
-    sample_settings,
-    streak_word_set,
-):
-    """Test the main generate_word_list function successfully finds words."""
-    settings = sample_settings  # DifficultyData
+    sample_settings: DifficultyData,
+    streak_word_set: set[str],
+) -> None:
+    """Test that generate_word_list successfully finds words."""
+    settings = sample_settings
     lexicon_path = "dummy_lexicon.txt"
 
     mock_read.return_value = list(streak_word_set)
@@ -250,9 +275,12 @@ def test_generate_word_list_success(
 @patch("setup.word_selector.clear_screen")
 @patch("setup.word_selector.print_message")
 def test_generate_word_list_read_fail(
-    mock_print, mock_clear, mock_read, sample_settings,
-):
-    """Test generate_word_list when reading the lexicon fails."""
+    mock_print,
+    mock_clear,
+    mock_read,
+    sample_settings: DifficultyData,
+) -> None:
+    """Test that generate_word_list returns None when reading the lexicon fails."""
     settings = sample_settings
     lexicon_path = "dummy_lexicon.txt"
     mock_read.return_value = []
@@ -276,10 +304,10 @@ def test_generate_word_list_find_fail(
     mock_clear,
     mock_find,
     mock_read,
-    sample_settings,
-    streak_word_set,
-):
-    """Test generate_word_list when finding a suitable middle word fails."""
+    sample_settings: DifficultyData,
+    streak_word_set: set[str],
+) -> None:
+    """Test that generate_word_list returns None when finding a suitable middle word fails."""
     settings = sample_settings
     lexicon_path = "dummy_lexicon.txt"
     mock_read.return_value = list(streak_word_set)

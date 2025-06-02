@@ -8,8 +8,8 @@ from setup.grid_generator.board_state import BoardGenerationState, PlacementDeta
 # Tests for: Placement Finding and Selection
 # ************************************************
 @patch("setup.grid_generator.placement_logic.is_valid_placement")
-def test_find_possible_placements(mock_is_valid):
-    """Test finding potential placements by checking intersections."""
+def test_find_possible_placements(mock_is_valid: patch) -> None:
+    """Find potential placements by checking intersections."""
     grid = []
     word = "NEW"
     words_to_place = {"OLD"}
@@ -20,8 +20,13 @@ def test_find_possible_placements(mock_is_valid):
         "E": [(1, 1), (3, 3)],
     }
 
-    # for is_valid_placement
     def valid_side_effect(grid, word, words_to_place_set, intersection_info, orientation):
+        """Simulate placement validity for test.
+
+        Returns:
+            bool: True if placement is valid, False otherwise.
+
+        """
         r = intersection_info["row"]
         c = intersection_info["col"]
         i = intersection_info["idx"]
@@ -52,8 +57,8 @@ def test_find_possible_placements(mock_is_valid):
         )
 
 
-def test_categorize_placement():
-    """Test categorizing placements based on middle word intersection."""
+def test_categorize_placement() -> None:
+    """Categorize placements based on middle word intersection."""
     placements = [
         PlacementDetail("WA", (1, 1), 0, "H"),  # Is middle, unused
         PlacementDetail("WB", (2, 2), 0, "H"),  # Not middle
@@ -81,9 +86,8 @@ def test_categorize_placement():
 
 
 @patch("setup.grid_generator.placement_logic.random.choice")
-def test_select_random_placement(mock_random_choice):
-    """Test selecting a placement, prioritizing unused middle coords."""
-    # Use PlacementDetail objects for consistency
+def test_select_random_placement(mock_random_choice: patch) -> None:
+    """Select a placement, prioritizing unused middle coords."""
     p1 = PlacementDetail("P", (1, 1), 0, "H")
     p2 = PlacementDetail("P", (2, 2), 0, "H")
     o1 = PlacementDetail("O", (10, 10), 0, "H")
@@ -116,10 +120,12 @@ def test_select_random_placement(mock_random_choice):
 @patch("setup.grid_generator.placement_logic.update_placed_word_coords")
 @patch("setup.grid_generator.placement_logic.place_letters_on_grid")
 def test_apply_placement(
-    mock_place_letters, mock_update_word, mock_update_letter, mock_calc_coords,
-):
-    """Test that apply_placement calls its helper functions correctly."""
-    # Create a fake BoardGenerationState
+    mock_place_letters: patch,
+    mock_update_word: patch,
+    mock_update_letter: patch,
+    mock_calc_coords: patch,
+) -> None:
+    """Call helper functions correctly for apply_placement."""
     state = BoardGenerationState(
         grid=[],
         placed_words_coords={},
@@ -135,7 +141,6 @@ def test_apply_placement(
         state, chosen,
     )
 
-    # Check if all functions called
     mock_calc_coords.assert_called_once_with(chosen)
     mock_update_letter.assert_called_once_with(
         state, "APPLY", calculated_coords,

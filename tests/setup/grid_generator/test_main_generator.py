@@ -10,8 +10,8 @@ from setup.grid_generator.board_state import BoardGenerationState
 
 
 @pytest.fixture
-def initial_board_state_fixture():
-    """Creates a clean initial board state object."""
+def initial_board_state_fixture() -> BoardGenerationState:
+    """Create a clean initial board state object."""
     # Note: We mock create_empty_grid when testing initialize_board_state,
     # but provide a concrete example state here for other tests.
     return BoardGenerationState(
@@ -24,7 +24,7 @@ def initial_board_state_fixture():
 
 
 @patch("setup.grid_generator.board_state.create_empty_grid")
-def test_initialize_board_state(mock_create_empty):
+def test_initialize_board_state(mock_create_empty) -> None:
     """Test initialization of the board state dictionary."""
     height, width = 7, 9
     mock_grid = [[None] * width for _ in range(height)]  # Mock return value of grid
@@ -47,8 +47,8 @@ def test_place_middle_word_success(
     mock_update_letters,
     mock_place_letters,
     mock_calc_placement,
-    initial_board_state_fixture,
-):
+    initial_board_state_fixture: BoardGenerationState,
+) -> None:
     """Test placing middle word successfully."""
     state = initial_board_state_fixture
     middle_word = "START"
@@ -90,8 +90,8 @@ def test_place_middle_word_fail_no_coords(
     mock_update_letters,
     mock_place_letters,
     mock_calc_placement,
-    initial_board_state_fixture,
-):
+    initial_board_state_fixture: BoardGenerationState,
+) -> None:
     """Test placing middle word when coordinate calculation fails."""
     state = initial_board_state_fixture
     middle_word = "TOOLONG"
@@ -118,8 +118,8 @@ def test_place_middle_word_fail_no_coords(
 @patch("setup.grid_generator.main_generator.select_random_placement")
 @patch("setup.grid_generator.main_generator.apply_placement")
 def test_place_other_words_success(
-    mock_apply, mock_select, mock_find, mock_shuffle, initial_board_state_fixture,
-):
+    mock_apply, mock_select, mock_find, mock_shuffle, initial_board_state_fixture: BoardGenerationState,
+) -> None:
     """Test the basic loop and placement attempt logic."""
     state = initial_board_state_fixture
 
@@ -132,10 +132,7 @@ def test_place_other_words_success(
     max_total_words = 999  # Allow placing all words
 
     # Mock shuffle and find possible placement
-    def apply_mock_shuffle_side_effect(placements):
-        return placements
-
-    mock_shuffle.side_effect = apply_mock_shuffle_side_effect
+    mock_shuffle.side_effect = lambda placements: placements  # Remove unused lambda argument
 
     # Define a PlacementDetail-like class for mocking
     class Placement:
@@ -180,8 +177,8 @@ def test_place_other_words_success(
 @patch("setup.grid_generator.main_generator.select_random_placement")
 @patch("setup.grid_generator.main_generator.apply_placement")
 def test_place_other_words_reach_max(
-    mock_apply, mock_select, mock_find, mock_shuffle, initial_board_state_fixture,
-):
+    mock_apply, mock_select, mock_find, mock_shuffle, initial_board_state_fixture: BoardGenerationState,
+) -> None:
     """Test the basic loop and placement attempt logic reaching the max words limit."""
     state = initial_board_state_fixture
 
@@ -196,10 +193,7 @@ def test_place_other_words_reach_max(
     max_total_words = 2
 
     # Mock shuffle and find possible placement functions
-    def apply_mock_shuffle_side_effect(placements):
-        return placements
-
-    mock_shuffle.side_effect = apply_mock_shuffle_side_effect
+    mock_shuffle.side_effect = lambda placements: placements  # Remove unused lambda argument
 
     # Define a PlacementDetail-like class for mocking
     class Placement:
@@ -250,8 +244,8 @@ def test_place_other_words_reach_max(
     )
 
 
-def test_validate_final_grid():
-    """Test the final grid validation logic."""
+def test_validate_final_grid() -> None:
+    """Validate the final grid logic."""
     min_words = 3
 
     # 1.) Enough words placed on the grid, all middle coords used
@@ -289,8 +283,8 @@ def test_validate_final_grid():
 
 
 @patch("setup.grid_generator.main_generator.place_letters_on_grid")
-def test_capitalize_middle_word_appearance(mock_place_letters):
-    """Test capitalizing the middle word on the grid."""
+def test_capitalize_middle_word_appearance(mock_place_letters) -> None:
+    """Capitalize the middle word on the grid."""
     middle_word = "angelo"
     middle_coords = [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)]
     state = BoardGenerationState(

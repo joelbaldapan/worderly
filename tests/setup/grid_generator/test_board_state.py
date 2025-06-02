@@ -9,8 +9,8 @@ from setup.grid_generator.board_state import PlacementDetail
 
 
 @pytest.fixture
-def empty_grid_3x4():
-    """Creates a 3x4 empty grid. (Grid filled with None.)"""
+def empty_grid_3x4() -> list[list[None]]:
+    """Create a 3x4 empty grid (filled with None)."""
     # Grid:
     # . . . .
     # . . . .
@@ -23,8 +23,8 @@ def empty_grid_3x4():
 
 
 @pytest.fixture
-def sample_grid_5x5():
-    """Creates a 5x5 grid with a word placed for testing."""
+def sample_grid_5x5() -> list[list[str | None]]:
+    """Create a 5x5 grid with a word placed for testing."""
     grid = board_state.create_empty_grid(5, 5)
     # Place "TEST" horizontally at (1, 1)
     # Grid:
@@ -41,8 +41,8 @@ def sample_grid_5x5():
 
 
 @pytest.fixture
-def sample_state_data():
-    """Creates sample data of coordinates used by imperative functions."""
+def sample_state_data() -> dict[str, object]:
+    """Create sample data of coordinates used by imperative functions."""
     # Grid: (EWE is the middle word)
     # E X . . . .
     # . E . . . .
@@ -74,7 +74,7 @@ def sample_state_data():
 # ************************************************
 # Tests for: Creating Grid and Placing Letters
 # ************************************************
-def test_create_empty_grid():
+def test_create_empty_grid() -> None:
     """Test creating an empty grid of specified dimensions."""
     height, width = 3, 5
     grid = board_state.create_empty_grid(height, width)
@@ -83,7 +83,7 @@ def test_create_empty_grid():
     assert all(cell is None for row in grid for cell in row)
 
 
-def test_place_letters_on_grid(empty_grid_3x4):
+def test_place_letters_on_grid(empty_grid_3x4: list[list[None]]) -> None:
     """Test placing letters of a word onto specific coordinates."""
     # Grid:
     # R . . .
@@ -101,7 +101,7 @@ def test_place_letters_on_grid(empty_grid_3x4):
     assert grid[1][2] is None
 
 
-def test_calculate_straight_word_placement_coords():
+def test_calculate_straight_word_placement_coords() -> None:
     """Test calculating coordinates for horizontal/vertical placements."""
     # 1.) Horizontal
     placement_h = PlacementDetail("HORIZ", (2, 5), 2, "H")

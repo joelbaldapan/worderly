@@ -8,20 +8,35 @@ from setup import menus
 
 
 @pytest.fixture
-def sample_settings_hp():
-    """Sample settings with heart_point_mode=True."""
+def sample_settings_hp() -> dict:
+    """Provide sample settings with heart_point_mode enabled.
+
+    Returns:
+        dict: Settings with heart_point_mode set to True.
+
+    """
     return {"heart_point_mode": True}
 
 
 @pytest.fixture
-def sample_settings_no_hp():
-    """Sample settings with heart_point_mode=False."""
+def sample_settings_no_hp() -> dict:
+    """Provide sample settings with heart_point_mode disabled.
+
+    Returns:
+        dict: Settings with heart_point_mode set to False.
+
+    """
     return {"heart_point_mode": False}
 
 
 @pytest.fixture
-def sample_wizard():
-    """Sample wizard data (first one)."""
+def sample_wizard() -> dict:
+    """Return sample wizard data (first one).
+
+    Returns:
+        dict: A copy of the first wizard's data.
+
+    """
     wizard_copy = wizards_details.WIZARDS_DATA[0].copy()
     if "color" not in wizard_copy:
         wizard_copy["color"] = "white"
@@ -56,8 +71,13 @@ PATCH_RUN_DIFFICULTY_MENU = "setup.menus.run_difficulty_menu"
 @patch(PATCH_CLEAR_SCREEN)
 @patch(PATCH_DISP_MENU_OPTS)
 @patch(PATCH_PRINT_MSG)
-def test_select_from_menu(mock_print_msg, mock_disp_opts, mock_clear, mock_getkey):
-    """Test menu navigation returns the correct selected option."""
+def test_select_from_menu(
+    mock_print_msg,
+    mock_disp_opts,
+    mock_clear,
+    mock_getkey,
+) -> None:
+    """Test that menu navigation returns the correct selected option."""
     options = ["Option 1", "Option 2", "Option 3"]
     title = "Test Menu"
     # Simulate: DOWN -> DOWN -> UP -> ENTER -> Selects "Option 2"
@@ -74,8 +94,12 @@ def test_select_from_menu(mock_print_msg, mock_disp_opts, mock_clear, mock_getke
 
 @patch(PATCH_GETKEY)
 @patch(PATCH_DISP_WIZ_SEL)
-def test_select_character_menu(mock_disp_wiz, mock_getkey, sample_settings_hp):
-    """Test character selection navigation returns the correct wizard."""
+def test_select_character_menu(
+    mock_disp_wiz,
+    mock_getkey,
+    sample_settings_hp: dict,
+) -> None:
+    """Test that character selection navigation returns the correct wizard."""
     # Simulate: RIGHT -> RIGHT -> LEFT -> ENTER -> Selects Wizard 1
     mock_getkey.side_effect = [keys.RIGHT, keys.RIGHT, keys.LEFT, keys.ENTER]
     expected_wizard = wizards_details.WIZARDS_DATA[1]
@@ -87,8 +111,10 @@ def test_select_character_menu(mock_disp_wiz, mock_getkey, sample_settings_hp):
 
 
 @patch(PATCH_SELECT_FROM_MENU)
-def test_run_heart_points_menu(mock_select):
-    """Test the first menu returns correct settings or None."""
+def test_run_heart_points_menu(
+    mock_select,
+) -> None:
+    """Test that the first menu returns correct settings or None."""
     # 1.) Select No Heart Points
     mock_select.return_value = menus.MENU1_OPTIONS[0]  # "</3 No Heart Points"
     result1 = menus.run_heart_points_menu()

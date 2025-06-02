@@ -7,8 +7,13 @@ import worderly
 
 
 @pytest.fixture
-def sample_settings():
-    """Basic settings dictionary."""
+def sample_settings() -> dict:
+    """Provide a basic settings dictionary for tests.
+
+    Returns:
+        dict: A dictionary with sample settings.
+
+    """
     return {"key": "value", "heart_point_mode": True}  # Added hp mode for consistency
 
 
@@ -36,8 +41,11 @@ PATCH_GET_LEXICON = "worderly.get_lexicon_file"  # For testing main
 
 @patch("sys.argv", ["worderly.py"])  # Simulate no command-line argument
 @patch(PATCH_PRINT)
-def test_get_lexicon_file_no_arg(mock_print):
-    """Test get_lexicon_file when no filename argument is provided."""
+def test_get_lexicon_file_no_arg(mock_print: object) -> None:
+    """Test get_lexicon_file when no filename argument is provided.
+
+    Ensure function returns None and prints error messages.
+    """
     result = worderly.get_lexicon_file()
     assert result is None
     # Check that error messages were printed (to stderr, implicitly checked by print mock)
@@ -50,8 +58,11 @@ def test_get_lexicon_file_no_arg(mock_print):
     PATCH_READ_WORD_FILE, return_value=[],
 )  # Simulate read returning empty list (failure)
 @patch(PATCH_PRINT)
-def test_get_lexicon_file_read_fail(mock_print, mock_read):
-    """Test get_lexicon_file when read_word_file fails."""
+def test_get_lexicon_file_read_fail(mock_print: object, mock_read: object) -> None:
+    """Test get_lexicon_file when read_word_file fails.
+
+    Ensure function returns None and prints error messages.
+    """
     lexicon_path = "my_lexicon.txt"
     result = worderly.get_lexicon_file()
     assert result is None
@@ -66,8 +77,11 @@ def test_get_lexicon_file_read_fail(mock_print, mock_read):
     PATCH_READ_WORD_FILE, return_value=["word1", "word2"],
 )  # Simulate successful read
 @patch(PATCH_PRINT)
-def test_get_lexicon_file_success(mock_print, mock_read):
-    """Test get_lexicon_file successful execution."""
+def test_get_lexicon_file_success(mock_print: object, mock_read: object) -> None:
+    """Test get_lexicon_file successful execution.
+
+    Ensure function returns the lexicon path and does not print errors.
+    """
     lexicon_path = "my_lexicon.txt"
     result = worderly.get_lexicon_file()
     assert result == lexicon_path
@@ -78,8 +92,11 @@ def test_get_lexicon_file_success(mock_print, mock_read):
 # Remove patch for print
 @patch(PATCH_GET_LEXICON, return_value=None)  # Simulate lexicon failure
 @patch(PATCH_RUN_HP_MENU)
-def test_main_exits_if_no_lexicon(mock_run_menu, mock_get_lex):
-    """Test that main returns if get_lexicon_file returns None."""
+def test_main_exits_if_no_lexicon(mock_run_menu: object, mock_get_lex: object) -> None:
+    """Test that main returns if get_lexicon_file returns None.
+
+    Ensure main does not proceed to run_heart_points_menu.
+    """
     worderly.main()  # Call main directly
 
     mock_get_lex.assert_called_once()

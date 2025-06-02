@@ -13,8 +13,8 @@ from setup.grid_generator.placement_logic import (
 
 
 @pytest.fixture
-def empty_grid_3x4():
-    """Creates a 3x4 empty grid. (Grid filled with None.)"""
+def empty_grid_3x4() -> list[list[None]]:
+    """Create a 3x4 empty grid filled with None."""
     # Grid:
     # . . . .
     # . . . .
@@ -27,8 +27,8 @@ def empty_grid_3x4():
 
 
 @pytest.fixture
-def sample_grid_5x5():
-    """Creates a 5x5 grid with a word placed for testing."""
+def sample_grid_5x5() -> list[list[str | None]]:
+    """Create a 5x5 grid with a word placed for testing."""
     grid = board_state.create_empty_grid(5, 5)
     # Place "TEST" horizontally at (1, 1)
     # Grid:
@@ -45,8 +45,8 @@ def sample_grid_5x5():
 
 
 @pytest.fixture
-def sample_state_data():
-    """Creates sample data of coordinates used by imperative functions."""
+def sample_state_data() -> dict:
+    """Create sample data of coordinates used by imperative functions."""
     # Grid: (EWE is the middle word)
     # E X . . . .
     # . E . . . .
@@ -75,8 +75,8 @@ def sample_state_data():
     }
 
 
-def testis_within_bounds():
-    """Test the boundary checking function."""
+def testis_within_bounds() -> None:
+    """Test boundary checking function."""
     height, width = 10, 20
 
     # Within bounds
@@ -100,8 +100,8 @@ def testis_within_bounds():
 
 
 @pytest.fixture
-def validation_grid():
-    """Provides a grid for validation tests with TEST and SAIL placed."""
+def validation_grid() -> list[list[str | None]]:
+    """Provide a grid for validation tests with TEST and SAIL placed."""
     grid = board_state.create_empty_grid(6, 6)
     # Place "TEST" H at (1,1)
     grid[1][1] = "T"
@@ -123,8 +123,8 @@ def validation_grid():
     return grid
 
 
-def testcheck_parallel_cells(validation_grid):
-    """Test check_parallel_cells: checks parallel neighbors."""
+def testcheck_parallel_cells(validation_grid: list[list[str | None]]) -> None:
+    """Test check_parallel_cells to check parallel neighbors."""
     # PARAMETERS: grid, start_row, start_col, dr, dc
     # perp_dr, perp_dc = dc, dr
 
@@ -171,8 +171,8 @@ def testcheck_parallel_cells(validation_grid):
     # . . . . . .
 
 
-def testcheck_adjacent_before_start(validation_grid):
-    """Test check_adjacent_before_start: checks cell before word start."""
+def testcheck_adjacent_before_start(validation_grid: list[list[str | None]]) -> None:
+    """Test check_adjacent_before_start to check cell before word start."""
     # PARAMETERS: grid, start_row, start_col, dr, dc
 
     grid = validation_grid
@@ -203,8 +203,8 @@ def testcheck_adjacent_before_start(validation_grid):
     assert placement_rules.check_adjacent_before_start(grid, 2, 3, 1, 0) is False
 
 
-def testcheck_adjacent_after_end(validation_grid):
-    """Test check_adjacent_after_end: checks cell after word end."""
+def testcheck_adjacent_after_end(validation_grid: list[list[str | None]]) -> None:
+    """Test check_adjacent_after_end to check cell after word end."""
     # PARAMETERS: grid, start_row, start_col, dr, dc
     # Grid:
     # . . . . . .
@@ -225,10 +225,8 @@ def testcheck_adjacent_after_end(validation_grid):
     assert placement_rules.check_adjacent_after_end(grid, 4, 4, 1, 0) is True
 
 
-def testcheck_for_all_letters(validation_grid):
-    """Test check_for_all_letters: checks letter conflicts, parallel conflicts
-    during placement, overwriting, and if any new letter was placed.
-    """
+def testcheck_for_all_letters(validation_grid: list[list[str | None]]) -> None:
+    """Test check_for_all_letters for letter conflicts and placement rules."""
     grid = validation_grid
     words_to_place = {"test", "sail"}
 
@@ -273,9 +271,8 @@ def testcheck_for_all_letters(validation_grid):
     )
 
 
-def test_is_valid_placement_scenarios(validation_grid):
-    """Test is_valid_placement: Handles all of the previous checks. Does the following: bounds, adjacent, and letter checks.
-    """
+def test_is_valid_placement_scenarios(validation_grid: list[list[str | None]]) -> None:
+    """Test is_valid_placement for bounds, adjacent, and letter checks."""
     # Parameters: grid, word, words_to_place, intersect_row, intersect_col, intersect_idx, orientation
 
     grid = validation_grid
@@ -336,7 +333,7 @@ def test_is_valid_placement_scenarios(validation_grid):
 # ************************************************
 # Tests for: State Update Logic
 # ************************************************
-def test_update_placed_word_coords(sample_state_data):
+def test_update_placed_word_coords(sample_state_data: dict) -> None:
     """Test updating the dictionary tracking placed words and their coords."""
     placed_words_coords = sample_state_data["placed_words_coords"].copy()
     middle_coords = sample_state_data["middle_word_coords"]
@@ -391,7 +388,7 @@ def test_update_placed_word_coords(sample_state_data):
     assert (5, 5) in used_middle_coords
 
 
-def test_update_placed_letter_coords(sample_state_data):
+def test_update_placed_letter_coords(sample_state_data: dict) -> None:
     """Test updating the dictionary tracking letters and their coordinates."""
     placed_letter_coords = sample_state_data["placed_letter_coords"].copy()
 
@@ -427,8 +424,13 @@ def test_update_placed_letter_coords(sample_state_data):
 # ************************************************
 # Tests for: Coordinate Calculations
 # ************************************************
-def test_calculate_middle_word_placement_coords():
-    """Test calculating diagonal coordinates for the middle word."""
+def test_calculate_middle_word_placement_coords() -> None:
+    """Test calculating diagonal coordinates for the middle word.
+
+    Returns:
+        list[tuple[int, int]] | None: List of coordinates or None if not possible.
+
+    """
     coords = board_state.calculate_middle_word_placement_coords(5, 5, "FIT")
     assert coords == [(0, 0), (2, 2), (4, 4)]
 
