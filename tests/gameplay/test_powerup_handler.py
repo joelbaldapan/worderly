@@ -1,9 +1,9 @@
-import pytest
 from unittest.mock import patch
 
-from gameplay import powerup_handler
-from gameplay import game_constants
-from gameplay.game_state_handler import GameStatisticsData, GameStateData
+import pytest
+
+from gameplay import game_constants, powerup_handler
+from gameplay.game_state_handler import GameStateData, GameStatisticsData
 
 
 @pytest.fixture
@@ -47,12 +47,13 @@ def sample_game_state_fixture(sample_statistics_fixture):
         ({"combo_requirement": 3, "color": "red"}, 6, 1),  # Combo multiple of req
         ({"combo_requirement": None, "color": "white"}, 5, 0),  # No req
         ({"combo_requirement": 4, "color": "green"}, 0, 0),  # Combo is 0
-    ]
+    ],
 )
 def power_point_update_data(request):
     """Creates data for testing update_power_points."""
     # Convert dict to a dummy object with attributes for compatibility
     wizard_dict, initial_combo, expected_increment = request.param
+
     class DummyWizard:
         pass
     dummy = DummyWizard()
@@ -68,7 +69,7 @@ def power_point_update_data(request):
         ("green", "random_reveal"),
         ("magenta", "shield_increase"),
         ("blue", "life_increase"),
-    ]
+    ],
 )
 def use_powerup_data(request):
     """Creates data for testing use_powerup based on wizard color."""
@@ -172,7 +173,7 @@ def test_get_coords_for_random_reveal(mock_sample, mock_randint):
     mock_sample.return_value = expected_coords
 
     result = powerup_handler.get_coords_for_random_reveal(
-        hidden_coords_set, min_r, max_r
+        hidden_coords_set, min_r, max_r,
     )
 
     # Check if mock functions were called
@@ -196,7 +197,7 @@ def test_get_coords_for_random_reveal_less_available(mock_sample, mock_randint):
     mock_sample.return_value = expected_coords
 
     result = powerup_handler.get_coords_for_random_reveal(
-        hidden_coords_set, min_r, max_r
+        hidden_coords_set, min_r, max_r,
     )
 
     # Check if mock functions were called
@@ -261,16 +262,16 @@ def test_use_powerup_reveal_completes_words(
     # Check if mock functions were run
     mock_word_reveal.assert_called_once()
     mock_apply_reveal.assert_called_once_with(
-        game_state, sample_final_grid_fixture, coords_revealed
+        game_state, sample_final_grid_fixture, coords_revealed,
     )
     mock_check_completed.assert_called_once_with(
-        game_state, sample_words_to_find_fixture
+        game_state, sample_words_to_find_fixture,
     )
 
     # Check message indicates completed words and correctly_guessed_words set was updated
     assert game_state.next_message == game_constants.POWERUP_REVEAL_WORDS_MSG.format(
-        ", ".join(completed)
+        ", ".join(completed),
     )
     assert game_state.correctly_guessed_words == initial_guessed_words.union(
-        set(completed)
+        set(completed),
     )

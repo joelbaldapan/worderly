@@ -35,11 +35,6 @@ lint.ignore = [
     "TC003",
     "TRY003",
 ]
-exclude = [
-    "tests/",        # ignore all files in tests/
-    "scripts/old/",  # ignore a specific folder
-    "my_file.py",    # ignore a specific file
-]
 line-length = 120
 target-version = "py311"
 preview = true

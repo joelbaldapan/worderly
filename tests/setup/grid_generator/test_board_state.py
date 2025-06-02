@@ -1,10 +1,12 @@
 # ************************************************
 # Tests for: Board State and Grid Utilities
 # ************************************************
+
 import pytest
-from unittest.mock import patch
+
 from setup.grid_generator import board_state
 from setup.grid_generator.board_state import PlacementDetail
+
 
 @pytest.fixture
 def empty_grid_3x4():
@@ -18,6 +20,7 @@ def empty_grid_3x4():
         [None, None, None, None],
         [None, None, None, None],
     ]
+
 
 @pytest.fixture
 def sample_grid_5x5():
@@ -35,6 +38,7 @@ def sample_grid_5x5():
     grid[1][3] = "S"
     grid[1][4] = "T"
     return grid
+
 
 @pytest.fixture
 def sample_state_data():
@@ -66,6 +70,7 @@ def sample_state_data():
         "used_middle_word_coords": {(1, 1), (3, 3)},  # Occupied by xE and We
     }
 
+
 # ************************************************
 # Tests for: Creating Grid and Placing Letters
 # ************************************************
@@ -76,6 +81,7 @@ def test_create_empty_grid():
     assert len(grid) == height
     assert all(len(row) == width for row in grid)
     assert all(cell is None for row in grid for cell in row)
+
 
 def test_place_letters_on_grid(empty_grid_3x4):
     """Test placing letters of a word onto specific coordinates."""

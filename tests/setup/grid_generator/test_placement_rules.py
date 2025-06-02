@@ -1,14 +1,16 @@
 # ************************************************
 # Tests for: Grid Validation
 # ************************************************
+
 import pytest
-from unittest.mock import patch
+
+from setup.grid_generator import board_state, placement_rules
 from setup.grid_generator.board_state import PlacementDetail
-from setup.grid_generator import placement_rules, board_state
 from setup.grid_generator.placement_logic import (
-    update_placed_word_coords,
     update_placed_letter_coords,
+    update_placed_word_coords,
 )
+
 
 @pytest.fixture
 def empty_grid_3x4():
@@ -22,6 +24,7 @@ def empty_grid_3x4():
         [None, None, None, None],
         [None, None, None, None],
     ]
+
 
 @pytest.fixture
 def sample_grid_5x5():
@@ -39,6 +42,7 @@ def sample_grid_5x5():
     grid[1][3] = "S"
     grid[1][4] = "T"
     return grid
+
 
 @pytest.fixture
 def sample_state_data():
@@ -70,28 +74,29 @@ def sample_state_data():
         "used_middle_word_coords": {(1, 1), (3, 3)},  # Occupied by xE and We
     }
 
-def test_is_within_bounds():
+
+def testis_within_bounds():
     """Test the boundary checking function."""
     height, width = 10, 20
 
     # Within bounds
-    assert placement_rules._is_within_bounds(0, 0, height, width) is True
-    assert placement_rules._is_within_bounds(9, 19, height, width) is True
-    assert placement_rules._is_within_bounds(5, 10, height, width) is True
+    assert placement_rules.is_within_bounds(0, 0, height, width) is True
+    assert placement_rules.is_within_bounds(9, 19, height, width) is True
+    assert placement_rules.is_within_bounds(5, 10, height, width) is True
 
     # Row too low
-    assert placement_rules._is_within_bounds(-1, 5, height, width) is False
+    assert placement_rules.is_within_bounds(-1, 5, height, width) is False
     # Col too low
-    assert placement_rules._is_within_bounds(5, -1, height, width) is False
+    assert placement_rules.is_within_bounds(5, -1, height, width) is False
 
     # Row too high
-    assert placement_rules._is_within_bounds(999, 5, height, width) is False
+    assert placement_rules.is_within_bounds(999, 5, height, width) is False
     # Col too high
-    assert placement_rules._is_within_bounds(5, 999, height, width) is False
+    assert placement_rules.is_within_bounds(5, 999, height, width) is False
 
     # Row and Col a little too high
-    assert placement_rules._is_within_bounds(10, 5, height, width) is False
-    assert placement_rules._is_within_bounds(5, 20, height, width) is False
+    assert placement_rules.is_within_bounds(10, 5, height, width) is False
+    assert placement_rules.is_within_bounds(5, 20, height, width) is False
 
 
 @pytest.fixture
@@ -118,8 +123,8 @@ def validation_grid():
     return grid
 
 
-def test_check_parallel_cells(validation_grid):
-    """Test _check_parallel_cells: checks parallel neighbors."""
+def testcheck_parallel_cells(validation_grid):
+    """Test check_parallel_cells: checks parallel neighbors."""
     # PARAMETERS: grid, start_row, start_col, dr, dc
     # perp_dr, perp_dc = dc, dr
 
@@ -127,15 +132,15 @@ def test_check_parallel_cells(validation_grid):
 
     # 1.) Perpedicular neighbors of dc -> -/+ 1 to column
     # Check parallel to 'T' in TEST (H placement, dr=0, dc=1) -> Neighbors (0,1), (2,1) are None
-    assert placement_rules._check_parallel_cells(grid, 1, 1, 0, 1) is True
+    assert placement_rules.check_parallel_cells(grid, 1, 1, 0, 1) is True
 
     # Place something parallel
     grid[0][2] = "A"
     grid[2][1] = "A"
     # Check parallel to 'T' in TEST (H placement, dr=0, dc=1) -> Neighbors (0,1), (2,1) occupied
-    assert placement_rules._check_parallel_cells(grid, 1, 1, 0, 1) is False
+    assert placement_rules.check_parallel_cells(grid, 1, 1, 0, 1) is False
     # Check parallel to 'E' in TEST (H placement, dr=0, dc=1) -> Neighbors (0,2), (2,2) occupied
-    assert placement_rules._check_parallel_cells(grid, 1, 2, 0, 1) is False
+    assert placement_rules.check_parallel_cells(grid, 1, 2, 0, 1) is False
 
     # Grid after placing new letters:
     # . . A . . .
@@ -147,15 +152,15 @@ def test_check_parallel_cells(validation_grid):
 
     # 2.) Perpedicular neighbors of dr -> -/+ 1 to row
     # Check parallel to 'I' in SAIL (V placement, dr=1, dc=0) -> Neighbors (3,2), (3,4) are None
-    assert placement_rules._check_parallel_cells(grid, 3, 3, 1, 0) is True
+    assert placement_rules.check_parallel_cells(grid, 3, 3, 1, 0) is True
 
     # Place something parallel
     grid[3][2] = "T"
     grid[4][4] = "A"
     # Check parallel to 'I' in SAIL (V placement, dr=1, dc=0) -> Neighbors (3,2), (3,4) occupied
-    assert placement_rules._check_parallel_cells(grid, 3, 3, 1, 0) is False
+    assert placement_rules.check_parallel_cells(grid, 3, 3, 1, 0) is False
     # Check parallel to 'L' in SAIL (V placement, dr=1, dc=0) -> Neighbors (3,2), (3,4) occupied
-    assert placement_rules._check_parallel_cells(grid, 4, 3, 1, 0) is False
+    assert placement_rules.check_parallel_cells(grid, 4, 3, 1, 0) is False
 
     # Grid after placing new letters:
     # . . A . . .
@@ -166,8 +171,8 @@ def test_check_parallel_cells(validation_grid):
     # . . . . . .
 
 
-def test_check_adjacent_before_start(validation_grid):
-    """Test _check_adjacent_before_start: checks cell before word start."""
+def testcheck_adjacent_before_start(validation_grid):
+    """Test check_adjacent_before_start: checks cell before word start."""
     # PARAMETERS: grid, start_row, start_col, dr, dc
 
     grid = validation_grid
@@ -181,25 +186,25 @@ def test_check_adjacent_before_start(validation_grid):
 
     # 1.) Out of bounds, but still valid
     # Try placing HORIZ starting at (1,0) -> cell before (1,-1) is OOB -> True
-    assert placement_rules._check_adjacent_before_start(grid, 1, 0, 0, 1) is True
+    assert placement_rules.check_adjacent_before_start(grid, 1, 0, 0, 1) is True
     # Try placing VERT starting at (0,3) -> cell before (-1,3) is OOB -> True
-    assert placement_rules._check_adjacent_before_start(grid, 0, 3, 1, 0) is True
+    assert placement_rules.check_adjacent_before_start(grid, 0, 3, 1, 0) is True
 
     # 2.) In bounds, free space
     # Try placing HORIZ starting at (4,1) -> cell before (4,0) empty -> True
-    assert placement_rules._check_adjacent_before_start(grid, 4, 1, 0, 1) is True
+    assert placement_rules.check_adjacent_before_start(grid, 4, 1, 0, 1) is True
     # Try placing VERT starting at (4,1) -> cell before (3,1) empty -> True
-    assert placement_rules._check_adjacent_before_start(grid, 4, 1, 1, 0) is True
+    assert placement_rules.check_adjacent_before_start(grid, 4, 1, 1, 0) is True
 
     # 3.) Conflicting with already placed letters
     # Try placing HORIZ starting at (1,2) -> cell before (1,1) is 'T' -> False
-    assert placement_rules._check_adjacent_before_start(grid, 1, 2, 0, 1) is False
+    assert placement_rules.check_adjacent_before_start(grid, 1, 2, 0, 1) is False
     # Try placing VERT starting at (2,3) -> cell before (1,3) is 'S' -> False
-    assert placement_rules._check_adjacent_before_start(grid, 2, 3, 1, 0) is False
+    assert placement_rules.check_adjacent_before_start(grid, 2, 3, 1, 0) is False
 
 
-def test_check_adjacent_after_end(validation_grid):
-    """Test _check_adjacent_after_end: checks cell after word end."""
+def testcheck_adjacent_after_end(validation_grid):
+    """Test check_adjacent_after_end: checks cell after word end."""
     # PARAMETERS: grid, start_row, start_col, dr, dc
     # Grid:
     # . . . . . .
@@ -211,17 +216,17 @@ def test_check_adjacent_after_end(validation_grid):
 
     grid = validation_grid
     # Try placing HORIZ ending at (1,3) ('S') -> cell after (1,4) is 'T' -> False
-    assert placement_rules._check_adjacent_after_end(grid, 1, 3, 0, 1) is False
+    assert placement_rules.check_adjacent_after_end(grid, 1, 3, 0, 1) is False
     # Try placing VERT ending at (3,3) ('I') -> cell after (4,3) is 'L' -> False
-    assert placement_rules._check_adjacent_after_end(grid, 3, 3, 1, 0) is False
+    assert placement_rules.check_adjacent_after_end(grid, 3, 3, 1, 0) is False
     # Try placing HORIZ ending at (0,0) -> cell after (0,1) is None -> True
-    assert placement_rules._check_adjacent_after_end(grid, 0, 0, 0, 1) is True
+    assert placement_rules.check_adjacent_after_end(grid, 0, 0, 0, 1) is True
     # Try placing VERT ending at (4,4) -> cell after (5,4) is OOB -> True
-    assert placement_rules._check_adjacent_after_end(grid, 4, 4, 1, 0) is True
+    assert placement_rules.check_adjacent_after_end(grid, 4, 4, 1, 0) is True
 
-def test_check_for_all_letters(validation_grid):
-    """
-    Test _check_for_all_letters: checks letter conflicts, parallel conflicts
+
+def testcheck_for_all_letters(validation_grid):
+    """Test check_for_all_letters: checks letter conflicts, parallel conflicts
     during placement, overwriting, and if any new letter was placed.
     """
     grid = validation_grid
@@ -229,48 +234,47 @@ def test_check_for_all_letters(validation_grid):
 
     # 1.) Placement intersecting 'E' (place 'ERA' V) conflicts on letter 'R' vs 'E'
     assert (
-        placement_rules._check_for_all_letters(
-            grid, "ERA", words_to_place, (0, 2), (1, 0)
+        placement_rules.check_for_all_letters(
+            grid, "ERA", words_to_place, (0, 2), (1, 0),
         )
         is False
     )
 
     # 2.) Conflict with existing letter ('S')
     assert (
-        placement_rules._check_for_all_letters(
-            grid, "SET", words_to_place, (1, 2), (0, 1)
+        placement_rules.check_for_all_letters(
+            grid, "SET", words_to_place, (1, 2), (0, 1),
         )
         is False
     )
 
     # 3.) Parallel conflict during placement
     assert (
-        placement_rules._check_for_all_letters(
-            grid, "APE", words_to_place, (2, 1), (0, 1)
+        placement_rules.check_for_all_letters(
+            grid, "APE", words_to_place, (2, 1), (0, 1),
         )
         is False
     )
 
     # 4.) Overwriting an existing word (place 'TEST' again)
     assert (
-        placement_rules._check_for_all_letters(
-            grid, "TEST", words_to_place, (1, 1), (0, 1)
+        placement_rules.check_for_all_letters(
+            grid, "TEST", words_to_place, (1, 1), (0, 1),
         )
         is False
     )
 
     # 5.) Placing a word where no new letters are added ('AI')
     assert (
-        placement_rules._check_for_all_letters(
-            grid, "AI", words_to_place, (2, 3), (1, 0)
+        placement_rules.check_for_all_letters(
+            grid, "AI", words_to_place, (2, 3), (1, 0),
         )
         is False
     )
 
 
 def test_is_valid_placement_scenarios(validation_grid):
-    """
-    Test is_valid_placement: Handles all of the previous checks. Does the following: bounds, adjacent, and letter checks.
+    """Test is_valid_placement: Handles all of the previous checks. Does the following: bounds, adjacent, and letter checks.
     """
     # Parameters: grid, word, words_to_place, intersect_row, intersect_col, intersect_idx, orientation
 
@@ -279,11 +283,11 @@ def test_is_valid_placement_scenarios(validation_grid):
 
     # 1.) Place "ERA" V, intersecting "TEST" at E(1,2), idx 0
     # Word: ERA, Intersect: (1,2), Idx: 0, Orientation: V
-    # Expect False because _check_for_all_letters returns False
+    # Expect False because check_for_all_letters returns False
     assert (
         placement_rules.is_valid_placement(
             grid, "ERA", words_to_place,
-            {"row": 1, "col": 2, "idx": 0}, "V"
+            {"row": 1, "col": 2, "idx": 0}, "V",
         )
         is False
     )
@@ -293,7 +297,7 @@ def test_is_valid_placement_scenarios(validation_grid):
     assert (
         placement_rules.is_valid_placement(
             grid, "ASK", words_to_place,
-            {"row": 2, "col": 3, "idx": 0}, "H"
+            {"row": 2, "col": 3, "idx": 0}, "H",
         )
         is False
     )
@@ -303,7 +307,7 @@ def test_is_valid_placement_scenarios(validation_grid):
     assert (
         placement_rules.is_valid_placement(
             grid, "TALL", words_to_place,
-            {"row": 1, "col": 4, "idx": 0}, "V"
+            {"row": 1, "col": 4, "idx": 0}, "V",
         )
         is False
     )
@@ -313,7 +317,7 @@ def test_is_valid_placement_scenarios(validation_grid):
     assert (
         placement_rules.is_valid_placement(
             grid, "SET", words_to_place,
-            {"row": 1, "col": 3, "idx": 0}, "H"
+            {"row": 1, "col": 3, "idx": 0}, "H",
         )
         is False
     )
@@ -323,10 +327,11 @@ def test_is_valid_placement_scenarios(validation_grid):
     assert (
         placement_rules.is_valid_placement(
             grid, "TIP", words_to_place,
-            {"row": 1, "col": 4, "idx": 0}, "V"
+            {"row": 1, "col": 4, "idx": 0}, "V",
         )
         is False
     )
+
 
 # ************************************************
 # Tests for: State Update Logic
@@ -385,6 +390,7 @@ def test_update_placed_word_coords(sample_state_data):
     assert len(used_middle_coords) == 3  # Should not increase further
     assert (5, 5) in used_middle_coords
 
+
 def test_update_placed_letter_coords(sample_state_data):
     """Test updating the dictionary tracking letters and their coordinates."""
     placed_letter_coords = sample_state_data["placed_letter_coords"].copy()
@@ -417,6 +423,7 @@ def test_update_placed_letter_coords(sample_state_data):
     assert (0, 1) in placed_letter_coords["X"]
     assert len(placed_letter_coords["X"]) == 2
 
+
 # ************************************************
 # Tests for: Coordinate Calculations
 # ************************************************
@@ -435,6 +442,6 @@ def test_calculate_middle_word_placement_coords():
     assert coords is None
 
     coords = board_state.calculate_middle_word_placement_coords(
-        10, 4, "PNEUMONOULTRAMICROSCOPICSILICOVOLCANOCONIOSIS"
+        10, 4, "PNEUMONOULTRAMICROSCOPICSILICOVOLCANOCONIOSIS",
     )
     assert coords is None

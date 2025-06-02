@@ -1,4 +1,4 @@
-def _is_within_bounds(r: int, c: int, height: int, width: int) -> bool:
+def is_within_bounds(r: int, c: int, height: int, width: int) -> bool:
     """Check if the coordinate (r, c) is within the grid boundaries.
 
     Args:
@@ -14,7 +14,7 @@ def _is_within_bounds(r: int, c: int, height: int, width: int) -> bool:
     return 0 <= r < height and 0 <= c < width
 
 
-def _check_parallel_cells(
+def check_parallel_cells(
     grid: list[list[str | None]],
     r: int,
     c: int,
@@ -39,14 +39,14 @@ def _check_parallel_cells(
     perp_dr, perp_dc = dc, dr
 
     check_r1, check_c1 = r - perp_dr, c - perp_dc
-    neighbor1_occupied = _is_within_bounds(check_r1, check_c1, height, width) and grid[check_r1][check_c1] is not None
+    neighbor1_occupied = is_within_bounds(check_r1, check_c1, height, width) and grid[check_r1][check_c1] is not None
 
     check_r2, check_c2 = r + perp_dr, c + perp_dc
-    neighbor2_occupied = _is_within_bounds(check_r2, check_c2, height, width) and grid[check_r2][check_c2] is not None
+    neighbor2_occupied = is_within_bounds(check_r2, check_c2, height, width) and grid[check_r2][check_c2] is not None
     return not (neighbor1_occupied or neighbor2_occupied)
 
 
-def _check_adjacent_before_start(
+def check_adjacent_before_start(
     grid: list[list[str | None]],
     start_row: int,
     start_col: int,
@@ -70,11 +70,11 @@ def _check_adjacent_before_start(
     width = len(grid[0]) if height > 0 else 0
     before_r, before_c = start_row - dr, start_col - dc
 
-    cell_occupied = _is_within_bounds(before_r, before_c, height, width) and grid[before_r][before_c] is not None
+    cell_occupied = is_within_bounds(before_r, before_c, height, width) and grid[before_r][before_c] is not None
     return not cell_occupied
 
 
-def _check_adjacent_after_end(
+def check_adjacent_after_end(
     grid: list[list[str | None]],
     end_row: int,
     end_col: int,
@@ -98,11 +98,11 @@ def _check_adjacent_after_end(
     width = len(grid[0]) if height > 0 else 0
     after_r, after_c = end_row + dr, end_col + dc
 
-    cell_occupied = _is_within_bounds(after_r, after_c, height, width) and grid[after_r][after_c] is not None
+    cell_occupied = is_within_bounds(after_r, after_c, height, width) and grid[after_r][after_c] is not None
     return not cell_occupied
 
 
-def _check_for_all_letters(
+def check_for_all_letters(
     grid: list[list[str | None]],
     word: str,
     words_to_place_set: set[str],
@@ -134,7 +134,7 @@ def _check_for_all_letters(
         current_row = start_row + i * dr
         current_col = start_col + i * dc
 
-        if not _is_within_bounds(current_row, current_col, grid_height, grid_width):
+        if not is_within_bounds(current_row, current_col, grid_height, grid_width):
             return False
 
         current_cell = grid[current_row][current_col]
@@ -145,7 +145,7 @@ def _check_for_all_letters(
                 return False
         else:
             placed_new_letter = True
-            if not _check_parallel_cells(grid, current_row, current_col, dr, dc):
+            if not check_parallel_cells(grid, current_row, current_col, dr, dc):
                 return False
 
         if (len(checked_letters) > 1 and checked_letters.lower() in words_to_place_set) and (
@@ -191,14 +191,14 @@ def is_valid_placement(
     end_col = start_col + (word_len - 1) * dc
 
     if not (
-        _is_within_bounds(start_row, start_col, height, width) and _is_within_bounds(end_row, end_col, height, width)
+        is_within_bounds(start_row, start_col, height, width) and is_within_bounds(end_row, end_col, height, width)
     ):
         return False
 
     if not (
-        _check_adjacent_before_start(grid, start_row, start_col, dr, dc)
-        and _check_adjacent_after_end(grid, end_row, end_col, dr, dc)
+        check_adjacent_before_start(grid, start_row, start_col, dr, dc)
+        and check_adjacent_after_end(grid, end_row, end_col, dr, dc)
     ):
         return False
 
-    return _check_for_all_letters(grid, word, words_to_place_set, (start_row, start_col), (dr, dc))
+    return check_for_all_letters(grid, word, words_to_place_set, (start_row, start_col), (dr, dc))

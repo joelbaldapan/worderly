@@ -1,10 +1,13 @@
 # ************************************************
 # Tests for: Main Board Setup Helper Functions
 # ************************************************
-import pytest
 from unittest.mock import patch
+
+import pytest
+
 from setup.grid_generator import main_generator
 from setup.grid_generator.board_state import BoardGenerationState
+
 
 @pytest.fixture
 def initial_board_state_fixture():
@@ -18,6 +21,7 @@ def initial_board_state_fixture():
         used_middle_word_coords=set(),
         middle_word_coords=set(),
     )
+
 
 @patch("setup.grid_generator.board_state.create_empty_grid")
 def test_initialize_board_state(mock_create_empty):
@@ -34,6 +38,7 @@ def test_initialize_board_state(mock_create_empty):
     assert state.placed_letter_coords == {}
     assert state.used_middle_word_coords == set()
     assert state.middle_word_coords == set()
+
 
 @patch("setup.grid_generator.main_generator.calculate_middle_word_placement_coords")
 @patch("setup.grid_generator.main_generator.place_letters_on_grid")
@@ -63,19 +68,20 @@ def test_place_middle_word_success(
 
     # Check if all functions were called correctly
     mock_calc_placement.assert_called_once_with(
-        len(state.grid), len(state.grid[0]), middle_word
+        len(state.grid), len(state.grid[0]), middle_word,
     )
     mock_place_letters.assert_called_once_with(
-        state.grid, middle_word, calculated_coords
+        state.grid, middle_word, calculated_coords,
     )
     # update_placed_letter_coords now expects (state, word, coords)
     mock_update_letters.assert_called_once_with(
-        state, middle_word, calculated_coords
+        state, middle_word, calculated_coords,
     )
 
     # Check state updates
     assert state.placed_words_coords[middle_word] == calculated_coords
     assert state.middle_word_coords == set(calculated_coords)
+
 
 @patch("setup.grid_generator.main_generator.calculate_middle_word_placement_coords")
 @patch("setup.grid_generator.main_generator.place_letters_on_grid")
@@ -106,12 +112,13 @@ def test_place_middle_word_fail_no_coords(
     assert middle_word not in state.placed_words_coords
     assert state.middle_word_coords == set()
 
+
 @patch("setup.grid_generator.main_generator.random.shuffle")
 @patch("setup.grid_generator.main_generator.find_possible_placements")
 @patch("setup.grid_generator.main_generator.select_random_placement")
 @patch("setup.grid_generator.main_generator.apply_placement")
 def test_place_other_words_success(
-    mock_apply, mock_select, mock_find, mock_shuffle, initial_board_state_fixture
+    mock_apply, mock_select, mock_find, mock_shuffle, initial_board_state_fixture,
 ):
     """Test the basic loop and placement attempt logic."""
     state = initial_board_state_fixture
@@ -140,7 +147,7 @@ def test_place_other_words_success(
 
     # Return Placement objects, not dicts
     mock_find.return_value = [
-        Placement("mock", (0, 0), 0, "H")
+        Placement("mock", (0, 0), 0, "H"),
     ]
 
     chosen_placement_1 = Placement("ONE", (2, 2), 0, "H")
@@ -161,18 +168,19 @@ def test_place_other_words_success(
 
     # Check if apply placement was called on the two placements
     mock_apply.assert_any_call(
-        state, chosen_placement_1
+        state, chosen_placement_1,
     )
     mock_apply.assert_any_call(
-        state, chosen_placement_2
+        state, chosen_placement_2,
     )
+
 
 @patch("setup.grid_generator.main_generator.random.shuffle")
 @patch("setup.grid_generator.main_generator.find_possible_placements")
 @patch("setup.grid_generator.main_generator.select_random_placement")
 @patch("setup.grid_generator.main_generator.apply_placement")
 def test_place_other_words_reach_max(
-    mock_apply, mock_select, mock_find, mock_shuffle, initial_board_state_fixture
+    mock_apply, mock_select, mock_find, mock_shuffle, initial_board_state_fixture,
 ):
     """Test the basic loop and placement attempt logic reaching the max words limit."""
     state = initial_board_state_fixture
@@ -202,7 +210,7 @@ def test_place_other_words_reach_max(
             self.orientation = orientation
 
     mock_find.return_value = [
-        Placement("mock", (0, 0), 0, "H")
+        Placement("mock", (0, 0), 0, "H"),
     ]
 
     # mock_apply side effect to simulate adding the word and updating the states
@@ -238,9 +246,10 @@ def test_place_other_words_reach_max(
 
     # Check if apply placement was called on the first chosen placement
     mock_apply.assert_any_call(
-        state, chosen_placement_1
+        state, chosen_placement_1,
     )
-    
+
+
 def test_validate_final_grid():
     """Test the final grid validation logic."""
     min_words = 3
@@ -277,6 +286,7 @@ def test_validate_final_grid():
         used_middle_word_coords={(1, 1), (2, 2)},  # Missing (3,3)
     )
     assert main_generator.validate_final_grid(state_unused_middle, min_words) is False
+
 
 @patch("setup.grid_generator.main_generator.place_letters_on_grid")
 def test_capitalize_middle_word_appearance(mock_place_letters):

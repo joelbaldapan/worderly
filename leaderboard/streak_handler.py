@@ -37,7 +37,7 @@ def load_streaks(filepath: Path = STREAK_LEADERBOARD_FILEPATH) -> list[StreakEnt
         return loaded_streaks
 
 
-def _save_streaks_to_file(filepath: Path, streaks: list[StreakEntry]) -> None:
+def save_streaks_to_file(filepath: Path, streaks: list[StreakEntry]) -> None:
     try:
         filepath.parent.mkdir(parents=True, exist_ok=True)
         data_to_save = [asdict(entry) for entry in streaks]
@@ -56,4 +56,4 @@ def add_streak_entry(
     current_streaks.append(new_entry)
     current_streaks.sort(key=lambda x: (x.streak_count, x.total_points_in_streak), reverse=True)
     updated_streaks = current_streaks[:max_entries]
-    _save_streaks_to_file(filepath, updated_streaks)
+    save_streaks_to_file(filepath, updated_streaks)

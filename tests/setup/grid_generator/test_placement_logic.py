@@ -1,7 +1,8 @@
-import pytest
 from unittest.mock import patch
+
 from setup.grid_generator import placement_logic
-from setup.grid_generator.board_state import PlacementDetail, BoardGenerationState
+from setup.grid_generator.board_state import BoardGenerationState, PlacementDetail
+
 
 # ************************************************
 # Tests for: Placement Finding and Selection
@@ -35,7 +36,7 @@ def test_find_possible_placements(mock_is_valid):
     mock_is_valid.side_effect = valid_side_effect
 
     placements = placement_logic.find_possible_placements(
-        grid, word, words_to_place, placed_letter_coords
+        grid, word, words_to_place, placed_letter_coords,
     )
 
     expected_placements = [
@@ -50,6 +51,7 @@ def test_find_possible_placements(mock_is_valid):
             for pl in placements
         )
 
+
 def test_categorize_placement():
     """Test categorizing placements based on middle word intersection."""
     placements = [
@@ -63,7 +65,7 @@ def test_categorize_placement():
     used_middle_coords = {(3, 3)}
 
     priority, other = placement_logic.categorize_placement(
-        placements, middle_coords, used_middle_coords
+        placements, middle_coords, used_middle_coords,
     )
 
     # Check priority placements
@@ -76,6 +78,7 @@ def test_categorize_placement():
     assert other[0].word == "WB" and other[0].coord == (2, 2)
     assert other[1].word == "WC" and other[1].coord == (3, 3)
     assert other[2].word == "WE" and other[2].coord == (5, 5)
+
 
 @patch("setup.grid_generator.placement_logic.random.choice")
 def test_select_random_placement(mock_random_choice):
@@ -107,12 +110,13 @@ def test_select_random_placement(mock_random_choice):
     assert selected is None
     mock_random_choice.assert_not_called()
 
+
 @patch("setup.grid_generator.placement_logic.calculate_straight_word_placement_coords")
 @patch("setup.grid_generator.placement_logic.update_placed_letter_coords")
 @patch("setup.grid_generator.placement_logic.update_placed_word_coords")
 @patch("setup.grid_generator.placement_logic.place_letters_on_grid")
 def test_apply_placement(
-    mock_place_letters, mock_update_word, mock_update_letter, mock_calc_coords
+    mock_place_letters, mock_update_word, mock_update_letter, mock_calc_coords,
 ):
     """Test that apply_placement calls its helper functions correctly."""
     # Create a fake BoardGenerationState
@@ -128,15 +132,15 @@ def test_apply_placement(
     mock_calc_coords.return_value = calculated_coords
 
     placement_logic.apply_placement(
-        state, chosen
+        state, chosen,
     )
 
     # Check if all functions called
     mock_calc_coords.assert_called_once_with(chosen)
     mock_update_letter.assert_called_once_with(
-        state, "APPLY", calculated_coords
+        state, "APPLY", calculated_coords,
     )
     mock_update_word.assert_called_once_with(
-        chosen, calculated_coords, state
+        chosen, calculated_coords, state,
     )
     mock_place_letters.assert_called_once_with(state.grid, "APPLY", calculated_coords)

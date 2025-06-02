@@ -1,10 +1,10 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
 from getkey import keys
 
-
+from data import settings_details, wizards_details
 from setup import menus
-from data import wizards_details, settings_details
 
 
 @pytest.fixture
@@ -93,7 +93,7 @@ def test_run_heart_points_menu(mock_select):
     mock_select.return_value = menus.MENU1_OPTIONS[0]  # "</3 No Heart Points"
     result1 = menus.run_heart_points_menu()
     mock_select.assert_called_once_with(
-        menus.MENU1_OPTIONS, title="+.+.+.+ Select Heart Points Mode +.+.+.+"
+        menus.MENU1_OPTIONS, title="+.+.+.+ Select Heart Points Mode +.+.+.+",
     )
     assert result1 == settings_details.NO_HEART_POINTS_SETTINGS
 
@@ -102,6 +102,6 @@ def test_run_heart_points_menu(mock_select):
     mock_select.return_value = menus.MENU1_OPTIONS[1]  # "♥♥♥ Heart Points"
     result2 = menus.run_heart_points_menu()
     mock_select.assert_called_once_with(
-        menus.MENU1_OPTIONS, title="+.+.+.+ Select Heart Points Mode +.+.+.+"
+        menus.MENU1_OPTIONS, title="+.+.+.+ Select Heart Points Mode +.+.+.+",
     )
     assert result2 is None

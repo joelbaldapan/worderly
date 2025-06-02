@@ -1,5 +1,6 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
 
 # Import the module to be tested
 import worderly
@@ -46,7 +47,7 @@ def test_get_lexicon_file_no_arg(mock_print):
 
 @patch("sys.argv", ["worderly.py", "my_lexicon.txt"])
 @patch(
-    PATCH_READ_WORD_FILE, return_value=[]
+    PATCH_READ_WORD_FILE, return_value=[],
 )  # Simulate read returning empty list (failure)
 @patch(PATCH_PRINT)
 def test_get_lexicon_file_read_fail(mock_print, mock_read):
@@ -62,7 +63,7 @@ def test_get_lexicon_file_read_fail(mock_print, mock_read):
 
 @patch("sys.argv", ["worderly.py", "my_lexicon.txt"])
 @patch(
-    PATCH_READ_WORD_FILE, return_value=["word1", "word2"]
+    PATCH_READ_WORD_FILE, return_value=["word1", "word2"],
 )  # Simulate successful read
 @patch(PATCH_PRINT)
 def test_get_lexicon_file_success(mock_print, mock_read):

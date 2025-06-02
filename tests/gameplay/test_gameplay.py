@@ -1,14 +1,15 @@
-import pytest
-from unittest.mock import patch
 import copy
+from unittest.mock import patch
 
-from gameplay import gameplay
+import pytest
+
+from gameplay import game_constants, gameplay
 from gameplay.game_state_handler import GameStateData, GameStatisticsData
-from gameplay import game_constants
 
 # ************************************************
 # Fixtures
 # ************************************************
+
 
 @pytest.fixture
 def sample_settings():
@@ -103,6 +104,7 @@ class DummyGameConfig:
 # Paths For Convenience
 # ************************************************
 
+
 PATCH_PRINT_GRID = "gameplay.gameplay.print_grid"
 PATCH_PRINT_STATS = "gameplay.gameplay.print_statistics"
 PATCH_PRINT_MSG = "gameplay.gameplay.print_message"
@@ -193,7 +195,7 @@ def test_update_end_game_display(
 @patch(PATCH_GET_INPUT)
 @patch(PATCH_UPDATE_DISPLAY)
 def test_get_guess_valid_word(
-    mock_update_disp, mock_get_input, sample_settings, sample_game_state, sample_wizard
+    mock_update_disp, mock_get_input, sample_settings, sample_game_state, sample_wizard,
 ):
     """Test get_guess returns a valid word input."""
     mock_get_input.return_value = "  VALID  "  # Input with whitespace/caps
@@ -211,7 +213,7 @@ def test_get_guess_valid_word(
 @patch(PATCH_GET_INPUT)
 @patch(PATCH_UPDATE_DISPLAY)
 def test_get_guess_invalid_then_valid(
-    mock_update_disp, mock_get_input, sample_settings, sample_game_state, sample_wizard
+    mock_update_disp, mock_get_input, sample_settings, sample_game_state, sample_wizard,
 ):
     """Test get_guess handles invalid input then accepts valid input."""
     # Simulate empty, then non-alpha, then valid input
@@ -228,7 +230,7 @@ def test_get_guess_invalid_then_valid(
 @patch(PATCH_GET_INPUT)
 @patch(PATCH_UPDATE_DISPLAY)
 def test_get_guess_powerup_command_valid(
-    mock_update_disp, mock_get_input, sample_settings, sample_game_state, sample_wizard
+    mock_update_disp, mock_get_input, sample_settings, sample_game_state, sample_wizard,
 ):
     """Test get_guess returns the powerup command when valid."""
     # Ensure wizard is not white and has power points
@@ -250,7 +252,7 @@ def test_get_guess_powerup_command_valid(
 @patch(PATCH_GET_INPUT)
 @patch(PATCH_UPDATE_DISPLAY)
 def test_get_guess_powerup_command_invalid_wizard(
-    mock_update_disp, mock_get_input, sample_settings, sample_game_state, sample_wizard
+    mock_update_disp, mock_get_input, sample_settings, sample_game_state, sample_wizard,
 ):
     """Test get_guess handles powerup attempt with white wizard."""
     # White wizard cannot use powerups
@@ -274,7 +276,7 @@ def test_get_guess_powerup_command_invalid_wizard(
 @patch(PATCH_GET_INPUT)
 @patch(PATCH_UPDATE_DISPLAY)
 def test_get_guess_powerup_command_invalid_points(
-    mock_update_disp, mock_get_input, sample_settings, sample_game_state, sample_wizard
+    mock_update_disp, mock_get_input, sample_settings, sample_game_state, sample_wizard,
 ):
     """Test get_guess handles powerup attempt with insufficient points."""
     # Non-white wizard can use powerups
@@ -336,9 +338,11 @@ def test_run_game_win_hp_mode(
         middle_word=middle_word,
         player_name=player_name,
     )
+
     class DummyStats:
         def __init__(self):
             self.points = 50
+
     class DummyGameState:
         def __init__(self):
             self.statistics = DummyStats()
@@ -353,7 +357,7 @@ def test_run_game_win_hp_mode(
     gameplay.run_game(game_config)
     # Check initialization
     mock_init_state.assert_called_once_with(
-        sample_final_grid, middle_word, sample_wizard, player_name
+        sample_final_grid, middle_word, sample_wizard, player_name,
     )
     # Check if all functions in the flow are called
     mock_update_disp.assert_called()
@@ -402,9 +406,11 @@ def test_run_game_loss_no_hp_mode(
         middle_word=middle_word,
         player_name=player_name,
     )
+
     class DummyStats:
         def __init__(self):
             self.points = 10
+
     class DummyGameState:
         def __init__(self):
             self.statistics = DummyStats()
@@ -418,7 +424,7 @@ def test_run_game_loss_no_hp_mode(
     gameplay.run_game(game_config)
     # Check initialization
     mock_init_state.assert_called_once_with(
-        sample_final_grid, middle_word, sample_wizard, player_name
+        sample_final_grid, middle_word, sample_wizard, player_name,
     )
 
     # Check if all functions in the flow are called
@@ -465,9 +471,11 @@ def test_run_game_uses_powerup(
         middle_word=middle_word,
         player_name=player_name,
     )
+
     class DummyStats:
         def __init__(self):
             self.points = 0
+
     class DummyGameState:
         def __init__(self):
             self.statistics = DummyStats()

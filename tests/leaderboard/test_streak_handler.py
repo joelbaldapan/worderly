@@ -1,4 +1,5 @@
 import json
+
 import pytest
 
 from leaderboard import streak_handler
@@ -6,6 +7,7 @@ from leaderboard import streak_handler
 # ************************************************
 # Fixtures
 # ************************************************
+
 
 @pytest.fixture
 def sample_streak_entries():
@@ -39,7 +41,6 @@ def streak_file_path(tmp_path):
 
 def test_load_streaks_file_not_exist(monkeypatch, tmp_path):
     """Test loading streaks when file does not exist."""
-
     # Make Path.exists to always return False
     monkeypatch.setattr("pathlib.Path.exists", lambda self: False)
     result = streak_handler.load_streaks(tmp_path / "i_do_not_exist_mwahahaha.json")
@@ -80,7 +81,7 @@ def test_load_streaks_invalid_entries(tmp_path):
     data = [
         {"player_name": "Joel", "streak_count": 5, "total_points_in_streak": 100},
         {"player_name": "Bad"},  # Missing keys
-        "notadict"
+        "notadict",
     ]
     file_path.write_text(json.dumps(data))
     result = streak_handler.load_streaks(file_path)
@@ -93,7 +94,7 @@ def test_load_streaks_invalid_entries(tmp_path):
 def test_load_streaks_io_error(monkeypatch, tmp_path):
     """Test loading streaks with IOError."""
     def raise_ioerror(*args, **kwargs):
-        raise IOError()
+        raise OSError
     monkeypatch.setattr("pathlib.Path.open", lambda self, *a, **k: raise_ioerror())
     file_path = tmp_path / "ioerror.json"
     result = streak_handler.load_streaks(file_path)
@@ -101,30 +102,30 @@ def test_load_streaks_io_error(monkeypatch, tmp_path):
 
 
 # ************************************************
-# Tests for: _save_streaks_to_file
+# Tests for: save_streaks_to_file
 # ************************************************
 
-def test_save_streaks_to_file(tmp_path, sample_streak_entries):
+def testsave_streaks_to_file(tmp_path, sample_streak_entries):
     """Test saving streaks to file."""
     file_path = tmp_path / "save.json"
-    streak_handler._save_streaks_to_file(file_path, sample_streak_entries)
+    streak_handler.save_streaks_to_file(file_path, sample_streak_entries)
 
     # File should exist and contain valid JSON
     assert file_path.exists()
-    with open(file_path, "r", encoding="utf-8") as f:
+    with open(file_path, encoding="utf-8") as f:
         data = json.load(f)
         assert isinstance(data, list)
         assert any(d["player_name"] == "Joel" for d in data)
 
 
-def test_save_streaks_to_file_io_error(monkeypatch, sample_streak_entries, tmp_path):
+def testsave_streaks_to_file_io_error(monkeypatch, sample_streak_entries, tmp_path):
     """Test IOError during saving streaks to file."""
     def raise_ioerror(*args, **kwargs):
-        raise IOError()
+        raise OSError
     monkeypatch.setattr("pathlib.Path.open", lambda self, *a, **k: raise_ioerror())
     file_path = tmp_path / "ioerror_save.json"
     # Should not raise
-    streak_handler._save_streaks_to_file(file_path, sample_streak_entries)
+    streak_handler.save_streaks_to_file(file_path, sample_streak_entries)
 
 
 # ************************************************
@@ -145,7 +146,7 @@ def test_add_streak_entry_limit(tmp_path, sample_streak_entries):
     file_path = tmp_path / "limit.json"
 
     # Save initial entries
-    streak_handler._save_streaks_to_file(file_path, sample_streak_entries)
+    streak_handler.save_streaks_to_file(file_path, sample_streak_entries)
 
     # Add a new entry with high streak/points
     new_entry = streak_handler.StreakEntry("Top", 10, 999)
