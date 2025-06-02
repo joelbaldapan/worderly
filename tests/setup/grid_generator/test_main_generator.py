@@ -150,7 +150,7 @@ def test_place_other_words_success(
     mock_shuffle.side_effect = lambda placements: placements  # Remove unused lambda argument
 
     # Define a PlacementDetail-like class for mocking
-    class Placement:
+    class Placement:  # noqa: B903
         def __init__(self, word: str, coord: tuple[int, int], idx: int, orientation: str) -> None:
             self.word = word
             self.coord = coord
@@ -217,7 +217,7 @@ def test_place_other_words_reach_max(
     mock_shuffle.side_effect = lambda placements: placements  # Remove unused lambda argument
 
     # Define a PlacementDetail-like class for mocking
-    class Placement:
+    class Placement:  # noqa: B903
         def __init__(self, word: str, coord: tuple[int, int], idx: int, orientation: str) -> None:
             self.word = word
             self.coord = coord
@@ -272,7 +272,7 @@ def test_validate_final_grid() -> None:
     Returns:
         bool: True if the grid is valid, False otherwise.
 
-    """
+    """  # noqa: DOC202
     min_words = 3
 
     # 1.) Enough words placed on the grid, all middle coords used

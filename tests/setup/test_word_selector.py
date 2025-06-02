@@ -47,7 +47,7 @@ def streak_word_set() -> set[str]:
 
     """
     words_streak = "STREAK rat stare arks rate stark ear rest steak east sat " \
-    "take era sear takes erst seat tar est skate tears eta stake teas treks"
+    "take era sear takes erst seat tar est skate tears eta stake teas treks"  # noqa: ISC002
     return set(words_streak.lower().split())
 
 
@@ -238,7 +238,7 @@ def test_find_valid_word_with_subwords_fail(
 @patch("setup.word_selector.clear_screen")
 @patch("setup.word_selector.print_message")
 @patch("setup.word_selector.random.shuffle")
-def test_generate_word_list_success(
+def test_generate_word_list_success(  # noqa: PLR0913, PLR0917
     mock_rnd_shuffle_exact: object,
     mock_print: object,
     mock_clear: object,
@@ -306,7 +306,7 @@ def test_generate_word_list_read_fail(
 @patch("setup.word_selector.clear_screen")
 @patch("setup.word_selector.print_message")
 @patch("setup.word_selector.random.shuffle")
-def test_generate_word_list_find_fail(
+def test_generate_word_list_find_fail(  # noqa: PLR0913, PLR0917
     mock_rnd_shuffle: object,
     mock_print: object,
     mock_clear: object,

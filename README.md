@@ -12,21 +12,21 @@
 
 * [What is Worderly?](#what-is-worderly)
 * [User Manual](#user-manual)
-	* [Installing Dependencies](#installing-dependencies)
+    * [Installing Dependencies](#installing-dependencies)
     * [Running the Game](#running-the-game)
     * [Gameplay Basics](#gameplay-basics)
     * [Game Modes](#game-modes)
-	    * [No Heart Points](#no-heart-points)
-	    * [Heart Points](#heart-points)
+        * [No Heart Points](#no-heart-points)
+        * [Heart Points](#heart-points)
     * [Controls](#controls)
     * [Difficulty Level & Board Sizes](#difficulty)
     * [Wizards and Powerups](#wizards-and-powerups)
-	    * [Combos and Powerups](#combos-and-pps)
-	    * [Meet the Wizards](#combos-and-pps)
-	* [Leaderboards](#leaderboards) 
+        * [Combos and Powerups](#combos-and-pps)
+        * [Meet the Wizards](#combos-and-pps)
+    * [Leaderboards](#leaderboards) 
 * [Code Documentation](#code-documentation)
-    * [Documentation with Sphynx](#documentation-with-sphynx)
-    * [How to Document with Sphynx](#how-to-document-with-sphynx)
+    * [Documentation with Sphinx](#documentation-with-sphinx)
+    * [How to Document with Sphinx](#how-to-document-with-sphinx)
 * [Unit Tests](#unit-tests)
     * [Running Tests](#running-tests)
     * [Test Structure and Thoroughness](#test-structure-and-thoroughness)
@@ -286,9 +286,9 @@ See how your wizarding consistency stacks up! The Winning Streak Leaderboard tra
 <a id="code-documentation"></a>
 ## 👨‍💻 Code Documentation
 
-**The project is automatically documented with Sphynx.**
+**The project is automatically documented with Sphinx.**
 
-<a id="documentation-with-sphynx"></a>
+<a id="documentation-with-sphinx"></a>
 ## 🔍 Generating and Viewing the Documentation
 To generate and view the HTML documentation locally:
 
@@ -298,11 +298,7 @@ cd docs
 make html
 ```
 
-2. Open the documentation in your browser. After building, open the generated HTML file located at:
-
-```
-docs/build/html/index.html
-```
+2. Open the documentation in your browser. After building, open the generated HTML file located at ```docs/build/html/index.html```:
 
 3. You can open it by:
 * Double-clicking the index.html file in your file explorer, or
@@ -313,9 +309,9 @@ open build/html/index.html       # macOS
 start build\html\index.html      # Windows PowerShell
 ```
 
-<a id="how-to-document-with-sphynx"></a>
-## 📃 How to Document with Sphynx
-**Reference: [Official Sphynx Documentation](https://www.sphinx-doc.org/en/master/tutorial/getting-started.html)**
+<a id="how-to-document-with-sphinx"></a>
+## 📃 How to Document with Sphinx
+**Reference: [Official Sphinx Documentation](https://www.sphinx-doc.org/en/master/tutorial/getting-started.html)**
 
 First, ensure you have installed all dependencies from `requirements.txt` (which includes `pytest`):
     
@@ -398,10 +394,10 @@ Unit tests are included in the `tests/` directory to help ensure the correctness
 ### 🏗️ Test Structure and Thoroughness
 
 -   **Structure:** Tests are organized within the `tests/` directory, *mirroring the main project structure*
-	- Each module file of the program begins with `test_`, followed by the module's name.
-		- For example:  `tests/test_setup/`, `tests/test_gameplay/`
-	- The same is true witih functions, each function from the core program files begin with `test_`, followed by the function name, and what the unit test does.
-		- For example: `def check_game_over` and `def test_check_game_over_win`
+    - Each module file of the program begins with `test_`, followed by the module's name.
+        - For example:  `tests/test_setup/`, `tests/test_gameplay/`
+    - The same is true witih functions, each function from the core program files begin with `test_`, followed by the function name, and what the unit test does.
+        - For example: `def check_game_over` and `def test_check_game_over_win`
 -   **Coverage:** Reasonably thorough tests would aim to cover:
     -   **`setup`:** Grid generation rules, coordinate calculations, word selection logic, file reading. As well as Menu navigation logic, input validation (where applicable without testing direct 
     -   **`gameplay`:** State updates, guess processing outcomes, game over conditions, powerup logic.
@@ -409,11 +405,11 @@ Unit tests are included in the `tests/` directory to help ensure the correctness
     -   **`display`/`menus`:** terminal output/input capture).
     -   **Edge Cases:** Empty inputs, invalid inputs, restrictive settings, boundary conditions.
 -   **Mocking:** Testing involves mocking external dependencies and interactions.
-	- This includes:
-		- File system access for the leaderboard,
-		- `getkey` for menu input,
-		- Aspects of `rich` display output
-	-	Python's built-in `unittest.mock` library, integrated via the `pytest-mock` plugin is utilized.
+    - This includes:
+        - File system access for the leaderboard,
+        - `getkey` for menu input,
+        - Aspects of `rich` display output
+    -	Python's built-in `unittest.mock` library, integrated via the `pytest-mock` plugin is utilized.
 <a id="adding-new-tests"></a>
 ### ➕ Adding New Tests
 
@@ -430,11 +426,11 @@ Unit tests are included in the `tests/` directory to help ensure the correctness
 ## 🎓 External References
 **Sprite Work and ASCII Implementation**
 -   **Full credit to the [Official Terraria Wiki](https://terraria.wiki.gg/) for the wizard spritework!** *Ah, the game of our childhood 🙂🌲*
-	-   Oldspella: [Vortex armor](https://terraria.wiki.gg/wiki/Vortex_armor)
-	-   Wizard Dict: [Nebula armor](https://terraria.wiki.gg/wiki/Nebula_armor)
-	- Streambinder: [Stardust armor](https://terraria.wiki.gg/wiki/Stardust_armor)
-	-   Fyaspella: [Solar Flare armor](https://terraria.wiki.gg/wiki/Solar_Flare_armor)
-	-   Lettraseeker: [Chlorophyte armor](https://terraria.wiki.gg/wiki/Chlorophyte_armor)
+    -   Oldspella: [Vortex armor](https://terraria.wiki.gg/wiki/Vortex_armor)
+    -   Wizard Dict: [Nebula armor](https://terraria.wiki.gg/wiki/Nebula_armor)
+    - Streambinder: [Stardust armor](https://terraria.wiki.gg/wiki/Stardust_armor)
+    -   Fyaspella: [Solar Flare armor](https://terraria.wiki.gg/wiki/Solar_Flare_armor)
+    -   Lettraseeker: [Chlorophyte armor](https://terraria.wiki.gg/wiki/Chlorophyte_armor)
 - Generating ASCII art: [Text to ASCII: The best ASCII Art Generator & Maker](https://www.asciiart.eu/text-to-ascii-art)
 
 

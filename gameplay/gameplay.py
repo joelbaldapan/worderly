@@ -214,7 +214,7 @@ def run_game(
 
     while game_over_status == "continue":
         update_display(game_config, game_st)
-        print(game_config.words_to_find.keys())
+
         guess = get_guess(game_config, game_st)
 
         if guess == game_constants.POWERUP_COMMAND:

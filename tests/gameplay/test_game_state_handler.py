@@ -576,7 +576,7 @@ def test_check_game_over(
 
     """
 
-    class DummyStats:
+    class DummyStats:  # noqa: B903
         def __init__(self, lives_left: int) -> None:
             self.lives_left = lives_left
 

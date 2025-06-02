@@ -198,7 +198,6 @@ def _run_game_session(
         name_to_pass_to_init: str | None = (
             CURRENT_SESSION_STREAK.player_name
             if (CURRENT_SESSION_STREAK.count > 0 and CURRENT_SESSION_STREAK.player_name)
-            or (not is_hp_mode_session and CURRENT_SESSION_STREAK.player_name)
             else None
         )
 

@@ -114,7 +114,7 @@ def sample_words_to_find() -> dict[str, list[tuple[int, int]]]:
 
 
 class DummyGameConfig:
-    def __init__(
+    def __init__(  # noqa: ANN204, PLR0913, PLR0917
         self,
         difficulty_conf: object,
         selected_wizard: object,
@@ -172,7 +172,7 @@ PATCH_UPDATE_END_DISPLAY = "gameplay.gameplay.end_game"
 @patch(PATCH_PRINT_GRID)
 @patch(PATCH_PRINT_STATS)
 @patch(PATCH_PRINT_MSG)
-def test_update_display(
+def test_update_display(  # noqa: PLR0913, PLR0917
     mock_print_msg: MagicMock,
     mock_print_stats: MagicMock,
     mock_print_grid: MagicMock,
@@ -199,7 +199,7 @@ def test_update_display(
 @patch(PATCH_LOAD_LB)
 @patch(PATCH_PRINT_LB)
 @patch(PATCH_PRINT_MSG)
-def test_update_end_game_display(
+def test_update_end_game_display(  # noqa: PLR0913, PLR0917
     mock_print_msg: MagicMock,
     mock_print_lb: MagicMock,
     mock_load_lb: MagicMock,
@@ -364,7 +364,7 @@ def test_get_guess_powerup_command_invalid_points(
 @patch(PATCH_CHECK_GO)
 @patch(PATCH_UPDATE_GO_DISPLAY)
 @patch(PATCH_UPDATE_END_DISPLAY)
-def test_run_game_win_hp_mode(
+def test_run_game_win_hp_mode(  # noqa: PLR0913, PLR0917
     mock_end_disp: MagicMock,
     mock_go_disp: MagicMock,
     mock_check_go: MagicMock,
@@ -433,7 +433,7 @@ def test_run_game_win_hp_mode(
 @patch(PATCH_CHECK_GO)
 @patch(PATCH_UPDATE_GO_DISPLAY)
 @patch(PATCH_UPDATE_END_DISPLAY)
-def test_run_game_loss_no_hp_mode(
+def test_run_game_loss_no_hp_mode(  # noqa: PLR0913, PLR0917
     mock_end_disp: MagicMock,
     mock_go_disp: MagicMock,
     mock_check_go: MagicMock,
@@ -499,7 +499,7 @@ def test_run_game_loss_no_hp_mode(
 @patch(PATCH_CHECK_GO)
 @patch(PATCH_UPDATE_GO_DISPLAY)
 @patch(PATCH_UPDATE_END_DISPLAY)
-def test_run_game_uses_powerup(
+def test_run_game_uses_powerup(  # noqa: PLR0913, PLR0917
     mock_end_disp: MagicMock,
     mock_go_disp: MagicMock,
     mock_check_go: MagicMock,
