@@ -26,6 +26,37 @@ from leaderboard.streak_handler import StreakEntry
 DEFAULT_BORDER_STYLE = "bright_cyan"
 
 
+def get_input(settings: DifficultyData | None, prompt_message: str = "Enter Guess") -> str:
+    """Get user input using either rich or basic input based on settings."""
+    if not settings or settings.heart_point_mode:
+        return rich_get_input(prompt_message)
+    else:
+        return basic_get_input(prompt_message)
+
+
+def print_streak_leaderboard(settings: DifficultyData | None, streaks: list[StreakEntry]) -> None:
+    """Displays the winning streak leaderboard using rich or basic formatting.
+    If settings are not provided (e.g. viewing from main menu before game mode select),
+    or if heart_point_mode is True, it defaults to the rich display.
+    """
+    if not settings or settings.heart_point_mode:
+        rich_print_streak_leaderboard(streaks)
+    else:
+        basic_print_streak_leaderboard(streaks)
+
+
+def display_wizard_selection(
+    settings: DifficultyData | None,
+    wizard: WizardData,
+    wizard_index: int,
+) -> None:
+    """Display wizard selection using either rich or basic formatting based on settings."""
+    if not settings or settings.heart_point_mode:
+        rich_display_wizard_selection(settings, wizard, wizard_index)
+    else:
+        basic_display_wizard_selection(settings, wizard, wizard_index)
+
+
 def print_grid(  # noqa: PLR0913, PLR0917
     settings: DifficultyData | None,
     grid: list[list[str | None]] | None,
@@ -101,37 +132,6 @@ def print_message(  # noqa: PLR0913, PLR0917
         )
     else:
         basic_print_message(message)
-
-
-def get_input(settings: DifficultyData | None, prompt_message: str = "Enter Guess") -> str:
-    """Get user input using either rich or basic input based on settings."""
-    if not settings or settings.heart_point_mode:
-        return rich_get_input(prompt_message)
-    else:
-        return basic_get_input(prompt_message)
-
-
-def print_streak_leaderboard(settings: DifficultyData | None, streaks: list[StreakEntry]) -> None:
-    """Displays the winning streak leaderboard using rich or basic formatting.
-    If settings are not provided (e.g. viewing from main menu before game mode select),
-    or if heart_point_mode is True, it defaults to the rich display.
-    """
-    if not settings or settings.heart_point_mode:
-        rich_print_streak_leaderboard(streaks)
-    else:
-        basic_print_streak_leaderboard(streaks)
-
-
-def display_wizard_selection(
-    settings: DifficultyData | None,
-    wizard: WizardData,
-    wizard_index: int,
-) -> None:
-    """Display wizard selection using either rich or basic formatting based on settings."""
-    if not settings or settings.heart_point_mode:
-        rich_display_wizard_selection(settings, wizard, wizard_index)
-    else:
-        basic_display_wizard_selection(settings, wizard, wizard_index)
 
 
 def display_wizard_art(settings: DifficultyData | None, wizard: WizardData) -> None:

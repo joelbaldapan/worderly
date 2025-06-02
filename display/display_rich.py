@@ -55,78 +55,6 @@ def _get_num_cols(grid: list[list[str | None]]) -> int:
         return 0
 
 
-def _get_styled_row_items(  # noqa: PLR0913, PLR0917
-    row_idx: int,
-    row_data: list[str | None],
-    num_cols: int,
-    highlighted_coords: set[tuple[int, int]] | list[tuple[int, int]],
-    highlight_color: str,
-    letters_color: str,
-    hidden_color: str,
-) -> list[Text]:
-    styled_row_items: list[Text] = []
-    for col_idx in range(num_cols):
-        content = "."
-        current_style = "dim"
-        cell_value = None
-        if row_data and col_idx < len(row_data):
-            cell_value = row_data[col_idx]
-
-        if cell_value is not None:
-            content = cell_value
-            coord = (row_idx, col_idx)
-            if coord in highlighted_coords:
-                current_style = f"bold {highlight_color}"
-            elif cell_value == "#":
-                current_style = f"dim {hidden_color}"
-            else:
-                current_style = f"bold {letters_color}"
-
-        separator = " " if col_idx < num_cols - 1 else ""
-        styled_row_items.append(Text(content + separator, style=current_style))
-    return styled_row_items
-
-
-def rich_print_grid(  # noqa: PLR0913, PLR0917
-    grid: list[list[str | None]] | None,
-    highlighted_coords: set[tuple[int, int]] | list[tuple[int, int]],
-    highlight_color: str,
-    letters_color: str,
-    hidden_color: str,
-    title: str,
-    border_style: str,
-) -> None:
-    """Print the game grid using Rich library for prettier formatting."""
-    if not grid or not any(grid):
-        _print_empty_grid_message(grid, title)
-        return
-
-    table = Table(show_header=False, box=None, padding=(0, 0))
-    num_cols = _get_num_cols(grid)
-
-    if num_cols == 0:
-        _print_no_columns_message(grid, title)
-        return
-
-    for _ in range(num_cols):
-        table.add_column(justify="left", no_wrap=True)
-
-    for row_idx, row_data in enumerate(grid):
-        styled_row_items = _get_styled_row_items(
-            row_idx,
-            row_data,
-            num_cols,
-            highlighted_coords,
-            highlight_color,
-            letters_color,
-            hidden_color,
-        )
-        table.add_row(*styled_row_items)
-
-    grid_panel = Panel(table, title=title, border_style=border_style, expand=False)
-    console.print(grid_panel)
-
-
 def _append_combo_stats(statistics: GameStatisticsData, selected_wizard: WizardData, powerup_parts: list[Any]) -> None:
     """Append combo meter Text and Progress bar to the powerup_parts list."""
     wizard_color = selected_wizard.color
@@ -158,7 +86,11 @@ def _append_combo_stats(statistics: GameStatisticsData, selected_wizard: WizardD
 
 
 def _make_wizard_panel(
-    selected_wizard: WizardData, game_st: GameStateData, border_style: str, wizard_panel_width: int, panels_height: int,
+    selected_wizard: WizardData,
+    game_st: GameStateData,
+    border_style: str,
+    wizard_panel_width: int,
+    panels_height: int,
 ) -> Panel:
     wizard_color = selected_wizard.color
     small_wizard_art = selected_wizard.small_art.strip("\n")
@@ -179,7 +111,10 @@ def _make_wizard_panel(
 
 
 def _make_player_stats_panel(
-    statistics: GameStatisticsData, border_style: str, stats_panel_width: int, stats_height: int,
+    statistics: GameStatisticsData,
+    border_style: str,
+    stats_panel_width: int,
+    stats_height: int,
 ) -> Panel:
     player_stats_content = Text.assemble(
         ("Letters:    ", "bold cyan"),
@@ -257,12 +192,88 @@ def rich_print_statistics(
     wizard_panel = _make_wizard_panel(selected_wizard, game_st, border_style, wizard_panel_width, panels_height)
     player_stats_panel = _make_player_stats_panel(statistics, border_style, stats_panel_width, stats_height)
     powerup_stats_panel = _make_powerup_stats_panel(
-        statistics, selected_wizard, border_style, stats_panel_width, powerup_stats_height,
+        statistics,
+        selected_wizard,
+        border_style,
+        stats_panel_width,
+        powerup_stats_height,
     )
 
     stats_group = Group(player_stats_panel, powerup_stats_panel)
     full_panel = Columns([wizard_panel, stats_group], expand=False, equal=False)
     console.print(full_panel)
+
+
+def _get_styled_row_items(  # noqa: PLR0913, PLR0917
+    row_idx: int,
+    row_data: list[str | None],
+    num_cols: int,
+    highlighted_coords: set[tuple[int, int]] | list[tuple[int, int]],
+    highlight_color: str,
+    letters_color: str,
+    hidden_color: str,
+) -> list[Text]:
+    styled_row_items: list[Text] = []
+    for col_idx in range(num_cols):
+        content = "."
+        current_style = "dim"
+        cell_value = None
+        if row_data and col_idx < len(row_data):
+            cell_value = row_data[col_idx]
+
+        if cell_value is not None:
+            content = cell_value
+            coord = (row_idx, col_idx)
+            if coord in highlighted_coords:
+                current_style = f"bold {highlight_color}"
+            elif cell_value == "#":
+                current_style = f"dim {hidden_color}"
+            else:
+                current_style = f"bold {letters_color}"
+
+        separator = " " if col_idx < num_cols - 1 else ""
+        styled_row_items.append(Text(content + separator, style=current_style))
+    return styled_row_items
+
+
+def rich_print_grid(  # noqa: PLR0913, PLR0917
+    grid: list[list[str | None]] | None,
+    highlighted_coords: set[tuple[int, int]] | list[tuple[int, int]],
+    highlight_color: str,
+    letters_color: str,
+    hidden_color: str,
+    title: str,
+    border_style: str,
+) -> None:
+    """Print the game grid using Rich library for prettier formatting."""
+    if not grid or not any(grid):
+        _print_empty_grid_message(grid, title)
+        return
+
+    table = Table(show_header=False, box=None, padding=(0, 0))
+    num_cols = _get_num_cols(grid)
+
+    if num_cols == 0:
+        _print_no_columns_message(grid, title)
+        return
+
+    for _ in range(num_cols):
+        table.add_column(justify="left", no_wrap=True)
+
+    for row_idx, row_data in enumerate(grid):
+        styled_row_items = _get_styled_row_items(
+            row_idx,
+            row_data,
+            num_cols,
+            highlighted_coords,
+            highlight_color,
+            letters_color,
+            hidden_color,
+        )
+        table.add_row(*styled_row_items)
+
+    grid_panel = Panel(table, title=title, border_style=border_style, expand=False)
+    console.print(grid_panel)
 
 
 def rich_print_message(  # noqa: PLR0913
