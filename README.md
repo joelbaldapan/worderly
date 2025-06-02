@@ -24,14 +24,9 @@
 	    * [Combos and Powerups](#combos-and-pps)
 	    * [Meet the Wizards](#combos-and-pps)
 	* [Leaderboards](#leaderboards) 
-* [Code Organization and Implementation](#code-organization-and-implementation)
-    * [Project Structure](#project-structure)
-    * [Data Configuration](#data-configuration)
-    * [Core Game Systems](#core-game-systems)
-	    * [Setup System](#setup-system)
-	    * [Gameplay System](#gameplay-system)
-	    * [Display System](#display-system)
-    * [Leaderboard System](#leaderboard-system)
+* [Code Documentation](#code-documentation)
+    * [Documentation with Sphynx](#documentation-with-sphynx)
+    * [How to Document with Sphynx](#how-to-document-with-sphynx)
 * [Unit Tests](#unit-tests)
     * [Running Tests](#running-tests)
     * [Test Structure and Thoroughness](#test-structure-and-thoroughness)
@@ -120,6 +115,7 @@ Upon starting, you'll be asked to choose a mode:
 - **The classic Worderly experience.**
 - You play with default lives (5) and no special wizard powers or high scores.
 - The display uses basic text. 
+- Includes a leaderboard for winning streaks.
 - This fulfills bare minimum assignment requirements.
 
 <p align="center">
@@ -133,9 +129,7 @@ Upon starting, you'll be asked to choose a mode:
 - **📚 Difficulty Levels:** You can choose among various difficulty levels, which determines the grid size, word counts, and maximum word length.
 -  **🧙 Choose a Wizard:** Select one of several wizards, each with unique starting lives, abilities (powerups), and ways to earn power points.
 -   **⚡ Powerups:** Use special abilities by earning and spending Power Points.
--   **🏆 Leaderboards:** Your final score is saved, and you can view the high scores.
 -   **🎨 Enhanced Visuals:** Uses the `rich` library for colorful, formatted output with panels, tables, and progress bars.
--  **🔄 Game Restart:** After a game ends, you're automatically taken back to the main menu without having to restart the program.
 
 <p align="center">
 <img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/heartpoints_youwin.png?raw=true" width="75%">
@@ -269,16 +263,18 @@ Here are the wizards available in Worderly Place and their unique attributes:
 💡 **The wizard selection screen shows details on their starting lives, combo requirements and descriptions!**
 
 <a id="leaderboards"></a>
-### 🏆 Leaderboards
+### 🏆 Winning Streak Leaderboard
 
-Want to see how your wizarding word skills stack up? The Leaderboard tracks the mightiest scores achieved in Worderly Place!
+See how your wizarding consistency stacks up! The Winning Streak Leaderboard tracks the longest chains of consecutive game victories achieved in Worderly Place.
 
-* **Exclusive to Heart Points Mode:** The leaderboard feature is only active when you play the **💖 Heart Points** mode. Your scores from "No Heart Points" mode are not recorded.
-* **Automatic Score Saving:** When you finish a game in Heart Points mode, your final score (earned by revealing letters) and the player name you entered are automatically saved to the high score list.
-* **Viewing the Top 10:** You can check the current high scores in two ways:
-    1.  Select the **"Check Leaderboards"** option from the main menu in Heart Points mode.
-    2.  The leaderboard will also typically be displayed automatically right after you finish a game and before you return to the main menu.
-* **What's Shown:** The leaderboard displays the **Top 10 highest scores** achieved so far. It shows each player's Rank (from 1st to 10th), their Name, and their Score, sorted from highest to lowest.
+* **Active in All Modes:** The winning streak leaderboard is active when you play with a named player in both **💖 Heart Points Mode** and **🔴 No Heart Points Mode**.
+    * In Heart Points mode, you provide a name, which is reused if your streak continues.
+    * In No Heart Points mode, you are asked for a name once at the beginning of your session, and this name is used for tracking your streaks during that session.
+* **Automatic Streak Saving:** When a winning streak ends (e.g., due to a loss, or by exiting Heart Points mode while on a streak, or if the game is interrupted via Ctrl+C with an active streak), your player name, the number of consecutive wins (Streak Count), and the total points accumulated *during that specific streak* are automatically recorded.
+* **Viewing the Top Streaks:** You can check the current top streaks in two ways:
+    1.  Select the **"Check Leaderboards"** option from the main menu (when in Heart Points mode).
+    2.  The leaderboard is also displayed automatically after *every* game finishes (in both HP and NHP modes), before you proceed to the next action (main menu for HP, next puzzle for NHP).
+* **What's Shown:** The leaderboard displays the **Top 10 winning streaks** achieved so far. It shows each player's Rank, their Name, their Streak Count, and the Total Points earned during that streak. Entries are sorted primarily by the longest streak in descending order, and secondarily by the highest total points in streak for any ties.
 
 <p align="center">
 <img src="https://github.com/joelbaldapan/worderly/blob/main/documentation_images/leaderboard_sample2.png?raw=true" width="75%">
@@ -287,246 +283,83 @@ Want to see how your wizarding word skills stack up? The Leaderboard tracks the 
 **Challenge yourself to climb the ranks and become a legendary Wizard of Worderly Place!**
 
 
-<a id="code-organization-and-implementation"></a>
-## 👨‍💻 Code Organization and Implementation
+<a id="code-documentation"></a>
+## 👨‍💻 Code Documentation
 
-The project is structured into several directories and files to promote modularity and separation of concerns.
-**These are the program's files and directories.**
+**The project is automatically documented with Sphynx.**
+
+<a id="documentation-with-sphynx"></a>
+## 🔍 Generating and Viewing the Documentation
+To generate and view the HTML documentation locally:
+
+1. Build the docs. From the root of the project, run:
 ```
-.
-├── README.md
-├── corncob-lowercase.txt
-├── gameplay
-├── documentation_images
-│   └── ...
-├── data
-│   ├── settings_details.py
-│   └── wizards_details.py
-├── display
-│   ├── display.py
-│   ├── display_basic.py
-│   ├── display_rich.py
-│   ├── display_utils.py
-│   └── menus.py
-├── gameplay
-│   ├── game_constants.py
-│   ├── game_state_handler.py
-│   ├── gameplay.py
-│   └── powerup_handler.py
-├── leaderboard
-│   ├── leaderboard.py
-│   └── leaderboards.txt
-├── requirements.txt
-├── setup
-│   ├── grid_generator.py
-│   └── word_selector.py
-├── tests
-│   └── ... (to be discussed later)
-└── worderly.py
+cd docs
+make html
 ```
-<a id="project-structure"></a>
-### 📂 Project Structure
-The project is organized with the following directory structure to keep the code modular and maintainable:
 
-* **`data/`**: Holds static game data and configuration, separating it from executable code.
-    * `settings_details.py`: Defines parameters (grid size, word counts, etc.) used by different difficulty levels and game modes.
-    * `wizards_details.py`: Stores detailed information for each playable wizard, including their ASCII art, stats, powerup specifics, and descriptive text.
-    * `__init__.py`: Marks this directory as a Python package.
+2. Open the documentation in your browser. After building, open the generated HTML file located at:
 
-* **`display/`**: Manages all aspects of the user interface, including rendering output to the terminal and handling interactive menus.
-    * `display_basic.py`: Implements simple, unstyled text-based output functions (e.g., basic grid print).
-    * `display_rich.py`: Implements enhanced UI functions using the `rich` library for colorful, formatted output (panels, tables, etc.).
-    * `display.py`: Acts as the main controller of both display, selecting whether to use `basic` or `rich` display functions based on game settings. (Heart Point Mode vs. No Heart Point Mode)
-    * `display_utils.py`: Provides utility functions for the display, such as `clear_screen()`.
-    * `__init__.py`: Marks this directory as a Python package.
+```
+docs/build/html/index.html
+```
 
-* **`gameplay/`**: Contains the core logic for the interactive game loop, game rules, and state management.
-    * `gameplay.py`: Keeps the flow in the main game loop turn by turn, integrating display, input, processing, and game-over checks.
-    * `game_constants.py`: Centralizes constant values used during gameplay, like messages, commands (`!p`), and default parameters.
-    * `game_state_handler.py`: Manages the dynamic state of the game during play (lives, points, hidden grid status, found words/letters) and includes logic for processing guesses and revealing parts of the grid.
-    * `powerup_handler.py`: Implements the specific logic for wizard powerups, including how Power Points are earned and the effects of activating different abilities.
-    * `__init__.py`: Marks this directory as a Python package.
+3. You can open it by:
+* Double-clicking the index.html file in your file explorer, or
+* Running this command in the terminal:
+```
+xdg-open build/html/index.html  # Linux
+open build/html/index.html       # macOS
+start build\html\index.html      # Windows PowerShell
+```
 
-* **`leaderboard/`**: Handles the persistent high score system.
-    * `leaderboard.py`: Contains functions for reading score data from the `leaderboards.txt` file, parsing/sorting scores, and writing new scores back to the file, including error handling.
-    * `leaderboards.txt`: (Generated) The plain text file where high scores are stored, typically one `name|score` entry per line. Created when the first score is saved.
-    * `__init__.py`: Marks this directory as a Python package.
+<a id="how-to-document-with-sphynx"></a>
+## 📃 How to Document with Sphynx
+**Reference: [Official Sphynx Documentation](https://www.sphinx-doc.org/en/master/tutorial/getting-started.html)**
 
-* **`setup/`**: Responsible for the initial, pre-game process of asking for user data, generating the puzzle grid and word list.
-	*    `menus.py`: Contains the logic for interactive menus (main menu, difficulty selection, wizard selection, name input) using the `getkey` library for arrow key input.
-    * `word_selector.py`: Contains functions to read the specified lexicon file, filter the words based on game settings, select a suitable "middle word", and find its valid subwords/anagrams.
-    * `grid_generator.py`: Implements the complex algorithm that takes the selected words and attempts to place them onto the 2D grid according to specific rules (diagonal middle word, intersections, bounds checking, adjacency constraints, etc.) with retry logic.
-    * `__init__.py`: Marks this directory as a Python package.
+First, ensure you have installed all dependencies from `requirements.txt` (which includes `pytest`):
+    
+    ```
+    pip install -r requirements.txt
+    ```
 
-* **`tests/`**: Contains unit tests using the `pytest` framework to verify the functionality and correctness of the different modules. *To be discussed later in the documentation: [Unit Tests](#unit-tests).*
+From the command line, run the following command:
+`sphinx-quickstart docs`
+This will present to you a series of questions required to create the basic directory and configuration layout for your project inside the docs folder. To proceed, answer each question as follows:
 
-**`documentation_images/`**: Contains the pictures for the GitHub repository.
+* Separate source and build directories (y/n) [n]: Write `y` and press Enter.
+* Project name: Write `Your Project Name` and press Enter.
+* Author name(s): Write `Your Author Name` and press Enter.
+* Project release []: Write `Version` and press Enter.
+* Project language [en]: Write `Your Language` or leave it empty (the default, English) and press Enter.
 
-* **`corncob-lowercase.txt`**: An example **lexicon file**. This plain text file provides the dictionary of valid words (one per line, typically lowercase) used by the `setup` modules to create the word puzzles.
-* **`README.md`**: This documentation file, explaining the project.
-* **`requirements.txt`**: Lists the external Python packages (e.g., `rich`, `getkey`, `pytest`) needed for the project. Install using `pip install -r requirements.txt`.
-* **`worderly.py`**: The main **entry point script**. Running `python worderly.py <lexicon_file>` starts the game. It handles command-line arguments and calls functions from the other modules.
+After the last question, you will see the new docs directory with the following content.
+```
+docs
+├── build
+├── make.bat
+├── Makefile
+└── source
+   ├── conf.py
+   ├── index.rst
+   ├── _static
+   └── _templates
+```
+The purpose of each of these files is:
 
+* `build/`: An empty directory (for now) that will hold the rendered documentation.
+* `make.bat` and `Makefile`: Convenience scripts to simplify some common Sphinx operations, such as rendering the content.
+* `source/conf.py`: A Python script holding the configuration of the Sphinx project. It contains the project name and release you specified to sphinx-quickstart, as well as some extra configuration keys.
+* `source/index.rst`: The root document of the project, which serves as welcome page and contains the root of the “table of contents tree” (or toctree).
 
-<a id="data-configuration"></a>
-### 📊 Data Configuration
+Thanks to this bootstrapping step, you already have everything needed to render the documentation as HTML for the first time. To do that, run this command:
 
-This **`data/`** directory centralizes static data used to configure game modes, difficulties, and characters, making it easier to adjust parameters without digging deep into the core logic files.
+`sphinx-build -M html docs/source/ docs/build/`
 
-* **Game Settings (`settings_details.py`)**:
-    * **Purpose:** Defines the specific parameters associated with different game difficulties and modes. This allows for easy tweaking of game balance and features.
-    * **Contents:** Contains Python dictionaries (like `HEART_POINTS_SETTINGS` and `NO_HEART_POINTS_SETTINGS`). These dictionaries map difficulty names (e.g., "Simple Scroll", "Spellbook") or mode identifiers to nested dictionaries containing key game settings such as:
-        * `grid`: Specifies the `height` and `width` of the game board.
-        * `words_on_board_needed`: Defines the `minimum` and `maximum` number of words required to be successfully placed on the grid during setup.
-        * `max_word_length`: Sets the exact length requirement for the "middle word" and the upper limit for subwords.
-        * `min_subword_length`: Sets the minimum length allowed for subwords during word selection.
-        * `heart_point_mode` (in `NO_HEART_POINTS_SETTINGS`): A boolean flag indicating the game mode.
-
-* **Wizards Settings (`wizards_details.py`):**
-    * **Purpose:** Stores all the detailed information and flavor text for each playable wizard character available in the "Heart Points" mode.
-    * **Contents:** Primarily contains a list (`WIZARDS_DATA`) where each element is a dictionary representing a single wizard. Each wizard's dictionary includes keys such as:
-        * `name`: The wizard's display name (e.g., "Oldspella").
-        * `art`: A multi-line string containing the large ASCII art for the wizard selection screen.
-        * `small_art`: A smaller multi-line ASCII art string used in the gameplay statistics panel.
-        * `color`: The `rich` library color string associated with the wizard (used for styling UI elements).
-        * `starting_lives`: The number of lives the wizard begins the game with.
-        * `combo_requirement`: The number of consecutive correct guesses needed to earn 1 Power Point (can be `None` if the wizard doesn't use combos).
-        * `powerup_name`: The thematic name of the wizard's special ability.
-        * `powerup_desc`: A short description of what the powerup does.
-        * `description`: Longer flavor text describing the wizard's background and personality, shown during character selection.
-
-
-<a id="core-game-systems"></a>
-### 🧩 Core Game Systems
-
-Coinciding with their respective directories as shown in the previous section, the program has four core systems:
-1.  🛠️ Setup System (`setup/`)
-2.  🎮 Gameplay System (`gameplay/`)
-3.  🎨 Display System (`display/`)
-4.  🏆 Leaderboard System (`leaderboard/`)
-
-<a id="setup-system"></a>
-#### 🛠️ Setup System
-
-The game setup, main controlled
- by `worderly.py` using modules in the `setup/` directory, involves several phases before gameplay begins. It includes built-in retries for the word/grid generation parts:
-
-1.  **Menu Handling (`menus.py`):** The process starts with interactive menus that prompt the user for initial choices:
-    * **Game Mode:** Heart Points & No Heart Points.
-    * **Difficulty Level:** Sets up the board size, words on the board, and maximum letter length.
-    * **Wizard Character:** Sets up the wizard art, starting lives, and powerups.
-    * **Player Name:** Sets up the player name for the leaderboards.
-    * This phase gathers the necessary `settings` dictionary that dictates how the rest of the setup and the subsequent gameplay will function.
-
-2.  **Word Selection (`word_selector.py`):** Based on the settings gathered from the menus:
-    * **Reads Lexicon File:** Gets the contents of the lexicon file specified via command-line argument.
-    * **Filter Words:** Filters words from the lexicon based on the length constraints defined in the chosen difficulty settings.
-    * **Find Valid Middle Word:** Searches for a "middle word" (of the maximum allowed length for the difficulty) that has a sufficient number of shorter subwords/anagrams also present in the lexicon. The minimum number of required subwords is also derived from the settings.
-    * **Get Subwords:** Uses `itertools.permutations` to find all potential subwords.
-    * **Final Return/Invalid Attempt:** If a suitable middle word and its accompanying subwords list are found, they are passed to the next phase. Otherwise, the setup might retry this phase (up to `MAX_SETUP_RETRIES` times) or ultimately fail.
-
-3.  **Grid Generation (`grid_generator.py`):** Using the selected words and grid dimensions from settings:
-	* **Initialization:** Initializes structures for storing data throughout the whole grid generation.
-		* Creates an empty 2D list representing the grid (`create_empty_grid`).
-		* Sets up the dictionary (`initialize_board_state`) needed for the generation process including:
-			*  Empty dictionaries to track placed words and their coordinates (`placed_words_coords`),
-			* The locations of individual letters (`placed_letter_coords`),
-			* Sets to manage the middle word's coordinate usage.
-    * **Place Middle Word:** Attempts to place the chosen `middle_word` diagonally near the center, with empty cells between its letters. If the word physically cannot fit diagonally on the specified grid size, this grid generation attempt fails. The coordinates for this placement are calculated first (`calculate_middle_word_placement_coords`) and then applied.
-    * **Place Subwords:** Iteratively attempts to place the `subwords` onto the grid (up to `MAX_GRID_SETUP_RETRIES` per `Word Selection` attempt):
-        * **Find Intersection Points:** Finds all possible valid intersection points with letters already placed on the grid.
-        * **Validation:** Each potential placement is rigorously checked using dedicated functions (`is_valid_placement` and its helpers) to ensure it:
-            * Stays entirely within the grid boundaries.
-            * Doesn't run parallel and directly adjacent to another word.
-            * Doesn't run linearly into the start or end of another word.
-            * Matches letters correctly where it intersects existing words.
-            * Doesn't completely overwrite an already placed word.
-            * Adds at least one new letter to the grid (doesn't just trace over existing letters).
-        * **Prioritization:** Placements that intersect with unused letters of the *original* middle word are given priority (`categorize_placement`) to encourage a connected grid.
-	        * A random valid placement (preferring prioritized ones) is chosen (`select_random_placement`).
-        * **Coordinate Calculations for Word Placaement** Once a valid placement is chosen, its coordinates are explicitly calculated (`calculate_straight_word_placement_coords`).
-		* **Storing Coordinates:** These coordinates are then used to update tracking lists and sets (`placed_words_coords`, `placed_letter_coords` via helper functions).
-        * **Update Grid:** Only then is the actual 2D grid list imperatively modified by placing the word's letters at these calculated coordinates (`place_letters_on_grid`). This separates the calculation/planning of coordinates from the final grid state change.
-    * **Invalid Generation Attempts:** This placement loop continues until the maximum allowed number of words for the difficulty setting is reached, or all generated subwords have been attempted.
-    * **Final Validation:** After attempting to place words, the resulting grid is checked one last time (`validate_final_grid`) to ensure it meets the *minimum* required word count for the difficulty and that all letters of the original middle word were successfully used as intersection points (ensuring the middle word isn't isolated).
-    * **Capitalize Middle Word:** If all validations pass, the middle word's letters are capitalized on the grid for emphasis (`capitalize_middle_word_appearance`), and the final grid structure along with the locations of all placed words (`placed_words_coords`) are returned successfully. Otherwise, this grid generation attempt fails, potentially triggering a retry of the entire setup process starting from Word Selection.
-<a id="gameplay-system"></a>
-#### 🎮 Gameplay System 
-
-The main game loop (`gameplay.py`) follows this cycle:
-
-1.  **Initialize:** Set up the initial game state (lives, points, hidden grid, etc.) based on settings and chosen wizard.
-2.  **Display:** Update the terminal display showing the current grid (with hidden/revealed letters), game statistics (lives, points, combo, etc.), wizard info, and the message from the previous turn.
-3.  **Input:** Prompt the player for input (a word guess or the powerup command `!p`). Validate the input (invalid guesses cost 1 life as required).
-4.  **Process:**
-    -   **If Guess:** Check if the guess is correct, incorrect, or already found. Update lives, points, combo meter accordingly. If correct, reveal the word's letters on the grid (`game_state_handler.py`) and check if any other words were implicitly completed by this reveal.
-    -   **If Powerup:** Check if the wizard can use a powerup and has enough power points. Activate the powerup effect (`powerup_handler.py`), which might involve revealing letters/words, gaining lives, or activating a shield. Consume a power point.
-5.  **Update Power Points:** If the turn involved a _guess_ (not a powerup activation) and the wizard has a combo requirement, check if a power point should be awarded (`powerup_handler.py`).
-6.  **Check Game Over:** Determine if the player has won (all words found) or lost (lives <= 0) (`game_state_handler.py`). The game stops accepting input upon detecting a final state.
-7.  **Loop/End:** If the game is not over, repeat from step 2. If the game is over, display the final win/loss screen showing the final grid state, lives, points, and last guess. In Heart Points mode, save the score and show the leaderboard before returning to the main menu or ending.
-
-<a id="display-system"></a>
-#### 🎨 Display System
-
-The game uses a flexible display system (`display/`) capable of rendering in two modes:
-
--   **Basic (`display_basic.py`):** Simple, unstyled text output suitable for any terminal. Fulfills the basic display requirements.
--   **Rich (`display_rich.py`):** Enhanced terminal UI using the `rich` library, featuring colors, formatted panels, tables, progress bars (for combo meter), and better layout. Used in Heart Points mode.
-
-The main module (`display.py`) acts as the one who controls which modes to use.
-* The  `heart_point_mode` setting is checked. Based on this, the corresponding `basic_` or `rich_` implementation is called.
-
-<a id="leaderboard-system"></a>
-#### 🏆 Leaderboard System
-
-The leaderboard (`leaderboard/leaderboard.py`) provides a way to save and load high scores in Heart Points mode:
-
--   **Text File for Storing:** Scores (player name and points) are stored in a simple text file (`leaderboard/leaderboards.txt`).
-	- A delimiter (`|`) separates the name and score on each line.
--  **Save Score:** `save_score` appends a new entry to the file.
--   **Load Leadboard:** `load_leaderboard` reads the file, parses each line carefully (handling potential errors like missing file, bad formatting, non-numeric scores), sorts the scores in descending order, and returns the data for display.
 
 <a id="unit-tests"></a>
 ## 🧪 Unit Tests
 Unit tests are included in the `tests/` directory to help ensure the correctness and robustness of the game's logic. The project appears to use the `pytest` framework.
-
-**These are the program's files and directories.**
-```
-.
-├── README.md
-├── corncob-lowercase.txt
-├── documentation_images
-│   └── ...
-├── data
-│   └── ...
-├── display
-│   └── ...
-├── gameplay
-│   └── ...
-├── leaderboard
-│   └── ...
-├── requirements.txt
-├── setup
-│   └── ...
-├── tests
-│   ├── __init__.py
-│   ├── gameplay
-│   │   ├── __init__.py
-│   │   ├── test_game_state_handler.py
-│   │   ├── test_gameplay.py
-│   │   └── test_powerup_handler.py
-│   ├── leaderboard
-│   │   ├── __init__.py
-│   │   └── test_leaderboard.py
-│   ├── setup
-│   │   ├── __init__.py
-│   │   ├── test_grid_generator_helpers.py
-│   │   ├── test_grid_generator_main.py
-│   │   ├── test_grid_generator_validation.py
-│   │   └── test_word_selector.py
-│   └── test_worderly.py
-└── worderly.py
-```
 
 ### 📁 Unit Test Structure
 * **`tests/`**: Contains unit tests using the `pytest` framework to verify the functionality and correctness of the different modules.
@@ -541,7 +374,7 @@ Unit tests are included in the `tests/` directory to help ensure the correctness
         * `test_leaderboard.py`: Tests score saving, loading, parsing, and sorting.
         * `__init__.py`: Marks directory as a package.
     * **`tests/setup/`**: Contains tests for the setup process.
-        * `test_grid_generator*.py`: Tests various aspects of the grid generation algorithm and validation rules.
+        * `grid_generator/`: Tests various aspects of the grid generation algorithm and validation rules.
         * `test_word_selector.py`: Tests lexicon file reading, word filtering, and subword finding.
         * `__init__.py`: Marks directory as a package.
 
