@@ -14,7 +14,12 @@ from setup.grid_generator.placement_logic import (
 
 @pytest.fixture
 def empty_grid_3x4() -> list[list[None]]:
-    """Create a 3x4 empty grid filled with None."""
+    """Create a 3x4 empty grid filled with None.
+
+    Returns:
+        list[list[None]]: The empty grid.
+
+    """
     # Grid:
     # . . . .
     # . . . .
@@ -28,7 +33,12 @@ def empty_grid_3x4() -> list[list[None]]:
 
 @pytest.fixture
 def sample_grid_5x5() -> list[list[str | None]]:
-    """Create a 5x5 grid with a word placed for testing."""
+    """Create a 5x5 grid with a word placed for testing.
+
+    Returns:
+        list[list[str | None]]: The sample grid.
+
+    """
     grid = board_state.create_empty_grid(5, 5)
     # Place "TEST" horizontally at (1, 1)
     # Grid:
@@ -46,7 +56,12 @@ def sample_grid_5x5() -> list[list[str | None]]:
 
 @pytest.fixture
 def sample_state_data() -> dict:
-    """Create sample data of coordinates used by imperative functions."""
+    """Create sample data of coordinates used by imperative functions.
+
+    Returns:
+        dict: Sample state data.
+
+    """
     # Grid: (EWE is the middle word)
     # E X . . . .
     # . E . . . .
@@ -101,7 +116,12 @@ def testis_within_bounds() -> None:
 
 @pytest.fixture
 def validation_grid() -> list[list[str | None]]:
-    """Provide a grid for validation tests with TEST and SAIL placed."""
+    """Provide a grid for validation tests with TEST and SAIL placed.
+
+    Returns:
+        list[list[str | None]]: The validation grid.
+
+    """
     grid = board_state.create_empty_grid(6, 6)
     # Place "TEST" H at (1,1)
     grid[1][1] = "T"
@@ -126,7 +146,7 @@ def validation_grid() -> list[list[str | None]]:
 def testcheck_parallel_cells(validation_grid: list[list[str | None]]) -> None:
     """Test check_parallel_cells to check parallel neighbors."""
     # PARAMETERS: grid, start_row, start_col, dr, dc
-    # perp_dr, perp_dc = dc, dr
+    # where perp_dr, perp_dc = dc, dr
 
     grid = validation_grid
 
@@ -233,7 +253,11 @@ def testcheck_for_all_letters(validation_grid: list[list[str | None]]) -> None:
     # 1.) Placement intersecting 'E' (place 'ERA' V) conflicts on letter 'R' vs 'E'
     assert (
         placement_rules.check_for_all_letters(
-            grid, "ERA", words_to_place, (0, 2), (1, 0),
+            grid,
+            "ERA",
+            words_to_place,
+            (0, 2),
+            (1, 0),
         )
         is False
     )
@@ -241,7 +265,11 @@ def testcheck_for_all_letters(validation_grid: list[list[str | None]]) -> None:
     # 2.) Conflict with existing letter ('S')
     assert (
         placement_rules.check_for_all_letters(
-            grid, "SET", words_to_place, (1, 2), (0, 1),
+            grid,
+            "SET",
+            words_to_place,
+            (1, 2),
+            (0, 1),
         )
         is False
     )
@@ -249,7 +277,11 @@ def testcheck_for_all_letters(validation_grid: list[list[str | None]]) -> None:
     # 3.) Parallel conflict during placement
     assert (
         placement_rules.check_for_all_letters(
-            grid, "APE", words_to_place, (2, 1), (0, 1),
+            grid,
+            "APE",
+            words_to_place,
+            (2, 1),
+            (0, 1),
         )
         is False
     )
@@ -257,7 +289,11 @@ def testcheck_for_all_letters(validation_grid: list[list[str | None]]) -> None:
     # 4.) Overwriting an existing word (place 'TEST' again)
     assert (
         placement_rules.check_for_all_letters(
-            grid, "TEST", words_to_place, (1, 1), (0, 1),
+            grid,
+            "TEST",
+            words_to_place,
+            (1, 1),
+            (0, 1),
         )
         is False
     )
@@ -265,7 +301,11 @@ def testcheck_for_all_letters(validation_grid: list[list[str | None]]) -> None:
     # 5.) Placing a word where no new letters are added ('AI')
     assert (
         placement_rules.check_for_all_letters(
-            grid, "AI", words_to_place, (2, 3), (1, 0),
+            grid,
+            "AI",
+            words_to_place,
+            (2, 3),
+            (1, 0),
         )
         is False
     )
@@ -283,8 +323,11 @@ def test_is_valid_placement_scenarios(validation_grid: list[list[str | None]]) -
     # Expect False because check_for_all_letters returns False
     assert (
         placement_rules.is_valid_placement(
-            grid, "ERA", words_to_place,
-            {"row": 1, "col": 2, "idx": 0}, "V",
+            grid,
+            "ERA",
+            words_to_place,
+            {"row": 1, "col": 2, "idx": 0},
+            "V",
         )
         is False
     )
@@ -293,8 +336,11 @@ def test_is_valid_placement_scenarios(validation_grid: list[list[str | None]]) -
     # Expect False because Out of Bounds
     assert (
         placement_rules.is_valid_placement(
-            grid, "ASK", words_to_place,
-            {"row": 2, "col": 3, "idx": 0}, "H",
+            grid,
+            "ASK",
+            words_to_place,
+            {"row": 2, "col": 3, "idx": 0},
+            "H",
         )
         is False
     )
@@ -303,8 +349,11 @@ def test_is_valid_placement_scenarios(validation_grid: list[list[str | None]]) -
     # Expect False because parallel check for 'A' at (2,4) fails
     assert (
         placement_rules.is_valid_placement(
-            grid, "TALL", words_to_place,
-            {"row": 1, "col": 4, "idx": 0}, "V",
+            grid,
+            "TALL",
+            words_to_place,
+            {"row": 1, "col": 4, "idx": 0},
+            "V",
         )
         is False
     )
@@ -313,8 +362,11 @@ def test_is_valid_placement_scenarios(validation_grid: list[list[str | None]]) -
     # Expect False because Out of Bounds
     assert (
         placement_rules.is_valid_placement(
-            grid, "SET", words_to_place,
-            {"row": 1, "col": 3, "idx": 0}, "H",
+            grid,
+            "SET",
+            words_to_place,
+            {"row": 1, "col": 3, "idx": 0},
+            "H",
         )
         is False
     )
@@ -323,8 +375,11 @@ def test_is_valid_placement_scenarios(validation_grid: list[list[str | None]]) -
     # Expect False because parallel check for 'I' at (2,4) fails
     assert (
         placement_rules.is_valid_placement(
-            grid, "TIP", words_to_place,
-            {"row": 1, "col": 4, "idx": 0}, "V",
+            grid,
+            "TIP",
+            words_to_place,
+            {"row": 1, "col": 4, "idx": 0},
+            "V",
         )
         is False
     )
@@ -346,11 +401,15 @@ def test_update_placed_word_coords(sample_state_data: dict) -> None:
         chosen_placement_1,
         coords_to_place_1,
         # Simulate a BoardGenerationState-like object for this test
-        type("FakeState", (), {
-            "placed_words_coords": placed_words_coords,
-            "middle_word_coords": middle_coords,
-            "used_middle_word_coords": used_middle_coords,
-        })(),
+        type(
+            "FakeState",
+            (),
+            {
+                "placed_words_coords": placed_words_coords,
+                "middle_word_coords": middle_coords,
+                "used_middle_word_coords": used_middle_coords,
+            },
+        )(),
     )
     assert placed_words_coords["YE"] == coords_to_place_1
     assert len(used_middle_coords) == 2  # Should not increase
@@ -361,11 +420,15 @@ def test_update_placed_word_coords(sample_state_data: dict) -> None:
     update_placed_word_coords(
         chosen_placement_2,
         coords_to_place_2,
-        type("FakeState", (), {
-            "placed_words_coords": placed_words_coords,
-            "middle_word_coords": middle_coords,
-            "used_middle_word_coords": used_middle_coords,
-        })(),
+        type(
+            "FakeState",
+            (),
+            {
+                "placed_words_coords": placed_words_coords,
+                "middle_word_coords": middle_coords,
+                "used_middle_word_coords": used_middle_coords,
+            },
+        )(),
     )
     assert placed_words_coords["JOE"] == coords_to_place_2
     assert len(used_middle_coords) == 3  # Should increase
@@ -377,11 +440,15 @@ def test_update_placed_word_coords(sample_state_data: dict) -> None:
     update_placed_word_coords(
         chosen_placement_3,
         coords_to_place_3,
-        type("FakeState", (), {
-            "placed_words_coords": placed_words_coords,
-            "middle_word_coords": middle_coords,
-            "used_middle_word_coords": used_middle_coords,
-        })(),
+        type(
+            "FakeState",
+            (),
+            {
+                "placed_words_coords": placed_words_coords,
+                "middle_word_coords": middle_coords,
+                "used_middle_word_coords": used_middle_coords,
+            },
+        )(),
     )
     assert placed_words_coords["TE"] == coords_to_place_3
     assert len(used_middle_coords) == 3  # Should not increase further
@@ -425,12 +492,7 @@ def test_update_placed_letter_coords(sample_state_data: dict) -> None:
 # Tests for: Coordinate Calculations
 # ************************************************
 def test_calculate_middle_word_placement_coords() -> None:
-    """Test calculating diagonal coordinates for the middle word.
-
-    Returns:
-        list[tuple[int, int]] | None: List of coordinates or None if not possible.
-
-    """
+    """Test calculating diagonal coordinates for the middle word."""
     coords = board_state.calculate_middle_word_placement_coords(5, 5, "FIT")
     assert coords == [(0, 0), (2, 2), (4, 4)]
 
@@ -444,6 +506,8 @@ def test_calculate_middle_word_placement_coords() -> None:
     assert coords is None
 
     coords = board_state.calculate_middle_word_placement_coords(
-        10, 4, "PNEUMONOULTRAMICROSCOPICSILICOVOLCANOCONIOSIS",
+        10,
+        4,
+        "PNEUMONOULTRAMICROSCOPICSILICOVOLCANOCONIOSIS",
     )
     assert coords is None

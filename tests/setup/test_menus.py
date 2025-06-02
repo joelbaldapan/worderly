@@ -72,10 +72,10 @@ PATCH_RUN_DIFFICULTY_MENU = "setup.menus.run_difficulty_menu"
 @patch(PATCH_DISP_MENU_OPTS)
 @patch(PATCH_PRINT_MSG)
 def test_select_from_menu(
-    mock_print_msg,
-    mock_disp_opts,
-    mock_clear,
-    mock_getkey,
+    mock_print_msg: object,
+    mock_disp_opts: object,
+    mock_clear: object,
+    mock_getkey: object,
 ) -> None:
     """Test that menu navigation returns the correct selected option."""
     options = ["Option 1", "Option 2", "Option 3"]
@@ -95,8 +95,8 @@ def test_select_from_menu(
 @patch(PATCH_GETKEY)
 @patch(PATCH_DISP_WIZ_SEL)
 def test_select_character_menu(
-    mock_disp_wiz,
-    mock_getkey,
+    mock_disp_wiz: object,
+    mock_getkey: object,
     sample_settings_hp: dict,
 ) -> None:
     """Test that character selection navigation returns the correct wizard."""
@@ -112,14 +112,15 @@ def test_select_character_menu(
 
 @patch(PATCH_SELECT_FROM_MENU)
 def test_run_heart_points_menu(
-    mock_select,
+    mock_select: object,
 ) -> None:
     """Test that the first menu returns correct settings or None."""
     # 1.) Select No Heart Points
     mock_select.return_value = menus.MENU1_OPTIONS[0]  # "</3 No Heart Points"
     result1 = menus.run_heart_points_menu()
     mock_select.assert_called_once_with(
-        menus.MENU1_OPTIONS, title="+.+.+.+ Select Heart Points Mode +.+.+.+",
+        menus.MENU1_OPTIONS,
+        title="+.+.+.+ Select Heart Points Mode +.+.+.+",
     )
     assert result1 == settings_details.NO_HEART_POINTS_SETTINGS
 
@@ -128,6 +129,7 @@ def test_run_heart_points_menu(
     mock_select.return_value = menus.MENU1_OPTIONS[1]  # "♥♥♥ Heart Points"
     result2 = menus.run_heart_points_menu()
     mock_select.assert_called_once_with(
-        menus.MENU1_OPTIONS, title="+.+.+.+ Select Heart Points Mode +.+.+.+",
+        menus.MENU1_OPTIONS,
+        title="+.+.+.+ Select Heart Points Mode +.+.+.+",
     )
     assert result2 is None

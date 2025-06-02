@@ -55,6 +55,7 @@ def streak_file_path(tmp_path: Path) -> Path:
 # Tests for: load_streaks
 # ************************************************
 
+
 def test_load_streaks_file_not_exist(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     """Test loading streaks when file does not exist."""
     # Make Path.exists to always return False
@@ -109,8 +110,10 @@ def test_load_streaks_invalid_entries(tmp_path: Path) -> None:
 
 def test_load_streaks_io_error(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     """Test loading streaks with IOError."""
+
     def _raise_ioerror(*_args: object, **_kwargs: object) -> None:
         raise OSError
+
     monkeypatch.setattr("pathlib.Path.open", lambda *_a, **_k: _raise_ioerror())
     file_path = tmp_path / "ioerror.json"
     result = streak_handler.load_streaks(file_path)
@@ -120,6 +123,7 @@ def test_load_streaks_io_error(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) 
 # ************************************************
 # Tests for: save_streaks_to_file
 # ************************************************
+
 
 def testsave_streaks_to_file(tmp_path: Path, sample_streak_entries: list[streak_handler.StreakEntry]) -> None:
     """Test saving streaks to file."""
@@ -140,8 +144,10 @@ def testsave_streaks_to_file_io_error(
     tmp_path: Path,
 ) -> None:
     """Test IOError during saving streaks to file."""
+
     def _raise_ioerror(*_args: object, **_kwargs: object) -> None:
         raise OSError
+
     monkeypatch.setattr("pathlib.Path.open", lambda *_a, **_k: _raise_ioerror())
     file_path = tmp_path / "ioerror_save.json"
     # Should not raise
@@ -151,6 +157,7 @@ def testsave_streaks_to_file_io_error(
 # ************************************************
 # Tests for: add_streak_entry
 # ************************************************
+
 
 def test_add_streak_entry_new_file(tmp_path: Path) -> None:
     """Test adding a streak entry to a new file."""

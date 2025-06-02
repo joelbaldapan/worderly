@@ -12,7 +12,12 @@ from setup import word_selector
 
 @pytest.fixture
 def sample_settings() -> DifficultyData:
-    """Create a sample DifficultyData object for tests."""
+    """Create a sample DifficultyData object for tests.
+
+    Returns:
+        DifficultyData: A sample settings object for testing.
+
+    """
     return DifficultyData(
         grid=GridConfigData(height=10, width=10),
         words_on_board_needed=WordsNeededData(minimum=5, maximum=50),
@@ -24,14 +29,25 @@ def sample_settings() -> DifficultyData:
 
 @pytest.fixture
 def simple_word_list() -> list[str]:
-    """Create a simple list of words for filtering tests."""
+    """Create a simple list of words for filtering tests.
+
+    Returns:
+        list[str]: A list of sample words.
+
+    """
     return ["a", "be", "cat", "nap", "ohhh", "nooo", "wahhh", "streak"]
 
 
 @pytest.fixture
 def streak_word_set() -> set[str]:
-    """Create the specific set of words related to 'streak' from the CS11 specs."""
-    words_streak = "STREAK rat stare arks rate stark ear rest steak east sat take era sear takes erst seat tar est skate tears eta stake teas treks"
+    """Create the specific set of words related to 'streak' from the CS11 specs.
+
+    Returns:
+        set[str]: Set of valid subwords for 'streak'.
+
+    """
+    words_streak = "STREAK rat stare arks rate stark ear rest steak east sat " \
+    "take era sear takes erst seat tar est skate tears eta stake teas treks"
     return set(words_streak.lower().split())
 
 
@@ -70,10 +86,7 @@ def test_read_word_file_empty() -> None:
 
 
 def test_read_word_file_valid() -> None:
-    """Test that read_word_file cleans and processes valid file content.
-
-
-    """
+    """Test that read_word_file cleans and processes valid file content."""
     file_content = " Apple \nbanana\n\nCherry\n   \ndate "
     expected_result = ["apple", "banana", "cherry", "date"]
     with patch("builtins.open", mock_open(read_data=file_content)) as mock_file:
@@ -83,12 +96,7 @@ def test_read_word_file_valid() -> None:
 
 
 def test_filter_exact_length_words(simple_word_list: list[str]) -> None:
-    """Filter words to find only those of an exact length.
-
-    Args:
-        simple_word_list: List of words to filter.
-
-    """
+    """Filter words to find only those of an exact length."""
     words = simple_word_list
     assert word_selector.filter_exact_length_words(words, 3) == ["cat", "nap"]
     assert word_selector.filter_exact_length_words(words, 5) == ["wahhh"]
@@ -97,12 +105,7 @@ def test_filter_exact_length_words(simple_word_list: list[str]) -> None:
 
 
 def test_filter_words_up_to_max_length(simple_word_list: list[str]) -> None:
-    """Filter words to find those up to a maximum length.
-
-    Args:
-        simple_word_list: List of words to filter.
-
-    """
+    """Filter words to find those up to a maximum length."""
     words = simple_word_list
     expected_max_3 = {"a", "be", "cat", "nap"}
     assert word_selector.filter_words_up_to_max_length(words, 3) == expected_max_3
@@ -115,17 +118,12 @@ def test_filter_words_up_to_max_length(simple_word_list: list[str]) -> None:
 def test_get_valid_word_subwords_found(
     streak_word_set: set[str],
 ) -> None:
-    """Find valid subwords from a given word and valid set.
-
-    Args:
-        streak_word_set: Set of valid words.
-
-    """
+    """Find valid subwords from a given word and valid set."""
     word_to_check = "streak"
     valid_set = streak_word_set
     min_len = 3
 
-    expected_subwords = set()
+    expected_subwords: set[str] = set()
     for k in range(min_len, len(word_to_check)):
         for p in itertools.permutations(word_to_check, k):
             sub = "".join(p)
@@ -133,7 +131,9 @@ def test_get_valid_word_subwords_found(
                 expected_subwords.add(sub)
 
     actual_subwords = word_selector.get_valid_word_subwords(
-        word_to_check, valid_set, min_len,
+        word_to_check,
+        valid_set,
+        min_len,
     )
 
     assert set(actual_subwords) == expected_subwords
@@ -143,17 +143,14 @@ def test_get_valid_word_subwords_found(
 def test_get_valid_word_subwords_none_found(
     streak_word_set: set[str],
 ) -> None:
-    """Test that no valid subwords are found when none exist.
-
-    Args:
-        streak_word_set: Set of valid words.
-
-    """
+    """Test that no valid subwords are found when none exist."""
     word_to_check = "lmnop"
     valid_set = streak_word_set
     min_len = 3
     actual_subwords = word_selector.get_valid_word_subwords(
-        word_to_check, valid_set, min_len,
+        word_to_check,
+        valid_set,
+        min_len,
     )
     assert actual_subwords == []
 
@@ -161,18 +158,22 @@ def test_get_valid_word_subwords_none_found(
 @patch("setup.word_selector.get_valid_word_subwords")
 @patch("setup.word_selector.random.shuffle")
 def test_find_valid_word_with_subwords_success(
-    mock_shuffle,
-    mock_get_subwords,
+    mock_shuffle: object,
+    mock_get_subwords: object,
     streak_word_set: set[str],
     sample_settings: DifficultyData,
 ) -> None:
     """Find a middle word that meets the subword count requirement."""
-    candidate_middle_words = ["helloo", "streak", "other"]
-    valid_subword_set = streak_word_set
-    min_subword_len = sample_settings.min_subword_length
-    min_subwords_needed = sample_settings.words_on_board_needed.minimum
+    candidate_middle_words: list[str] = ["helloo", "streak", "other"]
+    valid_subword_set: set[str] = streak_word_set
+    min_subword_len: int = sample_settings.min_subword_length
+    min_subwords_needed: int = sample_settings.words_on_board_needed.minimum
 
-    def get_subwords_side_effect(word, valid_set, min_len):
+    def get_subwords_side_effect(
+        word: str,
+        valid_set: set[str],
+        min_len: int,
+    ) -> list[str]:
         if word == "streak":
             return [
                 "rat",
@@ -190,7 +191,10 @@ def test_find_valid_word_with_subwords_success(
     mock_get_subwords.side_effect = get_subwords_side_effect
 
     middle_word, words_to_place = word_selector.find_valid_word_with_subwords(
-        candidate_middle_words, min_subword_len, min_subwords_needed, valid_subword_set,
+        candidate_middle_words,
+        min_subword_len,
+        min_subwords_needed,
+        valid_subword_set,
     )
 
     assert middle_word == "streak"
@@ -204,21 +208,24 @@ def test_find_valid_word_with_subwords_success(
 @patch("setup.word_selector.get_valid_word_subwords")
 @patch("setup.word_selector.random.shuffle")
 def test_find_valid_word_with_subwords_fail(
-    mock_shuffle,
-    mock_get_subwords,
+    mock_shuffle: object,
+    mock_get_subwords: object,
     streak_word_set: set[str],
     sample_settings: DifficultyData,
 ) -> None:
     """Test that no candidate middle word yields enough subwords."""
-    candidate_middle_words = ["please", "letme", "sleepp"]
-    valid_subword_set = streak_word_set
-    min_subword_len = sample_settings.min_subword_length
-    min_subwords_needed = sample_settings.words_on_board_needed.minimum
+    candidate_middle_words: list[str] = ["please", "letme", "sleepp"]
+    valid_subword_set: set[str] = streak_word_set
+    min_subword_len: int = sample_settings.min_subword_length
+    min_subwords_needed: int = sample_settings.words_on_board_needed.minimum
 
     mock_get_subwords.return_value = ["sub1", "sub2"]
 
     middle_word, words_to_place = word_selector.find_valid_word_with_subwords(
-        candidate_middle_words, min_subword_len, min_subwords_needed, valid_subword_set,
+        candidate_middle_words,
+        min_subword_len,
+        min_subwords_needed,
+        valid_subword_set,
     )
 
     assert middle_word is None
@@ -232,21 +239,21 @@ def test_find_valid_word_with_subwords_fail(
 @patch("setup.word_selector.print_message")
 @patch("setup.word_selector.random.shuffle")
 def test_generate_word_list_success(
-    mock_rnd_shuffle_exact,
-    mock_print,
-    mock_clear,
-    mock_find,
-    mock_read,
+    mock_rnd_shuffle_exact: object,
+    mock_print: object,
+    mock_clear: object,
+    mock_find: object,
+    mock_read: object,
     sample_settings: DifficultyData,
     streak_word_set: set[str],
 ) -> None:
     """Test that generate_word_list successfully finds words."""
-    settings = sample_settings
-    lexicon_path = "dummy_lexicon.txt"
+    settings: DifficultyData = sample_settings
+    lexicon_path: str = "dummy_lexicon.txt"
 
     mock_read.return_value = list(streak_word_set)
-    expected_middle = "streak"
-    expected_subs = ["rat", "stare", "rate", "stark", "ear"]
+    expected_middle: str = "streak"
+    expected_subs: list[str] = ["rat", "stare", "rate", "stark", "ear"]
     mock_find.return_value = (expected_middle, expected_subs)
 
     actual_middle, actual_subs = word_selector.generate_word_list(settings, lexicon_path)
@@ -264,7 +271,8 @@ def test_generate_word_list_success(
     assert args_find[1] == settings.min_subword_length
     assert args_find[2] == settings.words_on_board_needed.minimum
     expected_valid_set = word_selector.filter_words_up_to_max_length(
-        streak_word_set, settings.max_word_length,
+        streak_word_set,
+        settings.max_word_length,
     )
     assert args_find[3] == expected_valid_set
 
@@ -275,14 +283,14 @@ def test_generate_word_list_success(
 @patch("setup.word_selector.clear_screen")
 @patch("setup.word_selector.print_message")
 def test_generate_word_list_read_fail(
-    mock_print,
-    mock_clear,
-    mock_read,
+    mock_print: object,
+    mock_clear: object,
+    mock_read: object,
     sample_settings: DifficultyData,
 ) -> None:
     """Test that generate_word_list returns None when reading the lexicon fails."""
-    settings = sample_settings
-    lexicon_path = "dummy_lexicon.txt"
+    settings: DifficultyData = sample_settings
+    lexicon_path: str = "dummy_lexicon.txt"
     mock_read.return_value = []
 
     actual_middle, actual_subs = word_selector.generate_word_list(settings, lexicon_path)
@@ -299,17 +307,17 @@ def test_generate_word_list_read_fail(
 @patch("setup.word_selector.print_message")
 @patch("setup.word_selector.random.shuffle")
 def test_generate_word_list_find_fail(
-    mock_rnd_shuffle,
-    mock_print,
-    mock_clear,
-    mock_find,
-    mock_read,
+    mock_rnd_shuffle: object,
+    mock_print: object,
+    mock_clear: object,
+    mock_find: object,
+    mock_read: object,
     sample_settings: DifficultyData,
     streak_word_set: set[str],
 ) -> None:
     """Test that generate_word_list returns None when finding a suitable middle word fails."""
-    settings = sample_settings
-    lexicon_path = "dummy_lexicon.txt"
+    settings: DifficultyData = sample_settings
+    lexicon_path: str = "dummy_lexicon.txt"
     mock_read.return_value = list(streak_word_set)
     mock_find.return_value = (None, None)
 

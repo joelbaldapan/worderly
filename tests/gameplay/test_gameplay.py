@@ -1,5 +1,5 @@
 import copy
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -12,26 +12,39 @@ from gameplay.game_state_handler import GameStateData, GameStatisticsData
 
 
 @pytest.fixture
-def sample_settings():
-    """Creates sample settings."""
+def sample_settings() -> object:
+    """Create sample settings.
+
+    Returns:
+        object: Dummy settings object with heart_point_mode True.
+
+    """
     class DummySettings:
         heart_point_mode = True
     return DummySettings()
 
 
 @pytest.fixture
-def sample_settings_no_hp():
-    """Creates sample settings with heart_point_mode False."""
+def sample_settings_no_hp() -> object:
+    """Create sample settings with heart_point_mode set to False.
+
+    Returns:
+        object: Dummy settings object with heart_point_mode False.
+
+    """
     class DummySettings:
         heart_point_mode = False
     return DummySettings()
 
 
 @pytest.fixture
-def sample_wizard():
-    """Creates sample wizard data."""
-    # Using data similar to WIZARDS_DATA
-    # Though didn't include some that aren't needed here
+def sample_wizard() -> object:
+    """Create sample wizard data.
+
+    Returns:
+        object: Dummy wizard object.
+
+    """
     class DummyWizard:
         name = "Mock Wizard"
         color = "cyan"
@@ -42,9 +55,16 @@ def sample_wizard():
 
 
 @pytest.fixture
-def sample_game_state(sample_wizard):
-    """Creates a basic game state object."""
-    # Use the actual dataclasses for compatibility with new code
+def sample_game_state(sample_wizard: object) -> GameStateData:
+    """Create a basic game state object.
+
+    Args:
+        sample_wizard (object): The wizard object.
+
+    Returns:
+        GameStateData: The sample game state.
+
+    """
     stats = GameStatisticsData(
         letters="A B C",
         lives_left=3,
@@ -68,31 +88,52 @@ def sample_game_state(sample_wizard):
 
 
 @pytest.fixture
-def sample_final_grid():
-    """Sample minimal final grid."""
+def sample_final_grid() -> list[list[str]]:
+    """Create a sample minimal final grid.
+
+    Returns:
+        list[list[str]]: A 1x1 grid with "A".
+
+    """
     return [["A"]]
 
 
 @pytest.fixture
-def sample_words_to_find():
-    """Sample minimal words_to_find."""
-    return {"A": [(0, 0)]}
+def sample_words_to_find() -> dict[str, list[tuple[int, int]]]:
+    """Create a sample minimal words_to_find.
 
+    Returns:
+        dict[str, list[tuple[int, int]]]: Mapping of word to coordinates.
+
+    """
+    return {"A": [(0, 0)]}
 
 # ************************************************
 # Helper for GameConfig
 # ************************************************
 
+
 class DummyGameConfig:
     def __init__(
         self,
-        difficulty_conf,
-        selected_wizard,
-        final_grid=None,
-        words_to_find=None,
-        middle_word=None,
-        player_name=None,
+        difficulty_conf: object,
+        selected_wizard: object,
+        final_grid: list[list[str]] | None = None,
+        words_to_find: dict[str, list[tuple[int, int]]] | None = None,
+        middle_word: str | None = None,
+        player_name: str | None = None,
     ):
+        """Initialize DummyGameConfig.
+
+        Args:
+            difficulty_conf (object): The difficulty configuration.
+            selected_wizard (object): The selected wizard.
+            final_grid (Optional[list[list[str]]], optional): The final grid.
+            words_to_find (Optional[dict[str, list[tuple[int, int]]]], optional): Words to find.
+            middle_word (Optional[str], optional): The middle word.
+            player_name (Optional[str], optional): The player name.
+
+        """
         self.difficulty_conf = difficulty_conf
         self.selected_wizard = selected_wizard
         self.final_grid = final_grid
@@ -122,33 +163,31 @@ PATCH_UPDATE_DISPLAY = "gameplay.gameplay.update_display"
 PATCH_UPDATE_GO_DISPLAY = "gameplay.gameplay.update_game_over_display"
 PATCH_UPDATE_END_DISPLAY = "gameplay.gameplay.end_game"
 
-
 # ************************************************
 # Tests for: Update Displays
 # ************************************************
+
 
 @patch(PATCH_CLEAR_SCREEN)
 @patch(PATCH_PRINT_GRID)
 @patch(PATCH_PRINT_STATS)
 @patch(PATCH_PRINT_MSG)
 def test_update_display(
-    mock_print_msg,
-    mock_print_stats,
-    mock_print_grid,
-    mock_clear,
-    sample_settings,
-    sample_game_state,
-    sample_wizard,
-):
+    mock_print_msg: MagicMock,
+    mock_print_stats: MagicMock,
+    mock_print_grid: MagicMock,
+    mock_clear: MagicMock,
+    sample_settings: object,
+    sample_game_state: GameStateData,
+    sample_wizard: object,
+) -> None:
     """Test that update_display calls all the necessary display functions."""
-    # The new update_display expects a GameConfig and GameStateData
     game_config = DummyGameConfig(
         difficulty_conf=sample_settings,
         selected_wizard=sample_wizard,
         final_grid=[["A"]],
     )
     gameplay.update_display(game_config, sample_game_state)
-    # Check if all necessary functions called
     mock_clear.assert_called_once()
     mock_print_grid.assert_called_once()
     mock_print_stats.assert_called_once()
@@ -161,15 +200,14 @@ def test_update_display(
 @patch(PATCH_PRINT_LB)
 @patch(PATCH_PRINT_MSG)
 def test_update_end_game_display(
-    mock_print_msg,
-    mock_print_lb,
-    mock_load_lb,
-    mock_clear,
-    mock_get_input,
-    sample_settings,
-):
+    mock_print_msg: MagicMock,
+    mock_print_lb: MagicMock,
+    mock_load_lb: MagicMock,
+    mock_clear: MagicMock,
+    mock_get_input: MagicMock,
+    sample_settings: object,
+) -> None:
     """Test the sequence of actions in the end game display."""
-    # The new end_game expects a GameConfig and score
     game_config = DummyGameConfig(
         difficulty_conf=sample_settings,
         selected_wizard=None,
@@ -182,23 +220,26 @@ def test_update_end_game_display(
 
     gameplay.end_game(game_config, final_score)
 
-    # Check if all necessary functions called
     mock_clear.assert_called_once()
     mock_load_lb.assert_called_once()
     mock_print_lb.assert_called_once_with(sample_settings, mock_leaderboard_data)
-
 
 # ************************************************
 # Tests for: Getting Guesses
 # ************************************************
 
+
 @patch(PATCH_GET_INPUT)
 @patch(PATCH_UPDATE_DISPLAY)
 def test_get_guess_valid_word(
-    mock_update_disp, mock_get_input, sample_settings, sample_game_state, sample_wizard,
-):
+    mock_update_disp: MagicMock,
+    mock_get_input: MagicMock,
+    sample_settings: object,
+    sample_game_state: GameStateData,
+    sample_wizard: object,
+) -> None:
     """Test get_guess returns a valid word input."""
-    mock_get_input.return_value = "  VALID  "  # Input with whitespace/caps
+    mock_get_input.return_value = "  VALID  "
     expected_guess = "valid"
     game_config = DummyGameConfig(
         difficulty_conf=sample_settings,
@@ -207,16 +248,19 @@ def test_get_guess_valid_word(
     guess = gameplay.get_guess(game_config, sample_game_state)
     assert guess == expected_guess
     mock_get_input.assert_called_once()
-    mock_update_disp.assert_not_called()  # Should not be called for first valid input
+    mock_update_disp.assert_not_called()
 
 
 @patch(PATCH_GET_INPUT)
 @patch(PATCH_UPDATE_DISPLAY)
 def test_get_guess_invalid_then_valid(
-    mock_update_disp, mock_get_input, sample_settings, sample_game_state, sample_wizard,
-):
+    mock_update_disp: MagicMock,
+    mock_get_input: MagicMock,
+    sample_settings: object,
+    sample_game_state: GameStateData,
+    sample_wizard: object,
+) -> None:
     """Test get_guess handles invalid input then accepts valid input."""
-    # Simulate empty, then non-alpha, then valid input
     mock_get_input.side_effect = ["", "123", "GOOD"]
     expected_guess = "good"
     game_config = DummyGameConfig(
@@ -230,14 +274,17 @@ def test_get_guess_invalid_then_valid(
 @patch(PATCH_GET_INPUT)
 @patch(PATCH_UPDATE_DISPLAY)
 def test_get_guess_powerup_command_valid(
-    mock_update_disp, mock_get_input, sample_settings, sample_game_state, sample_wizard,
-):
+    mock_update_disp: MagicMock,
+    mock_get_input: MagicMock,
+    sample_settings: object,
+    sample_game_state: GameStateData,
+    sample_wizard: object,
+) -> None:
     """Test get_guess returns the powerup command when valid."""
-    # Ensure wizard is not white and has power points
     wizard = sample_wizard
-    wizard.color = "red"  # Not white
+    wizard.color = "red"
     state = copy.deepcopy(sample_game_state)
-    state.statistics.power_points = 1  # Has points
+    state.statistics.power_points = 1
     game_config = DummyGameConfig(
         difficulty_conf=sample_settings,
         selected_wizard=wizard,
@@ -246,16 +293,19 @@ def test_get_guess_powerup_command_valid(
     guess = gameplay.get_guess(game_config, state)
     assert guess == game_constants.POWERUP_COMMAND
     mock_get_input.assert_called_once()
-    mock_update_disp.assert_not_called()  # No errors displayed
+    mock_update_disp.assert_not_called()
 
 
 @patch(PATCH_GET_INPUT)
 @patch(PATCH_UPDATE_DISPLAY)
 def test_get_guess_powerup_command_invalid_wizard(
-    mock_update_disp, mock_get_input, sample_settings, sample_game_state, sample_wizard,
-):
+    mock_update_disp: MagicMock,
+    mock_get_input: MagicMock,
+    sample_settings: object,
+    sample_game_state: GameStateData,
+    sample_wizard: object,
+) -> None:
     """Test get_guess handles powerup attempt with white wizard."""
-    # White wizard cannot use powerups
     wizard_white = sample_wizard
     wizard_white.color = "bright_white"
     state = copy.deepcopy(sample_game_state)
@@ -267,23 +317,26 @@ def test_get_guess_powerup_command_invalid_wizard(
     mock_get_input.side_effect = [
         game_constants.POWERUP_COMMAND,
         "valid",
-    ]  # Try powerup, then give valid
+    ]
     guess = gameplay.get_guess(game_config, state)
     assert guess == "valid"
-    assert mock_update_disp.call_count == 1  # Error message displayed
+    assert mock_update_disp.call_count == 1
 
 
 @patch(PATCH_GET_INPUT)
 @patch(PATCH_UPDATE_DISPLAY)
 def test_get_guess_powerup_command_invalid_points(
-    mock_update_disp, mock_get_input, sample_settings, sample_game_state, sample_wizard,
-):
+    mock_update_disp: MagicMock,
+    mock_get_input: MagicMock,
+    sample_settings: object,
+    sample_game_state: GameStateData,
+    sample_wizard: object,
+) -> None:
     """Test get_guess handles powerup attempt with insufficient points."""
-    # Non-white wizard can use powerups
     wizard_red = sample_wizard
     wizard_red.color = "red"
     state = copy.deepcopy(sample_game_state)
-    state.statistics.power_points = 0  # No points
+    state.statistics.power_points = 0
     game_config = DummyGameConfig(
         difficulty_conf=sample_settings,
         selected_wizard=wizard_red,
@@ -291,16 +344,16 @@ def test_get_guess_powerup_command_invalid_points(
     mock_get_input.side_effect = [
         game_constants.POWERUP_COMMAND,
         "valid",
-    ]  # Try powerup, then give valid
+    ]
     guess = gameplay.get_guess(game_config, state)
     assert guess == "valid"
-    assert mock_update_disp.call_count == 1  # Error message displayed
-
+    assert mock_update_disp.call_count == 1
 
 # ************************************************
 # Tests for: Running Game
 # We will see if the flow is accurate
 # ************************************************
+
 
 @patch(PATCH_INIT_STATE)
 @patch(PATCH_UPDATE_DISPLAY)
@@ -312,22 +365,21 @@ def test_get_guess_powerup_command_invalid_points(
 @patch(PATCH_UPDATE_GO_DISPLAY)
 @patch(PATCH_UPDATE_END_DISPLAY)
 def test_run_game_win_hp_mode(
-    mock_end_disp,
-    mock_go_disp,
-    mock_check_go,
-    mock_use_pu,
-    mock_update_pp,
-    mock_proc_guess,
-    mock_get_guess_func,
-    mock_update_disp,
-    mock_init_state,
-    sample_settings,
-    sample_final_grid,
-    sample_words_to_find,
-    sample_wizard,
-):
+    mock_end_disp: MagicMock,
+    mock_go_disp: MagicMock,
+    mock_check_go: MagicMock,
+    mock_use_pu: MagicMock,
+    mock_update_pp: MagicMock,
+    mock_proc_guess: MagicMock,
+    mock_get_guess_func: MagicMock,
+    mock_update_disp: MagicMock,
+    mock_init_state: MagicMock,
+    sample_settings: object,
+    sample_final_grid: list[list[str]],
+    sample_words_to_find: dict[str, list[tuple[int, int]]],
+    sample_wizard: object,
+) -> None:
     """Test a winning game flow in Heart Point mode."""
-    # Initial state
     player_name = "Player1"
     middle_word = "MIDDLE"
     game_config = DummyGameConfig(
@@ -340,34 +392,36 @@ def test_run_game_win_hp_mode(
     )
 
     class DummyStats:
-        def __init__(self):
+        def __init__(self) -> None:
+            """Initialize DummyStats."""
             self.points = 50
 
     class DummyGameState:
-        def __init__(self):
+        def __init__(self) -> None:
+            """Initialize DummyGameState."""
             self.statistics = DummyStats()
             self.player_name = player_name
+
     mock_init_state.return_value = DummyGameState()
-    # Game flow: valid guess -> win
-    mock_get_guess_func.return_value = "goodguess"  # Make get_guess return the word
+    mock_get_guess_func.return_value = "goodguess"
     mock_check_go.side_effect = [
         "continue",
         "win",
-    ]  # First check continue, second check win
+    ]
     gameplay.run_game(game_config)
-    # Check initialization
     mock_init_state.assert_called_once_with(
-        sample_final_grid, middle_word, sample_wizard, player_name,
+        sample_final_grid,
+        middle_word,
+        sample_wizard,
+        player_name,
     )
-    # Check if all functions in the flow are called
     mock_update_disp.assert_called()
     mock_get_guess_func.assert_called()
     mock_proc_guess.assert_called()
     mock_update_pp.assert_called()
-    mock_use_pu.assert_not_called()  # Powerup not used
-    # Check game over check calls
-    mock_go_disp.assert_called_once()  # Show game over screen
-    mock_end_disp.assert_called_once()  # Show end display (HP mode)
+    mock_use_pu.assert_not_called()
+    mock_go_disp.assert_called_once()
+    mock_end_disp.assert_called_once()
 
 
 @patch(PATCH_INIT_STATE)
@@ -380,22 +434,21 @@ def test_run_game_win_hp_mode(
 @patch(PATCH_UPDATE_GO_DISPLAY)
 @patch(PATCH_UPDATE_END_DISPLAY)
 def test_run_game_loss_no_hp_mode(
-    mock_end_disp,
-    mock_go_disp,
-    mock_check_go,
-    mock_use_pu,
-    mock_update_pp,
-    mock_proc_guess,
-    mock_get_guess_func,
-    mock_update_disp,
-    mock_init_state,
-    sample_settings_no_hp,
-    sample_final_grid,
-    sample_words_to_find,
-    sample_wizard,
-):
+    mock_end_disp: MagicMock,
+    mock_go_disp: MagicMock,
+    mock_check_go: MagicMock,
+    mock_use_pu: MagicMock,
+    mock_update_pp: MagicMock,
+    mock_proc_guess: MagicMock,
+    mock_get_guess_func: MagicMock,
+    mock_update_disp: MagicMock,
+    mock_init_state: MagicMock,
+    sample_settings_no_hp: object,
+    sample_final_grid: list[list[str]],
+    sample_words_to_find: dict[str, list[tuple[int, int]]],
+    sample_wizard: object,
+) -> None:
     """Test a losing game flow NOT in Heart Point mode."""
-    # No name needed if not HP mode
     player_name = None
     middle_word = "MIDDLE"
     game_config = DummyGameConfig(
@@ -408,31 +461,32 @@ def test_run_game_loss_no_hp_mode(
     )
 
     class DummyStats:
-        def __init__(self):
+        def __init__(self) -> None:
+            """Initialize DummyStats."""
             self.points = 10
 
     class DummyGameState:
-        def __init__(self):
+        def __init__(self) -> None:
+            """Initialize DummyGameState."""
             self.statistics = DummyStats()
             self.player_name = player_name
-    mock_init_state.return_value = DummyGameState()
 
-    # Game flow: wrong guess -> loss
+    mock_init_state.return_value = DummyGameState()
     mock_get_guess_func.return_value = "badguess"
     mock_check_go.side_effect = ["continue", "loss"]
 
     gameplay.run_game(game_config)
-    # Check initialization
     mock_init_state.assert_called_once_with(
-        sample_final_grid, middle_word, sample_wizard, player_name,
+        sample_final_grid,
+        middle_word,
+        sample_wizard,
+        player_name,
     )
-
-    # Check if all functions in the flow are called
     mock_update_disp.assert_called()
     mock_get_guess_func.assert_called()
     mock_proc_guess.assert_called()
     mock_update_pp.assert_called()
-    mock_use_pu.assert_not_called()  # Powerup not used
+    mock_use_pu.assert_not_called()
     mock_go_disp.assert_called_once()
 
 
@@ -446,20 +500,20 @@ def test_run_game_loss_no_hp_mode(
 @patch(PATCH_UPDATE_GO_DISPLAY)
 @patch(PATCH_UPDATE_END_DISPLAY)
 def test_run_game_uses_powerup(
-    mock_end_disp,
-    mock_go_disp,
-    mock_check_go,
-    mock_use_pu,
-    mock_update_pp,
-    mock_proc_guess,
-    mock_get_guess_func,
-    mock_update_disp,
-    mock_init_state,
-    sample_settings,
-    sample_final_grid,
-    sample_words_to_find,
-    sample_wizard,
-):
+    mock_end_disp: MagicMock,
+    mock_go_disp: MagicMock,
+    mock_check_go: MagicMock,
+    mock_use_pu: MagicMock,
+    mock_update_pp: MagicMock,
+    mock_proc_guess: MagicMock,
+    mock_get_guess_func: MagicMock,
+    mock_update_disp: MagicMock,
+    mock_init_state: MagicMock,
+    sample_settings: object,
+    sample_final_grid: list[list[str]],
+    sample_words_to_find: dict[str, list[tuple[int, int]]],
+    sample_wizard: object,
+) -> None:
     """Test game flow when a powerup is used."""
     player_name = "PlayerPU"
     middle_word = "MIDDLE"
@@ -473,31 +527,25 @@ def test_run_game_uses_powerup(
     )
 
     class DummyStats:
-        def __init__(self):
+        def __init__(self) -> None:
+            """Initialize DummyStats."""
             self.points = 0
 
     class DummyGameState:
-        def __init__(self):
+        def __init__(self) -> None:
+            """Initialize DummyGameState."""
             self.statistics = DummyStats()
             self.player_name = player_name
+
     mock_init_state.return_value = DummyGameState()
-
-    # Game flow: use powerup -> win
-    mock_get_guess_func.return_value = game_constants.POWERUP_COMMAND  # Simulate powerup command
-    mock_check_go.side_effect = ["continue", "win"]  # Game ends after powerup
+    mock_get_guess_func.return_value = game_constants.POWERUP_COMMAND
+    mock_check_go.side_effect = ["continue", "win"]
     gameplay.run_game(game_config)
-
-    # Check initialization
     mock_init_state.assert_called_once()
     mock_update_disp.assert_called()
     mock_get_guess_func.assert_called()
     mock_use_pu.assert_called()
-
-    # Process guess skipped
-    # Check update_power_points NOT called after powerup
     mock_proc_guess.assert_not_called()
     mock_update_pp.assert_not_called()
-
-    # Check game over check and final displays
     mock_go_disp.assert_called_once()
     mock_end_disp.assert_called_once()

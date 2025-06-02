@@ -7,7 +7,12 @@ from gameplay import game_constants, game_state_handler
 
 @pytest.fixture
 def sample_final_grid() -> list[list[str | None]]:
-    """Create a simple 3x5 final grid for testing."""
+    """Create a simple 3x5 final grid for testing.
+
+    Returns:
+        list[list[str | None]]: The sample grid.
+
+    """
     grid = [[None] * 5 for _ in range(3)]
     grid[0][1] = "H"
     grid[0][2] = "I"
@@ -18,7 +23,12 @@ def sample_final_grid() -> list[list[str | None]]:
 
 @pytest.fixture
 def sample_words_to_find() -> dict[str, list[tuple[int, int]]]:
-    """Create a sample words_to_find dictionary matching the grid."""
+    """Create a sample words_to_find dictionary matching the grid.
+
+    Returns:
+        dict[str, list[tuple[int, int]]]: The sample words-to-coords mapping.
+
+    """
     return {
         "HI": [(0, 1), (0, 2)],
         "HAT": [(0, 1), (1, 1), (2, 1)],
@@ -27,22 +37,34 @@ def sample_words_to_find() -> dict[str, list[tuple[int, int]]]:
 
 
 @pytest.fixture
-def sample_wizard_data():
-    """Create sample wizard data."""
+def sample_wizard_data() -> object:
+    """Create sample wizard data.
+
+    Returns:
+        object: Dummy wizard data.
+
+    """
+
     class DummyWizard:
         def __init__(self) -> None:
             self.name = "JOEL THE GOD OF CODE"
             self.starting_lives = 3
             self.color = "blue"
+
     return DummyWizard()
 
 
 @pytest.fixture
 def sample_initial_game_state(
     sample_final_grid: list[list[str | None]],
-    sample_wizard_data,
-):
-    """Create a basic initial game state for modification in tests."""
+    sample_wizard_data: object,
+) -> object:
+    """Create a basic initial game state for modification in tests.
+
+    Returns:
+        object: Dummy game state.
+
+    """
     all_coords = game_state_handler.get_all_letter_coords(sample_final_grid)
 
     class DummyStats:
@@ -66,16 +88,18 @@ def sample_initial_game_state(
             self.found_letter_coords = set()
             self.next_message = game_constants.WELCOME_MSG
             self.next_message_color = sample_wizard_data.color
+
     return DummyGameState()
 
 
 @patch("random.shuffle")
 def test_shuffle_letters_statistic(
-    mock_shuffle,
+    mock_shuffle: object,
 ) -> None:
     """Test shuffling letters of the middle word.
 
     Check that shuffle is called and output is as expected.
+
     """
     middle_word = "WORD"
 
@@ -96,6 +120,7 @@ def test_create_hidden_grid(
     """Test creating the hidden grid to be displayed to the player.
 
     Assert that the hidden grid matches expected structure and values.
+
     """
     hidden = game_state_handler.create_hidden_grid(sample_final_grid)
     assert len(hidden) == len(sample_final_grid)
@@ -115,11 +140,14 @@ def test_reveal_coords_in_hidden_grid(
     """Test revealing specific coordinates in the hidden grid.
 
     Assert that only specified coordinates are revealed.
+
     """
     hidden = game_state_handler.create_hidden_grid(sample_final_grid)
     coords_to_reveal: list[tuple[int, int]] = [(0, 1), (2, 1)]
     game_state_handler.reveal_coords_in_hidden_grid(
-        sample_final_grid, hidden, coords_to_reveal,
+        sample_final_grid,
+        hidden,
+        coords_to_reveal,
     )
 
     assert hidden[0][1] == "H"
@@ -129,7 +157,9 @@ def test_reveal_coords_in_hidden_grid(
 
     coords_to_reveal2: list[tuple[int, int]] = [(1, 2)]
     game_state_handler.reveal_coords_in_hidden_grid(
-        sample_final_grid, hidden, coords_to_reveal2,
+        sample_final_grid,
+        hidden,
+        coords_to_reveal2,
     )
     assert hidden[1][2] is None
 
@@ -140,6 +170,7 @@ def test_get_all_letter_coords(
     """Test getting the set of all non-None coordinates.
 
     Assert that all letter coordinates are found.
+
     """
     expected_coords = {(0, 1), (0, 2), (1, 1), (2, 1)}
     actual_coords = game_state_handler.get_all_letter_coords(sample_final_grid)
@@ -148,13 +179,14 @@ def test_get_all_letter_coords(
 
 @patch("gameplay.game_state_handler.reveal_coords_in_hidden_grid")
 def test_apply_coordinate_reveal(
-    mock_reveal,
+    mock_reveal: object,
     sample_final_grid: list[list[str | None]],
-    sample_initial_game_state,
+    sample_initial_game_state: object,
 ) -> None:
     """Test applying coordinate reveals and updating game state.
 
     Assert that points and tracking sets are updated correctly.
+
     """
     game_state = sample_initial_game_state
 
@@ -163,11 +195,15 @@ def test_apply_coordinate_reveal(
     initial_points = game_state.statistics.points
 
     game_state_handler.apply_coordinate_reveal(
-        game_state, sample_final_grid, coords_to_reveal,
+        game_state,
+        sample_final_grid,
+        coords_to_reveal,
     )
 
     mock_reveal.assert_called_once_with(
-        sample_final_grid, game_state.hidden_grid, set(coords_to_reveal),
+        sample_final_grid,
+        game_state.hidden_grid,
+        set(coords_to_reveal),
     )
     assert game_state.statistics.points == initial_points + 2
     assert game_state.found_letter_coords == set(coords_to_reveal)
@@ -176,7 +212,9 @@ def test_apply_coordinate_reveal(
 
     coords_to_reveal_2: list[tuple[int, int]] = [(1, 1), (2, 1)]
     game_state_handler.apply_coordinate_reveal(
-        game_state, sample_final_grid, coords_to_reveal_2,
+        game_state,
+        sample_final_grid,
+        coords_to_reveal_2,
     )
     assert game_state.statistics.points == initial_points + 2 + 1
     assert game_state.found_letter_coords == {(0, 1), (1, 1), (2, 1)}
@@ -192,15 +230,16 @@ def test_apply_coordinate_reveal(
 @patch("gameplay.game_state_handler.create_hidden_grid")
 @patch("gameplay.game_state_handler.get_all_letter_coords")
 def test_initialize_game_state(
-    mock_get_coords,
-    mock_create_hidden,
-    mock_shuffle_letters,
+    mock_get_coords: object,
+    mock_create_hidden: object,
+    mock_shuffle_letters: object,
     sample_final_grid: list[list[str | None]],
-    sample_wizard_data,
+    sample_wizard_data: object,
 ) -> None:
     """Test the initialization of the main game state dictionary.
 
     Assert that all fields are initialized as expected.
+
     """
     middle_word = "TEST"
     player_name = "Hero"
@@ -217,7 +256,10 @@ def test_initialize_game_state(
     mock_get_coords.return_value = mock_all_coords
 
     game_state = game_state_handler.initialize_game_state(
-        sample_final_grid, middle_word, sample_wizard_data, player_name,
+        sample_final_grid,
+        middle_word,
+        sample_wizard_data,
+        player_name,
     )
 
     mock_create_hidden.assert_called_once_with(sample_final_grid)
@@ -246,15 +288,16 @@ def test_initialize_game_state(
 @patch("gameplay.game_state_handler.apply_coordinate_reveal")
 @patch("gameplay.game_state_handler.check_for_completed_words")
 def test_process_guess_correct_no_shield(
-    mock_check_completed,
-    mock_apply_reveal,
-    sample_initial_game_state,
+    mock_check_completed: object,
+    mock_apply_reveal: object,
+    sample_initial_game_state: object,
     sample_words_to_find: dict[str, list[tuple[int, int]]],
     sample_final_grid: list[list[str | None]],
 ) -> None:
     """Test processing a correct guess when shield is off.
 
     Assert that stats and state are updated for a correct guess.
+
     """
     game_state = sample_initial_game_state
     guess = "HI"
@@ -265,7 +308,11 @@ def test_process_guess_correct_no_shield(
     mock_check_completed.return_value = []
 
     game_state_handler.process_guess(
-        guess, game_state, sample_words_to_find, sample_final_grid, wizard_color,
+        guess,
+        game_state,
+        sample_words_to_find,
+        sample_final_grid,
+        wizard_color,
     )
 
     stats = game_state.statistics
@@ -277,7 +324,9 @@ def test_process_guess_correct_no_shield(
     assert game_state.next_message_color == wizard_color
 
     mock_apply_reveal.assert_called_once_with(
-        game_state, sample_final_grid, coords_for_hi,
+        game_state,
+        sample_final_grid,
+        coords_for_hi,
     )
     mock_check_completed.assert_called_once_with(game_state, sample_words_to_find)
 
@@ -285,15 +334,16 @@ def test_process_guess_correct_no_shield(
 @patch("gameplay.game_state_handler.apply_coordinate_reveal")
 @patch("gameplay.game_state_handler.check_for_completed_words")
 def test_process_guess_correct_implicit_completion(
-    mock_check_completed,
-    mock_apply_reveal,
-    sample_initial_game_state,
+    mock_check_completed: object,
+    mock_apply_reveal: object,
+    sample_initial_game_state: object,
     sample_words_to_find: dict[str, list[tuple[int, int]]],
     sample_final_grid: list[list[str | None]],
 ) -> None:
     """Test correct guess that implicitly completes another word.
 
     Assert that both guessed and implicitly completed words are added.
+
     """
     game_state = sample_initial_game_state
     guess = "HAT"
@@ -302,7 +352,11 @@ def test_process_guess_correct_implicit_completion(
     mock_check_completed.return_value = ["AT"]
 
     game_state_handler.process_guess(
-        guess, game_state, sample_words_to_find, sample_final_grid, wizard_color,
+        guess,
+        game_state,
+        sample_words_to_find,
+        sample_final_grid,
+        wizard_color,
     )
 
     stats = game_state.statistics
@@ -312,7 +366,9 @@ def test_process_guess_correct_implicit_completion(
     assert "Also completed: AT" in game_state.next_message
 
     mock_apply_reveal.assert_called_once_with(
-        game_state, sample_final_grid, coords_for_hat,
+        game_state,
+        sample_final_grid,
+        coords_for_hat,
     )
     mock_check_completed.assert_called_once_with(game_state, sample_words_to_find)
 
@@ -320,15 +376,16 @@ def test_process_guess_correct_implicit_completion(
 @patch("gameplay.game_state_handler.apply_coordinate_reveal")
 @patch("gameplay.game_state_handler.check_for_completed_words")
 def test_process_guess_wrong_no_shield(
-    mock_check_completed,
-    mock_apply_reveal,
-    sample_initial_game_state,
+    mock_check_completed: object,
+    mock_apply_reveal: object,
+    sample_initial_game_state: object,
     sample_words_to_find: dict[str, list[tuple[int, int]]],
     sample_final_grid: list[list[str | None]],
 ) -> None:
     """Test processing a wrong guess when shield is off.
 
     Assert that lives are decremented and no words are added.
+
     """
     game_state = sample_initial_game_state
     guess = "WRONG"
@@ -336,7 +393,11 @@ def test_process_guess_wrong_no_shield(
     initial_lives = game_state.statistics.lives_left
 
     game_state_handler.process_guess(
-        guess, game_state, sample_words_to_find, sample_final_grid, wizard_color,
+        guess,
+        game_state,
+        sample_words_to_find,
+        sample_final_grid,
+        wizard_color,
     )
 
     stats = game_state.statistics
@@ -354,15 +415,16 @@ def test_process_guess_wrong_no_shield(
 @patch("gameplay.game_state_handler.apply_coordinate_reveal")
 @patch("gameplay.game_state_handler.check_for_completed_words")
 def test_process_guess_duplicate_no_shield(
-    mock_check_completed,
-    mock_apply_reveal,
-    sample_initial_game_state,
+    mock_check_completed: object,
+    mock_apply_reveal: object,
+    sample_initial_game_state: object,
     sample_words_to_find: dict[str, list[tuple[int, int]]],
     sample_final_grid: list[list[str | None]],
 ) -> None:
     """Test processing a duplicate guess when shield is off.
 
     Assert that lives are decremented and duplicate word is not added.
+
     """
     game_state = sample_initial_game_state
     guess = "HI"
@@ -371,7 +433,11 @@ def test_process_guess_duplicate_no_shield(
     initial_lives = game_state.statistics.lives_left
 
     game_state_handler.process_guess(
-        guess, game_state, sample_words_to_find, sample_final_grid, wizard_color,
+        guess,
+        game_state,
+        sample_words_to_find,
+        sample_final_grid,
+        wizard_color,
     )
 
     stats = game_state.statistics
@@ -389,15 +455,16 @@ def test_process_guess_duplicate_no_shield(
 @patch("gameplay.game_state_handler.apply_coordinate_reveal")
 @patch("gameplay.game_state_handler.check_for_completed_words")
 def test_process_guess_wrong_with_shield(
-    mock_check_completed,
-    mock_apply_reveal,
-    sample_initial_game_state,
+    mock_check_completed: object,
+    mock_apply_reveal: object,
+    sample_initial_game_state: object,
     sample_words_to_find: dict[str, list[tuple[int, int]]],
     sample_final_grid: list[list[str | None]],
 ) -> None:
     """Test processing a wrong guess when shield is active.
 
     Assert that lives are not decremented and shield turns decrease.
+
     """
     game_state = sample_initial_game_state
     game_state.statistics.shield_turns = 2
@@ -406,7 +473,11 @@ def test_process_guess_wrong_with_shield(
     initial_lives = game_state.statistics.lives_left
 
     game_state_handler.process_guess(
-        guess, game_state, sample_words_to_find, sample_final_grid, wizard_color,
+        guess,
+        game_state,
+        sample_words_to_find,
+        sample_final_grid,
+        wizard_color,
     )
 
     stats = game_state.statistics
@@ -422,15 +493,16 @@ def test_process_guess_wrong_with_shield(
 @patch("gameplay.game_state_handler.apply_coordinate_reveal")
 @patch("gameplay.game_state_handler.check_for_completed_words")
 def test_process_guess_correct_with_shield(
-    mock_check_completed,
-    mock_apply_reveal,
-    sample_initial_game_state,
+    mock_check_completed: object,
+    mock_apply_reveal: object,
+    sample_initial_game_state: object,
     sample_words_to_find: dict[str, list[tuple[int, int]]],
     sample_final_grid: list[list[str | None]],
 ) -> None:
     """Test processing a correct guess when shield is active.
 
     Assert that shield turns decrease and stats update for correct guess.
+
     """
     game_state = sample_initial_game_state
     game_state.statistics.shield_turns = 1
@@ -441,7 +513,11 @@ def test_process_guess_correct_with_shield(
     mock_check_completed.return_value = []
 
     game_state_handler.process_guess(
-        guess, game_state, sample_words_to_find, sample_final_grid, wizard_color,
+        guess,
+        game_state,
+        sample_words_to_find,
+        sample_final_grid,
+        wizard_color,
     )
 
     stats = game_state.statistics
@@ -451,7 +527,9 @@ def test_process_guess_correct_with_shield(
     assert game_state.next_message == game_constants.CORRECT_GUESS_MSG.format(guess)
 
     mock_apply_reveal.assert_called_once_with(
-        game_state, sample_final_grid, coords_for_hi,
+        game_state,
+        sample_final_grid,
+        coords_for_hi,
     )
     mock_check_completed.assert_called_once_with(game_state, sample_words_to_find)
 
@@ -462,7 +540,9 @@ def test_check_for_completed_words(
     """Test identifying words completed implicitly by revealed letters.
 
     Assert that implicitly completed words are detected.
+
     """
+
     class DummyGameState:
         pass
 
@@ -471,7 +551,8 @@ def test_check_for_completed_words(
     game_state.hidden_letter_coords = {(0, 2)}
     game_state.found_letter_coords = {(0, 1), (1, 1), (2, 1)}
     newly_found = game_state_handler.check_for_completed_words(
-        game_state, sample_words_to_find,
+        game_state,
+        sample_words_to_find,
     )
     assert newly_found == ["AT"]
 
@@ -480,7 +561,8 @@ def test_check_for_completed_words(
     game_state_all_revealed.hidden_letter_coords = set()
     game_state_all_revealed.found_letter_coords = {(0, 1), (0, 2), (1, 1), (2, 1)}
     newly_found_all = game_state_handler.check_for_completed_words(
-        game_state_all_revealed, sample_words_to_find,
+        game_state_all_revealed,
+        sample_words_to_find,
     )
     assert set(newly_found_all) == {"HI", "HAT", "AT"}
 
@@ -491,7 +573,9 @@ def test_check_game_over(
     """Test the game over condition checks.
 
     Assert that win, loss, and continue conditions are detected.
+
     """
+
     class DummyStats:
         def __init__(self, lives_left: int) -> None:
             self.lives_left = lives_left
@@ -502,25 +586,13 @@ def test_check_game_over(
             self.statistics = DummyStats(lives_left)
 
     game_state_win = DummyGameState({"HI", "HAT", "AT"}, 3)
-    assert (
-        game_state_handler.check_game_over(game_state_win, sample_words_to_find)
-        == "win"
-    )
+    assert game_state_handler.check_game_over(game_state_win, sample_words_to_find) == "win"
 
     game_state_loss_0 = DummyGameState({"HI"}, 0)
-    assert (
-        game_state_handler.check_game_over(game_state_loss_0, sample_words_to_find)
-        == "loss"
-    )
+    assert game_state_handler.check_game_over(game_state_loss_0, sample_words_to_find) == "loss"
 
     game_state_loss_neg = DummyGameState({"HI"}, -1)
-    assert (
-        game_state_handler.check_game_over(game_state_loss_neg, sample_words_to_find)
-        == "loss"
-    )
+    assert game_state_handler.check_game_over(game_state_loss_neg, sample_words_to_find) == "loss"
 
     game_state_continue = DummyGameState({"HI"}, 1)
-    assert (
-        game_state_handler.check_game_over(game_state_continue, sample_words_to_find)
-        == "continue"
-    )
+    assert game_state_handler.check_game_over(game_state_continue, sample_words_to_find) == "continue"
