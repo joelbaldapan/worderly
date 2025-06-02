@@ -23,15 +23,18 @@ def load_streaks(filepath: Path = STREAK_LEADERBOARD_FILEPATH) -> list[StreakEnt
     try:
         with filepath.open(encoding="utf-8") as f:
             data = json.load(f)
-            loaded_streaks: list[StreakEntry] = []
-            if isinstance(data, list):
-                for entry_dict in data:
-                    if isinstance(entry_dict, dict):
-                        with contextlib.suppress(TypeError):
-                            loaded_streaks.append(StreakEntry(**entry_dict))
-            return loaded_streaks
     except (json.JSONDecodeError, FileNotFoundError):
         return []
+    else:
+        if not isinstance(data, list):
+            return []
+        loaded_streaks: list[StreakEntry] = []
+        for entry_dict in data:
+            if not isinstance(entry_dict, dict):
+                continue
+            with contextlib.suppress(TypeError):
+                loaded_streaks.append(StreakEntry(**entry_dict))
+        return loaded_streaks
 
 
 def _save_streaks_to_file(filepath: Path, streaks: list[StreakEntry]) -> None:

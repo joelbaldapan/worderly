@@ -82,6 +82,7 @@ def print_message(
     border_style: str = DEFAULT_BORDER_STYLE,
     title: str | None = None,
     title_align: str = "left",
+    *,
     expand: bool = False,
     width: int | None = None,
     justify: str = "left",

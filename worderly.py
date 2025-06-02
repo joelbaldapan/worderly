@@ -57,7 +57,10 @@ def get_lexicon_file() -> str | None:
         return lexicon_file_path
 
 
-def run_setup(difficulty_config: DifficultyData, lexicon_file_path: str):
+def run_setup(
+    difficulty_config: DifficultyData,
+    lexicon_file_path: str,
+) -> tuple[str, dict, list] | None:
     """Attempt to generate a valid word list and game board.
 
     Args:
@@ -130,14 +133,12 @@ def _update_player_name(player_name_from_init: str | None) -> None:
             _save_streak()
         CURRENT_SESSION_STREAK.player_name = player_name_from_init
         CURRENT_SESSION_STREAK.reset_streak_counters()
-    elif CURRENT_SESSION_STREAK.player_name is None and player_name_from_init:
-        CURRENT_SESSION_STREAK.player_name = player_name_from_init
-        CURRENT_SESSION_STREAK.reset_streak_counters()
 
 
 def _run_game_session(
     lexicon_file_p: str,
     initial_difficulty_config_for_nhp: DifficultyData | None,
+    *,
     is_hp_mode_session: bool,
 ) -> None:
     """Run the game session loop for either HP or NHP mode, using global streak state."""

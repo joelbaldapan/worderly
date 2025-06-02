@@ -20,6 +20,73 @@ DETAILS_PANEL_WIDTH = 40
 console = Console()
 
 
+def _print_empty_grid_message(grid: list[list[str | None]], title: str) -> None:
+    message = "[yellow]Empty grid provided.[/yellow]"
+    if grid == [[]]:
+        message = "[yellow]Grid contains an empty row.[/yellow]"
+    console.print(Panel(Text.from_markup(message), title=title, border_style="red"))
+
+
+def _print_no_columns_message(grid: list[list[str | None]], title: str) -> None:
+    if grid:
+        console.print(
+            Panel(
+                Text.from_markup("[yellow]Grid has rows but no columns.[/yellow]"),
+                title=title,
+                border_style="yellow",
+            ),
+        )
+    else:
+        console.print(
+            Panel(
+                Text.from_markup("[yellow]Empty grid provided (no columns).[/yellow]"),
+                title=title,
+                border_style="red",
+            ),
+        )
+
+
+def _get_num_cols(grid: list[list[str | None]]) -> int:
+    if not grid:
+        return 0
+    try:
+        return max(len(row) for row in grid if row)
+    except ValueError:
+        return 0
+
+
+def _get_styled_row_items(
+    row_idx: int,
+    row_data: list[str | None],
+    num_cols: int,
+    highlighted_coords: set[tuple[int, int]] | list[tuple[int, int]],
+    highlight_color: str,
+    letters_color: str,
+    hidden_color: str,
+) -> list[Text]:
+    styled_row_items: list[Text] = []
+    for col_idx in range(num_cols):
+        content = "."
+        current_style = "dim"
+        cell_value = None
+        if row_data and col_idx < len(row_data):
+            cell_value = row_data[col_idx]
+
+        if cell_value is not None:
+            content = cell_value
+            coord = (row_idx, col_idx)
+            if coord in highlighted_coords:
+                current_style = f"bold {highlight_color}"
+            elif cell_value == "#":
+                current_style = f"dim {hidden_color}"
+            else:
+                current_style = f"bold {letters_color}"
+
+        separator = " " if col_idx < num_cols - 1 else ""
+        styled_row_items.append(Text(content + separator, style=current_style))
+    return styled_row_items
+
+
 def rich_print_grid(
     grid: list[list[str | None]] | None,
     highlighted_coords: set[tuple[int, int]] | list[tuple[int, int]],
@@ -31,63 +98,29 @@ def rich_print_grid(
 ) -> None:
     """Print the game grid using Rich library for prettier formatting."""
     if not grid or not any(grid):
-        message = "[yellow]Empty grid provided.[/yellow]"
-        if grid == [[]]:
-            message = "[yellow]Grid contains an empty row.[/yellow]"
-        console.print(Panel(Text.from_markup(message), title=title, border_style="red"))
+        _print_empty_grid_message(grid, title)
         return
 
     table = Table(show_header=False, box=None, padding=(0, 0))
-    num_cols = 0
-    if grid:
-        try:
-            num_cols = max(len(row) for row in grid if row)
-        except ValueError:
-            num_cols = 0
+    num_cols = _get_num_cols(grid)
 
-    if num_cols == 0 and grid:
-        console.print(
-            Panel(
-                Text.from_markup("[yellow]Grid has rows but no columns.[/yellow]"),
-                title=title,
-                border_style="yellow",
-            ),
-        )
-        return
-    elif num_cols == 0:
-        console.print(
-            Panel(
-                Text.from_markup("[yellow]Empty grid provided (no columns).[/yellow]"),
-                title=title,
-                border_style="red",
-            ),
-        )
+    if num_cols == 0:
+        _print_no_columns_message(grid, title)
         return
 
     for _ in range(num_cols):
         table.add_column(justify="left", no_wrap=True)
 
     for row_idx, row_data in enumerate(grid):
-        styled_row_items: list[Text] = []
-        for col_idx in range(num_cols):
-            content = "."
-            current_style = "dim"
-            cell_value = None
-            if row_data and col_idx < len(row_data):
-                cell_value = row_data[col_idx]
-
-            if cell_value is not None:
-                content = cell_value
-                coord = (row_idx, col_idx)
-                if coord in highlighted_coords:
-                    current_style = f"bold {highlight_color}"
-                elif cell_value == "#":
-                    current_style = f"dim {hidden_color}"
-                else:
-                    current_style = f"bold {letters_color}"
-
-            separator = " " if col_idx < num_cols - 1 else ""
-            styled_row_items.append(Text(content + separator, style=current_style))
+        styled_row_items = _get_styled_row_items(
+            row_idx,
+            row_data,
+            num_cols,
+            highlighted_coords,
+            highlight_color,
+            letters_color,
+            hidden_color,
+        )
         table.add_row(*styled_row_items)
 
     grid_panel = Panel(table, title=title, border_style=border_style, expand=False)
@@ -124,16 +157,30 @@ def _append_combo_stats(statistics: GameStatisticsData, selected_wizard: WizardD
         powerup_parts.extend((combo_progress, Text("\n")))
 
 
-def rich_print_statistics(
-    statistics: GameStatisticsData,
-    border_style: str,
-    grid: list[list[str | None]] | None,
-    selected_wizard: WizardData,
-    game_st: GameStateData,
-) -> None:
-    """Print the formatted statistics panel using Rich Columns and Panels."""
+def _make_wizard_panel(
+    selected_wizard: WizardData, game_st: GameStateData, border_style: str, wizard_panel_width: int, panels_height: int,
+) -> Panel:
     wizard_color = selected_wizard.color
+    small_wizard_art = selected_wizard.small_art.strip("\n")
+    player_name_display = game_st.player_name if game_st.player_name is not None else "Player"
+    art_text = Text(f"\n{small_wizard_art}", style=wizard_color, justify="left")
+    name_text = Text(f"--- {player_name_display} ---", style=wizard_color, justify="center")
+    wizard_panel_content = Group(art_text, name_text)
+    return Panel(
+        wizard_panel_content,
+        title="Your Wizard",
+        border_style=border_style,
+        style=wizard_color,
+        padding=(0, 1),
+        expand=False,
+        width=wizard_panel_width,
+        height=panels_height,
+    )
 
+
+def _make_player_stats_panel(
+    statistics: GameStatisticsData, border_style: str, stats_panel_width: int, stats_height: int,
+) -> Panel:
     player_stats_content = Text.assemble(
         ("Letters:    ", "bold cyan"),
         (f"{statistics.letters}\n"),
@@ -144,7 +191,25 @@ def rich_print_statistics(
         ("Last Guess: ", "bold magenta"),
         (f"{statistics.last_guess if statistics.last_guess is not None else 'None'}"),
     )
+    return Panel(
+        player_stats_content,
+        title="Game Stats",
+        title_align="left",
+        border_style=border_style,
+        expand=True,
+        width=stats_panel_width,
+        height=stats_height,
+    )
 
+
+def _make_powerup_stats_panel(
+    statistics: GameStatisticsData,
+    selected_wizard: WizardData,
+    border_style: str,
+    stats_panel_width: int,
+    powerup_stats_height: int,
+) -> Panel:
+    wizard_color = selected_wizard.color
     powerup_parts: list[Any] = []
     powerup_parts.append(Text.assemble(("Combo:        ", "bold cyan"), (f"{statistics.combo}")))
 
@@ -159,45 +224,7 @@ def rich_print_statistics(
         powerup_parts.append(Text("\nNote: White wizards have no powerups!", style="bright_white"))
 
     powerup_stats_content = Group(*powerup_parts)
-
-    small_wizard_art = selected_wizard.small_art.strip("\n")
-
-    player_name_display = game_st.player_name if game_st.player_name is not None else "Player"
-    art_text = Text(f"\n{small_wizard_art}", style=wizard_color, justify="left")
-    name_text = Text(f"--- {player_name_display} ---", style=wizard_color, justify="center")
-    wizard_panel_content = Group(art_text, name_text)
-
-    panels_height = 15
-    stats_height = 6
-    wizard_panel_width = 23
-
-    grid_actual_width = wizard_panel_width + 30
-    if grid and grid[0]:
-        grid_actual_width = len(grid[0]) * 2 + 3
-
-    stats_panel_width = max(10, grid_actual_width - wizard_panel_width - 1)
-
-    wizard_panel = Panel(
-        wizard_panel_content,
-        title="Your Wizard",
-        border_style=border_style,
-        style=wizard_color,
-        padding=(0, 1),
-        expand=False,
-        width=wizard_panel_width,
-        height=panels_height,
-    )
-    player_stats_panel = Panel(
-        player_stats_content,
-        title="Game Stats",
-        title_align="left",
-        border_style=border_style,
-        expand=True,
-        width=stats_panel_width,
-        height=stats_height,
-    )
-    powerup_stats_height = panels_height - stats_height
-    powerup_stats_panel = Panel(
+    return Panel(
         powerup_stats_content,
         title="Powerup Stats",
         title_align="left",
@@ -205,6 +232,32 @@ def rich_print_statistics(
         expand=True,
         width=stats_panel_width,
         height=max(1, powerup_stats_height),
+    )
+
+
+def rich_print_statistics(
+    statistics: GameStatisticsData,
+    border_style: str,
+    grid: list[list[str | None]] | None,
+    selected_wizard: WizardData,
+    game_st: GameStateData,
+) -> None:
+    """Print the formatted statistics panel using Rich Columns and Panels."""
+    wizard_panel_width = 23
+    panels_height = 15
+    stats_height = 6
+
+    grid_actual_width = wizard_panel_width + 30
+    if grid and grid[0]:
+        grid_actual_width = len(grid[0]) * 2 + 3
+
+    stats_panel_width = max(10, grid_actual_width - wizard_panel_width - 1)
+    powerup_stats_height = panels_height - stats_height
+
+    wizard_panel = _make_wizard_panel(selected_wizard, game_st, border_style, wizard_panel_width, panels_height)
+    player_stats_panel = _make_player_stats_panel(statistics, border_style, stats_panel_width, stats_height)
+    powerup_stats_panel = _make_powerup_stats_panel(
+        statistics, selected_wizard, border_style, stats_panel_width, powerup_stats_height,
     )
 
     stats_group = Group(player_stats_panel, powerup_stats_panel)
@@ -218,6 +271,7 @@ def rich_print_message(
     border_style: str = DEFAULT_BORDER_STYLE,
     title: str | None = None,
     title_align: str = "left",
+    *,
     expand: bool = False,
     width: int | None = None,
     justify: str = "left",

@@ -43,7 +43,7 @@ MAIN_TITLE = """
 """
 
 
-def select_from_menu(options: list[str], title: str = "+.+.+.+ Menu +.+.+.+", show_main_title: bool = False) -> str:
+def select_from_menu(options: list[str], title: str = "+.+.+.+ Menu +.+.+.+", *, show_main_title: bool = False) -> str:
     """Handle navigation and selection for vertical text-based menus.
     Assume options is not empty and a selection will always be made.
 
@@ -109,7 +109,7 @@ def select_character_menu(settings: DifficultyData | None) -> WizardData:
                 current_index = (current_index + 1) % num_wizards
             elif key in {keys.ENTER, "\r", "\n"}:
                 return WIZARDS_DATA[current_index]
-        except Exception as e:
+        except KeyboardInterrupt as e:
             clear_screen()
             print_message(
                 settings,
@@ -178,8 +178,8 @@ def initialize_player_info(
     current_session_player_name: str | None,
 ) -> tuple[str, WizardData]:
     """Initializes player name and selected wizard based on game mode.
-    - HP Mode: Skips name prompt if current_session_player_name (from active streak) is provided. Allows wizard selection.
-    - NHP Mode: Skips name prompt if current_session_player_name (from NHP session) is provided. Uses a default wizard.
+    - HP Mode: Allows wizard selection.
+    - NHP Mode: Uses a default wizard.
     """
     player_name_to_use: str
     selected_wizard_for_game: WizardData
@@ -198,7 +198,11 @@ def initialize_player_info(
     # Re-use name if in a current streak session
     if current_session_player_name:
         player_name_to_use = current_session_player_name
-        print_message(settings, f"Continuing streak as {player_name_to_use}!", border_style="green")
+        print_message(
+            settings,
+            f"Continuing streak as {player_name_to_use}!",
+            border_style="green",
+        )
         get_input(settings, "  > Press Enter to begin...")
     else:
         player_name_to_use = get_player_name(settings, selected_wizard_for_game)
