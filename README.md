@@ -54,12 +54,6 @@ All the necessary Python packages (for running the game, testing, and linting) a
 You can install them using pip:
 
 ```
-pip install -r requirements.txt
-```
-
-To run the game, open your terminal or command prompt, navigate to the directory containing `worderly.py`, and run the script, providing the path to your lexicon file as an argument:
-
-```
 # For Windows (if pip is associated with Python 3)
 pip install -r requirements.txt
 
